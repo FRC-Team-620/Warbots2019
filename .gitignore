@@ -23,3 +23,6 @@ hs_err_pid*
 
 #Compiled Code
 build/
+
+#Backup Files
+*~
