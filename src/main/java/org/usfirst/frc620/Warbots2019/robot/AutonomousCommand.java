@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc620.Warbots2019.commands;
+package org.usfirst.frc620.Warbots2019.robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
