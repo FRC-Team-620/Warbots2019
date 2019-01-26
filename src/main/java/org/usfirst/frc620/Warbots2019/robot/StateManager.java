@@ -1,0 +1,36 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package org.usfirst.frc620.Warbots2019.robot;
+
+import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+
+/**
+ * Add your docs here.
+ */
+
+public class StateManager extends SendableBase
+{
+    private static StateManager instance;
+
+    //Singleton design pattern
+    //synchronized makes it work when different things try to access it at the same time
+    public static synchronized StateManager getInstance()
+    {
+        if (instance == null)
+            instance = new StateManager();
+
+        return instance;
+    }
+
+    //Add stuff to the network tables
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addBooleanProperty("Example property", () -> 1 + 1 == 2, null);
+	}
+}

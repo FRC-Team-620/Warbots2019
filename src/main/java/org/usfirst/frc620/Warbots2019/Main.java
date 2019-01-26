@@ -11,6 +11,8 @@
 
 package org.usfirst.frc620.Warbots2019;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
