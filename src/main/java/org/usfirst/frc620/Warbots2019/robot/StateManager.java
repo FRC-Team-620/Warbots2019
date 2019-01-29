@@ -40,12 +40,11 @@ public class StateManager extends SendableBase
     }
     //sets a double value into a specific enum 
     public void setDoubleValue(StateKey key, double val){
-        hashmap.put(key, new Double(val));
+        hashmap.put(key, val);
     }
     //Add stuff to the network tables
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addBooleanProperty("Example property", () -> 1 + 1 == 2, null);
     }
     
     private StateManager(){

@@ -13,7 +13,6 @@ package org.usfirst.frc620.Warbots2019.robot;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
 import org.usfirst.frc620.Warbots2019.drivetrain.SpinOutOfControl;
-import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -67,7 +66,8 @@ public class OI {
         coDriverController = new Joystick(1);
         
         moveElevatorToTop = new JoystickButton(coDriverController, 1);
-        moveElevatorToTop.whenPressed(new MoveElevatorTo(Elevator.top));
+        moveElevatorToTop.whenPressed(new MoveElevatorTo(100));
+        
         driverController = new Joystick(0);
         
         spinOutOfControlButton = new JoystickButton(driverController, 1);
