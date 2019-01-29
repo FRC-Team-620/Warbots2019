@@ -11,10 +11,11 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
+import org.usfirst.frc620.Warbots2019.automation.Dance;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraight;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
 import org.usfirst.frc620.Warbots2019.drivetrain.SpinOutOfControl;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraight;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

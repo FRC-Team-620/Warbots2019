@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc620.Warbots2019.robot;
+package org.usfirst.frc620.Warbots2019.automation;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.SpinOutOfControl;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;

@@ -5,22 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.drivetrain;
+package org.usfirst.frc620.Warbots2019.automation;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveStraight extends Command {
-  private double m_speed;
-
-  public DriveStraight(double speed) {
-    // Speed is ft/sec
-    m_speed = speed;
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class DriveTowardTarget extends Command {
+  public DriveTowardTarget() {
+    requires(Robot.trackingSystem);
+    requires(Robot.alignmentSystem);
     requires(Robot.driveTrain);
-
   }
 
   // Called just before this Command runs the first time
@@ -31,7 +26,6 @@ public class DriveStraight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.drive(m_speed, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
