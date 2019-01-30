@@ -12,7 +12,7 @@
 package org.usfirst.frc620.Warbots2019.robot;
 
 import org.usfirst.frc620.Warbots2019.automation.Dance;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraight;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
 import org.usfirst.frc620.Warbots2019.drivetrain.SpinOutOfControl;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
@@ -78,7 +78,7 @@ public class OI {
 
         //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
         driveStraightButton = new JoystickButton(driverController, 13);
-        driveStraightButton.whenPressed(new DriveStraight(1.0));
+        driveStraightButton.whenPressed(new DriveDistance(10, 0.1));
 
 
         // SmartDashboard Buttons
