@@ -13,6 +13,7 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -45,6 +46,17 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        GenericHID joystick = Robot.oi.driverController;
+        double speed = joystick.getRawAxis(1);
+        double turning = joystick.getRawAxis(0);
+        if(speed < 0.1 && speed > -0.1){
+            speed = 0;
+        }
+        if(turning < 0.1 && turning > -0.1){
+            turning = 0;
+        }
+
+        Robot.driveTrain.drive(speed, turning);  
     }
 
     // Make this return true when this Command no longer needs to run execute()
