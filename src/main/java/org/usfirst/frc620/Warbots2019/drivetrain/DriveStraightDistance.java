@@ -7,19 +7,12 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TurnAngle extends Command {
-
-  private PIDController pidController;
-
-  public TurnAngle() {
+public class DriveStraightDistance extends Command {
+  public DriveStraightDistance() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
