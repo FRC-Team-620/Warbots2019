@@ -15,7 +15,7 @@ public class Angle implements Comparable<Angle>
 	 * <br>
 	 * INVERSE_RIGHT: -90 or 270 degrees
 	 */
-	public final static Angle ZERO = new Angle(0), RIGHT = new Angle(.25), REVERSE = new Angle(.5), LEFT = new Angle(-.25);
+	public final static Angle ZERO = new Angle(0), RIGHT = new Angle(-.25), REVERSE = new Angle(.5), LEFT = new Angle(.25);
 
 	/**
 	 * This is the actual value of the angle, stored internally in "turns" --
