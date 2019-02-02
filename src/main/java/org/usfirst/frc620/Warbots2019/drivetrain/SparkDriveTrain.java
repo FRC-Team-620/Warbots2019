@@ -63,7 +63,7 @@ public class SparkDriveTrain extends DriveTrain {
         addChild("Left Rear Motor",leftRearMotor);
         leftRearMotor.setInverted(false);
         
-        leftMotors = new SpeedControllerGroup(leftFrontMotor, leftRearMotor  );
+        leftMotors = new SpeedControllerGroup(leftFrontMotor, leftRearMotor);
         addChild("Left Motors",leftMotors);
         
         
