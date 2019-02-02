@@ -9,12 +9,9 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnAngle extends Command {
-
-  private PIDController pidController;
 
   public TurnAngle() {
     // Use requires() here to declare subsystem dependencies
