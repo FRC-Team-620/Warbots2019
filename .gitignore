@@ -26,6 +26,7 @@ build/
 
 #Backup Files
 *~
+~*
 
 #Other unneeded stuff
 .gradle/
