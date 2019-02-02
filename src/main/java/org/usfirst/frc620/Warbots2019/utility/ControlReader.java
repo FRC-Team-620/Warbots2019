@@ -7,17 +7,16 @@
 
 package org.usfirst.frc620.Warbots2019.utility;
 
-import java.io.FileInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Properties;
 
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Add your docs here.
  */
-public class ControlReader{
+public class ControlReader {
 
     static Properties drv1, drv2, var;
     static String s1, s2, s3;

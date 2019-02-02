@@ -7,10 +7,9 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command {
   public DriveStraight() {
@@ -26,7 +25,6 @@ public class DriveStraight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    GenericHID joystick = Robot.oi.driverController;
     double speed = 1;
     double turning = 0;
     if(speed < 0.1 && speed > -0.1){

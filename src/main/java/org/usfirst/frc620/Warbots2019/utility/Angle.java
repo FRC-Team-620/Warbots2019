@@ -327,8 +327,6 @@ public class Angle implements Comparable<Angle>
 		return from(gradians, 400);
 	}
 
-	//TODO: document the rest of these methods
-	
 	public static Angle fromSlope(double m)
 	{
 		return new Angle(Math.atan(m) / (2 * Math.PI));
