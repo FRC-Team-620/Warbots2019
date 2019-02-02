@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
+import org.usfirst.frc620.Warbots2019.utility.Angle;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -15,4 +17,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public abstract class DriveTrain extends Subsystem 
 {
     public abstract void drive(double speed, double turn);
+
+    public abstract Angle getAngle();
 }

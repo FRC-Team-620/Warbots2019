@@ -49,13 +49,16 @@ public class DriveWithJoystick extends Command {
         GenericHID joystick = Robot.oi.driverController;
         double speed = joystick.getRawAxis(1);
         double turning = joystick.getRawAxis(0);
+        
         if(speed < 0.1 && speed > -0.1){
             speed = 0;
         }
         if(turning < 0.1 && turning > -0.1){
             turning = 0;
         }
-
+        if(speed > 0){
+            turning *= -1.0;
+        }
         Robot.driveTrain.drive(speed, turning);  
     }
 

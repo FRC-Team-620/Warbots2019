@@ -15,7 +15,7 @@ public class Angle implements Comparable<Angle>
 	 * <br>
 	 * INVERSE_RIGHT: -90 or 270 degrees
 	 */
-	public final static Angle ZERO = new Angle(0), RIGHT = new Angle(.25), REVERSE = new Angle(.5), LEFT = new Angle(-.25);
+	public final static Angle ZERO = new Angle(0), RIGHT = new Angle(-.25), REVERSE = new Angle(.5), LEFT = new Angle(.25);
 
 	/**
 	 * This is the actual value of the angle, stored internally in "turns" --
@@ -327,8 +327,6 @@ public class Angle implements Comparable<Angle>
 		return from(gradians, 400);
 	}
 
-	//TODO: document the rest of these methods
-	
 	public static Angle fromSlope(double m)
 	{
 		return new Angle(Math.atan(m) / (2 * Math.PI));
@@ -339,49 +337,49 @@ public class Angle implements Comparable<Angle>
 		return new Angle(Math.atan2(rise, run) / (2 * Math.PI));
 	}
 
-	public double measureDegrees()
+	public double toDegrees()
 	{
 		return to(360);
 	}
 
-	public double measureDegreesUnsigned()
+	public double toDegreesUnsigned()
 	{
 		return toUnsigned(360);
 	}
 
-	public double measureRadians()
+	public double toRadians()
 	{
 		return to(2 * Math.PI);
 	}
 
-	public double measureRadiansUnsigned()
+	public double toRadiansUnsigned()
 	{
 		return toUnsigned(2 * Math.PI);
 	}
 
-	public double measureTurns()
+	public double toTurns()
 	{
 		return to(1);
 	}
 
-	public double measureTurnsUnsigned()
+	public double toTurnsUnsigned()
 	{
 		return toUnsigned(1);
 	}
 
-	public double measureGradians()
+	public double toGradians()
 	{
 		return to(400);
 	}
 
-	public double measureGradiansUnsigned()
+	public double toGradiansUnsigned()
 	{
 		return toUnsigned(400);
 	}
 
-	public double measureSlope()
+	public double toSlope()
 	{
-		return Math.tan(measureRadians());
+		return Math.tan(toRadians());
 	}
 
 	public static Angle difference(Angle a, Angle b)
@@ -416,17 +414,17 @@ public class Angle implements Comparable<Angle>
 	
 	public double sin()
 	{
-		return Math.sin(measureRadians());
+		return Math.sin(toRadians());
 	}
 	
 	public double cos()
 	{
-		return Math.cos(measureRadians());
+		return Math.cos(toRadians());
 	}
 	
 	public double tan()
 	{
-		return Math.tan(measureRadians());
+		return Math.tan(toRadians());
 	}
 	
 	public Angle absoluteValue()
@@ -437,7 +435,7 @@ public class Angle implements Comparable<Angle>
 	@Override
 	public String toString()
 	{
-		return Math.round(measureDegrees() * 100000) / 100000. + " degrees";
+		return Math.round(toDegrees() * 100000) / 100000. + " degrees";
 	}
 
 	@Override
