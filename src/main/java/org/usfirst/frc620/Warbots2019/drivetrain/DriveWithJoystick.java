@@ -59,7 +59,11 @@ public class DriveWithJoystick extends Command {
         if(speed > 0){
             turning *= -1.0;
         }
+        turning *= -1.0;
         Robot.driveTrain.drive(speed, turning);  
+        if(turning > 0){
+            System.out.println("yay");
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
