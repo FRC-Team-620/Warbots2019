@@ -51,6 +51,7 @@ public class DriveDistance extends Command {
     boolean ret = 2 * encoder.getPosition() * Math.PI * WHEEL_RADIUS >= final_position;
     if (2 * encoder.getPosition() * Math.PI * WHEEL_RADIUS >= final_position)
       Robot.driveTrain.drive(0, 0);
+    System.out.println(String.format("Position = %f ", encoder.getPosition()));
     return ret;
   }
 

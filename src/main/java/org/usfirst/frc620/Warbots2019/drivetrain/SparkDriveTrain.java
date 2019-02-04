@@ -108,12 +108,12 @@ public class SparkDriveTrain extends DriveTrain {
 
     @Override
     public void periodic() {
-        // Put code here to be run every loop
+        // Put code here to be run every loop, or every 1/20th of a second
 
         //Read speed data from the encoders
         double leftEncoderSpeed = leftEncoder.getRate();
         double rightEncoderSpeed = rightEncoder.getRate();
-
+        //System.out.println(String.format("Left = %f, Right = %f", leftEncoderSpeed, rightEncoderSpeed));
         //Calculate acceleration rates
         //By default, the main control loop runs every 20 milliseconds, or 50 times per second
         double leftAcceleration = (leftEncoderSpeed - lastLeftEncoderSpeedRead) * 50;

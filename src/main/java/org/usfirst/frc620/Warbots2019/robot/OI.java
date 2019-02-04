@@ -74,7 +74,7 @@ public class OI {
         driverController = new Joystick(0);
         
         spinOutOfControlButton = new JoystickButton(driverController, 1);
-        spinOutOfControlButton.whileHeld(new SpinOutOfControl());
+        spinOutOfControlButton.whileHeld(new DriveDistance(1.0, 0.1));
 
         //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
         driveStraightButton = new JoystickButton(driverController, 13);
