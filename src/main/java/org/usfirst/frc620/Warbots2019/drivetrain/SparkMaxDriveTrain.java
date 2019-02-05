@@ -144,8 +144,15 @@ public class SparkMaxDriveTrain extends DriveTrain {
          */
     }
 
-    public double getTotalDistanceTravelled() {
+    public double getTotalDistanceTravelled()
+    {
         return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+    }
+
+    public void resetTotalDistanceTravelled()
+    {
+        leftEncoder.setDistancePerPulse(0);
+        rightEncoder.setDistancePerPulse(0);
     }
 
     public double getAcceleration() {

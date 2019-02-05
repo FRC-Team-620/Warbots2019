@@ -74,7 +74,7 @@ public class OI {
         //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
         //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
         driveStraightButton = new JoystickButton(driverController, 13);
-        driveStraightButton.whenPressed(new DriveDistance(10, 0.1));
+        driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
 
 
         // SmartDashboard Buttons
