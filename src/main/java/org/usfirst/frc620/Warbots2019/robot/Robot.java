@@ -17,6 +17,7 @@ import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
+import org.usfirst.frc620.Warbots2019.drivetrain.TestGyro;
 import org.usfirst.frc620.Warbots2019.elevator.PIDElevator;
 import org.usfirst.frc620.Warbots2019.elevator.SparkEncoderElevator;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         // Scheduler.getInstance().add(new DriveDistance(driveTrain, 200, -0.5));
-        Scheduler.getInstance().add(null);
+        Scheduler.getInstance().add(new TestGyro());
     }
 
     /**
