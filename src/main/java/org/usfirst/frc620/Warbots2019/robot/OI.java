@@ -12,14 +12,6 @@
 package org.usfirst.frc620.Warbots2019.robot;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-<<<<<<< HEAD
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
-import org.usfirst.frc620.Warbots2019.drivetrain.SpinOutOfControl;
-import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
-import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
-=======
-
->>>>>>> 685cf286ba8c869deae98e03c92d0c965b789262
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
