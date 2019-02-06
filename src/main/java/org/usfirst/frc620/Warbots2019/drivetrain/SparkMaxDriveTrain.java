@@ -129,7 +129,9 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
+    public void arcadeDrive(double speed, double turn){
+        differentialDrive.arcadeDrive(speed, turn);    
+    }
     public void drive(double speed, double turnRate) {
         // Curvature drive means it takes a speed and a turn rate
         // The boolean at the end allows the robot to turn in place
