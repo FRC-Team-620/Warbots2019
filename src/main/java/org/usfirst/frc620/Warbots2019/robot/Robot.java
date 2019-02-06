@@ -20,7 +20,6 @@ import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TestGyro;
 import org.usfirst.frc620.Warbots2019.elevator.PIDElevator;
 import org.usfirst.frc620.Warbots2019.elevator.SparkEncoderElevator;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
