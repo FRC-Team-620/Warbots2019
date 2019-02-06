@@ -209,7 +209,7 @@ public class Angle implements Comparable<Angle>
 	 * 
 	 * <p>
 	 * 
-	 * @param degrees
+	 * @param angle
 	 *            The measure of the angle to be created, in degrees
 	 *            </p>
 	 * 
@@ -217,9 +217,9 @@ public class Angle implements Comparable<Angle>
 	 * @return An instance of Angle with the given measure (in degrees)
 	 *         </p>
 	 */
-	public static Angle fromDegrees(double degrees)
+	public static Angle fromDegrees(double angle)
 	{
-		return from(degrees, 360);
+		return from(angle, 360);
 	}
 
 	/**
