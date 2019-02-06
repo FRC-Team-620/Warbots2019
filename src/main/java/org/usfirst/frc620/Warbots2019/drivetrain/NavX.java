@@ -59,7 +59,9 @@ public class NavX {
     }
 
     public Angle getAngle() {
-		return Angle.fromDegrees(navxBoard.getYaw());
+        double yaw = navxBoard.getAngle();
+        System.out.println("Yaw: " + yaw);
+		return Angle.fromDegrees(yaw);
     }
 
     public void reset()

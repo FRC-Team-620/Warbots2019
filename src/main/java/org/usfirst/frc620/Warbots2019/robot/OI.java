@@ -16,6 +16,8 @@ import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
 import org.usfirst.frc620.Warbots2019.drivetrain.SpinOutOfControl;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -77,16 +79,12 @@ public class OI {
 
         //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
         //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
-        driveStraightButton = new JoystickButton(driverController, 13);
+        driveStraightButton = new JoystickButton(driverController, 3);
         driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
 
         driverController = new Joystick(2);
 
-        TurnAngleButton = new JoystickButton(driverController, 2);
-        TurnAngleButton.whenPressed(new TurnAngle());
-
-         //SmartDashboard Buttons;
-         //SmartDashboard.putData("Spin Out Of Control", new SpinOutOfControl());
+          //SmartDashboard.putData("Spin Out Of Control", new SpinOutOfControl());
          //SmartDashboard.putData("Drive With Joystick", new DriveWithJoystick());
          //SmartDashboard.putData("Dance", new Dance());
 
