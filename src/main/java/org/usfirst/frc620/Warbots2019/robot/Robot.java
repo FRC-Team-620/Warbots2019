@@ -19,6 +19,7 @@ import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.elevator.PIDElevator;
 import org.usfirst.frc620.Warbots2019.elevator.SparkEncoderElevator;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -93,9 +94,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autonomousCommand = chooser.getSelected();
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        Scheduler.getInstance().add(new DriveDistance(driveTrain, 200, -0.5));
     }
 
     /**

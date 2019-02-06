@@ -154,6 +154,12 @@ public class SparkDriveTrain extends DriveTrain {
         return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
     }
 
+    public void resetTotalDistanceTravelled()
+    {
+        leftEncoder.setDistancePerPulse(0);
+        rightEncoder.setDistancePerPulse(0);
+    }
+
     public double getAcceleration()
     {
         return acceleration;

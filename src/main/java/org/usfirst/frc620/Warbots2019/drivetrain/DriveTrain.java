@@ -19,6 +19,7 @@ public abstract class DriveTrain extends Subsystem
     public abstract void drive(double speed, double turn);
 
     public abstract Angle getAngle();
-    
-    public abstract void arcadeDrive(double speed, double turn);
+
+    public abstract double getTotalDistanceTravelled();
+    public abstract void resetTotalDistanceTravelled();
 }
