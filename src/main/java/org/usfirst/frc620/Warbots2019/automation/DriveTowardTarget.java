@@ -7,15 +7,26 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveTowardTarget extends Command {
-  public DriveTowardTarget() {
-    requires(Robot.trackingSystem);
-    requires(Robot.alignmentSystem);
-    requires(Robot.driveTrain);
+
+  private DriveTrain driveTrain;
+  private TrackingSystem trackingSystem;
+  private AlignmentSystem alignmentSystem;
+
+  public DriveTowardTarget(DriveTrain driveTrain, TrackingSystem trackingSystem, 
+      AlignmentSystem alignmentSystem) {
+
+    this.driveTrain = driveTrain;
+    this.trackingSystem = trackingSystem;
+    this.alignmentSystem = alignmentSystem;
+
+    requires(this.driveTrain);
+    requires(this.trackingSystem);
+    requires(this.alignmentSystem);
   }
 
   // Called just before this Command runs the first time

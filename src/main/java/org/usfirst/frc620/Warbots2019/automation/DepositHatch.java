@@ -7,15 +7,20 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DepositHatch extends Command {
-  public DepositHatch() {
+
+  private DriveTrain driveTrain;
+
+  public DepositHatch(DriveTrain driveTrain) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+
+    this.driveTrain = driveTrain;
+    requires(this.driveTrain);
   }
 
   // Called just before this Command runs the first time

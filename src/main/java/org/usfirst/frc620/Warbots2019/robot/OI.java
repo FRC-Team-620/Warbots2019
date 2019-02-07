@@ -70,12 +70,12 @@ public class OI {
         // coDriverController = new Joystick(1);
         
         moveElevatorToTop = new JoystickButton(coDriverController, 1);
-        moveElevatorToTop.whenPressed(new MoveElevatorTo(100));
+        moveElevatorToTop.whenPressed(new MoveElevatorTo(Robot.elevator, 100));
         
         driverController = new Joystick(0);
         
         spinOutOfControlButton = new JoystickButton(driverController, 1);
-        spinOutOfControlButton.whileHeld(new SpinOutOfControl());
+        spinOutOfControlButton.whileHeld(new SpinOutOfControl(Robot.driveTrain));
 
         //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
         //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
@@ -87,12 +87,12 @@ public class OI {
         driverController = new Joystick(5);
 
         DepositCargoButton = new JoystickButton(driverController, 5);
-        DepositCargoButton.whenPressed(new DepositCargo());
+        DepositCargoButton.whenPressed(new DepositCargo(Robot.driveTrain));
 
         driverController = new Joystick(6);
 
         DepositHatchButton = new JoystickButton(driverController, 6);
-        DepositHatchButton.whenPressed(new DepositHatch());
+        DepositHatchButton.whenPressed(new DepositHatch(Robot.driveTrain));
 
           //SmartDashboard.putData("Spin Out Of Control", new SpinOutOfControl());
          //SmartDashboard.putData("Drive With Joystick", new DriveWithJoystick());
