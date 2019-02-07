@@ -11,11 +11,10 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveStraight extends Command {
-  public DriveStraight() {
+public class TestGyro extends Command {
+  public TestGyro() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -26,6 +25,7 @@ public class DriveStraight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println(Robot.driveTrain.getAngle());
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -47,6 +47,7 @@ public class DriveWithJoystick extends Command {
     @Override
     protected void execute() {
         GenericHID joystick = Robot.oi.driverController;
+        
         double speed = joystick.getRawAxis(1);
         double turning = joystick.getRawAxis(0);
         
@@ -60,11 +61,9 @@ public class DriveWithJoystick extends Command {
             turning *= -1.0;
         }
         turning *= -1.0;
-        Robot.driveTrain.drive(speed, turning);  
-        if(turning > 0){
-            System.out.println("yay");
-        }
+        Robot.driveTrain.drive(speed, turning);
     }
+    
 
     // Make this return true when this Command no longer needs to run execute()
     @Override

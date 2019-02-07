@@ -12,6 +12,7 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 public class TurnAngle extends Command {
   private double speed;
@@ -26,7 +27,7 @@ public class TurnAngle extends Command {
     requires(Robot.driveTrain);
     this.speed = speed;
   }
-
+   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
