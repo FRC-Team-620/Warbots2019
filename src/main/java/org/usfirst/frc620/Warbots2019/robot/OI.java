@@ -70,7 +70,7 @@ public class OI {
         // coDriverController = new Joystick(1);
         
         moveElevatorToTop = new JoystickButton(coDriverController, 1);
-        moveElevatorToTop.whenPressed(new MoveElevatorTo(100));
+        moveElevatorToTop.whenPressed(new MoveElevatorTo(Robot.elevator, 100));
         
         driverController = new Joystick(0);
         

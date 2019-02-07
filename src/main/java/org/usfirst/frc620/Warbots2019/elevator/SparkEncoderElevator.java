@@ -81,7 +81,7 @@ public class SparkEncoderElevator extends PIDElevator {
 
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new ControlElevatorWithJoystick());
+        setDefaultCommand(new ControlElevatorWithJoystick(this));
     }
 
     @Override
