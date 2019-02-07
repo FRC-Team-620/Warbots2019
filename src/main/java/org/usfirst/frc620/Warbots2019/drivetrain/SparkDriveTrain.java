@@ -129,7 +129,9 @@ public class SparkDriveTrain extends DriveTrain {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
+    public void arcadeDrive(double speed, double turn){
+        differentialDrive.arcadeDrive(speed, turn);    
+    }
     public void drive(double speed, double turnRate)
     {
         //Curvature drive means it takes a speed and a turn rate
@@ -137,6 +139,7 @@ public class SparkDriveTrain extends DriveTrain {
         //if set to true, but it makes the robot harder to maneuver
         //precisely.
         differentialDrive.curvatureDrive(speed, turnRate, false);
+        
         /*
         The other software options that work with the drive train
         hardware that we're using this year are arcadeDrive,
@@ -149,6 +152,12 @@ public class SparkDriveTrain extends DriveTrain {
     public double getTotalDistanceTravelled()
     {
         return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+    }
+
+    public void resetTotalDistanceTravelled()
+    {
+        leftEncoder.setDistancePerPulse(0);
+        rightEncoder.setDistancePerPulse(0);
     }
 
     public double getAcceleration()

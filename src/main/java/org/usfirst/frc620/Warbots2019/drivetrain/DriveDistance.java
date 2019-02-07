@@ -7,26 +7,24 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
-import com.revrobotics.CANEncoder;
-
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveDistance extends Command {
   private double m_speed;
   private double m_distance;
-  private double init_rotation;
+  private double init_position;
+  private double position;
   private double final_position;
-  // Assuming that wheel radius is 2 inches and divide by 12 to get feet.
-  private static final double WHEEL_RADIUS = 2 / 12;
-  private CANEncoder encoder;
+  private DriveTrain drivetrain;
 
-  public DriveDistance(double distance, double speed) {
+  public DriveDistance(DriveTrain dt, double distance, double speed) {
+    drivetrain = dt;
     // Distance is ft
     m_distance = distance;
     // Speed is ft/sec
     m_speed = speed;
+    
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveTrain);
@@ -35,23 +33,26 @@ public class DriveDistance extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    init_rotation = encoder.getPosition();
-    final_position = 2 * init_rotation * Math.PI * WHEEL_RADIUS + m_distance;
+    init_position = drivetrain.getTotalDistanceTravelled();
+    final_position = init_position + m_distance;
+    System.out.println("The initial distance is: " + init_position);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.driveTrain.drive(m_speed, 0);
+    position = drivetrain.getTotalDistanceTravelled() - init_position;
   }
 //h
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = 2 * encoder.getPosition() * Math.PI * WHEEL_RADIUS >= final_position;
-    if (2 * encoder.getPosition() * Math.PI * WHEEL_RADIUS >= final_position)
+    boolean ret = Math.abs(position) >= final_position;
+    if (Math.abs(position) >= final_position)
       Robot.driveTrain.drive(0, 0);
-    System.out.println(String.format("Position = %f ", encoder.getPosition()));
+
+    init_position = 0;
     return ret;
   }
 
