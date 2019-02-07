@@ -4,26 +4,21 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package org.usfirst.frc620.Warbots2019.HatchCargo.Cargo;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class deployCargoMech extends Command{
+public class CaptureCargo extends Command {
 
-    public deployCargoMech() {
+  public CaptureCargo() {
       // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.HatchCargo);
+    requires(Robot.cargoMech);
   }
 
-  //Lowers the Mech
-  public void lowerCargoMech(){
-
-  }
-
-// Called just before this Command runs the first time
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }

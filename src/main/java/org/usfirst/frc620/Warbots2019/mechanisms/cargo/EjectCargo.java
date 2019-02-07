@@ -4,47 +4,34 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package org.usfirst.frc620.Warbots2019.HatchCargo.Cargo;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
+
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class stowCargoMech extends Command{
-    public boolean isCaptured = false;
-    public stowCargoMech() {
+public class EjectCargo extends Command {
+
+  public EjectCargo() {
       // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.hatchCargo);
+    requires(Robot.cargoMech);
   }
 
-  //Raises the Mech
-  public void raiseCargoMech(){
-  
-  }
-  /* 
-  Called just before this Command runs the first time, should check if 
-  cargo is captured with the boolean isCaptured
-  */
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-  
   }
 
-  /* Called repeatedly when this Command is scheduled to run,
-  and should only run if isCaptured is true
-  */
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  if(isCaptured)
-  {
-  Robot.stowCargoMech.raiseCargoMech();
-  }
+    
   }
 //h
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-
+  protected boolean isFinished() { 
   return false;
   }
 
