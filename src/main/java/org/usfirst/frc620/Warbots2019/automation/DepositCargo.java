@@ -7,15 +7,20 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DepositCargo extends Command {
-  public DepositCargo() {
+
+  private DriveTrain driveTrain;
+
+  public DepositCargo(DriveTrain driveTrain) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+
+    this.driveTrain = driveTrain;
+    requires(this.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -38,7 +43,7 @@ public class DepositCargo extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  Robot.driveTrain.drive(-0.2, 0);
+    this.driveTrain.drive(-0.2, 0);
   }
 
   // Called when another command which requires one or more of the same
