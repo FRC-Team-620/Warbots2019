@@ -8,20 +8,21 @@
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 public class TurnAngle extends Command {
   private DriveTrain driveTrain;
   private NavX navX;
   //private Angle angle = navX.getAngle();
-  public TurnAngle(Angle angle) {
+  public TurnAngle(DriveTrain driveTrain, Angle angle) {
+
+    this.driveTrain = driveTrain;
 
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+    requires(this.driveTrain);
   }
    
   // Called just before this Command runs the first time

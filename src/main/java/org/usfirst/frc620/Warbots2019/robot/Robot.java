@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         // Scheduler.getInstance().add(new DriveDistance(driveTrain, 200, -0.5));
-        Scheduler.getInstance().add(new TestGyro());
+        Scheduler.getInstance().add(new TestGyro(driveTrain));
     }
 
     /**
