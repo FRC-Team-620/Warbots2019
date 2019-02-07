@@ -4,19 +4,18 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+package org.usfirst.frc620.Warbots2019.HatchCargo.Cargo;
 
-package org.usfirst.frc620.Warbots2019.automation;
 
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DepositHatch extends Command {
-  public DepositHatch() {
-    // Use requires() here to declare subsystem dependencies
+public class captureCargo extends Command{
+
+    public captureCargo() {
+      // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+    requires(Robot.HatchCargo);
   }
 
   // Called just before this Command runs the first time
@@ -27,13 +26,13 @@ public class DepositHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  
+    
   }
-
+//h
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-    return false;
+  protected boolean isFinished() { 
+  return false;
   }
 
   // Called once after isFinished returns true
