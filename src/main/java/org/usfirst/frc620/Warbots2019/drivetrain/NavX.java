@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 /**
  * Add your docs here.
  */
+
 public class NavX {
 
     AHRS navxBoard;
@@ -68,3 +69,4 @@ public class NavX {
         navxBoard.reset();
     }
 }
+

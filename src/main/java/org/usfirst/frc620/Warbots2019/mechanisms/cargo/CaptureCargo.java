@@ -4,23 +4,22 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-package org.usfirst.frc620.Warbots2019.automation;
-
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DepositCargo extends Command {
+public class CaptureCargo extends Command {
 
-  private DriveTrain driveTrain;
+  private CargoMech cargoMech;
 
-  public DepositCargo(DriveTrain driveTrain) {
-    // Use requires() here to declare subsystem dependencies
+  public CaptureCargo(CargoMech cargoMech) {
+      // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    this.driveTrain = driveTrain;
-    requires(this.driveTrain);
+    this.cargoMech = cargoMech;
+
+    requires(this.cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -31,19 +30,18 @@ public class DepositCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  
+    
   }
-
+//h
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  protected boolean isFinished() { 
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    this.driveTrain.drive(-0.2, 0);
   }
 
   // Called when another command which requires one or more of the same

@@ -7,14 +7,17 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TestGyro extends Command {
-  public TestGyro() {
+
+  private DriveTrain driveTrain;
+
+  public TestGyro(DriveTrain driveTrain) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+
+    this.driveTrain = driveTrain;
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +28,7 @@ public class TestGyro extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(Robot.driveTrain.getAngle());
+    System.out.println(this.driveTrain.getAngle());
   }
 
   // Make this return true when this Command no longer needs to run execute()

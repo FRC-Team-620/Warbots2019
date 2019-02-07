@@ -4,46 +4,59 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
-package org.usfirst.frc620.Warbots2019.automation;
-
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DepositCargo extends Command {
+public class StowCargoMech extends Command {
 
-  private DriveTrain driveTrain;
+  private CargoMech cargoMech;
 
-  public DepositCargo(DriveTrain driveTrain) {
-    // Use requires() here to declare subsystem dependencies
+  public boolean isCaptured = false;
+
+  public StowCargoMech(CargoMech cargoMech) {
+      // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    this.driveTrain = driveTrain;
-    requires(this.driveTrain);
+    this.cargoMech = cargoMech;
+
+    requires(this.cargoMech);
   }
 
-  // Called just before this Command runs the first time
+  //Raises the Mech
+  public void raiseCargoMech(){
+  
+  }
+  /* 
+  Called just before this Command runs the first time, should check if 
+  cargo is captured with the boolean isCaptured
+  */
   @Override
   protected void initialize() {
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
   
   }
 
+  /* Called repeatedly when this Command is scheduled to run,
+  and should only run if isCaptured is true
+  */
+  @Override
+  protected void execute() {
+    if(isCaptured)
+    {
+      this.cargoMech.raiseCargoMech();
+    }
+  }
+//h
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+
+  return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    this.driveTrain.drive(-0.2, 0);
   }
 
   // Called when another command which requires one or more of the same

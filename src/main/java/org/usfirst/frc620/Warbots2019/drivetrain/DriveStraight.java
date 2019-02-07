@@ -7,15 +7,19 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command {
-  public DriveStraight() {
+
+  private DriveTrain driveTrain;
+
+  public DriveStraight(DriveTrain driveTrain) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+
+    this.driveTrain = driveTrain;
+
+    requires(this.driveTrain);
   }
 
   // Called just before this Command runs the first time

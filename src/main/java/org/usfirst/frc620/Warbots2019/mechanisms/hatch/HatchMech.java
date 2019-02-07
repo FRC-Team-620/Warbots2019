@@ -5,22 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.drivetrain;
-
-import org.usfirst.frc620.Warbots2019.utility.Angle;
+package org.usfirst.frc620.Warbots2019.mechanisms.hatch;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public abstract class DriveTrain extends Subsystem 
-{
-    public abstract void drive(double speed, double turn);
+public class HatchMech extends Subsystem {
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
 
-    public abstract Angle getAngle();
-
-    public abstract double getTotalDistanceTravelled();
-    
-    public abstract void resetTotalDistanceTravelled();
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
+  }
 }
