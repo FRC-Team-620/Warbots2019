@@ -7,20 +7,24 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DeployCargoMech extends Command {
 
-  public DeployCargoMech() {
+  private CargoMech cargoMech;
+
+  public DeployCargoMech(CargoMech cargoMech) {
       // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoMech);
+
+    this.cargoMech = cargoMech;
+
+    requires(this.cargoMech);
   }
 
   //Lowers the Mech
   public void lowerCargoMech(){
-
+    
   }
 
 // Called just before this Command runs the first time

@@ -7,15 +7,19 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CaptureCargo extends Command {
 
-  public CaptureCargo() {
+  private CargoMech cargoMech;
+
+  public CaptureCargo(CargoMech cargoMech) {
       // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoMech);
+
+    this.cargoMech = cargoMech;
+
+    requires(this.cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -32,7 +36,7 @@ public class CaptureCargo extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() { 
-  return false;
+    return false;
   }
 
   // Called once after isFinished returns true
