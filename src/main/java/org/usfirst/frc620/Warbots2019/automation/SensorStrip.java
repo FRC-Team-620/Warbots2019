@@ -28,9 +28,9 @@ public class SensorStrip
         double endScore = 0;
         for (int i = 0; i < sensors.length; i++)
         {
-            if (sensors[i].isOnLine())
+            if (sensors[i].IsOnLine())
             {
-                if (i >= 2 && firstSequenceStart == true && sensors[i - 1].isOnLine() == false) throw new Exception("2+ lines in sight");
+                if (i >= 2 && firstSequenceStart == true && sensors[i - 1].IsOnLine() == false) throw new Exception("2+ lines in sight");
 
                 firstSequenceStart = true;
                 score += i;
