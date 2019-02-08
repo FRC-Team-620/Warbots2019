@@ -37,14 +37,20 @@ public class RaspberrryPi
         trackerOutputSubtable.getEntry("isTargetVisible");
     }
 
+    public void updateBlingLights (BlingLightColorEnum color) // how to get whether robot is enabled?
+    {
+        if (color == BlingLightColorEnum.red) blingLightsCommunicationsSubtable.getEntry("color").setString("red");
+        else blingLightsCommunicationsSubtable.getEntry("color").setString("blue");
+    }
     public void SteerTracker (double azimuth, double elevation) //units
     {
-
+        trackerSteeringSubtable.getEntry("azimuth").setDouble(azimuth);
+        trackerSteeringSubtable.getEntry("elevation").setDouble(elevation);
     }
 
     public void setWantToTrack (boolean wantToTrack)
     {
-
+        trackerOutputSubtable.getEntry("wantToTrack").setBoolean(wantToTrack);
     }
 
     public void updateServos ()
@@ -52,9 +58,14 @@ public class RaspberrryPi
 
     }
 
-    public double getLidarDistance() //units
+    public double getLidarDistance() throws Exception
     {
-        return 0.0;
+        double dist = trackerOutputSubtable.getEntry("lidarDistance").getDouble(-5.0);
+        if (dist == -5.0)
+        {
+            throw new Exception("Network table entry not found");
+        }
+        return dist;
     }
 
     public double getAzimuth() //units
@@ -72,4 +83,9 @@ public class RaspberrryPi
     private NetworkTable blingLightsCommunicationsSubtable;
     private NetworkTable trackerSteeringSubtable;
     private NetworkTable trackerOutputSubtable;
+
+    public enum BlingLightColorEnum
+    {
+        red, blue
+    }
 }
