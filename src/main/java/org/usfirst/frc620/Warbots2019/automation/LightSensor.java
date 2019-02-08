@@ -12,7 +12,7 @@ package org.usfirst.frc620.Warbots2019.automation;
  */
 public class LightSensor 
 {
-    public boolean isOnLine()
+    public boolean IsOnLine()
     {
         return false;
         //body must be done with sensor API
