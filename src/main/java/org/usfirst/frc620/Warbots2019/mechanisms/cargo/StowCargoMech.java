@@ -5,19 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
+//import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
+//import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class StowCargoMech extends Command {
 
   private CargoMech cargoMech;
-
+  //private DigitalInput limitSwitch;
   public boolean isCaptured = false;
-
+  
   public StowCargoMech(CargoMech cargoMech) {
       // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-
+    // for the limit switch
+    // limitSwitch = new DigitalInput();
     this.cargoMech = cargoMech;
 
     requires(this.cargoMech);
@@ -41,7 +44,7 @@ public class StowCargoMech extends Command {
   */
   @Override
   protected void execute() {
-    if(isCaptured)
+    if(isCaptured = true)
     {
       this.cargoMech.raiseCargoMech();
     }
