@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ControlElevatorWithJoystick extends Command {
 
-  private PIDElevator elevator;
+  private Elevator elevator;
 
-  public ControlElevatorWithJoystick(PIDElevator elevator) {
+  public ControlElevatorWithJoystick(Elevator elevator) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 

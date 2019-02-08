@@ -7,15 +7,10 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public abstract class PIDElevator extends PIDSubsystem
-{
-    public PIDElevator(String name, double p, double i, double d)
-    {
-        super(name, p, i, d);
-    }
+public abstract class Elevator extends Subsystem {
 }
