@@ -16,7 +16,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public abstract class DriveTrain extends Subsystem 
 {
-    public abstract void drive(double speed, double turn);
+    /**
+     * Tell the robot to move in a direction with or without
+     * some turning. If speed is zero, then rotationRate is
+     * a spin rate about a point. If rotationRate is zero
+     * then robot should move in a STRAIGHT line.
+     * @param speed Fwd/Rev spped of robot in ft/sec
+     * @param rotationRate Rotation rate in deg/sec.
+     */
+    public abstract void drive(double speed, double rotationRate);
 
     public abstract Angle getAngle();
 
