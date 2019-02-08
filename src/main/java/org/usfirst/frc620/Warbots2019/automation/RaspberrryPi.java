@@ -19,9 +19,22 @@ public class RaspberrryPi
 {
     public RaspberrryPi ()
     {
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable raspberryPiCommunications = inst.getTable("raspberryPiCommuncationsTable");
-        //raspberryPiCommunications.getTable("blingLightsCommuniationsSubtable");
+        inst = NetworkTableInstance.getDefault();
+        raspberryPiCommunications = inst.getTable("raspberryPiCommuncationsTable");
+
+        blingLightsCommunicationsSubtable = raspberryPiCommunications.getSubTable("blingLightsCommuniationsSubtable");
+        blingLightsCommunicationsSubtable.getEntry("color");
+        blingLightsCommunicationsSubtable.getEntry("isEnabled");
+
+        trackerSteeringSubtable = raspberryPiCommunications.getSubTable("trackerSteeringSubtable");
+        trackerSteeringSubtable.getEntry("azimuth");
+        trackerSteeringSubtable.getEntry("elevation");
+        trackerSteeringSubtable.getEntry("wantToTrack");
+
+        trackerOutputSubtable = raspberryPiCommunications.getSubTable("trackerOutputSubtable");
+        trackerOutputSubtable.getEntry("lidarDistance");
+        trackerOutputSubtable.getEntry("azimuth"); //what's the other thing?
+        trackerOutputSubtable.getEntry("isTargetVisible");
     }
 
     public void SteerTracker (double azimuth, double elevation) //units
@@ -53,5 +66,10 @@ public class RaspberrryPi
     {
         return false;
     }
-    
+
+    private NetworkTableInstance inst;
+    private NetworkTable raspberryPiCommunications;
+    private NetworkTable blingLightsCommunicationsSubtable;
+    private NetworkTable trackerSteeringSubtable;
+    private NetworkTable trackerOutputSubtable;
 }
