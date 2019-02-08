@@ -54,7 +54,7 @@ public class TazGrabber extends Subsystem {
     //to spin forward at speed 0.5, it will then tell the two other speed controllers in it
     //to spin forward at speed 0.5.
     intakeWheels = new SpeedControllerGroup(leftWheels, rightWheels);
-
+    
     limitSwitch = new DigitalInput(limitSwitchPort);
 
     //Solenoid constructs take a Can ID for the Pneumatics Control Module and a port for the
