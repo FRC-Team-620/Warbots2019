@@ -5,22 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
-
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
+package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DepositCargo extends Command {
+public class TestGyro extends Command {
 
   private DriveTrain driveTrain;
 
-  public DepositCargo(DriveTrain driveTrain) {
+  public TestGyro(DriveTrain driveTrain) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
     this.driveTrain = driveTrain;
-    requires(this.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -31,7 +28,7 @@ public class DepositCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  
+    System.out.println(this.driveTrain.getAngle());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -43,7 +40,6 @@ public class DepositCargo extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    this.driveTrain.drive(-0.2, 0);
   }
 
   // Called when another command which requires one or more of the same
