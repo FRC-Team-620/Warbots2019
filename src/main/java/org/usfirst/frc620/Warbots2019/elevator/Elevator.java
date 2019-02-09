@@ -7,18 +7,19 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public abstract class Elevator extends PIDSubsystem {
+public abstract class Elevator extends Subsystem 
+{
+    public abstract void drive(double speed);
 
-    SpeedController motor = null; 
+    public abstract double getHeight();
 
-    public Elevator(String name, double p, double i, double d)
+    @Override
+    public void initDefaultCommand() 
     {
-        super(name, p, i, d);
+        setDefaultCommand(new ControlElevatorWithJoystick());
     }
 }

@@ -12,8 +12,14 @@
 package org.usfirst.frc620.Warbots2019.robot;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.*; 
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Capture;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Close;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Deploy;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stop;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stow;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.open;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
