@@ -5,17 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.elevator;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public abstract class PIDElevator extends PIDSubsystem
-{
-    public PIDElevator(String name, double p, double i, double d)
-    {
-        super(name, p, i, d);
-    }
+public class CargoMech extends Subsystem {
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
+
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
+  }
 }
