@@ -44,6 +44,7 @@ public class TazGrabber extends Subsystem {
       int PCMCanID, int leftFrontPistonChannel, int rightFrontPistonChannel, 
       int leftBackPistonChannel, int rightBackPistonChannel, int wristPistonChannel)
   {
+    
     //Left and right wheels are SpeedControllers because we only need to know they can be used like
     //a motor, however, we use Spark on the right to specify which specific type of motor they are.
     SpeedController leftWheels = new Spark(leftIntakeWheelsPort);
@@ -68,6 +69,7 @@ public class TazGrabber extends Subsystem {
 
     //The grabber should start in the closed position.
     close();
+    
   }
 
   @Override
@@ -121,8 +123,8 @@ public class TazGrabber extends Subsystem {
   public void open()
   {
     //We only need to retract two of the pistons to open the grabber
-    leftFrontPiston.set(false);
-    rightFrontPiston.set(false);
+    leftFrontPiston.set(true);
+    rightFrontPiston.set(true);
   }
 
   /**
@@ -134,10 +136,10 @@ public class TazGrabber extends Subsystem {
     //We extend every piston here instead of just the ones we use in 
     //open() to make our lives a little easier if we ever want to change
     //which pistons we use.
-    leftFrontPiston.set(true);
-    rightFrontPiston.set(true);
-    leftBackPiston.set(true);
-    rightBackPiston.set(true);
+    leftFrontPiston.set(false);
+    rightFrontPiston.set(false);
+    leftBackPiston.set(false);
+    rightBackPiston.set(false);
   }
 
   /**
