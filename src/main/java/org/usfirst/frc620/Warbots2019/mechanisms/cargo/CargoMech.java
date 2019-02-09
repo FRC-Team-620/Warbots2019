@@ -41,15 +41,13 @@ public CargoMech(int mainMotorPort, int limitSwitchPort, int pistonPort, int PCM
   public void idle(){
   cargoMech.stowMech(); 
   }
+
   public boolean hasCargo(){
     return !limitSwitch.get();
   }
   
   public void captureCargo(){
   intakeWheels.set(1);
-  if(hasCargo()){
-  cargoMech.stopCapture();  
-  }
   }
 
   public void stopCapture(){
@@ -59,6 +57,7 @@ public CargoMech(int mainMotorPort, int limitSwitchPort, int pistonPort, int PCM
   public void ejectCargo(){
   intakeWheels.set(-1);  
   }
+
   public void deployMech(){
   mainPiston.set(true);
   }
