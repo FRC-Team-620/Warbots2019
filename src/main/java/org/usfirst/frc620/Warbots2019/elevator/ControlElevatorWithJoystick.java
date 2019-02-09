@@ -29,7 +29,7 @@ public class ControlElevatorWithJoystick extends Command {
   protected void execute() {
     GenericHID joystick = Robot.oi.getDriverController();
     double speed = joystick.getRawAxis(5);
-    Robot.elevator.drive(speed);
+    Robot.elevator.drive(-speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
