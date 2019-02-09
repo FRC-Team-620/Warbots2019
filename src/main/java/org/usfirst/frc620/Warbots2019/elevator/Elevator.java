@@ -7,12 +7,16 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-
+// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 /**
  * Add your docs here.
  */
 public abstract class Elevator extends PIDSubsystem {
+
+    SpeedController motor = null; 
+
     public Elevator(String name, double p, double i, double d)
     {
         super(name, p, i, d);
