@@ -35,3 +35,4 @@ build/
 #People will need to individually add the libraries to the project on their own computer
 #But this way we don't all need exactly the same version of the libraries
 vendordeps/
+src/main/java/org/usfirst/frc620/Warbots2019/robot/OI.java
