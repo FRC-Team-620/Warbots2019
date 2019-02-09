@@ -7,19 +7,15 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ControlElevatorWithJoystick extends Command {
-
-  private Elevator elevator;
-
-  public ControlElevatorWithJoystick(Elevator elevator) {
+  public ControlElevatorWithJoystick() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-
-    this.elevator = elevator;
-
-    requires(this.elevator);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time

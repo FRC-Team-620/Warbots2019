@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
+import org.usfirst.frc620.Warbots2019.utility.Angle;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -42,10 +44,11 @@ public class RaspberrryPi
         if (color == BlingLightColorEnum.red) blingLightsCommunicationsSubtable.getEntry("color").setString("red");
         else blingLightsCommunicationsSubtable.getEntry("color").setString("blue");
     }
-    public void SteerTracker (double azimuth, double elevation) //units
+
+    public void SteerTracker (Angle azimuth, Angle elevation)
     {
-        trackerSteeringSubtable.getEntry("azimuth").setDouble(azimuth);
-        trackerSteeringSubtable.getEntry("elevation").setDouble(elevation);
+        trackerSteeringSubtable.getEntry("azimuth").setDouble(azimuth.toDegrees());
+        trackerSteeringSubtable.getEntry("elevation").setDouble(elevation.toDegrees());
     }
 
     public void setWantToTrack (boolean wantToTrack)
@@ -63,19 +66,25 @@ public class RaspberrryPi
         double dist = trackerOutputSubtable.getEntry("lidarDistance").getDouble(-5.0);
         if (dist == -5.0)
         {
-            throw new Exception("Network table entry not found");
+            throw new Exception("Network table entry lidarDistance not found");
         }
         return dist;
     }
 
-    public double getAzimuth() //units
+    public Angle getAzimuth() throws Exception
     {
-        return 0.0;
+        double az = trackerOutputSubtable.getEntry("azimuth").getDouble(-5.0);
+        if (az == -5.0)
+        {
+            throw new Exception("Network table entry azimuth not found");
+        }
+        return Angle.fromDegrees(az);    
     }
 
     public boolean getIsTargetVisible ()
     {
-        return false;
+        boolean isVisible = trackerOutputSubtable.getEntry("isTargetVisible").getBoolean(false); //Should I assume default to be false or true? How do I tell if not found entry from invisble target?
+        return isVisible;
     }
 
     private NetworkTableInstance inst;

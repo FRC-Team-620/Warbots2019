@@ -7,6 +7,7 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveDistance extends Command {
@@ -26,7 +27,7 @@ public class DriveDistance extends Command {
     
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(drivetrain);
+    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -40,7 +41,7 @@ public class DriveDistance extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drivetrain.drive(m_speed, 0);
+    Robot.driveTrain.drive(m_speed, 0);
     position = drivetrain.getTotalDistanceTravelled() - init_position;
   }
 //h
@@ -49,7 +50,7 @@ public class DriveDistance extends Command {
   protected boolean isFinished() {
     boolean ret = Math.abs(position) >= final_position;
     if (Math.abs(position) >= final_position)
-      drivetrain.drive(0, 0);
+      Robot.driveTrain.drive(0, 0);
 
     init_position = 0;
     return ret;

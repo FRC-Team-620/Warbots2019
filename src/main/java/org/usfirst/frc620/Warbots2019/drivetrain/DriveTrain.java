@@ -21,6 +21,5 @@ public abstract class DriveTrain extends Subsystem
     public abstract Angle getAngle();
 
     public abstract double getTotalDistanceTravelled();
-    
     public abstract void resetTotalDistanceTravelled();
 }

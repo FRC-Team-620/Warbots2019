@@ -5,16 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
+package org.usfirst.frc620.Warbots2019.elevator;
+
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
  * Add your docs here.
  */
-public class LightSensor 
+public abstract class PIDElevator extends PIDSubsystem
 {
-    public boolean IsOnLine()
+    public PIDElevator(String name, double p, double i, double d)
     {
-        return false;
-        //body must be done with sensor API
+        super(name, p, i, d);
     }
 }

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.DummyPIDOutput;
 import org.usfirst.frc620.Warbots2019.utility.LambdaPIDSource;
@@ -18,24 +19,20 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnAnglePID extends Command {
 
-  private DriveTrain driveTrain;
-
   private PIDController pidController;
   private DummyPIDOutput pidOutput;
 
   private Angle amountToTurn;
 
-  public TurnAnglePID(DriveTrain driveTrain, Angle amountToTurn) 
+  public TurnAnglePID(Angle amountToTurn) 
   {
-    this.driveTrain = driveTrain;
-
-    requires(this.driveTrain);
+    requires(Robot.driveTrain);
 
     //PIDControllers expect a single sensor, so if the data comes from
     //the drive train, we have to make a pretend sensor that pulls data
     //from the drive train.
     PIDSource pidSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
-        () -> this.driveTrain.getAngle().toDegrees());
+        () -> Robot.driveTrain.getAngle().toDegrees());
 
     //PIDControllers expect a single motor, so for a full drive train,
     //we have to give it a pretend motor and then plug whatever speed
@@ -66,7 +63,7 @@ public class TurnAnglePID extends Command {
   protected void initialize() 
   {
     //calculate the final direction based on the current direction the robot is facing
-    double finalAngle = this.driveTrain.getAngle().plus(amountToTurn).toDegrees();
+    double finalAngle = Robot.driveTrain.getAngle().plus(amountToTurn).toDegrees();
 
     //set that final direction as the target
     pidController.setSetpoint(finalAngle);
@@ -80,7 +77,7 @@ public class TurnAnglePID extends Command {
   {
     //Read the speed that the PID Controller is giving to our fake
     //motor, and tell our actual drive train to turn at that speed
-    this.driveTrain.drive(0, pidOutput.getOutput());
+    Robot.driveTrain.drive(0, pidOutput.getOutput());
   }
 
   // Make this return true when this Command no longer needs to run execute()
