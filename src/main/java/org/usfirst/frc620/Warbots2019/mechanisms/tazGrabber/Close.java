@@ -9,14 +9,13 @@ package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class open extends Command {
+public class Close extends Command {
 
   private TazGrabber tazGrabber;
 
-  public open() {
+  public Close() {
     tazGrabber = Robot.tazGrabber;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -31,13 +30,13 @@ public class open extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      tazGrabber.open();
+  tazGrabber.close();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-      return true;
+    return false;
   }
 
   // Called once after isFinished returns true
