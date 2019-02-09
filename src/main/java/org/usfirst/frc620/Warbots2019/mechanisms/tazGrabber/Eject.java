@@ -11,17 +11,15 @@ import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Stow extends Command {
+public class Eject extends Command {
 
   private TazGrabber tazGrabber;
 
-  public Stow() {
-
+  public Eject() {
     tazGrabber = Robot.tazGrabber;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(tazGrabber);
-
   }
 
   // Called just before this Command runs the first time
@@ -32,13 +30,13 @@ public class Stow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  tazGrabber.stow();
+    tazGrabber.startEjection();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
