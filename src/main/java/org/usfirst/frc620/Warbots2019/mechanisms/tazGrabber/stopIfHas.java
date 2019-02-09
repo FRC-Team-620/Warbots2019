@@ -30,7 +30,9 @@ public class stopIfHas extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  if(tazGrabber.hasGameObject()){
+  System.out.println(String.format("Has Object: %s", !tazGrabber.hasGameObject()? "Yes" : "No"));
+  if(tazGrabber.hasGameObject())
+  {
   tazGrabber.stop();  
   }
   }
