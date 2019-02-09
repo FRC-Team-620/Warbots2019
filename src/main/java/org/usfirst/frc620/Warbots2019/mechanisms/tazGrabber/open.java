@@ -4,22 +4,24 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+
+//import org.usfirst.frc620.Warbots2019.robot.*;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class EjectCargo extends Command {
+public class open extends Command {
 
-  private CargoMech cargoMech;
+  private TazGrabber tazGrabber;
 
-  public EjectCargo(CargoMech cargoMech) {
-      // Use requires() here to declare subsystem dependencies
+  public open() {
+    tazGrabber = Robot.tazGrabber;
+    // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-
-    this.cargoMech = cargoMech;
-
-    requires(this.cargoMech);
+    requires(tazGrabber);
   }
 
   // Called just before this Command runs the first time
@@ -30,13 +32,13 @@ public class EjectCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
+      tazGrabber.open();
   }
-//h
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() { 
-  return false;
+  protected boolean isFinished() {
+      return false;
   }
 
   // Called once after isFinished returns true

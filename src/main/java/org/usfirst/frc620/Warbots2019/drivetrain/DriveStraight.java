@@ -15,7 +15,6 @@ public class DriveStraight extends Command {
   public DriveStraight() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -26,6 +25,16 @@ public class DriveStraight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double speed = 1;
+    double turning = 0;
+    if(speed < 0.1 && speed > -0.1){
+        speed = 0;
+    }
+    if(turning < 0.1 && turning > -0.1){
+        turning = 0;
+    }
+
+    Robot.driveTrain.drive(speed, turning);
   }
 
   // Make this return true when this Command no longer needs to run execute()

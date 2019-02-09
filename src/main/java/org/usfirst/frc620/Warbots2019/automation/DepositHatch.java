@@ -7,15 +7,12 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DepositHatch extends Command {
   public DepositHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -26,7 +23,6 @@ public class DepositHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  
   }
 
   // Make this return true when this Command no longer needs to run execute()

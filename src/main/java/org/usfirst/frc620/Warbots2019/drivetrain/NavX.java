@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 /**
  * Add your docs here.
  */
-
 public class NavX {
 
     AHRS navxBoard;
@@ -59,9 +58,7 @@ public class NavX {
     }
 
     public Angle getAngle() {
-        double yaw = navxBoard.getAngle();
-        System.out.println("Yaw: " + yaw);
-		return Angle.fromDegrees(yaw);
+		return Angle.fromDegrees(navxBoard.getYaw());
     }
 
     public void reset()
@@ -69,4 +66,3 @@ public class NavX {
         navxBoard.reset();
     }
 }
-

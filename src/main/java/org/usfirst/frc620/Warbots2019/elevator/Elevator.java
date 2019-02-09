@@ -12,9 +12,8 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 /**
  * Add your docs here.
  */
-public abstract class PIDElevator extends PIDSubsystem
-{
-    public PIDElevator(String name, double p, double i, double d)
+public abstract class Elevator extends PIDSubsystem {
+    public Elevator(String name, double p, double i, double d)
     {
         super(name, p, i, d);
     }
