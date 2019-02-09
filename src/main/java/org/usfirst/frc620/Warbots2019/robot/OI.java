@@ -71,7 +71,6 @@ public class OI {
         driverController = new Joystick(0);
         //driverController = new Joystick(2);
         
-<<<<<<< HEAD
         spinOutOfControlButton = new JoystickButton(driverController, 1);
         spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
 
@@ -79,8 +78,6 @@ public class OI {
         //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
         driveStraightButton = new JoystickButton(driverController, 3);
         driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
-=======
->>>>>>> 69ac03e9886b566ac0fe5e62557da05e3ec06b9a
 
         // A Button
         aButton = new JoystickButton(driverController, 0);
