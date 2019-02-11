@@ -8,7 +8,6 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -19,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class CargoMech extends Subsystem {
 
-  private Solenoid mainPiston;
+  
   private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
   private CargoMech cargoMech;
@@ -27,7 +26,7 @@ public class CargoMech extends Subsystem {
 public CargoMech(int mainMotorPort, int limitSwitchPort, int pistonPort, int PCMCanID){
 
   SpeedController mainWheels = new Spark(mainMotorPort);
-  mainPiston = new Solenoid(PCMCanID, pistonPort); 
+   
   limitSwitch = new DigitalInput(limitSwitchPort);
   intakeWheels = new SpeedControllerGroup(mainWheels);
 }
@@ -59,10 +58,10 @@ public CargoMech(int mainMotorPort, int limitSwitchPort, int pistonPort, int PCM
   }
 
   public void deployMech(){
-  mainPiston.set(true);
+  //mainPiston.set(true);
   }
 
   public void stowMech(){
-  mainPiston.set(false);  
+  //mainPiston.set(false);  
   }
 }

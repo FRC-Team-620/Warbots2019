@@ -64,7 +64,8 @@ public class Robot extends TimedRobot {
         //driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
         ControlReader config = new ControlReader();
         String driverTrainClass = config.getMappedString("DriveTrain");
-        cargoMech = new CargoMech(0, 1, 2, 3);
+        //We will have to get the correct inputs for Cargo mech, just guessing. 
+        
         if((driverTrainClass != null ) && 
             driverTrainClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain"))
         {
@@ -79,18 +80,24 @@ public class Robot extends TimedRobot {
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
-        if ((ScoringMechanism != null) &&
-            ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
+        if (ScoringMechanism != null)
         {
+            if(ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
+            {
 
-            tazGrabber = new TazGrabber(5,6,5,7,4,2,0,3,1);
-        }
+               tazGrabber = new TazGrabber(5,6,5,7,4,2,0,3,1);
+            }
+            else if(ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
+            {
+                cargoMech = new CargoMech(7, 8, 9, 10);
+            }
         else
         {
             System.err.println("no scoring mech specified");
-            tazGrabber = new TazGrabber(5,6,5,7,4,2,0,3,1);
+            cargoMech = new CargoMech(7, 8, 9, 10);
+            //tazGrabber = new TazGrabber(5,6,5,7,4,2,0,3,1);
         }
-        
+    }
         elevator = new TalonElevator(5);
         compressor = new Compressor(6);
         
