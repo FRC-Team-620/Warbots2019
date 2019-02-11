@@ -8,7 +8,7 @@ package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 
 import edu.wpi.first.wpilibj.command.Command;
-/*
+
 public class DeployCargoMech extends Command {
 
   private CargoMech cargoMech;
@@ -54,4 +54,4 @@ public class DeployCargoMech extends Command {
   @Override
   protected void interrupted() {
   }
-} */
+}
