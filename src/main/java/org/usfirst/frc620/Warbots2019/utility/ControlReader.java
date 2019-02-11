@@ -9,85 +9,175 @@ package org.usfirst.frc620.Warbots2019.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.*;
 import java.util.Properties;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class ControlReader {
 
-    static Properties drv1, drv2, var;
-    static String s1, s2, s3;
+    Properties driver, scorer, robot;
+    String rootDeployDir, s;
 
     public ControlReader(){
 
-        //creates Properties objects and strings for file references
-        drv1 = new Properties();
-        drv2 = new Properties();
-        var = new Properties();
-        String s = File.separator;
-        String d1 = "driver1.properties";
-        String d2 = "driver2.properties";
-        String v = "variables.properties";
-
-        //attempts to load .properties files to the Properties object
-        try{
-        //String of main directory
-        String root = "" + Filesystem.getOperatingDirectory() + s + "src" + s + "main" + s + "deploy";
-        //loads directory plus specific file name
-        drv1.load(new FileInputStream(new File(root + s + d1)));
-        drv2.load(new FileInputStream(new File(root + s + d2)));
-        var.load(new FileInputStream(new File(root + s + v)));
-        s1 = root + s + d1;
-        s2 = root + s + d2;
-        s3 = root + s + v;
-        }catch(Exception e){
-            System.out.println("There was an Exception " + e.getMessage());
-        }
-
+        driver = new Properties();
+        scorer = new Properties();
+        robot = new Properties();
+        s = File.separator;
+        rootDeployDir = Filesystem.getOperatingDirectory() + s + "src" + s + "main" + s + "deploy";
+        
+        String robotFileName = getRobotType();
+        lookForFiles(robotFileName, robot);
+        lookForFiles("driver.properties", driver);
+        lookForFiles("scorer.properties", scorer);
     }
 
-    //returns int from variables
-    public static int getMappedInt(String string){
-        int str = Integer.parseInt(var.getProperty(string));
-        return str;
+    /**
+     * Internal Utility for seeing if a string value exists from any of the containers
+     * @param str
+     * @return
+     */
+    private boolean hasName(String str)
+    {
+        boolean ret = false;
+        if( scorer.getProperty(str) != null)
+        {
+            ret = true;
+        }
+        else if( driver.getProperty(str) != null)
+        {
+            ret = true;
+        }
+        else if( robot.getProperty(str) != null)
+        {
+            ret = true;
+        }
+        return ret;
     }
 
-    //returns String from either driver1 or driver2
-    public static String getMappedString(String string, boolean isMainDriver){
-        String s;
-        if(isMainDriver){
-            s = drv1.getProperty(string);
-        }else{
-            s = drv2.getProperty(string);
+    /**
+     * Internal Utility for getting a string value from any of the containers
+     * @param str
+     * @return
+     */
+    private String getNamedValue(String str)
+    {
+        String ret = null;
+        if( scorer.getProperty(str) != null)
+        {
+            ret = scorer.getProperty(str);
         }
-        return s;
+        else if( driver.getProperty(str) != null)
+        {
+            ret = driver.getProperty(str);
+        }
+        else if( robot.getProperty(str) != null)
+        {
+            ret = robot.getProperty(str);
+        }
+        return ret;
+    }
+
+    //returns int from files, -1 if invalid
+    public int getMappedInt(String string){
+        int i;
+        String v = getNamedValue(string);
+        try
+        {
+            i = Integer.parseInt(v);
+        } catch (Exception e) {
+            i = -1;
+        }
+        return i;
+    }
+
+    //returns String from files, 'invalid file' if invalid
+    public String getMappedString(String string){
+        String ret = getNamedValue(string);
+        
+        return ret;
     }
 
     //returns String from variables (no boolean field)
-    public static String getMappedString(String string){
-        try{
-            String s = var.getProperty(string);
-            return s;
-        }catch(Exception e){
-            System.out.println(string);
-            System.out.println("getMappedString didn't work: " + e.getMessage());
-            return "Taz";
-        }
-    }
 
-    //returns double from variables
-    public static double getMappedDouble(String string){
-        double d = Double.parseDouble(var.getProperty(string));
+    //returns double from files, -1.0 if invalid
+    public double getMappedDouble(String string){
+        double d;
+        String v = getNamedValue(string);
+        try
+        {
+            d = Double.parseDouble(v);
+        } catch (Exception e) {
+            d = -1.0;
+        }
         return d;
     }
 
-    public static void test(){
-        drv1.list(System.out);
-        drv2.list(System.out);
-        var.list(System.out);
+    public void test(){
+
+        driver.list(System.out);
+        scorer.list(System.out);
+        robot.list(System.out);
     }
 
+    public static String getRobotType(){
+        String ret = null;
+        try{
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("10.6.20.2"));
+            byte[] address = net.getHardwareAddress(); //MAC Address
+            StringBuilder sb = new StringBuilder();
+            for(byte b : address) {
+                sb.append(String.format("%02X", b));
+                sb.append("_");
+            } 
+            sb.deleteCharAt(sb.length()-1);
+            String ad = sb.toString();
+            SmartDashboard.putString("test", ad);
+            System.out.println(ad);
+
+            // look for file named after MAC address
+            String mac = ad.strip();
+            String underScoreMAC = mac.replace(':', '_');   
+            ret = underScoreMAC+".properties";
+        }
+        catch(Exception e)
+        {
+            System.out.println("There was an error: " + e.getMessage());
+        }
+        return ret;
+    }
+    
+    public String lookForFiles(String robo, Properties props){
+        String ret = "we got nothing";
+        try{    
+            //checks for a USB in the RoboRIO
+            String usb1 = "" + s + "media" + s + "sda1";
+            props.load(new FileInputStream(new File(usb1 + s + robo)));
+            SmartDashboard.putString("Files", "USB Files");
+            ret = "we got the usb";
+        }catch(Exception e){
+            
+            try{   
+                //checks for driver files in the deploy directory
+                props.load(new FileInputStream(new File(rootDeployDir + s + robo)));
+                SmartDashboard.putString("Files", "Computer Files");
+                ret = "we got the files";
+            }catch(Exception f){
+
+                try{    //uses defaults in the deploy directory
+                    props.load(new FileInputStream(new File(rootDeployDir + s + robo)));
+                    SmartDashboard.putString("Files", "Default Files");
+                    ret = "we got the defaults";
+                }catch(Exception g){
+                    // do nothing
+                }
+            }
+        }
+        return ret;
+    }
 }

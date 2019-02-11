@@ -7,23 +7,19 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
-import org.usfirst.frc620.Warbots2019.elevator.Elevator;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class driveElevatorWithJoysticks extends Command {
+public class leftExtend extends Command {
 
-  private Elevator elevator;
+  private TazGrabber tazGrabber;
 
-  public driveElevatorWithJoysticks() {
+  public leftExtend() {
+    tazGrabber = Robot.tazGrabber;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    elevator = Robot.elevator;
-
-    requires(elevator);
-    
+    requires(tazGrabber);
   }
 
   // Called just before this Command runs the first time
@@ -34,9 +30,7 @@ public class driveElevatorWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    GenericHID joystick = Robot.oi.driverController;
-    double speed = joystick.getRawAxis(5);
-    elevator.drive(speed);
+    //tazGrabber.leftExtend();
   }
 
   // Make this return true when this Command no longer needs to run execute()

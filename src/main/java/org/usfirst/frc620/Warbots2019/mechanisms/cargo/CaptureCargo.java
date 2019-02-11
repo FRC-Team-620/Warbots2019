@@ -5,25 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.elevator.Elevator;
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.GenericHID;
+//import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+//import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class driveElevatorWithJoysticks extends Command {
+public class CaptureCargo extends Command {
 
-  private Elevator elevator;
+  //private CargoMech cargoMech;
 
-  public driveElevatorWithJoysticks() {
+  public CaptureCargo() {
+    //cargoMech = Robot.cargoMech;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    elevator = Robot.elevator;
-
-    requires(elevator);
-    
+    //requires(cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -34,14 +30,20 @@ public class driveElevatorWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    GenericHID joystick = Robot.oi.driverController;
-    double speed = joystick.getRawAxis(5);
-    elevator.drive(speed);
+  //cargoMech.captureCargo();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+   /* if(cargoMech.hasCargo()){
+    return true;
+    }
+
+    if(!cargoMech.hasCargo()){
+    return false;  
+    }
+    */
     return false;
   }
 
