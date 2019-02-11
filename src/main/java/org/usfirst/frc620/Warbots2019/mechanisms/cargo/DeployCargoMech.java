@@ -5,4 +5,3 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
-
