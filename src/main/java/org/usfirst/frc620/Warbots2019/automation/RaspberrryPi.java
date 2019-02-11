@@ -35,7 +35,7 @@ public class RaspberrryPi
 
         trackerOutputSubtable = raspberryPiCommunications.getSubTable("trackerOutputSubtable");
         trackerOutputSubtable.getEntry("lidarDistance");
-        trackerOutputSubtable.getEntry("azimuth"); //what's the other thing?
+        trackerOutputSubtable.getEntry("azimuth"); //what's the other thing? lineOfSightToWallAngle?
         trackerOutputSubtable.getEntry("isTargetVisible");
     }
 
