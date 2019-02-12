@@ -30,22 +30,19 @@ public class CaptureCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  cargoMech.captureCargo();
+    System.out.print("" + cargoMech.hasCargo());
+    if (!cargoMech.hasCargo()) {
+      cargoMech.captureCargo();
+    }
+
+    if (cargoMech.hasCargo()) {
+      cargoMech.stopCapture();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(cargoMech.hasCargo())
-    {
-    return true;
-    }
-
-    if(!cargoMech.hasCargo())
-    {
-    return false;  
-    }
-    
     return false;
   }
 

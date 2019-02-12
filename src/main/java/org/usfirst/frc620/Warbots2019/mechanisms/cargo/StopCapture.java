@@ -11,6 +11,7 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
+//This command will most likely not be used.
 public class StopCapture extends Command {
 
   private CargoMech cargoMech;

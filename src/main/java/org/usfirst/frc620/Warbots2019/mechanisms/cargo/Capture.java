@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+//Don't know the purpose of this.
 public class Capture extends Command {
   public Capture() {
     // Use requires() here to declare subsystem dependencies
