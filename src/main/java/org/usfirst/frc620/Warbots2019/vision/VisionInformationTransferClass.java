@@ -7,14 +7,28 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
+import org.usfirst.frc620.Warbots2019.utility.Angle;
+
 /**
  * Add your docs here.
  */
-class LightSensor 
+class VisionInformationTransferClass 
 {
-    public boolean isOnLine()
+    public static void SteerTracker (Angle azimuth, Angle elevation)
     {
-        return false;
-        //body must be done with sensor API
+        Boolean wantToTrackTemp = WantToTrack;
+        WantToTrack = false;
+        Azimuth = azimuth.toDegrees();
+        Elevation = elevation.toDegrees();
+        WantToTrack = wantToTrackTemp;
     }
+
+    public static void setWantToTrack (boolean wantToTrack)
+    {
+        WantToTrack = wantToTrack;
+    }
+
+    static boolean WantToTrack;
+    static double Azimuth;
+    static double Elevation; 
 }
