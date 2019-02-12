@@ -19,6 +19,7 @@ import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stop;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stow;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.open;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.stopIfHas;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
