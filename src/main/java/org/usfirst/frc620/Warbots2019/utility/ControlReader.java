@@ -48,7 +48,7 @@ public class ControlReader {
         }
         return ret;
     }
-
+    
     /**
      * Internal Utility for getting a string value from any of the containers
      * @param str
@@ -60,6 +60,9 @@ public class ControlReader {
         if( prop.getProperty(str) != null)
         {
             ret = prop.getProperty(str);
+        }
+        if(hasName("")){
+        System.out.print(hasName(""));    
         }
         return ret;
     }

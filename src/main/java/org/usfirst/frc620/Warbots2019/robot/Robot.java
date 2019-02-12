@@ -17,7 +17,7 @@ import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
+//import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
         {
             if(driverTrainClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain"))
         {
-            // TODO: Make the subsystem constructors take the ControlReader reference
+            
             //       and have their constructors extract the info they need internally.
             driveTrain = new SparkDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
         } 
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
         else
         {
             System.err.println("no scoring mech specified");
-            //We will have to get the correct inputs for Cargo mech, just guessing.
+            //We will have to get the correct inputs for Cargo mech, just for testing on TestBot.
             cargoMech = new CargoMech(0, 4);
             //tazGrabber = new TazGrabber(5,6,5,7,4,2,0,3,1);
         }
