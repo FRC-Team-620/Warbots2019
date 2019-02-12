@@ -92,7 +92,7 @@ public class OI {
          driveStraightButton = new JoystickButton(driverController, 3);
          driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
 
-         // A Button
+        // A Button
         aButton = new JoystickButton(driverController, 1);
         aButton.whenPressed(new open());
 
@@ -121,11 +121,9 @@ public class OI {
         backButton.whenPressed(new Stop());
 
         // Start Button
-        startButton = new JoystickButton(driverController, 8);
-        startButton.whenPressed(new stopIfHas());
+        //startButton = new JoystickButton(driverController, 8);
+        //startButton.whenPressed(new stopIfHas());
 
-        //closeTazButton = new JoystickButton(driverController, 11);
-        //closeTazButton.whenPressed(new stow());
 
         //coDriver buttons
         //coDriverController = new Joystick(1);
