@@ -10,7 +10,8 @@ package org.usfirst.frc620.Warbots2019.vision;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.networktables.NetworkTableEntry;
+//Use this, giving errors
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
