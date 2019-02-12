@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -18,50 +20,53 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class CargoMech extends Subsystem {
 
-  
   private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
   private CargoMech cargoMech;
 
-public CargoMech(int mainMotorPort, int limitSwitchPort, int pistonPort, int PCMCanID){
+  public CargoMech(int mainMotorPort, int limitSwitchPort) {
 
-  SpeedController mainWheels = new Spark(mainMotorPort);
-   
-  limitSwitch = new DigitalInput(limitSwitchPort);
-  intakeWheels = new SpeedControllerGroup(mainWheels);
-}
+    SpeedController mainWheels = new Spark(mainMotorPort);
+
+    limitSwitch = new DigitalInput(limitSwitchPort);
+    intakeWheels = new SpeedControllerGroup(mainWheels);
+  }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new CaptureCargo());
+    System.out.print("Working");
   }
 
-  public void idle(){
-  cargoMech.stowMech(); 
+  public void idle() {
+    cargoMech.stowMech();
   }
 
-  public boolean hasCargo(){
+  public boolean hasCargo() {
     return !limitSwitch.get();
   }
-  
-  public void captureCargo(){
-  intakeWheels.set(1);
+
+  public void captureCargo() {
+    GenericHID joystick = Robot.oi.getDriverController();
+    double speed = joystick.getRawAxis(5);
+    intakeWheels.set(speed);
   }
 
-  public void stopCapture(){
-  intakeWheels.set(0);  
+  public void stopCapture() {
+    intakeWheels.set(0);
   }
 
-  public void ejectCargo(){
-  intakeWheels.set(-1);  
+  public void ejectCargo() {
+    intakeWheels.set(-1);
   }
 
-  public void deployMech(){
-  //mainPiston.set(true);
+  public void deployMech() {
+    // mainPiston.set(true);
   }
 
-  public void stowMech(){
-  //mainPiston.set(false);  
+  public void stowMech() {
+    // mainPiston.set(false);
   }
 }

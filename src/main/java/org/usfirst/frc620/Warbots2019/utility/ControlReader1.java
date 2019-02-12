@@ -18,12 +18,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
-public class ControlReader {
+public class ControlReader1 {
 
     Properties driver, scorer, robot;
     String rootDeployDir, s;
 
-    public ControlReader(){
+    public ControlReader1(){
 
         driver = new Properties();
         scorer = new Properties();
