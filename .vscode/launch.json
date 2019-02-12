@@ -4,18 +4,37 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - MyClientSocket",
+      "request": "launch",
+      "mainClass": "org.usfirst.frc620.Warbots2019.utility.MyClientSocket",
+      "projectName": "Warbots2019"
+    },
+    {
+      "type": "java",
+      "name": "Debug (Launch) - Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - MyServerSocket",
+      "request": "launch",
+      "mainClass": "org.usfirst.frc620.Warbots2019.utility.MyServerSocket",
+      "projectName": "Warbots2019"
+    },
     {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
-      "desktop": true,
+      "desktop": true
     },
     {
       "type": "wpilib",
       "name": "WPILib roboRIO Debug",
       "request": "launch",
-      "desktop": false,
+      "desktop": false
     }
   ]
 }
