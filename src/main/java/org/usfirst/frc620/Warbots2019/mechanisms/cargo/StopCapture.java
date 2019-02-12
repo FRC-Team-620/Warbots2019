@@ -5,21 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Capture extends Command {
-  
-  private TazGrabber tazGrabber;
+//This command will most likely not be used.
+public class StopCapture extends Command {
 
-  public Capture() {
-    tazGrabber = Robot.tazGrabber;
+  private CargoMech cargoMech;
+
+  public StopCapture() {
+    cargoMech = Robot.cargoMech;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(tazGrabber);
+    requires(cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -30,7 +31,7 @@ public class Capture extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  tazGrabber.startIntake();
+  cargoMech.stopCapture();
   }
 
   // Make this return true when this Command no longer needs to run execute()

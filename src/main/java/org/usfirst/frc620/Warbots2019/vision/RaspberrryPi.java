@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
+package org.usfirst.frc620.Warbots2019.vision;
 
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
@@ -35,7 +35,7 @@ public class RaspberrryPi
 
         trackerOutputSubtable = raspberryPiCommunications.getSubTable("trackerOutputSubtable");
         trackerOutputSubtable.getEntry("lidarDistance");
-        trackerOutputSubtable.getEntry("azimuth"); //what's the other thing?
+        trackerOutputSubtable.getEntry("azimuth"); //what's the other thing? lineOfSightToWallAngle?
         trackerOutputSubtable.getEntry("isTargetVisible");
     }
 

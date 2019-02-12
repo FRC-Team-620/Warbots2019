@@ -5,21 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
-import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
+//Don't know the purpose of this.
 public class Capture extends Command {
-  
-  private TazGrabber tazGrabber;
-
   public Capture() {
-    tazGrabber = Robot.tazGrabber;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(tazGrabber);
   }
 
   // Called just before this Command runs the first time
@@ -30,7 +24,6 @@ public class Capture extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  tazGrabber.startIntake();
   }
 
   // Make this return true when this Command no longer needs to run execute()

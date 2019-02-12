@@ -18,20 +18,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
-public class ControlReader {
+public class ControlReader1 {
 
-    Properties prop;
-    String rootDeployDir, rootUSBDir, s;
+    Properties driver, scorer, robot;
+    String rootDeployDir, s;
 
-    public ControlReader(){
+    public ControlReader1(){
 
-        prop = new Properties();
+        driver = new Properties();
+        scorer = new Properties();
+        robot = new Properties();
         s = File.separator;
-        rootDeployDir = "" + Filesystem.getDeployDirectory();
-        rootUSBDir = s + "media" + s + "sda1";
+        rootDeployDir = Filesystem.getOperatingDirectory() + s + "src" + s + "main" + s + "deploy";
         
         String robotFileName = getRobotType();
-        lookForFiles(robotFileName);
+        lookForFiles(robotFileName, robot);
+        lookForFiles("driver.properties", driver);
+        lookForFiles("scorer.properties", scorer);
+        System.out.println("" + rootDeployDir);
     }
 
     /**
@@ -42,7 +46,15 @@ public class ControlReader {
     private boolean hasName(String str)
     {
         boolean ret = false;
-        if( prop.getProperty(str) != null)
+        if( scorer.getProperty(str) != null)
+        {
+            ret = true;
+        }
+        else if( driver.getProperty(str) != null)
+        {
+            ret = true;
+        }
+        else if( robot.getProperty(str) != null)
         {
             ret = true;
         }
@@ -57,9 +69,17 @@ public class ControlReader {
     private String getNamedValue(String str)
     {
         String ret = null;
-        if( prop.getProperty(str) != null)
+        if( scorer.getProperty(str) != null)
         {
-            ret = prop.getProperty(str);
+            ret = scorer.getProperty(str);
+        }
+        else if( driver.getProperty(str) != null)
+        {
+            ret = driver.getProperty(str);
+        }
+        else if( robot.getProperty(str) != null)
+        {
+            ret = robot.getProperty(str);
         }
         return ret;
     }
@@ -80,9 +100,10 @@ public class ControlReader {
     //returns String from files, 'invalid file' if invalid
     public String getMappedString(String string){
         String ret = getNamedValue(string);
+        System.out.println("getMappedString --->" + ret);
         return ret;
     }
-
+    
     //returns String from variables (no boolean field)
 
     //returns double from files, -1.0 if invalid
@@ -95,19 +116,24 @@ public class ControlReader {
         } catch (Exception e) {
             d = -1.0;
         }
+        
         return d;
     }
 
-    public void getProperties(){
+    public void test(){
 
-        prop.list(System.out);
+        driver.list(System.out);
+        scorer.list(System.out);
+        robot.list(System.out);
     }
 
-    public String getRobotType(){
+    public static String getRobotType(){
         String ret = null;
         try{
-            System.out.println("it prints from the method");
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("10.6.20.2"));
+            //InetAddress inet = InetAddress.getByName("10.6.20.2");
+            InetAddress inet = InetAddress.getByName("10.122.186.1");
+            NetworkInterface net = NetworkInterface.getByInetAddress(inet);
+            System.out.println("Net" +( net==null?"nope":net.toString())+"] ["+(inet==null?"nope":inet.toString())+"]");
             byte[] address = net.getHardwareAddress(); //MAC Address
             StringBuilder sb = new StringBuilder();
             for(byte b : address) {
@@ -116,44 +142,41 @@ public class ControlReader {
             } 
             sb.deleteCharAt(sb.length()-1);
             String ad = sb.toString();
+            SmartDashboard.putString("test", ad);
+            System.out.println(ad);
 
             // look for file named after MAC address
-            String mac = ad.strip(); 
-            ret = rootDeployDir + mac +".properties";
-            SmartDashboard.putString("test", ret);
-            
+            String mac = ad.strip();   
+            ret = mac+".properties";
+            System.out.println("" + ret);
         }
         catch(Exception e)
         {
             System.out.println("There was an error: " + e.getMessage());
         }
+        System.out.println("getRobotType" + ret);
         return ret;
     }
     
-    public String lookForFiles(String robo){
-        String ret = "we got nothing";
+    public String lookForFiles(String robo, Properties props){
+        String ret = "we got nothing [" + robo + "]";
         try{    
             //checks for a USB in the RoboRIO
-            prop.load(new FileInputStream(new File(rootUSBDir + s + robo)));
-            prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-            prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
+            String usb1 = "" + s + "media" + s + "sda1";
+            props.load(new FileInputStream(new File(usb1 + s + robo)));
             SmartDashboard.putString("Files", "USB Files");
             ret = "we got the usb";
         }catch(Exception e){
             
             try{   
                 //checks for driver files in the deploy directory
-                prop.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-                prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
+                props.load(new FileInputStream(new File(rootDeployDir + s + robo)));
                 SmartDashboard.putString("Files", "Computer Files");
                 ret = "we got the files";
             }catch(Exception f){
 
                 try{    //uses defaults in the deploy directory
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
+                    props.load(new FileInputStream(new File(rootDeployDir + s + robo)));
                     SmartDashboard.putString("Files", "Default Files");
                     ret = "we got the defaults";
                 }catch(Exception g){
@@ -161,6 +184,7 @@ public class ControlReader {
                 }
             }
         }
+        System.out.println("look for files" + ret);
         return ret;
     }
 }

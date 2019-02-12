@@ -83,15 +83,15 @@ public class OI {
         
         driverController = new Joystick(0);
         
-        spinOutOfControlButton = new JoystickButton(driverController, 1);
-        spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
+         spinOutOfControlButton = new JoystickButton(driverController, 1);
+         spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
 
-        //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
-        //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
-        driveStraightButton = new JoystickButton(driverController, 3);
-        driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
+         //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
+         //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
+         driveStraightButton = new JoystickButton(driverController, 3);
+         driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
 
-        // A Button
+         // A Button
         aButton = new JoystickButton(driverController, 1);
         aButton.whenPressed(new open());
 
@@ -99,29 +99,29 @@ public class OI {
         bButton = new JoystickButton(driverController, 2);
         bButton.whenPressed(new Close());
 
-        // X Button
+        // // X Button
         xButton = new JoystickButton(driverController, 3);
         xButton.whenPressed(new Deploy());
 
-        // Y Button
+        // // Y Button
         yButton = new JoystickButton(driverController, 4);
         yButton.whenPressed(new Stow());
 
-        // Right Bumper (rb)
+         // Right Bumper (rb)
         rbButton = new JoystickButton(driverController, 5);
         rbButton.whenPressed(new Capture());
 
-        // Left Bumper (lb)
+        // // Left Bumper (lb)
         lbButton = new JoystickButton(driverController, 6);
         lbButton.whenPressed(new Eject());
 
-        // Back Button
+        // // Back Button
         backButton = new JoystickButton(driverController, 7);
         backButton.whenPressed(new Stop());
 
         // Start Button
-        //startButton = new JoystickButton(driverController, 8);
-        //startButton.whenPressed(new stopIfHas());
+        startButton = new JoystickButton(driverController, 8);
+        startButton.whenPressed(new stopIfHas());
 
         //closeTazButton = new JoystickButton(driverController, 11);
         //closeTazButton.whenPressed(new stow());
