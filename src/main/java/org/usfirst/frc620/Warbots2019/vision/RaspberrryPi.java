@@ -33,13 +33,20 @@ public class RaspberrryPi
         trackerSteeringSubtable.getEntry("azimuth");
         trackerSteeringSubtable.getEntry("elevation");
         trackerSteeringSubtable.getEntry("wantToTrack");
-        trackerSteeringSubtable.getEntry("horizontalServo");
-        trackerSteeringSubtable.getEntry("veticalServo");
-        
+        trackerSteeringSubtable.getEntry("horizontalServoIn");
+        trackerSteeringSubtable.getEntry("veticalServoIn");
+        trackerSteeringSubtable.getEntry("horizontalServoOut");
+        trackerSteeringSubtable.getEntry("veticalServoOut");
+
         trackerOutputSubtable = raspberryPiCommunications.getSubTable("trackerOutputSubtable");
         trackerOutputSubtable.getEntry("lidarDistance");
         trackerOutputSubtable.getEntry("azimuth"); //what's the other thing? lineOfSightToWallAngle?
         trackerOutputSubtable.getEntry("isTargetVisible");
+
+        // new Thread(() ->
+        //         {
+        //             new PiUpdater();
+        //         }).Start();
     }
 
     public void updateBlingLights (BlingLightColorEnum color) // how to get whether robot is enabled?
@@ -55,12 +62,7 @@ public class RaspberrryPi
 
     public void setWantToTrack (boolean wantToTrack)
     {
-        trackerOutputSubtable.getEntry("wantToTrack").setBoolean(wantToTrack);
-    }
-
-    public void updateServos ()
-    {
-
+        VisionInformationTransferClass.setWantToTrack(wantToTrack);
     }
 
     public double getLidarDistance() throws Exception
