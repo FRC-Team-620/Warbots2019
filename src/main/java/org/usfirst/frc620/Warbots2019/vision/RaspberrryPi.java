@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
+package org.usfirst.frc620.Warbots2019.vision;
 
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
