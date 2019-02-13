@@ -28,10 +28,12 @@ public class ControlReader {
         prop = new Properties();
         s = File.separator;
         rootDeployDir = "" + Filesystem.getDeployDirectory();
-        rootUSBDir = s + "media" + s + "sda1";
+        
         
         String robotFileName = getRobotType();
         lookForFiles(robotFileName);
+        lookForFiles("driver.properties");
+        lookForFiles("scorer.properties");
     }
 
     /**
@@ -110,7 +112,8 @@ public class ControlReader {
         String ret = null;
         try{
             System.out.println("it prints from the method");
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("10.6.20.2"));
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
+            
             byte[] address = net.getHardwareAddress(); //MAC Address
             StringBuilder sb = new StringBuilder();
             for(byte b : address) {
@@ -122,7 +125,7 @@ public class ControlReader {
 
             // look for file named after MAC address
             String mac = ad.strip(); 
-            ret = rootDeployDir + mac +".properties";
+            ret = mac +".properties";
             SmartDashboard.putString("test", ret);
             
         }
@@ -133,36 +136,36 @@ public class ControlReader {
         return ret;
     }
     
-    public String lookForFiles(String robo){
+    public String lookForFiles(String filename){
         String ret = "we got nothing";
+        System.out.println("to look for file: ["+filename+"]");
         try{    
             //checks for a USB in the RoboRIO
-            prop.load(new FileInputStream(new File(rootUSBDir + s + robo)));
-            prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-            prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
-            SmartDashboard.putString("Files", "USB Files");
-            ret = "we got the usb";
+            rootUSBDir = s + "media" + s + "sda1";
+            prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
+            SmartDashboard.putString("Files", "USB 1 Files");
+            System.out.println ("found ["+rootUSBDir + s + filename+"]");
         }catch(Exception e){
             
-            try{   
-                //checks for driver files in the deploy directory
-                prop.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-                prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
-                SmartDashboard.putString("Files", "Computer Files");
-                ret = "we got the files";
-            }catch(Exception f){
-
-                try{    //uses defaults in the deploy directory
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
-                    SmartDashboard.putString("Files", "Default Files");
-                    ret = "we got the defaults";
-                }catch(Exception g){
-                    // do nothing
+            try{    
+                //checks for a USB in the RoboRIO
+                rootUSBDir = s + "media" + s + "sda2";
+                prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
+                SmartDashboard.putString("Files", "USB 2 Files");
+                System.out.println ("found ["+rootUSBDir + s + filename+"]");
+            }catch(Exception e2){
+                
+                try{   
+                    //checks for driver files in the deploy directory
+                    prop.load(new FileInputStream(new File(rootDeployDir + s + filename)));
+                    SmartDashboard.putString("Files", "Computer Files");
+                    System.out.println ("found ["+rootDeployDir + s + filename+"]");
+                }catch(Exception f){
+    
+                    System.err.println("unable to find file: ["+filename+"]");
                 }
             }
+            
         }
         return ret;
     }
