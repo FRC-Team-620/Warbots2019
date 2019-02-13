@@ -8,24 +8,11 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc620.Warbots2019.robot;
 
-<<<<<<< HEAD
 //import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
-=======
-import org.usfirst.frc620.Warbots2019.automation.DepositCargo;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Capture;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Close;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Deploy;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stop;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stow;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.open;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
->>>>>>> 95374d7fd0c2e014c09fbd24e25d3e4debb20cfa
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -99,25 +86,9 @@ public class OI {
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
         // A Button
-<<<<<<< HEAD
         //aButton = new JoystickButton(driverController, 1);
         //aButton.whenPressed(new open());
 
-=======
-        aButton = new JoystickButton(driverController, 1);
-        if (drvAPressed != null)
-        {
-            if (drvAPressed.equals("DepositCargo"))
-            {
-                aButton.whenPressed(new DepositCargo());
-                System.out.println(" got dep cargo!");
-            }
-            else
-            {
-                aButton.whenPressed(new open());
-            }
-        }
->>>>>>> 95374d7fd0c2e014c09fbd24e25d3e4debb20cfa
         // B Button 
         bButton = new JoystickButton(driverController, 2);
         bButton.whenPressed(new StopCapture());
