@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
+import java.awt.geom.Arc2D.Double;
+
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 /**
@@ -28,7 +30,22 @@ class VisionInformationTransferClass
         WantToTrack = wantToTrack;
     }
 
-    static boolean WantToTrack;
-    static double Azimuth;
-    static double Elevation; 
+    public static boolean getWantToTrack ()
+    {
+        return WantToTrack;
+    }
+
+    public static double getAzimuth ()
+    {
+        return Azimuth;
+    }
+
+    public static double getElevation ()
+    {
+        return Elevation;
+    }
+
+    private static boolean WantToTrack;
+    private static double Azimuth;
+    private static double Elevation; 
 }
