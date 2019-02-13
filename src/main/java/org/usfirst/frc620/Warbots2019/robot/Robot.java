@@ -15,6 +15,8 @@ import org.usfirst.frc620.Warbots2019.automation.AlignmentSystem;
 import org.usfirst.frc620.Warbots2019.automation.AutonomousCommand;
 import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
+import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
+import org.usfirst.frc620.Warbots2019.drivetrain.NavX.Port;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
@@ -30,6 +32,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -150,7 +153,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new DriveDistance(driveTrain, 200, -0.5));
+        Angle a = new Angle(1.5);
+        Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5));
     }
 
     /**

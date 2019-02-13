@@ -11,7 +11,7 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
+//import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -77,8 +77,8 @@ public class OI {
         
         driverController = new Joystick(0);
         
-         spinOutOfControlButton = new JoystickButton(driverController, 1);
-         spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
+         //spinOutOfControlButton = new JoystickButton(driverController, 1);
+         //spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
 
          //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.

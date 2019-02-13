@@ -7,8 +7,6 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
-import java.awt.geom.Arc2D.Double;
-
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 /**
