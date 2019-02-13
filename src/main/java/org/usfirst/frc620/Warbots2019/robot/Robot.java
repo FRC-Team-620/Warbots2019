@@ -139,7 +139,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic(){
-        
+    System.out.print("");
     }
     @Override
     public void disabledPeriodic() {
@@ -161,7 +161,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        tazGrabber.deploy();
         System.out.println("Initiated teleop");
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -176,10 +175,5 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        if(tazGrabber.hasGameObject())
-        {
-        tazGrabber.stop(); 
-        tazGrabber.stow(); 
-        }
-    }
+}
 }

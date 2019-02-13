@@ -7,7 +7,7 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
-import static org.junit.Assume.assumeTrue;
+//import static org.junit.Assume.assumeTrue;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
