@@ -12,13 +12,7 @@
 package org.usfirst.frc620.Warbots2019.robot;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Capture;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Close;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Deploy;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stop;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stow;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.open;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -90,36 +84,36 @@ public class OI {
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
         // A Button
-        aButton = new JoystickButton(driverController, 1);
-        aButton.whenPressed(new open());
+        //aButton = new JoystickButton(driverController, 1);
+        //aButton.whenPressed(new open());
 
         // B Button 
         bButton = new JoystickButton(driverController, 2);
-        bButton.whenPressed(new Close());
+        bButton.whenPressed(new StopCapture());
 
         // // X Button
         xButton = new JoystickButton(driverController, 3);
-        xButton.whenPressed(new Deploy());
+        xButton.whenPressed(new EjectCargo());
 
         // // Y Button
-        yButton = new JoystickButton(driverController, 4);
-        yButton.whenPressed(new Stow());
+       // yButton = new JoystickButton(driverController, 4);
+        //yButton.whenPressed(new Stow());
 
          // Right Bumper (rb)
-        rbButton = new JoystickButton(driverController, 5);
-        rbButton.whenPressed(new Capture());
+        //rbButton = new JoystickButton(driverController, 5);
+        //rbButton.whenPressed(new Capture());
 
         // // Left Bumper (lb)
-        lbButton = new JoystickButton(driverController, 6);
-        lbButton.whenPressed(new Eject());
+        //lbButton = new JoystickButton(driverController, 6);
+        //lbButton.whenPressed(new Eject());
 
         // // Back Button
-        backButton = new JoystickButton(driverController, 7);
-        backButton.whenPressed(new Stop());
+        //backButton = new JoystickButton(driverController, 7);
+        //backButton.whenPressed(new Stop());
 
         // // Start Button
-        // startButton = new JoystickButton(driverController, 8);
-        // startButton.whenPressed(new stopIfHas());
+        startButton = new JoystickButton(driverController, 1);
+        startButton.whenPressed(new CaptureCargo());
 
 
         //coDriver buttons

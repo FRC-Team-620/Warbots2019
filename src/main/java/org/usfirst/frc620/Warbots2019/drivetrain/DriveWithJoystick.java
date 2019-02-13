@@ -54,12 +54,12 @@ public class DriveWithJoystick extends Command {
     @Override
     protected void execute() {
         GenericHID joystick = Robot.oi.driverController;
-        double y_value = -joystick.getRawAxis(1);
-        double x_value = joystick.getRawAxis(0);
+        double y_value = joystick.getRawAxis(1);
+        double x_value = -joystick.getRawAxis(0);
         double angle = Math.atan2(y_value, x_value);
 
-        System.out.println("The x is " + x_value + " the y is " + y_value);
-        System.out.println("The angle is " + angle);
+        // System.out.println("The x is " + x_value + " the y is " + y_value);
+        // System.out.println("The angle is " + angle);
         
         // //CenterDeadzone
         // if (isInCenterDeadzone(x_value, y_value)){
@@ -73,10 +73,10 @@ public class DriveWithJoystick extends Command {
         //     Robot.driveTrain.drive(0, x_value);
         // }
         // else{
-        //     Robot.driveTrain.drive(x_value, y_value);
-        // }
+        //      Robot.driveTrain.drive(-1 * x_value, y_value);
+        //  }
 
-        Robot.driveTrain.drive(y_value, 0);
+        Robot.driveTrain.drive(y_value, x_value);
     }
     
 

@@ -36,7 +36,7 @@ public class TurnAngle extends Command {
 
     Angle myAngle = Robot.driveTrain.getAngle();
     
-    System.out.println("The angle is:"+myAngle);
+    //System.out.println("The angle is:"+myAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()
