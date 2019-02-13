@@ -89,7 +89,7 @@ public class OI {
          //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
-         // A Button
+        // A Button
         aButton = new JoystickButton(driverController, 1);
         aButton.whenPressed(new open());
 
@@ -121,8 +121,6 @@ public class OI {
         // startButton = new JoystickButton(driverController, 8);
         // startButton.whenPressed(new stopIfHas());
 
-        //closeTazButton = new JoystickButton(driverController, 11);
-        //closeTazButton.whenPressed(new stow());
 
         //coDriver buttons
         //coDriverController = new Joystick(1);

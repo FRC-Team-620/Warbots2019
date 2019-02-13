@@ -10,7 +10,8 @@ package org.usfirst.frc620.Warbots2019.vision;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.networktables.NetworkTableEntry;
+//Use this, giving errors
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
@@ -32,7 +33,9 @@ public class RaspberrryPi
         trackerSteeringSubtable.getEntry("azimuth");
         trackerSteeringSubtable.getEntry("elevation");
         trackerSteeringSubtable.getEntry("wantToTrack");
-
+        trackerSteeringSubtable.getEntry("horizontalServo");
+        trackerSteeringSubtable.getEntry("veticalServo");
+        
         trackerOutputSubtable = raspberryPiCommunications.getSubTable("trackerOutputSubtable");
         trackerOutputSubtable.getEntry("lidarDistance");
         trackerOutputSubtable.getEntry("azimuth"); //what's the other thing? lineOfSightToWallAngle?
@@ -47,8 +50,7 @@ public class RaspberrryPi
 
     public void SteerTracker (Angle azimuth, Angle elevation)
     {
-        trackerSteeringSubtable.getEntry("azimuth").setDouble(azimuth.toDegrees());
-        trackerSteeringSubtable.getEntry("elevation").setDouble(elevation.toDegrees());
+        VisionInformationTransferClass.SteerTracker(azimuth, elevation);
     }
 
     public void setWantToTrack (boolean wantToTrack)

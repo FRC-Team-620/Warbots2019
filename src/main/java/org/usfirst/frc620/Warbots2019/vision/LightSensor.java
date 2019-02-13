@@ -10,7 +10,7 @@ package org.usfirst.frc620.Warbots2019.vision;
 /**
  * Add your docs here.
  */
-public class LightSensor 
+class LightSensor 
 {
     public boolean isOnLine()
     {

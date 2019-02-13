@@ -81,6 +81,9 @@ public class ControlReader1 {
         {
             ret = robot.getProperty(str);
         }
+        if(hasName("")){
+        System.out.print(hasName(""));    
+        }
         return ret;
     }
 

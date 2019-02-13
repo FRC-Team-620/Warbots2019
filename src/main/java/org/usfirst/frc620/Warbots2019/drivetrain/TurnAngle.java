@@ -13,14 +13,15 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnAngle extends Command {
-  private double m_speed;
-  private Angle m_angle;
-  private DriveTrain drivetrain;
+  //private double m_speed;
+ // private Angle m_angle;
+  //private DriveTrain drivetrain;
+  //use these, they are giving errors
 
   public TurnAngle(DriveTrain dt, Angle myAngle, double speed) {
-    m_speed = speed;
-    m_angle = myAngle;
-    drivetrain = dt;
+    //m_speed = speed;
+    //m_angle = myAngle;
+    //drivetrain = dt;
     requires(Robot.driveTrain);
   }
 
