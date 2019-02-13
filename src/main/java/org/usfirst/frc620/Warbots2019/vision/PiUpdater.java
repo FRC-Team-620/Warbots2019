@@ -13,15 +13,24 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /**
  * Add your docs here.
  */
-public class PiUpdater 
+class PiUpdater implements Runnable
 {
     public PiUpdater()
     {
         Azimuth = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("azimuth");
         Elevation = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("elevation");
         WantToTrack = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("wantToTrack");
+        HorizontalServoIn = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("horizontalServoIn");
+        VerticalServoIn = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("veticalServoIn");
+        HorizontalServoOut = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("horizontalServoOut");
+        VerticalServoOut = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("veticalServoOut");
+    }
+
+    public void run()
+    {
         update();
     }
+
     private void update()
     {
         while (true)
@@ -34,17 +43,28 @@ public class PiUpdater
             {
 
             }
+            VerticalServoOut.setDouble(VerticalServoIn.getDouble(0));
+            HorizontalServoOut.setDouble(HorizontalServoIn.getDouble(0));
+
+            if (VisionInformationTransferClass.getWantToTrack() != OldWantToTrack) 
+            {
+                WantToTrack.setBoolean(VisionInformationTransferClass.getWantToTrack());
+                OldWantToTrack = VisionInformationTransferClass.getWantToTrack();
+            }
+
             if (!VisionInformationTransferClass.getWantToTrack())
             {
-                //update will's system per his requirements
-                continue;
+                Azimuth.setDouble(VisionInformationTransferClass.getAzimuth());
+                Elevation.setDouble(VisionInformationTransferClass.getElevation());
             }
-            Azimuth.setDouble(VisionInformationTransferClass.getAzimuth());
-            Elevation.setDouble(VisionInformationTransferClass.getElevation());
-            WantToTrack.setBoolean(VisionInformationTransferClass.getWantToTrack());
         }
     }
+    boolean OldWantToTrack;
     NetworkTableEntry Azimuth;
     NetworkTableEntry Elevation;
     NetworkTableEntry WantToTrack;
+    NetworkTableEntry HorizontalServoIn;
+    NetworkTableEntry VerticalServoIn;
+    NetworkTableEntry HorizontalServoOut;
+    NetworkTableEntry VerticalServoOut;
 }

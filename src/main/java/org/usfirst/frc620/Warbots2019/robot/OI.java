@@ -19,7 +19,6 @@ import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stop;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stow;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.open;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.stopIfHas;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -89,8 +88,6 @@ public class OI {
 
          //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
-         driveStraightButton = new JoystickButton(driverController, 3);
-         driveStraightButton.whenPressed(new DriveDistance(Robot.driveTrain, 10, 0.1));
 
         // A Button
         aButton = new JoystickButton(driverController, 1);
@@ -120,9 +117,9 @@ public class OI {
         backButton = new JoystickButton(driverController, 7);
         backButton.whenPressed(new Stop());
 
-        // Start Button
-        //startButton = new JoystickButton(driverController, 8);
-        //startButton.whenPressed(new stopIfHas());
+        // // Start Button
+        // startButton = new JoystickButton(driverController, 8);
+        // startButton.whenPressed(new stopIfHas());
 
 
         //coDriver buttons
