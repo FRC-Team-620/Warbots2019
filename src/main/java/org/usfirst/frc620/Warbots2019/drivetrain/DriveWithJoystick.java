@@ -61,22 +61,21 @@ public class DriveWithJoystick extends Command {
         System.out.println("The x is " + x_value + " the y is " + y_value);
         System.out.println("The angle is " + angle);
         
-        // //CenterDeadzone
-        // if (isInCenterDeadzone(x_value, y_value)){
-        //     //Doesn't moves, x and y value are zero
-        //     System.out.println("Is in CENTERDZ");
-        //     Robot.driveTrain.drive(0, 0);
-        // }
-        // else if(isInRotationDeadzone(angle)){
-        //     System.out.println("is in rotationdz");
-        //     //Uses x_value for the turning speed
-        //     Robot.driveTrain.drive(0, x_value);
-        // }
-        // else{
-        //     Robot.driveTrain.drive(x_value, y_value);
-        // }
+        //CenterDeadzone
+        if (isInCenterDeadzone(x_value, y_value)){
+            //Doesn't moves, x and y value are zero
+            System.out.println("Is in CENTERDZ");
+            Robot.driveTrain.drive(0, 0);
+        }
+        else if(isInRotationDeadzone(angle)){
+            System.out.println("is in rotationdz");
+            //Uses x_value for the turning speed
+            Robot.driveTrain.drive(0, x_value);
+        }
+        else{
+            Robot.driveTrain.drive(0, 0);
+        }
 
-        Robot.driveTrain.drive(y_value, 0);
     }
     
 
