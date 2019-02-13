@@ -20,21 +20,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ControlReader {
 
-    Properties driver, scorer, robot;
-    String rootDeployDir, s;
+    Properties prop;
+    String rootDeployDir, rootUSBDir, s;
 
     public ControlReader(){
 
-        driver = new Properties();
-        scorer = new Properties();
-        robot = new Properties();
+        prop = new Properties();
         s = File.separator;
-        rootDeployDir = Filesystem.getOperatingDirectory() + s + "src" + s + "main" + s + "deploy";
+        rootDeployDir = "" + Filesystem.getDeployDirectory();
+        
         
         String robotFileName = getRobotType();
-        lookForFiles(robotFileName, robot);
-        lookForFiles("driver.properties", driver);
-        lookForFiles("scorer.properties", scorer);
+        lookForFiles(robotFileName);
+        lookForFiles("driver.properties");
+        lookForFiles("scorer.properties");
     }
 
     /**
@@ -45,21 +44,13 @@ public class ControlReader {
     private boolean hasName(String str)
     {
         boolean ret = false;
-        if( scorer.getProperty(str) != null)
-        {
-            ret = true;
-        }
-        else if( driver.getProperty(str) != null)
-        {
-            ret = true;
-        }
-        else if( robot.getProperty(str) != null)
+        if( prop.getProperty(str) != null)
         {
             ret = true;
         }
         return ret;
     }
-
+    
     /**
      * Internal Utility for getting a string value from any of the containers
      * @param str
@@ -68,17 +59,12 @@ public class ControlReader {
     private String getNamedValue(String str)
     {
         String ret = null;
-        if( scorer.getProperty(str) != null)
+        if( prop.getProperty(str) != null)
         {
-            ret = scorer.getProperty(str);
+            ret = prop.getProperty(str);
         }
-        else if( driver.getProperty(str) != null)
-        {
-            ret = driver.getProperty(str);
-        }
-        else if( robot.getProperty(str) != null)
-        {
-            ret = robot.getProperty(str);
+        if(hasName("")){
+        System.out.print(hasName(""));    
         }
         return ret;
     }
@@ -99,7 +85,6 @@ public class ControlReader {
     //returns String from files, 'invalid file' if invalid
     public String getMappedString(String string){
         String ret = getNamedValue(string);
-        
         return ret;
     }
 
@@ -118,17 +103,17 @@ public class ControlReader {
         return d;
     }
 
-    public void test(){
+    public void getProperties(){
 
-        driver.list(System.out);
-        scorer.list(System.out);
-        robot.list(System.out);
+        prop.list(System.out);
     }
 
-    public static String getRobotType(){
+    public String getRobotType(){
         String ret = null;
         try{
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("10.6.20.2"));
+            System.out.println("it prints from the method");
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
+            
             byte[] address = net.getHardwareAddress(); //MAC Address
             StringBuilder sb = new StringBuilder();
             for(byte b : address) {
@@ -137,13 +122,12 @@ public class ControlReader {
             } 
             sb.deleteCharAt(sb.length()-1);
             String ad = sb.toString();
-            SmartDashboard.putString("test", ad);
-            System.out.println(ad);
 
             // look for file named after MAC address
-            String mac = ad.strip();
-            String underScoreMAC = mac.replace(':', '_');   
-            ret = underScoreMAC+".properties";
+            String mac = ad.strip(); 
+            ret = mac +".properties";
+            SmartDashboard.putString("test", ret);
+            
         }
         catch(Exception e)
         {
@@ -152,31 +136,36 @@ public class ControlReader {
         return ret;
     }
     
-    public String lookForFiles(String robo, Properties props){
+    public String lookForFiles(String filename){
         String ret = "we got nothing";
+        System.out.println("to look for file: ["+filename+"]");
         try{    
             //checks for a USB in the RoboRIO
-            String usb1 = "" + s + "media" + s + "sda1";
-            props.load(new FileInputStream(new File(usb1 + s + robo)));
-            SmartDashboard.putString("Files", "USB Files");
-            ret = "we got the usb";
+            rootUSBDir = s + "media" + s + "sda1";
+            prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
+            SmartDashboard.putString("Files", "USB 1 Files");
+            System.out.println ("found ["+rootUSBDir + s + filename+"]");
         }catch(Exception e){
             
-            try{   
-                //checks for driver files in the deploy directory
-                props.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                SmartDashboard.putString("Files", "Computer Files");
-                ret = "we got the files";
-            }catch(Exception f){
-
-                try{    //uses defaults in the deploy directory
-                    props.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                    SmartDashboard.putString("Files", "Default Files");
-                    ret = "we got the defaults";
-                }catch(Exception g){
-                    // do nothing
+            try{    
+                //checks for a USB in the RoboRIO
+                rootUSBDir = s + "media" + s + "sda2";
+                prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
+                SmartDashboard.putString("Files", "USB 2 Files");
+                System.out.println ("found ["+rootUSBDir + s + filename+"]");
+            }catch(Exception e2){
+                
+                try{   
+                    //checks for driver files in the deploy directory
+                    prop.load(new FileInputStream(new File(rootDeployDir + s + filename)));
+                    SmartDashboard.putString("Files", "Computer Files");
+                    System.out.println ("found ["+rootDeployDir + s + filename+"]");
+                }catch(Exception f){
+    
+                    System.err.println("unable to find file: ["+filename+"]");
                 }
             }
+            
         }
         return ret;
     }

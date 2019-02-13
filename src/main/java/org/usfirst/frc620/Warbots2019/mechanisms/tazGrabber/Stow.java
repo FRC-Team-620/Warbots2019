@@ -20,7 +20,7 @@ public class Stow extends Command {
     tazGrabber = Robot.tazGrabber;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(tazGrabber);
+    //requires(tazGrabber);
 
   }
 
