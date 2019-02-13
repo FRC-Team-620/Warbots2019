@@ -13,7 +13,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /**
  * Add your docs here.
  */
-public class PiUpdater 
+class PiUpdater implements Runnable
 {
     public PiUpdater()
     {
@@ -24,9 +24,13 @@ public class PiUpdater
         VerticalServoIn = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("veticalServoIn");
         HorizontalServoOut = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("horizontalServoOut");
         VerticalServoOut = NetworkTableInstance.getDefault().getTable("raspberryPiCommuncationsTable").getSubTable("trackerSteeringSubtable").getEntry("veticalServoOut");
+    }
 
+    public void run()
+    {
         update();
     }
+
     private void update()
     {
         while (true)
@@ -41,7 +45,7 @@ public class PiUpdater
             }
             VerticalServoOut.setDouble(VerticalServoIn.getDouble(0));
             HorizontalServoOut.setDouble(HorizontalServoIn.getDouble(0));
-            
+
             if (VisionInformationTransferClass.getWantToTrack() != OldWantToTrack) 
             {
                 WantToTrack.setBoolean(VisionInformationTransferClass.getWantToTrack());

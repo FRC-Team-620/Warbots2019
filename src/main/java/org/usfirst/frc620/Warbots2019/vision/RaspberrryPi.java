@@ -43,10 +43,8 @@ public class RaspberrryPi
         trackerOutputSubtable.getEntry("azimuth"); //what's the other thing? lineOfSightToWallAngle?
         trackerOutputSubtable.getEntry("isTargetVisible");
 
-        // new Thread(() ->
-        //         {
-        //             new PiUpdater();
-        //         }).Start();
+        Thread piUpdater = new Thread(new PiUpdater());
+        piUpdater.start();
     }
 
     public void updateBlingLights (BlingLightColorEnum color) // how to get whether robot is enabled?
