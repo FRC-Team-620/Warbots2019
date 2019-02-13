@@ -7,7 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
-import static org.junit.Assume.assumeTrue;
+// Don't assume everyone has JUNit installed!
+//import static org.junit.Assume.assumeTrue;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -36,14 +37,14 @@ public class PiUpdater
             {
                 
             }
-            if (!VisionInformationTransferClass.WantToTrack)
+            if (!VisionInformationTransferClass.getWantToTrack())
             {
                 //update will's system per his requirements
                 continue;
             }
-            Azimuth.setDouble(VisionInformationTransferClass.Azimuth);
-            Elevation.setDouble(VisionInformationTransferClass.Elevation);
-            WantToTrack.setBoolean(VisionInformationTransferClass.WantToTrack);
+            Azimuth.setDouble(VisionInformationTransferClass.getAzimuth());
+            Elevation.setDouble(VisionInformationTransferClass.getElevation());
+            WantToTrack.setBoolean(VisionInformationTransferClass.getWantToTrack());
         }
     }
     NetworkTableEntry Azimuth;
