@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic(){
-        
+    System.out.print("");
     }
     @Override
     public void disabledPeriodic() {
