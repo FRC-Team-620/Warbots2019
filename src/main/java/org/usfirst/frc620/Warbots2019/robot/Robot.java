@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
         driveTrain = new SparkDriveTrain(1, 2, 3, 4, Port.SPIMXP);
         cargoMech = new CargoMech(0, 4);
         
-        if(driverTrainClass != null )
+       /* if(driverTrainClass != null )
         {
             if(driverTrainClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain"))
             {
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
             }
        
     } 
-    
+    */
         //elevator = new TalonElevator(5);
         //compressor = new Compressor(6);
         
@@ -189,11 +189,10 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        if(cargoMech.hasCargo()){
-        cargoMech.stopCapture();
-        }  
+        
+
         GenericHID joystick = Robot.oi.getDriverController();
-        double cmspeed = joystick.getRawAxis(5);
+        double cmspeed = -joystick.getRawAxis(5);
         //System.out.print(cmspeed);
         intakeWheels.set(cmspeed);
         /*if(tazGrabber.hasGameObject())
