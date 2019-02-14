@@ -8,18 +8,10 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc620.Warbots2019.robot;
 
-import org.usfirst.frc620.Warbots2019.automation.DepositCargo;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Capture;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Close;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Deploy;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stop;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Stow;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.open;
+//import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -87,53 +79,43 @@ public class OI {
 
         driverController = new Joystick(0);
         
-         spinOutOfControlButton = new JoystickButton(driverController, 1);
-         spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
+         //spinOutOfControlButton = new JoystickButton(driverController, 1);
+         //spinOutOfControlButton.whileHeld(new DriveDistance(Robot.driveTrain, 1.0, 0.1));
 
          //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
         // A Button
-        aButton = new JoystickButton(driverController, 1);
-        if (drvAPressed != null)
-        {
-            if (drvAPressed.equals("DepositCargo"))
-            {
-                aButton.whenPressed(new DepositCargo());
-                System.out.println(" got dep cargo!");
-            }
-            else
-            {
-                aButton.whenPressed(new open());
-            }
-        }
+        //aButton = new JoystickButton(driverController, 1);
+        //aButton.whenPressed(new open());
+
         // B Button 
         bButton = new JoystickButton(driverController, 2);
-        bButton.whenPressed(new Close());
+        bButton.whenPressed(new StopCapture());
 
         // // X Button
         xButton = new JoystickButton(driverController, 3);
-        xButton.whenPressed(new Deploy());
+        xButton.whenPressed(new EjectCargo());
 
         // // Y Button
-        yButton = new JoystickButton(driverController, 4);
-        yButton.whenPressed(new Stow());
+       // yButton = new JoystickButton(driverController, 4);
+        //yButton.whenPressed(new Stow());
 
          // Right Bumper (rb)
-        rbButton = new JoystickButton(driverController, 5);
-        rbButton.whenPressed(new Capture());
+        //rbButton = new JoystickButton(driverController, 5);
+        //rbButton.whenPressed(new Capture());
 
         // // Left Bumper (lb)
-        lbButton = new JoystickButton(driverController, 6);
-        lbButton.whenPressed(new Eject());
+        //lbButton = new JoystickButton(driverController, 6);
+        //lbButton.whenPressed(new Eject());
 
         // // Back Button
-        backButton = new JoystickButton(driverController, 7);
-        backButton.whenPressed(new Stop());
+        //backButton = new JoystickButton(driverController, 7);
+        //backButton.whenPressed(new Stop());
 
         // // Start Button
-        // startButton = new JoystickButton(driverController, 8);
-        // startButton.whenPressed(new stopIfHas());
+        startButton = new JoystickButton(driverController, 1);
+        startButton.whenPressed(new CaptureCargo());
 
 
         //coDriver buttons

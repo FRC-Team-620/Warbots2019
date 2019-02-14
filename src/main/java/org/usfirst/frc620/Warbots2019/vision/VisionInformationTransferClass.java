@@ -14,7 +14,7 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
  */
 class VisionInformationTransferClass 
 {
-    public static void SteerTracker (Angle azimuth, Angle elevation)
+    public synchronized static void SteerTracker (Angle azimuth, Angle elevation)
     {
         Boolean wantToTrackTemp = WantToTrack;
         WantToTrack = false;
@@ -23,22 +23,22 @@ class VisionInformationTransferClass
         WantToTrack = wantToTrackTemp;
     }
 
-    public static void setWantToTrack (boolean wantToTrack)
+    public synchronized static void setWantToTrack (boolean wantToTrack)
     {
         WantToTrack = wantToTrack;
     }
 
-    public static boolean getWantToTrack ()
+    public synchronized static boolean getWantToTrack ()
     {
         return WantToTrack;
     }
 
-    public static double getAzimuth ()
+    public synchronized static double getAzimuth ()
     {
         return Azimuth;
     }
 
-    public static double getElevation ()
+    public synchronized static double getElevation ()
     {
         return Elevation;
     }
