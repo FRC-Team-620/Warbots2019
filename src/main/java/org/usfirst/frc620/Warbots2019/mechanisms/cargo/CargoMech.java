@@ -36,7 +36,6 @@ public class CargoMech extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new CaptureCargo());
     System.out.print("Working");
   }
 
@@ -45,14 +44,14 @@ public class CargoMech extends Subsystem {
   }
 
   public boolean hasCargo() {
-    return !limitSwitch.get();
+    return limitSwitch.get();
   }
 
   public void captureCargo() {
-    GenericHID joystick = Robot.oi.getDriverController();
-    double speed = joystick.getRawAxis(5);
-    System.out.print(speed);
-    intakeWheels.set(speed);
+    //GenericHID joystick = Robot.oi.getDriverController();
+    //double speed = joystick.getRawAxis(5);
+    //System.out.print(speed);
+    intakeWheels.set(-0.5);
   }
 
   public void stopCapture() {
@@ -60,7 +59,7 @@ public class CargoMech extends Subsystem {
   }
 
   public void ejectCargo() {
-    intakeWheels.set(-1);
+    intakeWheels.set(0.5);
   }
 
   public void deployMech() {
