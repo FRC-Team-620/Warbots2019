@@ -23,6 +23,7 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
   public ScissorLift(int talonCanID)
   {
     talon = new WPI_TalonSRX(talonCanID);
+    talon.configFactoryDefault();
   }
 
   @Override

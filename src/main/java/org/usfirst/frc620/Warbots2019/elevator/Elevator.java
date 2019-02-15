@@ -17,6 +17,10 @@ public abstract class Elevator extends Subsystem
 
     public abstract double getHeight();
 
+    public abstract boolean isAtTop();
+
+    public abstract boolean isAtBottom();
+
     @Override
     public void initDefaultCommand() 
     {
