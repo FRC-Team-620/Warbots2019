@@ -23,6 +23,11 @@ public class ControlReader {
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
 
+    /**
+     * Constructor method
+     * Helps programs look for and read the .properties config files
+     * @return
+     */
     public ControlReader(){
 
         prop = new Properties();
@@ -32,8 +37,18 @@ public class ControlReader {
         
         String robotFileName = getRobotType();
         lookForFiles(robotFileName);
-        lookForFiles("driver.properties");
-        lookForFiles("scorer.properties");
+        String name = this.getNamedValue("name");
+        if(name == null)
+        {
+            System.err.println("Config missing name property");
+        }
+        else
+        {
+            System.out.println("Name of robot is" + name);
+            lookForFiles(name + ".driver.properties");
+            lookForFiles(name + ".scorer.properties");      
+        }
+        
     }
 
     /**
@@ -69,7 +84,11 @@ public class ControlReader {
         return ret;
     }
 
-    //returns int from files, -1 if invalid
+    /**
+     * returns int from files, -1 if invalid
+     * @param string
+     * @return
+     */
     public int getMappedInt(String string){
         int i;
         String v = getNamedValue(string);
@@ -90,7 +109,11 @@ public class ControlReader {
 
     //returns String from variables (no boolean field)
 
-    //returns double from files, -1.0 if invalid
+    /**
+     * returns double from files, -1.0 if invalid
+     * @param string
+     * @return
+     */
     public double getMappedDouble(String string){
         double d;
         String v = getNamedValue(string);
@@ -107,7 +130,10 @@ public class ControlReader {
 
         prop.list(System.out);
     }
-
+    /**
+     * Returns the robot type in a String ret
+     * @return
+     */
     public String getRobotType(){
         String ret = null;
         try{
@@ -135,7 +161,12 @@ public class ControlReader {
         }
         return ret;
     }
-    
+    /**
+     * Looks for the .properties files based off a given filename
+     * @param filename
+     * @return
+     */
+
     public String lookForFiles(String filename){
         String ret = "we got nothing";
         System.out.println("to look for file: ["+filename+"]");
