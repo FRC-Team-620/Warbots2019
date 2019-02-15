@@ -47,16 +47,19 @@ public class CargoMech extends Subsystem {
     return limitSwitch.get();
   }
 
-  public void captureCargo() {
-    intakeWheels.set(-0.5);
+  public void captureCargo(double cmspeed) {
+    intakeWheels.set(cmspeed);
+    cmspeed = 0;
   }
 
-  public void stopCapture() {
-    intakeWheels.set(0);
+  public void stopCapture(double cmspeed) {
+    intakeWheels.set(cmspeed);
+    cmspeed = 0;
   }
 
-  public void ejectCargo() {
-    intakeWheels.set(0.5);
+  public void ejectCargo(double cmspeed) {
+    intakeWheels.set(-cmspeed);
+    cmspeed = 0;
   }
 
   public void deployMech() {

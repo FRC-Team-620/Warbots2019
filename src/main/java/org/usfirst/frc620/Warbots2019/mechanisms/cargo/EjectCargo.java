@@ -30,8 +30,8 @@ public class EjectCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  //if(cargoMech.hasCargo()){
-  cargoMech.ejectCargo();
+  
+  cargoMech.ejectCargo(-0.5);
 }
   //if(cargoMech)
 
