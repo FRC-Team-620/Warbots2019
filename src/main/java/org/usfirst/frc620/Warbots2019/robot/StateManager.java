@@ -23,7 +23,9 @@ public class StateManager extends SendableBase
 
     //Enumeration
     public enum StateKey{
-        X_POSITION, Y_POSITION, ELEVATOR_HEIGHT, FIELD_ANGLE
+        X_POSITION, Y_POSITION, ELEVATOR_HEIGHT, FIELD_ANGLE, 
+        COMMANDED_DRIVEDISTANCE,    //distance for drivestraight command
+        COMMANDED_TURNANGLE         //angle for turnAngle
     }
     //Singleton design pattern
     //synchronized makes it work when different things try to access it at the same time
