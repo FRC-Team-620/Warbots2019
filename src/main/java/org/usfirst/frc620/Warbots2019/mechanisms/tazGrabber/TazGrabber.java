@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
@@ -17,7 +19,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class TazGrabber extends Subsystem {
+public class TazGrabber extends ScoringMechanism {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -156,5 +158,15 @@ public class TazGrabber extends Subsystem {
   public void deploy()
   {
     wristPiston.set(true);
+  }
+
+  @Override
+  public boolean isDeployed() {
+    return wristPiston.get();
+  }
+
+  @Override
+  public boolean isStowed() {
+    return !wristPiston.get();
   }
 }

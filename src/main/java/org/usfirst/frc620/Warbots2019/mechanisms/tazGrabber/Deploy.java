@@ -17,7 +17,7 @@ public class Deploy extends Command {
 
   public Deploy() {
 
-    tazGrabber = Robot.tazGrabber;
+    tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     //requires(tazGrabber);

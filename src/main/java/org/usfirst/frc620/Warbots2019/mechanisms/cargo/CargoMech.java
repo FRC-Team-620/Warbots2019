@@ -7,22 +7,20 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-import edu.wpi.first.wpilibj.GenericHID;
+import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class CargoMech extends Subsystem {
+public class CargoMech extends ScoringMechanism {
 
   private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
-  private CargoMech cargoMech;
 
   public CargoMech(int mainMotorPort, int limitSwitchPort) {
 
@@ -40,7 +38,7 @@ public class CargoMech extends Subsystem {
   }
 
   public void idle() {
-    cargoMech.stowMech();
+    stow();
   }
 
   public boolean hasCargo() {
@@ -59,11 +57,26 @@ public class CargoMech extends Subsystem {
     intakeWheels.set(0.5);
   }
 
-  public void deployMech() {
+  public void deploy() {
     // mainPiston.set(true);
   }
 
-  public void stowMech() {
+  public void stow() {
     // mainPiston.set(false);
+  }
+
+  @Override
+  public void stop() {
+    stopCapture();
+  }
+
+  @Override
+  public boolean isDeployed() {
+    return true;
+  }
+
+  @Override
+  public boolean isStowed() {
+    return false;
   }
 }
