@@ -32,7 +32,6 @@ public class EjectCargo extends Command {
   protected void execute() {
   //if(cargoMech.hasCargo()){
   cargoMech.ejectCargo();
-  //}
 }
   //if(cargoMech)
 
