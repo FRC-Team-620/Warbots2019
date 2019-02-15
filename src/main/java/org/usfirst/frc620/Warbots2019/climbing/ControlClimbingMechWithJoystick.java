@@ -20,6 +20,10 @@ public class ControlClimbingMechWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    System.out.println("Raised: " + scissorLift.isRaised());
+    System.out.println("Lowered: " + scissorLift.isLowered());
+
     double speed = joystick.getRawAxis(4);
     if (Math.abs(speed) < 0.1)
       speed = 0;
