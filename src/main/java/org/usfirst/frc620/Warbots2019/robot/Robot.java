@@ -22,6 +22,8 @@ import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
+import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
+import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
@@ -85,6 +87,14 @@ public class Robot extends TimedRobot {
             }
         }
 
+        String compressorOption = config.getMappedString("Compressor");
+        if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
+        {
+            compressor = new Compressor(6);
+            compressor.setClosedLoopControl(true);
+            compressor.start();
+        }
+
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
         if (ScoringMechanism != null) {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber")) {
@@ -99,11 +109,18 @@ public class Robot extends TimedRobot {
             // tazGrabber = new TazGrabber(5,6,5,7,4,2,0,3,1);
         }
 
-        // elevator = new TalonElevator(5);
-        // compressor = new Compressor(6);
-
-        // compressor.setClosedLoopControl(true);
-        // compressor.start();
+        String elevatorClass = config.getMappedString("Elevator");
+        if (elevatorClass != null)
+        {
+            if (elevatorClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator"))
+                elevator = new TwoTalonElevator(5, 6);
+            else if (elevatorClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.elevator.TalonElevator"))
+                elevator = new TalonElevator(5);
+        }
+        else
+        {
+            System.err.println("no elevator specified");
+        }
 
         String climbingMechanismClass = config.getMappedString("ClimbingMechanism");
         if (climbingMechanismClass != null) {
