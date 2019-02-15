@@ -26,7 +26,6 @@ public class ControlReader {
     /**
      * Constructor method
      * Helps programs look for and read the .properties config files
-     * @return
      */
     public ControlReader(){
 
@@ -54,7 +53,7 @@ public class ControlReader {
     /**
      * Internal Utility for seeing if a string value exists from any of the containers
      * @param str
-     * @return
+     * @return ret
      */
     private boolean hasName(String str)
     {
@@ -69,7 +68,7 @@ public class ControlReader {
     /**
      * Internal Utility for getting a string value from any of the containers
      * @param str
-     * @return
+     * @return ret
      */
     private String getNamedValue(String str)
     {
@@ -87,7 +86,7 @@ public class ControlReader {
     /**
      * returns int from files, -1 if invalid
      * @param string
-     * @return
+     * @return i
      */
     public int getMappedInt(String string){
         int i;
@@ -101,7 +100,11 @@ public class ControlReader {
         return i;
     }
 
-    //returns String from files, 'invalid file' if invalid
+    /**
+     * Returns the named value string in a file
+     * @param string
+     * @return ret
+     */
     public String getMappedString(String string){
         String ret = getNamedValue(string);
         return ret;
@@ -112,7 +115,7 @@ public class ControlReader {
     /**
      * returns double from files, -1.0 if invalid
      * @param string
-     * @return
+     * @return 
      */
     public double getMappedDouble(String string){
         double d;
@@ -132,7 +135,7 @@ public class ControlReader {
     }
     /**
      * Returns the robot type in a String ret
-     * @return
+     * @return 
      */
     public String getRobotType(){
         String ret = null;
@@ -164,9 +167,8 @@ public class ControlReader {
     /**
      * Looks for the .properties files based off a given filename
      * @param filename
-     * @return
+     * @return the completion status of the operation
      */
-
     public String lookForFiles(String filename){
         String ret = "we got nothing";
         System.out.println("to look for file: ["+filename+"]");
