@@ -24,6 +24,7 @@ public class CargoMech extends Subsystem {
   private DigitalInput limitSwitch;
   private CargoMech cargoMech;
 
+  // for TestBot
   public CargoMech(int mainMotorPort, int limitSwitchPort) {
 
     SpeedController mainWheels = new Spark(mainMotorPort);
@@ -31,6 +32,16 @@ public class CargoMech extends Subsystem {
     limitSwitch = new DigitalInput(limitSwitchPort);
     intakeWheels = new SpeedControllerGroup(mainWheels);
   }
+
+  /*for this years robot
+  public CargoMech(int mainMotorPort, int limitSwitchPort int mainPistonPort ) {
+
+    SpeedController mainWheels = new Spark(mainMotorPort);
+
+    limitSwitch = new DigitalInput(limitSwitchPort);
+    intakeWheels = new SpeedControllerGroup(mainWheels);
+  }
+  */
 
   @Override
   public void initDefaultCommand() {

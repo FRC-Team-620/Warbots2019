@@ -12,11 +12,11 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class StowMech extends Command {
+public class StowMechCommand extends Command {
 
   private CargoMech cargoMech;
 
-  public StowMech() {
+  public StowMechCommand() {
     cargoMech = Robot.cargoMech;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);

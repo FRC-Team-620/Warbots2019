@@ -12,11 +12,11 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 //This command will most likely not be used.
-public class StopCapture extends Command {
+public class StopCaptureCommand extends Command {
 
   private CargoMech cargoMech;
 
-  public StopCapture() {
+  public StopCaptureCommand() {
     cargoMech = Robot.cargoMech;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
