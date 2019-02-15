@@ -23,15 +23,32 @@ public class ControlReader {
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
 
+    /**
+     * Constructor method
+     * Helps programs look for and read the .properties config files
+     * @return
+     */
     public ControlReader(){
 
         prop = new Properties();
         s = File.separator;
         rootDeployDir = "" + Filesystem.getDeployDirectory();
-        rootUSBDir = s + "media" + s + "sda1";
+        
         
         String robotFileName = getRobotType();
         lookForFiles(robotFileName);
+        String name = this.getNamedValue("name");
+        if(name == null)
+        {
+            System.err.println("Config missing name property");
+        }
+        else
+        {
+            System.out.println("Name of robot is" + name);
+            lookForFiles(name + ".driver.properties");
+            lookForFiles(name + ".scorer.properties");      
+        }
+        
     }
 
     /**
@@ -67,7 +84,11 @@ public class ControlReader {
         return ret;
     }
 
-    //returns int from files, -1 if invalid
+    /**
+     * returns int from files, -1 if invalid
+     * @param string
+     * @return
+     */
     public int getMappedInt(String string){
         int i;
         String v = getNamedValue(string);
@@ -88,7 +109,11 @@ public class ControlReader {
 
     //returns String from variables (no boolean field)
 
-    //returns double from files, -1.0 if invalid
+    /**
+     * returns double from files, -1.0 if invalid
+     * @param string
+     * @return
+     */
     public double getMappedDouble(String string){
         double d;
         String v = getNamedValue(string);
@@ -105,12 +130,16 @@ public class ControlReader {
 
         prop.list(System.out);
     }
-
+    /**
+     * Returns the robot type in a String ret
+     * @return
+     */
     public String getRobotType(){
         String ret = null;
         try{
             System.out.println("it prints from the method");
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("10.6.20.2"));
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
+            
             byte[] address = net.getHardwareAddress(); //MAC Address
             StringBuilder sb = new StringBuilder();
             for(byte b : address) {
@@ -122,7 +151,7 @@ public class ControlReader {
 
             // look for file named after MAC address
             String mac = ad.strip(); 
-            ret = rootDeployDir + mac +".properties";
+            ret = mac +".properties";
             SmartDashboard.putString("test", ret);
             
         }
@@ -132,37 +161,42 @@ public class ControlReader {
         }
         return ret;
     }
-    
-    public String lookForFiles(String robo){
+    /**
+     * Looks for the .properties files based off a given filename
+     * @param filename
+     * @return
+     */
+
+    public String lookForFiles(String filename){
         String ret = "we got nothing";
+        System.out.println("to look for file: ["+filename+"]");
         try{    
             //checks for a USB in the RoboRIO
-            prop.load(new FileInputStream(new File(rootUSBDir + s + robo)));
-            prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-            prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
-            SmartDashboard.putString("Files", "USB Files");
-            ret = "we got the usb";
+            rootUSBDir = s + "media" + s + "sda1";
+            prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
+            SmartDashboard.putString("Files", "USB 1 Files");
+            System.out.println ("found ["+rootUSBDir + s + filename+"]");
         }catch(Exception e){
             
-            try{   
-                //checks for driver files in the deploy directory
-                prop.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-                prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
-                SmartDashboard.putString("Files", "Computer Files");
-                ret = "we got the files";
-            }catch(Exception f){
-
-                try{    //uses defaults in the deploy directory
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + robo)));
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + "driver.properties")));
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + "scorer.properties")));
-                    SmartDashboard.putString("Files", "Default Files");
-                    ret = "we got the defaults";
-                }catch(Exception g){
-                    // do nothing
+            try{    
+                //checks for a USB in the RoboRIO
+                rootUSBDir = s + "media" + s + "sda2";
+                prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
+                SmartDashboard.putString("Files", "USB 2 Files");
+                System.out.println ("found ["+rootUSBDir + s + filename+"]");
+            }catch(Exception e2){
+                
+                try{   
+                    //checks for driver files in the deploy directory
+                    prop.load(new FileInputStream(new File(rootDeployDir + s + filename)));
+                    SmartDashboard.putString("Files", "Computer Files");
+                    System.out.println ("found ["+rootDeployDir + s + filename+"]");
+                }catch(Exception f){
+    
+                    System.err.println("unable to find file: ["+filename+"]");
                 }
             }
+            
         }
         return ret;
     }
