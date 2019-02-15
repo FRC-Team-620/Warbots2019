@@ -87,15 +87,15 @@ public class OI {
 
         // A Button
         aButton = new JoystickButton(driverController, 1);
-        aButton.whileHeld(new CaptureCargo());
+        aButton.whileHeld(new CaptureCargoCommand());
 
         // B Button 
         bButton = new JoystickButton(driverController, 2);
-        bButton.whileHeld(new StopCapture());
+        bButton.whileHeld(new StopCaptureCommand());
 
         // // X Button
         xButton = new JoystickButton(driverController, 3);
-        xButton.whileHeld(new EjectCargo());
+        xButton.whileHeld(new EjectCargoCommand());
 
         // // Y Button
         //yButton = new JoystickButton(driverController, 4);
