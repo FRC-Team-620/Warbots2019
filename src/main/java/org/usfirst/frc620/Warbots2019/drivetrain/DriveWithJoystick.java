@@ -57,8 +57,6 @@ public class DriveWithJoystick extends Command {
         GenericHID joystick = Robot.oi.driverController;
         double y_value = joystick.getRawAxis(1);
         double x_value = -joystick.getRawAxis(0);
-
-        Robot.driveTrain.drive(y_value, x_value);
         double angle = Math.atan2(y_value, x_value);
 
         // System.out.println("The x is " + x_value + " the y is " + y_value);
@@ -66,7 +64,7 @@ public class DriveWithJoystick extends Command {
         // System.out.println("The straight is " + (-Math.PI/2 - straightDZ));
         
         //CenterDeadzone
-        /*if (isInCenterDeadzone(x_value, y_value)){
+        if (isInCenterDeadzone(x_value, y_value)){
             //Doesn't moves, x and y value are zero
             //System.out.println("Is in CENTERDZ");
             Robot.driveTrain.drive(0, 0);
@@ -83,7 +81,6 @@ public class DriveWithJoystick extends Command {
         else{
             Robot.driveTrain.drive(y_value, x_value);
         }
-        */
     }
     
 
