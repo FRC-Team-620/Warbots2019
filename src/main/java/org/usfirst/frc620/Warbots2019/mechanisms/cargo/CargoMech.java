@@ -48,9 +48,6 @@ public class CargoMech extends Subsystem {
   }
 
   public void captureCargo() {
-    //GenericHID joystick = Robot.oi.getDriverController();
-    //double speed = joystick.getRawAxis(5);
-    //System.out.print(speed);
     intakeWheels.set(-0.5);
   }
 
