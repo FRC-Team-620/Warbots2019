@@ -170,7 +170,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Angle a = new Angle(1.5);
-        Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5));
+        Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5)); //test change to TurnAngle 180
     }
 
     /**
