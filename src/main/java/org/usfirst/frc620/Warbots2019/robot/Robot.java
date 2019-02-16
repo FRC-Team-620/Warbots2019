@@ -26,11 +26,13 @@ import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -84,7 +86,7 @@ public class Robot extends TimedRobot {
             } else if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) {
 
-                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
             } else {
                 System.err.println("no drive train specified");
             }
@@ -104,6 +106,8 @@ public class Robot extends TimedRobot {
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
                 scoringMechanism = new CargoMech(0, 4);
+            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
+                scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
             System.err.println("no scoring mech specified");
             // We will have to get the correct inputs for Cargo mech, just guessing.

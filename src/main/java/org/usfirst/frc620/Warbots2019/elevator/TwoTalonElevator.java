@@ -32,7 +32,7 @@ public class TwoTalonElevator extends Elevator {
 
         WPI_TalonSRX slave = new WPI_TalonSRX(slaveCanID);
         slave.configFactoryDefault();
-        slave.follow(talon);
+        // slave.follow(talon);
     }
 
     @Override
