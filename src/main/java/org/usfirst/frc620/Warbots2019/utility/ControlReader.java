@@ -115,6 +115,10 @@ public class ControlReader {
         {
             System.out.print("has name? "+hasName(str));    
         }
+        if (ret != null)
+        {
+            ret = ret.trim();
+        }
         return ret;
     }
 
@@ -165,6 +169,7 @@ public class ControlReader {
     public String getMappedString(String string)
     {
         String ret = getNamedValue(string);
+        
         return ret;
     }
 

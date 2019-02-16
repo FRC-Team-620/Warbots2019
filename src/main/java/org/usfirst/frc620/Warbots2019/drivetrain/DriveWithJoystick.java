@@ -52,12 +52,11 @@ public class DriveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
-        GenericHID joystick = Robot.oi.driverController;
-        double y_value = joystick.getRawAxis(1);
-        double x_value = -joystick.getRawAxis(0);
+    protected void execute() 
+    {
+        double y_value = Robot.oi.getRobotSpeed();
+        double x_value = Robot.oi.getRobotRotationRate();
         double angle = Math.atan2(y_value, x_value);
-
         // System.out.println("The x is " + x_value + " the y is " + y_value);
         // System.out.println("The angle is " + angle);
         // System.out.println("The straight is " + (-Math.PI/2 - straightDZ));
