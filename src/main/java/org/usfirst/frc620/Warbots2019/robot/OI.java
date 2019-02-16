@@ -183,11 +183,11 @@ public class OI {
          //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
-        aButton = new JoystickButton(driverController, 1);
-        aButton.whenPressed(new DeployScoringMechanismCommand());
+        // aButton = new JoystickButton(driverController, 1);
+        // aButton.whenPressed(new DeployScoringMechanismCommand());
 
-        bButton = new JoystickButton(driverController, 2);
-        bButton.whenPressed(new StowScoringMechanismCommand());
+        // bButton = new JoystickButton(driverController, 2);
+        // bButton.whenPressed(new StowScoringMechanismCommand());
         // A Button
         // aButton = new JoystickButton(driverController, 1);
         // aButton.whileHeld(new CaptureCargoCommand());

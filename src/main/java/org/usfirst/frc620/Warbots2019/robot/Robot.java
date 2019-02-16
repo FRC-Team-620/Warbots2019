@@ -33,6 +33,7 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -138,6 +139,10 @@ public class Robot extends TimedRobot {
         } else {
             System.err.println("no climbing mechanism specified");
         }
+
+        int numberOfCameras = config.getMappedInt("NumberOfCameras");
+        for (int i = 0; i < numberOfCameras; ++i)
+            CameraServer.getInstance().startAutomaticCapture(i);
 
         oi = new OI(config);
     }
