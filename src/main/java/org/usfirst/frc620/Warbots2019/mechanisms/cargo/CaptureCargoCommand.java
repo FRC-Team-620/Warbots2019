@@ -30,7 +30,7 @@ public class CaptureCargoCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    System.out.println("Capture");
     cargoMech.captureCargo(-0.7);
   }
 

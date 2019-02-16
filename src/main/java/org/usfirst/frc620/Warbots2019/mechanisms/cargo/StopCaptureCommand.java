@@ -11,7 +11,6 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-//This command will most likely not be used.
 public class StopCaptureCommand extends Command {
 
   private CargoMech cargoMech;
@@ -31,6 +30,7 @@ public class StopCaptureCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println("Stop");
   cargoMech.stopCapture(0);
   }
 
