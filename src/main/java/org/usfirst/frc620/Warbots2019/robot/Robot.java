@@ -19,7 +19,6 @@ import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
@@ -32,8 +31,6 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
