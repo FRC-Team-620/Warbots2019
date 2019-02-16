@@ -28,18 +28,20 @@ public class CargoMech extends Subsystem {
 
     SpeedController mainWheels = new Spark(mainMotorPort);
 
+    // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
     limitSwitch = new DigitalInput(limitSwitchPort);
     intakeWheels = new SpeedControllerGroup(mainWheels);
   }
 
   //for this years robot
-  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort, int PCMCanID ) {
+  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort /* or a motor port */, int PCMCanID ) {
 
     SpeedController mainWheels = new Spark(mainMotorPort);
     
-
+    // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
     limitSwitch = new DigitalInput(limitSwitchPort);
     intakeWheels = new SpeedControllerGroup(mainWheels);
+    //I don't know if we're using a piston or motor to deploy and stow CargoMech
     mainPiston = new Solenoid(PCMCanID, mainPistonPort);
   }
   
@@ -61,17 +63,14 @@ public class CargoMech extends Subsystem {
 
   public void captureCargo(double cmspeed) {
     intakeWheels.set(cmspeed);
-    cmspeed = 0;
   }
 
   public void stopCapture(double cmspeed) {
     intakeWheels.set(cmspeed);
-    cmspeed = 0;
   }
 
   public void ejectCargo(double cmspeed) {
     intakeWheels.set(-cmspeed);
-    cmspeed = 0;
   }
 
   public void deployMech() {
