@@ -20,6 +20,7 @@ import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
+import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
@@ -84,7 +85,7 @@ public class Robot extends TimedRobot {
             } else if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) {
 
-                // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
             } else {
                 System.err.println("no drive train specified");
             }
