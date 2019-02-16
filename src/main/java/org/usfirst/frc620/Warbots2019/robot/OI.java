@@ -13,8 +13,10 @@ package org.usfirst.frc620.Warbots2019.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.DeployScoringMechanismCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.StowScoringMechanismCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CaptureCargoCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.EjectCargoCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.StopCaptureCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -188,29 +190,22 @@ public class OI {
 
         // bButton = new JoystickButton(driverController, 2);
         // bButton.whenPressed(new StowScoringMechanismCommand());
+        
         // A Button
-        // aButton = new JoystickButton(driverController, 1);
-        // aButton.whileHeld(new CaptureCargoCommand());
+        aButton = new JoystickButton(driverController, 1);
+        aButton.whileHeld(new CaptureCargoCommand());
 
         // B Button 
-        // bButton = new JoystickButton(driverController, 2);
-        // bButton.whileHeld(new StopCaptureCommand());
+        bButton = new JoystickButton(driverController, 2);
+        bButton.whileHeld(new StopCaptureCommand());
 
-        // // X Button
-        // xButton = new JoystickButton(driverController, 3);
-        // xButton.whileHeld(new EjectCargoCommand());
-
-        // // Y Button
-        //yButton = new JoystickButton(driverController, 4);
-        //yButton.whenPressed(new ControlCargo());
-
-         // Right Bumper (rb)
-        //rbButton = new JoystickButton(driverController, 5);
-        //rbButton.whenPressed(new Capture());
+        // X Button
+        xButton = new JoystickButton(driverController, 3);
+        xButton.whileHeld(new EjectCargoCommand());
 
         // // Left Bumper (lb)
-        //lbButton = new JoystickButton(driverController, 6);
-        //lbButton.whenPressed(new Eject());
+        // lbButton = new JoystickButton(driverController, 6);
+        // lbButton.whenPressed(new Eject());
 
         // // Back Button
         //backButton = new JoystickButton(driverController, 7);

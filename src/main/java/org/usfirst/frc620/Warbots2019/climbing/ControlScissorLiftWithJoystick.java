@@ -12,22 +12,22 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ControlClimbingMechWithJoystick extends Command {
+public class ControlScissorLiftWithJoystick extends Command {
 
   Joystick joystick = Robot.oi.driverController;
   ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
 
+  public ControlScissorLiftWithJoystick()
+  {
+    requires(scissorLift);
+  }
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    System.out.println("Raised: " + scissorLift.isRaised());
-    System.out.println("Lowered: " + scissorLift.isLowered());
-
     double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
     if (Math.abs(speed) < 0.1)
       speed = 0;
-    System.out.println("driving scissorlift " + speed);
     scissorLift.drive(speed);
   }
 

@@ -31,11 +31,11 @@ public class CaptureCargo extends Command {
   @Override
   protected void execute() {
     System.out.println(cargoMech.hasCargo());
-    if(!cargoMech.hasCargo()){
-    cargoMech.captureCargo(-0.7);
+    if (!cargoMech.hasCargo()) {
+      cargoMech.captureCargo(-0.7);
     }
-    if(cargoMech.hasCargo()){
-    cargoMech.stopCapture(0);
+    if (cargoMech.hasCargo()) {
+      cargoMech.stopCapture();
     }
   }
 

@@ -29,8 +29,7 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ControlScissorLiftWithJoystick());
   }
 
   @Override

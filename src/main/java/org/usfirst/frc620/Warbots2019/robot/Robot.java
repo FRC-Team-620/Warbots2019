@@ -26,12 +26,13 @@ import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.SparkCargoMech;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
+import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -109,8 +110,10 @@ public class Robot extends TimedRobot {
         if (ScoringMechanism != null) {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
-            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
-                scoringMechanism = new CargoMech(0, 4);
+            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.SparkCargoMech"))
+                scoringMechanism = new SparkCargoMech(0, 4);
+            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech"))
+                scoringMechanism = new TalonCargoMech(9);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
@@ -158,7 +161,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        System.out.print("");
 
     }
 

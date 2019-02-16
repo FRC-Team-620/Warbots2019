@@ -31,9 +31,9 @@ public class EjectCargoCommand extends Command {
   @Override
   protected void execute() {
     System.out.println("Eject");
-  cargoMech.ejectCargo(-1);
-}
-  //if(cargoMech)
+    cargoMech.ejectCargo(-1);
+  }
+  // if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
