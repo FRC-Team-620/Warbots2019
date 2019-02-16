@@ -22,6 +22,7 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
 
   public ScissorLift(int talonCanID)
   {
+    System.out.println("loaded scissor lift");
     talon = new WPI_TalonSRX(talonCanID);
     talon.configFactoryDefault();
   }

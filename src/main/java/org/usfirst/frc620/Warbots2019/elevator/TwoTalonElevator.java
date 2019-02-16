@@ -12,6 +12,7 @@
 package org.usfirst.frc620.Warbots2019.elevator;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -26,13 +27,14 @@ public class TwoTalonElevator extends Elevator {
 
     public TwoTalonElevator(int masterCanID, int slaveCanID) 
     {
+        System.out.println("Loaded two talon elevator");
         talon = new WPI_TalonSRX(masterCanID);
         talon.configFactoryDefault();
         talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
         WPI_TalonSRX slave = new WPI_TalonSRX(slaveCanID);
         slave.configFactoryDefault();
-        // slave.follow(talon);
+        slave.follow(talon);
     }
 
     @Override

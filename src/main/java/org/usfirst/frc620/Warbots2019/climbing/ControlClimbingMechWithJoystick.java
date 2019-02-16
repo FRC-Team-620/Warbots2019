@@ -24,9 +24,10 @@ public class ControlClimbingMechWithJoystick extends Command {
     System.out.println("Raised: " + scissorLift.isRaised());
     System.out.println("Lowered: " + scissorLift.isLowered());
 
-    double speed = joystick.getRawAxis(4);
+    double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
     if (Math.abs(speed) < 0.1)
       speed = 0;
+    System.out.println("driving scissorlift " + speed);
     scissorLift.drive(speed);
   }
 

@@ -10,9 +10,8 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
-//import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
-import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.mechanisms.DeployScoringMechanismCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.StowScoringMechanismCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -85,17 +84,22 @@ public class OI {
          //NEED TO CHECK IF THE BUTTON NUMBER IS RIGHT, I ASSUME THAT BUTTON X IS NUMBER 13?
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
-        // A Button
         aButton = new JoystickButton(driverController, 1);
-        aButton.whileHeld(new CaptureCargoCommand());
+        aButton.whenPressed(new DeployScoringMechanismCommand());
+
+        bButton = new JoystickButton(driverController, 2);
+        bButton.whenPressed(new StowScoringMechanismCommand());
+        // A Button
+        // aButton = new JoystickButton(driverController, 1);
+        // aButton.whileHeld(new CaptureCargoCommand());
 
         // B Button 
-        bButton = new JoystickButton(driverController, 2);
-        bButton.whileHeld(new StopCaptureCommand());
+        // bButton = new JoystickButton(driverController, 2);
+        // bButton.whileHeld(new StopCaptureCommand());
 
         // // X Button
-        xButton = new JoystickButton(driverController, 3);
-        xButton.whileHeld(new EjectCargoCommand());
+        // xButton = new JoystickButton(driverController, 3);
+        // xButton.whileHeld(new EjectCargoCommand());
 
         // // Y Button
         //yButton = new JoystickButton(driverController, 4);

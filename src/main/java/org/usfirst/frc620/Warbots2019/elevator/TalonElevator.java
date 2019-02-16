@@ -25,6 +25,7 @@ public class TalonElevator extends Elevator {
 
     public TalonElevator(int canID) 
     {
+        System.out.println("Loaded talon elevator");
         talon = new WPI_TalonSRX(canID);
         talon.configFactoryDefault();
     }
