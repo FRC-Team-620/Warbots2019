@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.*;
 import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,20 +24,52 @@ public class ControlReader {
 
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
-
+    ArrayList<String> searchPath;
+ 
     /**
      * Constructor method
      * Helps programs look for and read the .properties config files
      */
-    public ControlReader(){
+    public ControlReader()
+    {
 
         prop = new Properties();
+        
         s = File.separator;
         rootDeployDir = "" + Filesystem.getDeployDirectory();
-        
-        
+
         String robotFileName = getRobotType();
-        lookForFiles(robotFileName);
+
+        //
+        // Build list of search paths, in order of precedence.
+        // First look on USB stick, if not there, look in deploy
+        // directory, then we may be running on a developer's laptop
+        // in sim mode/Debug mode, so allow finding defaults in local
+        // Windows file system.
+        //
+        searchPath = new ArrayList<String>(Arrays.asList(
+            // USB memory stick
+            s + "media" + s + "sda1",
+            s + "media" + s + "sda2",
+            // Deploy location in the Linux RoboRIO OS
+            rootDeployDir,
+            // Local windows machine development environment.
+            "C:" + s + "Users" + s + "Public" + s + "frc2019" + s + "workspace" + s + 
+                "Warbots2019" + s + "src" + s + "main" + s + "deploy"));
+        
+        if (!lookForFiles(robotFileName))
+        {
+            System.err.println("Unable to locate MAC-based robot config ["+robotFileName+"]");
+            if (!lookForFiles("laptop_robot.properties"))
+            {
+                System.err.println("Unable to locate ANY robot properties");
+            }
+        }
+        
+        //
+        // The robot properties MUST contain a 'name' property so we can
+        // have user-readable file-names for the default driver/scorer properties.
+        //
         String name = this.getNamedValue("name");
         if(name == null)
         {
@@ -77,8 +111,9 @@ public class ControlReader {
         {
             ret = prop.getProperty(str);
         }
-        if(hasName("")){
-        System.out.print(hasName(""));    
+        if(hasName(str))
+        {
+            System.out.print("has name? "+hasName(str));    
         }
         return ret;
     }
@@ -88,24 +123,47 @@ public class ControlReader {
      * @param string
      * @return i
      */
-    public int getMappedInt(String string){
+    public int getMappedInt(String string)
+    {
         int i;
         String v = getNamedValue(string);
         try
         {
             i = Integer.parseInt(v);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             i = -1;
         }
         return i;
     }
 
     /**
+     * returns int from files, -1 if invalid
+     * @param string
+     * @return i
+     */
+    public boolean getMappedBoolean(String string)
+    {
+        boolean i = false;
+        String v = getNamedValue(string);
+        try
+        {
+            i = Boolean.parseBoolean(v);
+        } 
+        catch (Exception e) 
+        {
+        }
+        return i;
+    }
+    
+    /**
      * Returns the named value string in a file
      * @param string
      * @return ret
      */
-    public String getMappedString(String string){
+    public String getMappedString(String string)
+    {
         String ret = getNamedValue(string);
         return ret;
     }
@@ -117,19 +175,23 @@ public class ControlReader {
      * @param string
      * @return 
      */
-    public double getMappedDouble(String string){
+    public double getMappedDouble(String string)
+    {
         double d;
         String v = getNamedValue(string);
         try
         {
             d = Double.parseDouble(v);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             d = -1.0;
         }
         return d;
     }
 
-    public void getProperties(){
+    public void getProperties()
+    {
 
         prop.list(System.out);
     }
@@ -137,9 +199,11 @@ public class ControlReader {
      * Returns the robot type in a String ret
      * @return 
      */
-    public String getRobotType(){
+    public String getRobotType()
+    {
         String ret = null;
-        try{
+        try
+        {
             System.out.println("it prints from the method");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
             
@@ -164,41 +228,30 @@ public class ControlReader {
         }
         return ret;
     }
+
     /**
      * Looks for the .properties files based off a given filename
      * @param filename
      * @return the completion status of the operation
      */
-    public String lookForFiles(String filename){
-        String ret = "we got nothing";
+    public boolean lookForFiles(String filename)
+    {
+        boolean ret = false;
         System.out.println("to look for file: ["+filename+"]");
-        try{    
-            //checks for a USB in the RoboRIO
-            rootUSBDir = s + "media" + s + "sda1";
-            prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
-            SmartDashboard.putString("Files", "USB 1 Files");
-            System.out.println ("found ["+rootUSBDir + s + filename+"]");
-        }catch(Exception e){
-            
-            try{    
-                //checks for a USB in the RoboRIO
-                rootUSBDir = s + "media" + s + "sda2";
-                prop.load(new FileInputStream(new File(rootUSBDir + s + filename)));
-                SmartDashboard.putString("Files", "USB 2 Files");
-                System.out.println ("found ["+rootUSBDir + s + filename+"]");
-            }catch(Exception e2){
-                
-                try{   
-                    //checks for driver files in the deploy directory
-                    prop.load(new FileInputStream(new File(rootDeployDir + s + filename)));
-                    SmartDashboard.putString("Files", "Computer Files");
-                    System.out.println ("found ["+rootDeployDir + s + filename+"]");
-                }catch(Exception f){
-    
-                    System.err.println("unable to find file: ["+filename+"]");
-                }
+        for(int i = 0; i < searchPath.size(); i++)
+        {
+            try
+            {    
+                prop.load(new FileInputStream(new File(searchPath.get(i) + s + filename)));
+                SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
+                System.out.println ("found ["+ searchPath.get(i) + s + filename+"]");
+                ret = true;
+                break;
             }
-            
+            catch(Exception e)
+            {
+                System.err.println("unable to find file: ["+filename+"]");
+            }
         }
         return ret;
     }
