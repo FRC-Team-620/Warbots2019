@@ -75,7 +75,6 @@ public class Robot extends TimedRobot {
         ControlReader config = new ControlReader();
 
         System.out.println("Connecting to robot " + config.getRobotType());
-        config.getProperties();
 
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null) {
@@ -113,7 +112,6 @@ public class Robot extends TimedRobot {
         }
 
         String elevatorClass = config.getMappedString("Elevator");
-        System.out.println("Using elevator: " + elevatorClass);
         if (elevatorClass != null)
         {
             if (elevatorClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator"))

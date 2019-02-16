@@ -27,14 +27,8 @@ public class ControlElevatorWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    System.out.println("Top: " + Robot.elevator.isAtTop());
-    System.out.println("Bottom: " + Robot.elevator.isAtBottom());
-    System.out.println("Height: " + Robot.elevator.getHeight());
-
     GenericHID joystick = Robot.oi.getDriverController();
     double speed = joystick.getRawAxis(5);
-    System.out.println("driving elevator " + (-speed));
     Robot.elevator.drive(-speed);
   }
 
