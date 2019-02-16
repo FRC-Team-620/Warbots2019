@@ -16,6 +16,7 @@ import java.util.Arrays;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.*;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -90,8 +91,7 @@ public class OI {
     {
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
-        String drvAPressed = config.getMappedString("driver.a.pressed");
-        System.out.println("Driver A: [" + drvAPressed + "]");
+        System.out.println("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
         
         if (driverEnabled)
         {
@@ -152,6 +152,7 @@ public class OI {
         //
         // Loop through the possible controls
         //
+        System.out.println("Looping through the possible controls");
         for(int i = 0; i < availableControls.size(); i++)
         {
             String ctrl = availableControls.get(i);
@@ -181,8 +182,8 @@ public class OI {
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
         // A Button
-        aButton = new JoystickButton(driverController, 1);
-        aButton.whileHeld(new CaptureCargoCommand());
+        //aButton = new JoystickButton(driverController, 1);
+        //aButton.whileHeld(new CaptureCargoCommand());
 
      /*   // B Button 
         bButton = new JoystickButton(driverController, 2);
@@ -236,7 +237,18 @@ public class OI {
     {
         return driverController;
     }
-
+    public double getRobotSpeed()
+    {
+        GenericHID joystick = Robot.oi.driverController;
+        double y_value = joystick.getRawAxis(1);
+        return y_value;
+    }
+    public double getRobotRotationRate()
+    {
+        GenericHID joystick = Robot.oi.driverController;
+        double x_value = -joystick.getRawAxis(0);
+        return x_value;
+    }
     //public Joystick getCoDriverController() {
     //    return coDriverController;
     //}
@@ -256,6 +268,7 @@ public class OI {
         if(ctrl.startsWith("driver"))
         {
             controller = driverController;
+            System.out.println("STrating with DRIVER!");
         }
         else if(ctrl.startsWith("scorer"))
         {
@@ -310,7 +323,7 @@ public class OI {
             {
                 Class<?> clw = Class.forName(pkgs[i].getName() + "." + str);
                 ret = (Command) clw.getDeclaredConstructor().newInstance();
-                System.out.println("Successfully allocated the command!");
+                System.out.println("Successfully allocated the command " + ret + " to the robot!");
                 break;
             }catch(Exception e){ 
                 //We are expecting a lot of exceptions, so no system.err.println or printStackTrace is needed

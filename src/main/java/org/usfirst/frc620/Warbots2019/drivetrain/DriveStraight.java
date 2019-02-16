@@ -72,6 +72,7 @@ public class DriveStraight extends Command {
     double deltaDistance = m_distance - Robot.driveTrain.getTotalDistanceTravelled();
     Angle deltaAngle = m_angle.minus(Robot.driveTrain.getAngle()).absoluteValue();
     Robot.driveTrain.drive(deltaDistance*0.5, deltaAngle.toTurns()*0.5);
+    System.out.println("Driving Straight!");
   }
 
   // Make this return true when this Command no longer needs to run execute()
