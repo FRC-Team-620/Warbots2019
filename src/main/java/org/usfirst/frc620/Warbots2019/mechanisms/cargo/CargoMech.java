@@ -11,6 +11,7 @@ import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
@@ -21,7 +22,9 @@ public class CargoMech extends ScoringMechanism {
 
   private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
-
+  private CargoMech cargoMech;
+  private Solenoid mainPiston;
+  // for TestBot
   public CargoMech(int mainMotorPort, int limitSwitchPort) {
 
     SpeedController mainWheels = new Spark(mainMotorPort);
@@ -29,6 +32,18 @@ public class CargoMech extends ScoringMechanism {
     limitSwitch = new DigitalInput(limitSwitchPort);
     intakeWheels = new SpeedControllerGroup(mainWheels);
   }
+
+  //for this years robot
+  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort, int PCMCanID ) {
+
+    SpeedController mainWheels = new Spark(mainMotorPort);
+    
+
+    limitSwitch = new DigitalInput(limitSwitchPort);
+    intakeWheels = new SpeedControllerGroup(mainWheels);
+    mainPiston = new Solenoid(PCMCanID, mainPistonPort);
+  }
+  
 
   @Override
   public void initDefaultCommand() {
@@ -45,29 +60,31 @@ public class CargoMech extends ScoringMechanism {
     return limitSwitch.get();
   }
 
-  public void captureCargo() {
-    intakeWheels.set(-0.5);
+  public void captureCargo(double cmspeed) {
+    intakeWheels.set(cmspeed);
+    cmspeed = 0;
   }
 
-  public void stopCapture() {
-    intakeWheels.set(0);
+  public void stopCapture(double cmspeed) {
+    intakeWheels.set(cmspeed);
+    cmspeed = 0;
   }
 
-  public void ejectCargo() {
-    intakeWheels.set(0.5);
+  public void ejectCargo(double cmspeed) {
+    intakeWheels.set(-cmspeed);
+    cmspeed = 0;
   }
 
   public void deploy() {
-    // mainPiston.set(true);
+    mainPiston.set(true);
   }
 
   public void stow() {
-    // mainPiston.set(false);
+    mainPiston.set(false);
   }
 
   @Override
   public void stop() {
-    stopCapture();
   }
 
   @Override
