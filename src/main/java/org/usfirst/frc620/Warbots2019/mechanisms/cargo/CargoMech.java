@@ -7,10 +7,9 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,7 +22,7 @@ public class CargoMech extends Subsystem {
   private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
   private CargoMech cargoMech;
-
+  private Solenoid mainPiston;
   // for TestBot
   public CargoMech(int mainMotorPort, int limitSwitchPort) {
 
@@ -33,15 +32,17 @@ public class CargoMech extends Subsystem {
     intakeWheels = new SpeedControllerGroup(mainWheels);
   }
 
-  /*for this years robot
-  public CargoMech(int mainMotorPort, int limitSwitchPort int mainPistonPort ) {
+  //for this years robot
+  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort, int PCMCanID ) {
 
     SpeedController mainWheels = new Spark(mainMotorPort);
+    
 
     limitSwitch = new DigitalInput(limitSwitchPort);
     intakeWheels = new SpeedControllerGroup(mainWheels);
+    mainPiston = new Solenoid(PCMCanID, mainPistonPort);
   }
-  */
+  
 
   @Override
   public void initDefaultCommand() {
@@ -74,10 +75,10 @@ public class CargoMech extends Subsystem {
   }
 
   public void deployMech() {
-    // mainPiston.set(true);
+     mainPiston.set(true);
   }
 
   public void stowMech() {
-    // mainPiston.set(false);
+     mainPiston.set(false);
   }
 }
