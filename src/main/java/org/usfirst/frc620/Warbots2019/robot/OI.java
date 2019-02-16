@@ -181,20 +181,20 @@ public class OI {
          //I don't know where you got 13 from. I think it might be 3? You can check in the drive station.
 
         // A Button
-        //aButton = new JoystickButton(driverController, 1);
-        //aButton.whenPressed(new open());
+        aButton = new JoystickButton(driverController, 1);
+        aButton.whileHeld(new CaptureCargoCommand());
 
      /*   // B Button 
         bButton = new JoystickButton(driverController, 2);
-        bButton.whenPressed(new StopCapture());
+        bButton.whileHeld(new StopCaptureCommand());
 
         //X Button
         xButton = new JoystickButton(driverController, 3);
-        xButton.whenPressed(new EjectCargo());
+        xButton.whileHeld(new EjectCargoCommand());
 
-        //Y Button
+        // // Y Button
         //yButton = new JoystickButton(driverController, 4);
-        //yButton.whenPressed(new Stow());
+        //yButton.whenPressed(new ControlCargo());
 
          // Right Bumper (rb)
         //rbButton = new JoystickButton(driverController, 5);
@@ -209,8 +209,8 @@ public class OI {
         //backButton.whenPressed(new Stop());
 
         // // Start Button
-        startButton = new JoystickButton(driverController, 1);
-        startButton.whenPressed(new CaptureCargo());
+        //startButton = new JoystickButton(driverController, 1);
+        //startButton.whenPressed(new CaptureCargo());
 
 
         //coDriver buttons

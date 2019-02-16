@@ -11,11 +11,11 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class EjectCargo extends Command {
+public class EjectCargoCommand extends Command {
 
   private CargoMech cargoMech;
 
-  public EjectCargo() {
+  public EjectCargoCommand() {
     cargoMech = Robot.cargoMech;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -30,9 +30,8 @@ public class EjectCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  //if(cargoMech.hasCargo()){
-  cargoMech.ejectCargo();
-  //}
+    System.out.println("Eject");
+  cargoMech.ejectCargo(-1);
 }
   //if(cargoMech)
 
