@@ -72,6 +72,8 @@ public class Robot extends TimedRobot {
         System.out.println("Robot initiated");
         // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
         config = new ControlReader();
+        StateManager stateMan = StateManager.getInstance();
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 5.0);
 
         System.out.println("Connecting to robot " + config.getRobotType());
 
@@ -167,8 +169,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Angle a = new Angle(1.5);
-        Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5)); // test change to TurnAngle 180
+        // Angle a = new Angle(1.5);
+        // Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5)); // test change to TurnAngle 180
     }
 
     /**
