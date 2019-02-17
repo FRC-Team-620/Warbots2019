@@ -111,9 +111,9 @@ public class ControlReader {
         {
             ret = prop.getProperty(str);
         }
-        if(hasName(str))
+        if(!hasName(str))
         {
-            System.out.print("has name? "+hasName(str));    
+            System.out.println(" doesn't have name " + str);    
         }
         if (ret != null)
         {

@@ -66,6 +66,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         System.out.println("Robot initiated");
+        // compressor = new Compressor(6);
+        // compressor.setClosedLoopControl(true);
+        // compressor.start();
         // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
         config = new ControlReader();
         StateManager stateMan = StateManager.getInstance();
@@ -94,7 +97,8 @@ public class Robot extends TimedRobot {
         }
 
         String compressorOption = config.getMappedString("Compressor");
-        if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
+        if (compressorOption != null) /*&& compressorOption.equalsIgnoreCase("true")*/
+        
         {
             compressor = new Compressor(6);
             compressor.setClosedLoopControl(true);
@@ -106,7 +110,7 @@ public class Robot extends TimedRobot {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
-                scoringMechanism = new CargoMech(0, 4);
+                scoringMechanism = new CargoMech(1);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {

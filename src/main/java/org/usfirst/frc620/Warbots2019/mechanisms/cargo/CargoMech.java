@@ -12,31 +12,29 @@ import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  * Add your docs here.
  */
 public class CargoMech extends ScoringMechanism {
 
-  private SpeedController intakeWheels;
+  private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
   // for TestBot
-  public CargoMech(int mainMotorPort, int limitSwitchPort) {
+  public CargoMech(int mainMotorPort) {
 
-    SpeedController mainWheels = new Spark(mainMotorPort);
-
+    intakeWheels = new WPI_TalonSRX(mainMotorPort);
     // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
-    limitSwitch = new DigitalInput(limitSwitchPort);
+    //limitSwitch = new DigitalInput(limitSwitchPort);
     //Uses the port for the wheels to instansiate the mainWheels
-    intakeWheels = new SpeedControllerGroup(mainWheels);
   }
 
   //for this years robot
   public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort /* or a motor port */, int PCMCanID ) {
-
+/*
     SpeedController mainWheels = new Spark(mainMotorPort);
     
     limitSwitch = new DigitalInput(limitSwitchPort);
@@ -44,6 +42,7 @@ public class CargoMech extends ScoringMechanism {
     intakeWheels = new SpeedControllerGroup(mainWheels);
     //I don't know if we're using a piston or motor to deploy and stow CargoMech
     mainPiston = new Solenoid(PCMCanID, mainPistonPort);
+    */
   }
   
 
@@ -54,6 +53,7 @@ public class CargoMech extends ScoringMechanism {
     System.out.print("Working");
   }
 
+  double cmspeed = 0.5;
   public void idle() {
     stow();
   }
@@ -62,16 +62,16 @@ public class CargoMech extends ScoringMechanism {
     return limitSwitch.get();
   }
 
-  public void captureCargo(double cmspeed) {
-    intakeWheels.set(cmspeed);
+  public void captureCargo() {
+  intakeWheels.set(-cmspeed);
   }
 
-  public void stopCapture(double cmspeed) {
-    intakeWheels.set(cmspeed);
+  public void stopCapture() {
+  intakeWheels.set(0);
   }
 
-  public void ejectCargo(double cmspeed) {
-    intakeWheels.set(-cmspeed);
+  public void ejectCargo() {
+    intakeWheels.set(cmspeed);
   }
 
   public void deploy() {
