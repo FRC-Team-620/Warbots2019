@@ -33,6 +33,7 @@ import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -40,6 +41,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -148,6 +150,8 @@ public class Robot extends TimedRobot {
             CameraServer.getInstance().startAutomaticCapture(i);
 
         oi = new OI(config);
+
+        SmartDashboard.putData(new FollowLineWithCameraCommand());
     }
 
     /**

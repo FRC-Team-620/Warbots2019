@@ -55,7 +55,7 @@ public class DriveWithJoystick extends Command {
     protected void execute() 
     {
         double y_value = Robot.oi.getRobotSpeed();
-        double x_value = Robot.oi.getRobotRotationRate();
+        double x_value = -Robot.oi.getRobotRotationRate();
         double angle = Math.atan2(y_value, x_value);
         // System.out.println("The x is " + x_value + " the y is " + y_value);
         // System.out.println("The angle is " + angle);
