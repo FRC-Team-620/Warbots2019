@@ -4,54 +4,36 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+package org.usfirst.frc620.Warbots2019.mechanisms;
+
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DeployCargoMech extends Command {
+public class DeployScoringMechanismCommand extends Command {
 
-  private CargoMech cargoMech;
+  ScoringMechanism scoringMechanism = Robot.scoringMechanism;
 
-  public DeployCargoMech(CargoMech cargoMech) {
-      // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-
-    this.cargoMech = cargoMech;
-
-    requires(this.cargoMech);
-  }
-
-  //Lowers the Mech
-  public void lowerCargoMech(){
-  
-  }
-
-// Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
+  public DeployScoringMechanismCommand() {
+    requires(scoringMechanism);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
+    scoringMechanism.deploy();
   }
-//h
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() { 
-  return false;
+  protected boolean isFinished() {
+    return scoringMechanism.isDeployed();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+    scoringMechanism.stop();
   }
 }

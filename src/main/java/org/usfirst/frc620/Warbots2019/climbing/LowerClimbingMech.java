@@ -4,54 +4,32 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+package org.usfirst.frc620.Warbots2019.climbing;
+
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-/*
-public class DeployCargoMech extends Command {
 
-  private CargoMech cargoMech;
-
-  public DeployCargoMech(CargoMech cargoMech) {
-      // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-
-    this.cargoMech = cargoMech;
-
-    requires(this.cargoMech);
-  }
-
-  //Lowers the Mech
-  public void lowerCargoMech(){
+public class LowerClimbingMech extends Command {
   
-  }
-
-// Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+  ClimbingMechanism climbingMechanism = Robot.climbingMechanism;
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
+    climbingMechanism.lower();
   }
-//h
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() { 
-  return false;
+  protected boolean isFinished() {
+    return climbingMechanism.isLowered();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    climbingMechanism.stop();
   }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
-} */
+}

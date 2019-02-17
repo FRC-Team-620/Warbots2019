@@ -17,7 +17,7 @@ public class open extends Command {
   private TazGrabber tazGrabber;
 
   public open() {
-    tazGrabber = Robot.tazGrabber;
+    tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     //requires(tazGrabber);

@@ -5,49 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
+package org.usfirst.frc620.Warbots2019.climbing;
 
-
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class StowMech extends Command {
+public class ControlClimbingMechWithJoystick extends Command {
 
-  private CargoMech cargoMech;
-
-  public StowMech() {
-    cargoMech = Robot.cargoMech;
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(cargoMech);
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+  Joystick joystick = Robot.oi.driverController;
+  ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  cargoMech.stowMech();
+
+    System.out.println("Raised: " + scissorLift.isRaised());
+    System.out.println("Lowered: " + scissorLift.isLowered());
+
+    double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
+    if (Math.abs(speed) < 0.1)
+      speed = 0;
+    System.out.println("driving scissorlift " + speed);
+    scissorLift.drive(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
   }
 }

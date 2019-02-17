@@ -8,14 +8,22 @@
 package org.usfirst.frc620.Warbots2019.elevator;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ControlElevatorWithJoystick extends Command {
+  double speedFactor;
   public ControlElevatorWithJoystick() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    speedFactor = 1.0;
+    ControlReader config = Robot.config;
+    if (config.getMappedString("elevator.speed_factor") != null)
+    {
+        speedFactor = config.getMappedDouble("elevator.speed_factor");
+    }
     requires(Robot.elevator);
   }
 
@@ -27,9 +35,8 @@ public class ControlElevatorWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    GenericHID joystick = Robot.oi.getDriverController();
-    double speed = joystick.getRawAxis(5);
-    Robot.elevator.drive(-speed);
+    double speed = Robot.oi.getElevatorSpeed();
+    Robot.elevator.drive(-speed * speedFactor);
   }
 
   // Make this return true when this Command no longer needs to run execute()

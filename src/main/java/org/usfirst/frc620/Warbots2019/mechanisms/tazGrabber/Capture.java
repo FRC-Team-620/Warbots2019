@@ -16,7 +16,7 @@ public class Capture extends Command {
   private TazGrabber tazGrabber;
 
   public Capture() {
-    tazGrabber = Robot.tazGrabber;
+    tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     //requires(tazGrabber);

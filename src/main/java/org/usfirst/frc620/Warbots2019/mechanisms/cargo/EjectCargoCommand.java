@@ -4,31 +4,25 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
-<<<<<<< HEAD
 
-
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DeployCargoMech extends Command {
+public class EjectCargoCommand extends Command {
 
   private CargoMech cargoMech;
 
-  public DeployCargoMech(CargoMech cargoMech) {
-      // Use requires() here to declare subsystem dependencies
+  public EjectCargoCommand() {
+    cargoMech = (CargoMech) Robot.scoringMechanism;
+    // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-
-    this.cargoMech = cargoMech;
-
-    requires(this.cargoMech);
+    requires(cargoMech);
   }
 
-  //Lowers the Mech
-  public void lowerCargoMech(){
-  
-  }
-
-// Called just before this Command runs the first time
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
@@ -36,13 +30,15 @@ public class DeployCargoMech extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
-  }
-//h
+    System.out.println("Eject");
+  cargoMech.ejectCargo(-1);
+}
+  //if(cargoMech)
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() { 
-  return false;
+  protected boolean isFinished() {
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -56,5 +52,3 @@ public class DeployCargoMech extends Command {
   protected void interrupted() {
   }
 }
-=======
->>>>>>> 2f53c91b27b2617c7de3713e5835c821d72e94ea
