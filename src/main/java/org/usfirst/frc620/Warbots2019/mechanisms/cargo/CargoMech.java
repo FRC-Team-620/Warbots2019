@@ -26,9 +26,9 @@ public abstract class CargoMech extends ScoringMechanism {
 
   public abstract boolean hasCargo();
 
-  public abstract void captureCargo(double cmspeed);
+  public abstract void captureCargo();
 
   public abstract void stopCapture();
 
-  public abstract void ejectCargo(double cmspeed);
+  public abstract void ejectCargo();
 }

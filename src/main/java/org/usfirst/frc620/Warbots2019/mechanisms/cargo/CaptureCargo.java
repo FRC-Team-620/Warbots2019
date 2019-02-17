@@ -32,7 +32,7 @@ public class CaptureCargo extends Command {
   protected void execute() {
     System.out.println(cargoMech.hasCargo());
     if (!cargoMech.hasCargo()) {
-      cargoMech.captureCargo(-0.7);
+      cargoMech.captureCargo();
     }
     if (cargoMech.hasCargo()) {
       cargoMech.stopCapture();

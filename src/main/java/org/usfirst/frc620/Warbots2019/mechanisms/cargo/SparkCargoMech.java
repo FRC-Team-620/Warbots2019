@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
  */
 public class SparkCargoMech extends CargoMech {
 
+  private double cmspeed = 0.7;
+
   private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
@@ -59,18 +61,16 @@ public class SparkCargoMech extends CargoMech {
     return limitSwitch.get();
   }
 
-  public void captureCargo(double cmspeed) {
+  public void captureCargo() {
     intakeWheels.set(cmspeed);
-    cmspeed = 0;
   }
 
   public void stopCapture() {
     intakeWheels.set(0);
   }
 
-  public void ejectCargo(double cmspeed) {
+  public void ejectCargo() {
     intakeWheels.set(-cmspeed);
-    cmspeed = 0;
   }
 
   public void deploy() {

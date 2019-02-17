@@ -13,10 +13,6 @@ package org.usfirst.frc620.Warbots2019.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CaptureCargoCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.EjectCargoCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.StopCaptureCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.Eject;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -60,47 +56,9 @@ public class OI {
     public Joystick driverController;
     public JoystickButton moveElevatorToTop;
     public Joystick scorerController;
-    
-    public enum AnalogControlType
-    {
-        CONTROL_UNDEFINED,
-        CONTROL_LEFT_JOYSTICK,
-        CONTROL_RIGHT_JOYSTICK,
-        CONTROL_LEFT_TRIGGER,
-        CONTROL_RIGHT_TRIGGER,
-        CONTROL_DPAD
-    };
-    
-    public enum UserDesignation
-    {
-        USER_UNDEFINED,
-        USER_DRIVER,
-        USER_SCORER
-    };
-
-    public enum ControlAxis
-    {
-        AXIS_UNDEFINED,
-        AXIS_UP_DOWN,
-        AXIS_LEFT_RIGHT
-    };
-    
-    public enum UserControlValueType
-    {
-        UCVT_UNDEFINED,
-        UCVT_ROBOT_SPEED,         // -1.0 to 1.0
-        UCVT_ROBOT_ROTATION_RATE, 
-        UCVT_ELEVATOR_SPEED,     
-        UCVT_DEPLOY_RATE
-    };
-
-    public class AxisSpecification
-    {
-        UserDesignation      userDesignation;
-        AnalogControlType    controlType;
-        ControlAxis          axis;
-        UserControlValueType valueType;
-    };
+    public JoystickButton bButton;
+    public JoystickButton xButton;
+    public JoystickButton aButton;
 
     ArrayList<AxisSpecification>  dynamicControls;
     /**
@@ -223,23 +181,23 @@ public class OI {
         for(int i = 0; i < availableAnalogControls.size(); i++)
         {
             String ctrl = availableAnalogControls.get(i);
-            System.out.print("dynamic control mapping: ["+i+"] ["+ctrl+"]");
+            System.out.println("dynamic control mapping: ["+i+"] ["+ctrl+"]");
             String cfgValue = config.getMappedString(ctrl);
             if (cfgValue != null)
             {
-                System.out.print("            =["+cfgValue+"]");
-                AxisSpecification axisSpec = buildAxisSpecification(ctrl, cfgValue);
+                System.out.println("            =["+cfgValue+"]");
+                AxisSpecification axisSpec = AxisSpecification.buildAxisSpecification(ctrl, cfgValue);
 
                 if (driverEnabled && ctrl.startsWith("driver"))
                 {
-                    axisSpec.userDesignation = UserDesignation.USER_DRIVER;
+                    axisSpec.userDesignation = AxisSpecification.UserDesignation.USER_DRIVER;
                 }
                 else if(scorerEnabled && ctrl.startsWith("scorer"))
                 {
-                    axisSpec.userDesignation = UserDesignation.USER_SCORER;
+                    axisSpec.userDesignation = AxisSpecification.UserDesignation.USER_SCORER;
                 }
 
-                if (isValidAxisSpecification(axisSpec))
+                if (axisSpec.isValidAxisSpecification(axisSpec))
                 {
                     dynamicControls.add(axisSpec);
                 }
@@ -268,6 +226,9 @@ public class OI {
         // X Button
         // xButton = new JoystickButton(driverController, 3);
         // xButton.whileHeld(new EjectCargoCommand());
+        //bButton = new JoystickButton(driverController, 2);
+        //bButton.whenPressed(new StowScoringMechanismCommand());
+        
 
         // // Left Bumper (lb)
         // lbButton = new JoystickButton(driverController, 6);
@@ -319,8 +280,8 @@ public class OI {
         for (int i = 0; i<dynamicControls.size(); i++)
         {
             AxisSpecification t = dynamicControls.get(i);
-            if ((t.userDesignation == UserDesignation.USER_DRIVER) &&
-                (t.valueType == UserControlValueType.UCVT_ROBOT_SPEED))
+            if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
+                (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_SPEED))
             {
                 ret = getAnalogValue(t);
                 break;
@@ -345,8 +306,8 @@ public class OI {
         {
             AxisSpecification t = dynamicControls.get(i);
 
-            if ((t.userDesignation == UserDesignation.USER_DRIVER) &&
-                (t.valueType == UserControlValueType.UCVT_ROBOT_ROTATION_RATE))
+            if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
+                (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_ROTATION_RATE))
             {
                 ret = getAnalogValue(t);
                 break;
@@ -355,10 +316,23 @@ public class OI {
         return ret;
     }
 
-    //public Joystick getCoDriverController() {
-    //    return coDriverController;
-    //}
+    public double getElevatorSpeed()
+    {
+        double ret = 0.0;
+        
+        for (int i = 0; i<dynamicControls.size(); i++)
+        {
+            AxisSpecification t = dynamicControls.get(i);
 
+            if (t.valueType == AxisSpecification.UserControlValueType.UCVT_ELEVATOR_SPEED)
+            {
+                ret = getAnalogValue(t);
+                break;
+            }
+        }
+        return ret;
+    }
+    
     /**
      * Loads commands onto joysticks in the OI constructor
      * Only press and release is supported currently
@@ -368,7 +342,7 @@ public class OI {
     private void loadCommandOntoJoystick(String ctrl, String nameOfTheCMD)
     {
         Joystick controller = null;
-        Command cmd = null;
+        //Command cmd = null;
         String t = "driver";
         //Differentiate which controller is getting talked to
         if(ctrl.startsWith("driver"))
@@ -460,74 +434,6 @@ public class OI {
                 button.whenPressed(cmd);
         }
     }
-
-    private boolean isValidAxisSpecification(AxisSpecification axisSpec)
-    {
-        return (axisSpec.axis != ControlAxis.AXIS_UNDEFINED) && 
-            (axisSpec.controlType != AnalogControlType.CONTROL_UNDEFINED) && 
-            (axisSpec.userDesignation != UserDesignation.USER_UNDEFINED) && 
-            (axisSpec.valueType != UserControlValueType.UCVT_UNDEFINED);
-    }
-
-    private AxisSpecification buildAxisSpecification(String ctrl, String cfgValue)
-    {
-        AxisSpecification axisSpec = new AxisSpecification();
-        axisSpec.controlType = AnalogControlType.CONTROL_UNDEFINED;
-        axisSpec.userDesignation = UserDesignation.USER_UNDEFINED;
-        axisSpec.valueType = UserControlValueType.UCVT_UNDEFINED;
-        axisSpec.axis = ControlAxis.AXIS_UNDEFINED;
-
-        // Set control type
-        if (ctrl.contains(".LeftJS."))
-        {
-            axisSpec.controlType = AnalogControlType.CONTROL_LEFT_JOYSTICK;
-        }
-        else if (ctrl.contains(".RightJS."))
-        {
-            axisSpec.controlType = AnalogControlType.CONTROL_RIGHT_JOYSTICK;
-        }
-        else if (ctrl.contains(".LeftTrigger."))
-        {
-            axisSpec.controlType = AnalogControlType.CONTROL_LEFT_TRIGGER;
-        }
-        else if (ctrl.contains(".RightTrigger."))
-        {
-            axisSpec.controlType = AnalogControlType.CONTROL_RIGHT_TRIGGER;
-        }
-        else if (ctrl.contains(".DPad."))
-        {
-            axisSpec.controlType = AnalogControlType.CONTROL_DPAD;
-        }
-
-        // Set axis
-        if (ctrl.contains(".Y"))
-        {
-            axisSpec.axis = ControlAxis.AXIS_UP_DOWN;
-        }
-        else if (ctrl.contains(".X"))
-        {
-            axisSpec.axis = ControlAxis.AXIS_LEFT_RIGHT;
-        }
-
-        // Set value type
-        if (cfgValue.equals("OI.robot.speed"))
-        {
-            axisSpec.valueType = UserControlValueType.UCVT_ROBOT_SPEED;
-        }
-        else if (cfgValue.equals("OI.robot.rotation_rate"))
-        {
-            axisSpec.valueType = UserControlValueType.UCVT_ROBOT_ROTATION_RATE;
-        }
-        else if (cfgValue.equals("OI.elevator.speed"))
-        {
-            axisSpec.valueType = UserControlValueType.UCVT_ELEVATOR_SPEED;
-        }
-        else if (cfgValue.equals("OI.mech.deploy_rate"))
-        {
-            axisSpec.valueType = UserControlValueType.UCVT_DEPLOY_RATE;
-        }
-        return axisSpec;
-    }
     
     /**
      * Determines current analog value from an axis specification
@@ -537,44 +443,61 @@ public class OI {
     private double getAnalogValue(AxisSpecification axisSpec)
     {
         double ret = 0.0;
-        if (axisSpec.controlType == AnalogControlType.CONTROL_LEFT_JOYSTICK)
+        if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_JOYSTICK)
         {
             GenericHID joystick = Robot.oi.driverController;
-            if (axisSpec.userDesignation == UserDesignation.USER_SCORER)
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
             {
                 joystick = Robot.oi.scorerController;
             }
 
-            if (axisSpec.axis == ControlAxis.AXIS_UP_DOWN)
+            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
             {
                 // Left JS Y
                 ret = joystick.getRawAxis(1);
             }
-            else if (axisSpec.axis == ControlAxis.AXIS_LEFT_RIGHT)
+            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
             {
                 // Left JS X
                 ret = joystick.getRawAxis(0);
             }                    
         }
-        else if (axisSpec.controlType == AnalogControlType.CONTROL_RIGHT_JOYSTICK)
+        else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_JOYSTICK)
         {
             GenericHID joystick = Robot.oi.driverController;
-            if (axisSpec.userDesignation == UserDesignation.USER_SCORER)
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
             {
                 joystick = Robot.oi.scorerController;
             }
 
-            if (axisSpec.axis == ControlAxis.AXIS_UP_DOWN)
+            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
             {
                 // Right JS Y
-                // 2&3 are triggers
                 ret = joystick.getRawAxis(5);
             }
-            else if (axisSpec.axis == ControlAxis.AXIS_LEFT_RIGHT)
+            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
             {
                 // Right JS X
                 ret = joystick.getRawAxis(4);
             }                    
+        }
+        else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_TRIGGER)
+        {
+            GenericHID joystick = Robot.oi.driverController;
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            {
+                joystick = Robot.oi.scorerController;
+            }
+            ret = joystick.getRawAxis(3);
+        }
+        else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_TRIGGER)
+        {
+            GenericHID joystick = Robot.oi.driverController;
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            {
+                joystick = Robot.oi.scorerController;
+            }
+            ret = joystick.getRawAxis(2);
         }
         // Etc...
         return ret;
