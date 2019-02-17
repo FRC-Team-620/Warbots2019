@@ -8,12 +8,14 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 
 /**
  * Add your docs here.
@@ -23,10 +25,18 @@ public class CargoMech extends ScoringMechanism {
   private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
+  private double cmspeed;
   // for TestBot
   public CargoMech(int mainMotorPort) {
 
     intakeWheels = new WPI_TalonSRX(mainMotorPort);
+    ControlReader config = Robot.config;
+    cmspeed = 0.1;
+    if(config.getMappedString("CargoMechMotorSpeed") != null)
+    {
+      cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+    }
+
     // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
     //limitSwitch = new DigitalInput(limitSwitchPort);
     //Uses the port for the wheels to instansiate the mainWheels
@@ -51,9 +61,10 @@ public class CargoMech extends ScoringMechanism {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     System.out.print("Working");
+
   }
 
-  double cmspeed = 0.5;
+ 
   public void idle() {
     stow();
   }
