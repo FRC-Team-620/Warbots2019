@@ -319,6 +319,23 @@ public class OI {
         return ret;
     }
 
+    public double getElevatorSpeed()
+    {
+        double ret = 0.0;
+        
+        for (int i = 0; i<dynamicControls.size(); i++)
+        {
+            AxisSpecification t = dynamicControls.get(i);
+
+            if (t.valueType == AxisSpecification.UserControlValueType.UCVT_ELEVATOR_SPEED)
+            {
+                ret = getAnalogValue(t);
+                break;
+            }
+        }
+        return ret;
+    }
+    
     /**
      * Loads commands onto joysticks in the OI constructor
      * Only press and release is supported currently
