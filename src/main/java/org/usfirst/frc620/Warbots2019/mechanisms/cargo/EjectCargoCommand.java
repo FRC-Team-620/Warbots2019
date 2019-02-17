@@ -16,7 +16,7 @@ public class EjectCargoCommand extends Command {
   private CargoMech cargoMech;
 
   public EjectCargoCommand() {
-    cargoMech = Robot.cargoMech;
+    cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(cargoMech);

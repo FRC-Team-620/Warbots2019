@@ -7,17 +7,16 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-public class StowMechCommand extends Command {
+public class CaptureCargo extends Command {
 
   private CargoMech cargoMech;
 
-  public StowMechCommand() {
-    cargoMech = Robot.cargoMech;
+  public CaptureCargo() {
+    cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(cargoMech);
@@ -31,7 +30,13 @@ public class StowMechCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  cargoMech.stowMech();
+    System.out.println(cargoMech.hasCargo());
+    if(!cargoMech.hasCargo()){
+    cargoMech.captureCargo(-0.7);
+    }
+    if(cargoMech.hasCargo()){
+    cargoMech.stopCapture(0);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
