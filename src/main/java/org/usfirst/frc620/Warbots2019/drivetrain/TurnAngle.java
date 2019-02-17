@@ -8,42 +8,48 @@
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.robot.StateManager;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnAngle extends Command {
   private double m_speed;
- private Angle m_angle;
+  private Angle m_angle;
   private DriveTrain drivetrain;
   //use these, they are giving errors
+  
+  public TurnAngle(){
 
-  public TurnAngle(DriveTrain dt, Angle myAngle, double speed) {
-    m_speed = speed;
-    m_angle = myAngle;
-    drivetrain = dt;
-    System.out.println("hello");
-    // requires(Robot.driveTrain);
   }
+ 
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    m_angle = new Angle(StateManager.getInstance().getDoubleValue(StateManager.StateKey.FIELD_ANGLE));
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-
-    Angle myAngle = Robot.driveTrain.getAngle();
-    
-    //System.out.println("The angle is:"+myAngle);
+ // Called repeatedly when this Command is scheduled to run
+ @Override
+ protected void execute() {
+  System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle());
+  
+  if (m_angle.toDegrees() < drivetrain.getAngle().toDegrees()) {
+    drivetrain.drive(0, m_speed * -1);
+    System.out.println("Direction: " + m_speed*-1);
   }
+  else {
+    drivetrain.drive(0, m_speed);
+    System.out.println("Direction: " + m_speed);
+  }
+
+ }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (m_angle == drivetrain.getAngle());
   }
 
   // Called once after isFinished returns true
