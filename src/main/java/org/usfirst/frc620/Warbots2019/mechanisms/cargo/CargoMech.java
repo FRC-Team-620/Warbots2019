@@ -30,6 +30,7 @@ public class CargoMech extends Subsystem {
 
     // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
     limitSwitch = new DigitalInput(limitSwitchPort);
+    //Uses the port for the wheels to instansiate the mainWheels
     intakeWheels = new SpeedControllerGroup(mainWheels);
   }
 
@@ -38,8 +39,8 @@ public class CargoMech extends Subsystem {
 
     SpeedController mainWheels = new Spark(mainMotorPort);
     
-    // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
     limitSwitch = new DigitalInput(limitSwitchPort);
+    //Uses the port for the wheels to instansiate the mainWheels
     intakeWheels = new SpeedControllerGroup(mainWheels);
     //I don't know if we're using a piston or motor to deploy and stow CargoMech
     mainPiston = new Solenoid(PCMCanID, mainPistonPort);
