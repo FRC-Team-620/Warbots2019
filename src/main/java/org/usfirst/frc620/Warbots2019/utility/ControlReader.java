@@ -77,7 +77,7 @@ public class ControlReader {
         }
         else
         {
-            System.out.println("control reader line 80: Name of robot is" + name);
+            System.out.println("control reader line 80: Name of robot is: " + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
         }
