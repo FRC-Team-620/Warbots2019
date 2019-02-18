@@ -59,10 +59,10 @@ public class ControlReader {
         
         if (!lookForFiles(robotFileName))
         {
-            System.err.println("Unable to locate MAC-based robot config ["+robotFileName+"]");
+            System.err.println("control reader line 62: Unable to locate MAC-based robot config ["+robotFileName+"]");
             if (!lookForFiles("laptop_robot.properties"))
             {
-                System.err.println("Unable to locate ANY robot properties");
+                System.err.println("control reader line 65: Unable to locate ANY robot properties");
             }
         }
         
@@ -73,11 +73,11 @@ public class ControlReader {
         String name = this.getNamedValue("name");
         if(name == null)
         {
-            System.err.println("Config missing name property");
+            System.err.println("control reader line 76: Config missing name property");
         }
         else
         {
-            System.out.println("Name of robot is" + name);
+            System.out.println("control reader line 80: Name of robot is" + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
         }
@@ -113,7 +113,7 @@ public class ControlReader {
         }
         if(!hasName(str))
         {
-            System.out.println(" doesn't have name " + str);    
+            System.out.println("control reader line 116: doesn't have name " + str);    
         }
         if (ret != null)
         {
@@ -209,7 +209,7 @@ public class ControlReader {
         String ret = null;
         try
         {
-            System.out.println("it prints from the method");
+            System.out.println("control reader line 212: it prints from the method");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
@@ -229,7 +229,7 @@ public class ControlReader {
         }
         catch(Exception e)
         {
-            System.out.println("There was an error: " + e.getMessage());
+            System.out.println("control reader line 232: There was an error: " + e.getMessage());
         }
         return ret;
     }
@@ -242,20 +242,20 @@ public class ControlReader {
     public boolean lookForFiles(String filename)
     {
         boolean ret = false;
-        System.out.println("to look for file: ["+filename+"]");
+        System.out.println("control reader line 245: to look for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
         {
             try
             {    
                 prop.load(new FileInputStream(new File(searchPath.get(i) + s + filename)));
                 SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
-                System.out.println ("found ["+ searchPath.get(i) + s + filename+"]");
+                System.out.println ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
                 break;
             }
             catch(Exception e)
             {
-                System.err.println("unable to find file: ["+filename+"]");
+                System.err.println("control reader line 258: unable to find file: ["+filename+"]");
             }
         }
         return ret;

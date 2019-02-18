@@ -24,6 +24,7 @@ public class SimDriveTrain
     public void initDefaultCommand() 
     {
         setDefaultCommand(new DriveWithJoystick());
+        System.out.println("We are in sim drive train");
     }
 
     @Override
@@ -33,7 +34,7 @@ public class SimDriveTrain
 
     public void drive(double speed, double turnRate)
     {
-        System.out.println("drive "+speed+" "+turnRate);
+        //System.out.println("drive "+speed+" "+turnRate);
     }
 
     public double getTotalDistanceTravelled()

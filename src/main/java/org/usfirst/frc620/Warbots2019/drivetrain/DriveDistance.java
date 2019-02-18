@@ -8,6 +8,9 @@
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.robot.StateManager;
+import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveDistance extends Command {
@@ -16,24 +19,20 @@ public class DriveDistance extends Command {
   private double init_position;
   private double position;
   private double final_position;
-  private DriveTrain drivetrain;
 
-  public DriveDistance(DriveTrain dt, double distance, double speed) {
-    drivetrain = dt;
-    // Distance is ft
-    m_distance = distance;
-    // Speed is ft/sec
-    m_speed = speed;
+  public DriveDistance() {
     
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(Robot.driveTrain);
+    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    init_position = drivetrain.getTotalDistanceTravelled();
+    m_distance = StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE);
+    m_speed = 0.1;
+    init_position = Robot.driveTrain.getTotalDistanceTravelled();
     final_position = init_position + m_distance;
     System.out.println("The initial distance is: " + init_position);
   }
@@ -42,7 +41,7 @@ public class DriveDistance extends Command {
   @Override
   protected void execute() {
     Robot.driveTrain.drive(m_speed, 0);
-    position = drivetrain.getTotalDistanceTravelled() - init_position;
+    position = Robot.driveTrain.getTotalDistanceTravelled() - init_position;
   }
 //h
   // Make this return true when this Command no longer needs to run execute()
