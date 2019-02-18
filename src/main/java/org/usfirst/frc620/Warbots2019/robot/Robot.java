@@ -17,10 +17,14 @@ import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraight;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightDistance;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
+import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 //import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
@@ -67,13 +71,16 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         System.out.println("Robot initiated");
+        
         // compressor = new Compressor(6);
         // compressor.setClosedLoopControl(true);
         // compressor.start();
         // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
+
         config = new ControlReader();
         StateManager stateMan = StateManager.getInstance();
-        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 5.0);
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_DRIVEDISTANCE, 0.1);
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 3.0);
 
         System.out.println("Connecting to robot " + config.getRobotType());
 
@@ -81,19 +88,18 @@ public class Robot extends TimedRobot {
         if (driverTrainClass != null) {
             if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain")) {
-                // TODO: Make the subsystem constructors take the ControlReader reference
-                // and have their constructors extract the info they need internally.
                 driveTrain = new SparkDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                System.out.println("Configured with SparkDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) {
-
                 driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                System.out.println("Configured with SparkMaxDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.sim.SimDriveTrain")) {
-
                 driveTrain = new SimDriveTrain();
+                System.out.println("Configured with SimDriveTrain");
             } else {
-                System.err.println("no drive train specified");
+                System.err.println("Configured with no drive train ");
             }
         }
 
@@ -149,7 +155,13 @@ public class Robot extends TimedRobot {
 
         oi = new OI(config);
 
+        // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new FollowLineWithCameraCommand());
+        SmartDashboard.putData(new TurnAngle());
+        SmartDashboard.putData(new DriveDistance());
+        SmartDashboard.putData(new DriveStraight());
+        SmartDashboard.putData(new DriveStraightDistance());
+
     }
     @Override
     public void disabledInit() {
