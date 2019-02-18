@@ -23,16 +23,16 @@ public class CargoMech extends ScoringMechanism {
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
   // for TestBot
-  public CargoMech(int mainMotorPort) {
+  public CargoMech() {
 
-    intakeWheels = new WPI_TalonSRX(mainMotorPort);
+    //intakeWheels = new WPI_TalonSRX(mainMotorPort);
     // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
     //limitSwitch = new DigitalInput(limitSwitchPort);
     //Uses the port for the wheels to instansiate the mainWheels
   }
 
   //for this years robot
-  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort /* or a motor port */, int PCMCanID ) {
+  
 /*
     SpeedController mainWheels = new Spark(mainMotorPort);
     
@@ -42,7 +42,7 @@ public class CargoMech extends ScoringMechanism {
     //I don't know if we're using a piston or motor to deploy and stow CargoMech
     mainPiston = new Solenoid(PCMCanID, mainPistonPort);
     */
-  }
+  
   
 
   @Override
