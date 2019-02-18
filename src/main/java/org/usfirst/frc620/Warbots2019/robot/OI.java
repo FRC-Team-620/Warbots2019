@@ -83,11 +83,15 @@ public class OI {
             driverController = new Joystick(0);
             System.out.println("driver enabled");
         }
+        else
+            System.out.println("driver not enabled");
         if (scorerEnabled)
         {
             scorerController = new Joystick(1);
             System.out.println("scorer enabled");
         }
+        else
+            System.out.println("scorer not enabled");
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",

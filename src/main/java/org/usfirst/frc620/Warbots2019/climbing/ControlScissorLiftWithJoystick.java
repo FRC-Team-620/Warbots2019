@@ -26,7 +26,7 @@ public class ControlScissorLiftWithJoystick extends Command {
   @Override
   protected void execute() {
     double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
-    if (Math.abs(speed) < 0.1)
+    if (Math.abs(speed) < 0.2)
       speed = 0;
     scissorLift.drive(speed);
   }
