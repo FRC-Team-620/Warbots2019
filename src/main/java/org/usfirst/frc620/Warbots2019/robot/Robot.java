@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
         stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 3.0);
 
         System.out.println("Connecting to robot " + config.getRobotType());
-
+     
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null) {
             if (driverTrainClass.equalsIgnoreCase(

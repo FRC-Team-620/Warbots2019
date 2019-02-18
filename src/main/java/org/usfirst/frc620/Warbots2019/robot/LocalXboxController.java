@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.GenericHID;
  * DO NOT USE,
  * DO NOT IMPLEMENT!
  * THERE IS NO TIME TO IMPLEMENT THIS CLASS!
- * @deprecated
+ * 
  */
+@Deprecated
 public class LocalXboxController extends GenericHID
 {
     public LocalXboxController(int index)

@@ -77,6 +77,7 @@ public class ControlReader {
         }
         else
         {
+            SmartDashboard.putString("Robot Name", name);
             System.out.println("control reader line 80: Name of robot is: " + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
@@ -119,6 +120,7 @@ public class ControlReader {
         {
             ret = ret.trim();
         }
+        System.out.println("control reader line 122: found name " + str);    
         return ret;
     }
 
@@ -209,7 +211,7 @@ public class ControlReader {
         String ret = null;
         try
         {
-            System.out.println("control reader line 212: it prints from the method");
+            System.out.println("control reader line 212: Get Robot Type");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
@@ -224,12 +226,11 @@ public class ControlReader {
             // look for file named after MAC address
             String mac = ad.strip(); 
             ret = mac +".properties";
-            SmartDashboard.putString("test", ret);
-            
+
         }
         catch(Exception e)
         {
-            System.out.println("control reader line 232: There was an error: " + e.getMessage());
+            System.err.println("control reader line 232: Error Getting Robot Type: " + e.getMessage());
         }
         return ret;
     }
@@ -242,7 +243,7 @@ public class ControlReader {
     public boolean lookForFiles(String filename)
     {
         boolean ret = false;
-        System.out.println("control reader line 245: to look for file: ["+filename+"]");
+        System.out.println("control reader line 245: Looking for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
         {
             try
