@@ -10,28 +10,6 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "0,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Files",
-              "_title": "Files"
-            }
-          },
-          "0,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/test",
-              "_title": "test"
-            }
-          },
           "2,0": {
             "size": [
               1,
@@ -336,6 +314,28 @@
               "_source0": "network_table:///SmartDashboard/Robot",
               "_title": "Robot"
             }
+          },
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Robot Name",
+              "_title": "Robot Name"
+            }
+          },
+          "0,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Elevator Speed",
+              "_title": "Elevator Speed"
+            }
           }
         }
       }
@@ -505,12 +505,69 @@
           }
         }
       }
+    },
+    {
+      "title": "Command Tests",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 8.0,
+        "vgap": 8.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Robot Name",
+              "_title": "Robot"
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List Layout",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/TurnAngle",
+                  "_title": ""
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/DriveStraightDistance",
+                  "_title": ""
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/FollowLineWithCameraCommand",
+                  "_title": ""
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/DriveStraight",
+                  "_title": ""
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {
     "x": 0.0,
     "y": 0.0,
     "width": 1536.0,
-    "height": 633.5999755859375
+    "height": 630.4000244140625
   }
 }

@@ -27,12 +27,10 @@ import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 //import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
-import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.SparkCargoMech;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
@@ -79,8 +77,8 @@ public class Robot extends TimedRobot {
 
         config = new ControlReader();
         StateManager stateMan = StateManager.getInstance();
-        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_DRIVEDISTANCE, 0.1);
-        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 3.0);
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_DRIVEDISTANCE, 0.5);
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 5.0);
 
         System.out.println("Connecting to robot " + config.getRobotType());
      
@@ -116,10 +114,8 @@ public class Robot extends TimedRobot {
         if (ScoringMechanism != null) {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
-            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.SparkCargoMech"))
-                scoringMechanism = new SparkCargoMech(0, 4);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech"))
-                scoringMechanism = new TalonCargoMech(9, 6, 0);
+                scoringMechanism = new CargoMech(9);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
@@ -156,12 +152,11 @@ public class Robot extends TimedRobot {
         oi = new OI(config);
 
         // Add Command Buttons to Smart Dashboard
-        SmartDashboard.putData(new FollowLineWithCameraCommand());
         SmartDashboard.putData(new TurnAngle());
         SmartDashboard.putData(new DriveDistance());
         SmartDashboard.putData(new DriveStraight());
         SmartDashboard.putData(new DriveStraightDistance());
-
+        SmartDashboard.putData(new FollowLineWithCameraCommand());
     }
     @Override
     public void disabledInit() {
