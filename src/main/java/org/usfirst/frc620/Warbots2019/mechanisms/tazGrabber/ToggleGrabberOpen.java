@@ -29,14 +29,15 @@ public class ToggleGrabberOpen extends Command {
     if(toggle)
     {
       Robot.scoringMechanism.deploy();
+      System.out.println("Deployed!");
       toggle = false;
     } 
     else
     {
       Robot.scoringMechanism.stow();
+      System.out.println("Stowed!");
       toggle = false;
     }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()

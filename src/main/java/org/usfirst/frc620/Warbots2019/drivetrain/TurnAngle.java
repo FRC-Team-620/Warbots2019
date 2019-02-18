@@ -19,7 +19,7 @@ public class TurnAngle extends Command {
   private DriveTrain drivetrain;
   //use these, they are giving errors
   
-  public TurnAngle(){
+  public TurnAngle(DriveTrain driveTrain, Angle a, double d){
 
   }
  
@@ -34,7 +34,6 @@ public class TurnAngle extends Command {
  @Override
  protected void execute() {
   System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle());
-  
   if (m_angle.toDegrees() < drivetrain.getAngle().toDegrees()) {
     drivetrain.drive(0, m_speed * -1);
     System.out.println("Direction: " + m_speed*-1);
