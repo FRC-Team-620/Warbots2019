@@ -22,28 +22,32 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraight extends Command {
   private double m_distance;
   private Angle m_angle;
-  PIDController turnController;
+  private PIDController turnController;
   double turnToAngleRate;
-  DummyPIDOutput pidTurnOutput;
-  PIDController driveController;
+  private DummyPIDOutput pidTurnOutput;
+  private PIDController driveController;
   double driveToDistanceRate;
-  DummyPIDOutput pidDriveOutput;
+  private DummyPIDOutput pidDriveOutput;
 
   static final double kPTurn = 0.03;
   static final double kITurn = 0.00;
   static final double kDTurn = 0.00;
   static final double kFTurn = 0.00;
 
-  static final double kPDrive = 0.03;
+  static final double kPDrive = 0.3;
   static final double kIDrive = 0.00;
   static final double kDDrive = 0.00;
   static final double kFDrive = 0.00;
 
-  static final double kToleranceDegrees = 2.0f;
-  static final double kToleranceDistance = 0.2f;
+  static final double kToleranceDegrees = 10f;
+  static final double kToleranceDistance = 1f;
+
   public DriveStraight() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    System.out.println("hello");
+    requires(Robot.driveTrain);
+
     PIDSource pidTurnSource = new LambdaPIDSource(PIDSourceType.kDisplacement, 
       () -> Robot.driveTrain.getAngle().toDegrees());
 
@@ -55,40 +59,59 @@ public class DriveStraight extends Command {
     
     turnController = new PIDController(kPTurn, kITurn, kDTurn, pidTurnSource, pidTurnOutput);
     driveController = new PIDController(kPDrive, kIDrive, kDDrive, pidDriveSource, pidDriveOutput);
-    requires(Robot.driveTrain);
+    
+    turnController.setInputRange(-180, 180);
+    driveController.setInputRange(-1, 1);
+
+    turnController.setContinuous();
+    //drive Controller is not continuos
+
+    turnController.setOutputRange(-0.3, 0.3);
+    driveController.setOutputRange(-1, 1);
+
+    turnController.setAbsoluteTolerance(kToleranceDegrees);
+    driveController.setAbsoluteTolerance(kToleranceDistance);
+
+    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
     m_distance = StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE);
     m_angle = Robot.driveTrain.getAngle();
+    turnController.setSetpoint(m_angle.toDegrees());
+    System.out.println("The angle is " + m_angle.toDegrees());
+    turnController.enable();
+    driveController.enable();
     Robot.driveTrain.resetTotalDistanceTravelled();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double deltaDistance = m_distance - Robot.driveTrain.getTotalDistanceTravelled();
-    Angle deltaAngle = m_angle.minus(Robot.driveTrain.getAngle()).absoluteValue();
-    Robot.driveTrain.drive(deltaDistance*0.5, deltaAngle.toTurns()*0.5);
-    System.out.println("Driving Straight!");
-  }
+    Robot.driveTrain.drive(0.5, pidTurnOutput.getOutput());
+    System.out.println("The turn output is " + pidTurnOutput.getOutput() + " The drive output is " + pidDriveOutput.getOutput());
 
+  }
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return turnController.onTarget() && driveController.onTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    turnController.disable();
+    driveController.disable();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    this.end();
   }
 }
