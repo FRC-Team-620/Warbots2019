@@ -9,26 +9,89 @@ package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 /**
  * Add your docs here.
  */
-public abstract class CargoMech extends ScoringMechanism {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+public class CargoMech extends ScoringMechanism {
+
+  private WPI_TalonSRX intakeWheels;
+  private DigitalInput limitSwitch;
+  private Solenoid mainPiston;
+  // for TestBot
+  public CargoMech(int mainMotorPort) {
+
+    intakeWheels = new WPI_TalonSRX(mainMotorPort);
+    // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
+    //limitSwitch = new DigitalInput(limitSwitchPort);
+    //Uses the port for the wheels to instansiate the mainWheels
+  }
+
+  //for this years robot
+  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort /* or a motor port */, int PCMCanID ) {
+/*
+    SpeedController mainWheels = new Spark(mainMotorPort);
+    
+    limitSwitch = new DigitalInput(limitSwitchPort);
+    //Uses the port for the wheels to instansiate the mainWheels
+    intakeWheels = new SpeedControllerGroup(mainWheels);
+    //I don't know if we're using a piston or motor to deploy and stow CargoMech
+    mainPiston = new Solenoid(PCMCanID, mainPistonPort);
+    */
+  }
+  
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    System.out.print("Working");
   }
 
-  public abstract void idle();
+  double cmspeed = 0.5;
+  public void idle() {
+    stow();
+  }
 
-  public abstract boolean hasCargo();
+  public boolean hasCargo() {
+    return limitSwitch.get();
+  }
 
-  public abstract void captureCargo();
+  public void captureCargo() {
+  intakeWheels.set(-cmspeed);
+  }
 
-  public abstract void stopCapture();
+  public void stopCapture() {
+  intakeWheels.set(0);
+  }
 
-  public abstract void ejectCargo();
+  public void ejectCargo() {
+    intakeWheels.set(cmspeed);
+  }
+
+  public void deploy() {
+    mainPiston.set(true);
+  }
+
+  public void stow() {
+    mainPiston.set(false);
+  }
+
+  @Override
+  public void stop() {
+  }
+
+  @Override
+  public boolean isDeployed() {
+    return true;
+  }
+
+  @Override
+  public boolean isStowed() {
+    return false;
+  }
 }
