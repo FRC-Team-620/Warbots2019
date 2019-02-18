@@ -16,13 +16,21 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnAnglePID extends Command {
 
   private PIDController pidController;
   private DummyPIDOutput pidOutput;
-
   private Angle amountToTurn;
+
+  double finalAngle;
+
+  static final double kPTurn = 0.035;
+  static final double kITurn = 0.00;
+  static final double kDTurn = 0.00;
+  static final double kFTurn = 0.00;
+  static final double kToleranceDegrees = 2.0f;
 
   public TurnAnglePID(Angle amountToTurn) 
   {
@@ -40,7 +48,7 @@ public class TurnAnglePID extends Command {
     pidOutput = new DummyPIDOutput();
 
     //WPI class to manage PID control for us
-    pidController = new PIDController(0.1, 0, 0, pidSource, pidOutput);
+    pidController = new PIDController(kPTurn, kITurn, kDTurn, pidSource, pidOutput);
 
     //Angle.toDegrees will report values between -180 degrees and 180 degrees
     pidController.setInputRange(-180, 180);
@@ -50,10 +58,10 @@ public class TurnAnglePID extends Command {
     pidController.setContinuous();
 
     //The drive train drive method accepts values between -1 and 1
-    pidController.setOutputRange(-1, 1);
+    pidController.setOutputRange(-.3, .3);
 
-    //Force the robot to turn to within 5 degrees of the target before ending the command
-    pidController.setAbsoluteTolerance(5);
+    //Force the robot to turn to within 3 degrees of the target before ending the command
+    pidController.setAbsoluteTolerance(3);
 
     this.amountToTurn = amountToTurn;
   }
@@ -63,8 +71,7 @@ public class TurnAnglePID extends Command {
   protected void initialize() 
   {
     //calculate the final direction based on the current direction the robot is facing
-    double finalAngle = Robot.driveTrain.getAngle().plus(amountToTurn).toDegrees();
-
+    finalAngle = Robot.driveTrain.getAngle().plus(amountToTurn).toDegrees();
     //set that final direction as the target
     pidController.setSetpoint(finalAngle);
 
@@ -78,13 +85,14 @@ public class TurnAnglePID extends Command {
     //Read the speed that the PID Controller is giving to our fake
     //motor, and tell our actual drive train to turn at that speed
     Robot.driveTrain.drive(0, pidOutput.getOutput());
+    SmartDashboard.putString("turnPid", "" + pidOutput.getOutput());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished()
   {
-    return pidController.onTarget();
+      return pidController.onTarget();
   }
 
   // Called once after isFinished returns true
