@@ -19,10 +19,11 @@ import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 /**
  *
  */
-public class TalonElevator extends Elevator {
-
+public class TalonElevator extends Elevator
+{
     private WPI_TalonSRX talon;
     private double speedFactor;
+
     public TalonElevator(int canID) 
     {
         ControlReader config = Robot.config;
@@ -41,12 +42,18 @@ public class TalonElevator extends Elevator {
     @Override
     public void drive(double speed) 
     {
-        
         talon.set(speed);
     }
 
     @Override
-    public double getHeight() {
+    public void driveTo(double height) 
+    {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getHeight() 
+    {
         talon.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0);
         return talon.getSelectedSensorPosition();
     }
