@@ -42,7 +42,7 @@ public class TalonElevator extends Elevator
     @Override
     public void drive(double speed) 
     {
-        talon.set(speed);
+        talon.set(speedFactor * speed);
     }
 
     @Override
