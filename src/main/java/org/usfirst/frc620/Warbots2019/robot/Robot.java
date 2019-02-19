@@ -105,9 +105,10 @@ public class Robot extends TimedRobot {
         if (compressorOption != null) /*&& compressorOption.equalsIgnoreCase("true")*/
         
         {
-            compressor = new Compressor(6);
-            compressor.setClosedLoopControl(true);
-            compressor.start();
+            //compressor = new Compressor(6);
+            //
+            //compressor.setClosedLoopControl(true);
+            //compressor.start();
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
@@ -115,7 +116,7 @@ public class Robot extends TimedRobot {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech"))
-                scoringMechanism = new CargoMech(9);
+                scoringMechanism = new CargoMech(1, 6, 0);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
@@ -150,6 +151,8 @@ public class Robot extends TimedRobot {
             CameraServer.getInstance().startAutomaticCapture(i);
 
         oi = new OI(config);
+
+        SmartDashboard.putData(driveTrain);
 
         // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new TurnAngle());

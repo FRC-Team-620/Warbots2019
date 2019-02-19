@@ -15,12 +15,15 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
-public class NavX {
+public class NavX extends SendableBase {
 
     AHRS navxBoard;
 
@@ -54,6 +57,7 @@ public class NavX {
 
     public NavX(Port port)
     {
+        setName("NavX");
         navxBoard = port.constructNavxBoard();
     }
 
@@ -64,5 +68,11 @@ public class NavX {
     public void reset()
     {
         navxBoard.reset();
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) 
+    {
+        builder.addDoubleProperty("yaw", () -> getAngle().toDegrees(), null);
     }
 }
