@@ -155,13 +155,14 @@ public class Robot extends TimedRobot {
 
         oi = new OI(config);
 
+        SmartDashboard.putData(driveTrain);
+
         // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new FollowLineWithCameraCommand());
         SmartDashboard.putData(new TurnAngle());
         SmartDashboard.putData(new DriveDistance());
         SmartDashboard.putData(new DriveStraight());
         SmartDashboard.putData(new DriveStraightDistance());
-
     }
     @Override
     public void disabledInit() {
