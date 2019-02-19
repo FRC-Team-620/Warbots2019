@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
+import org.usfirst.frc620.Warbots2019.robot.StateManager;
+import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,4 +24,11 @@ public abstract class DriveTrain extends Subsystem
 
     public abstract double getTotalDistanceTravelled();
     public abstract void resetTotalDistanceTravelled();
+
+
+    public DriveTrain(){
+        StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE, 10);
+        StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_TURNANGLE, 180);
+        
+    }
 }

@@ -25,13 +25,19 @@ public class CargoMech extends ScoringMechanism {
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
   // for TestBot
-  public CargoMech() {
+  public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) {
     
+    intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
 
-    //intakeWheels = new WPI_TalonSRX(mainMotorPort);
-    // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
-    //limitSwitch = new DigitalInput(limitSwitchPort);
-    //Uses the port for the wheels to instansiate the mainWheels
+    ControlReader config = Robot.config;
+    cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+    if (cmspeed < 0)
+      cmspeed = 1;
+
+    //wrist = new Solenoid(PCMCanID, wristPistonChannel);
+    
+ 
+    //wrist = new Solenoid(PCMCanID, wristPistonChannel)
   }
 
   //for this years robot
