@@ -107,9 +107,10 @@ public class Robot extends TimedRobot {
         if (compressorOption != null) /*&& compressorOption.equalsIgnoreCase("true")*/
         
         {
-            compressor = new Compressor(6);
-            compressor.setClosedLoopControl(true);
-            compressor.start();
+            //compressor = new Compressor(6);
+            //
+            //compressor.setClosedLoopControl(true);
+            //compressor.start();
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");

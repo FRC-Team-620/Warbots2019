@@ -31,11 +31,11 @@ public class TalonCargoMech extends CargoMech {
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
 
     ControlReader config = Robot.config;
-    cmspeed = config.getMappedDouble("CargoMechSpeed");
-    if (cmspeed == -1)
-      cmspeed = 0.1;
+    cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+    if (cmspeed < 0)
+      cmspeed = 1;
 
-    wrist = new Solenoid(PCMCanID, wristPistonChannel);
+    //wrist = new Solenoid(PCMCanID, wristPistonChannel);
   }
 
   @Override

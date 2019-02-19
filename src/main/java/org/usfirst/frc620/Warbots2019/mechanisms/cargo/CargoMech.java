@@ -9,6 +9,8 @@ package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -24,6 +26,7 @@ public class CargoMech extends ScoringMechanism {
   private Solenoid mainPiston;
   // for TestBot
   public CargoMech() {
+    
 
     //intakeWheels = new WPI_TalonSRX(mainMotorPort);
     // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
@@ -52,7 +55,8 @@ public class CargoMech extends ScoringMechanism {
     System.out.print("Working");
   }
 
-  double cmspeed = 0.5;
+  ControlReader config = Robot.config;
+  double cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
   public void idle() {
     stow();
   }
