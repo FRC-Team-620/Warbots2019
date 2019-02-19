@@ -14,16 +14,20 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnAngle extends Command {
-  private double m_speed;
-  private Angle m_angle;
-  private Angle m_startAngle;
   private DriveTrain drivetrain;
+  //The speed we want to turn
+  private double m_speed;
+  //The amount we want to turn
+  private Angle m_angle;
+  //The starting angle
+  private Angle m_startAngle;
+  //The angle we want to finish at
   private double finalAngle;
   //use these, they are giving errors
   
   public TurnAngle(){
     drivetrain = Robot.driveTrain;
-    m_speed = 0.5;
+    m_speed = 1;
     System.out.println("=== grace is cool ===");
   }
  
@@ -43,7 +47,7 @@ public class TurnAngle extends Command {
    System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle() + ", final angle: " + finalAngle);
    if (!isFinished())
    {
-   
+
      drivetrain.drive(0, m_speed);
      System.out.println("Direction: " + m_speed);
    }
