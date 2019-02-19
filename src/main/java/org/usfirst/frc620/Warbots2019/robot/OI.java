@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -291,6 +292,7 @@ public class OI {
                 break;
             }
         }
+        SmartDashboard.putNumber("Robot Speed", ret);
         return ret;
     }
 
@@ -317,6 +319,7 @@ public class OI {
                 break;
             }
         }
+        SmartDashboard.putNumber("Robot Rotation Rate", ret);
         return ret;
     }
 
@@ -334,6 +337,7 @@ public class OI {
                 break;
             }
         }
+        SmartDashboard.putNumber("Elevator Speed", ret);
         return ret;
     }
     
