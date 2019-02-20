@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.math.*;
 
 public class DriveStraightDistance extends Command {
   private double m_distance;
@@ -41,8 +42,8 @@ public class DriveStraightDistance extends Command {
   static final double kFDrive = 0.00;
 
   static final double kToleranceDegrees = 10f;
-  static final double kToleranceDistance = 0.7f;
-  public DriveStraightDistance() {
+  static final double kToleranceDistance = 5;
+      public DriveStraightDistance() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveTrain);
@@ -64,8 +65,8 @@ public class DriveStraightDistance extends Command {
     turnController.setContinuous();
     //drive Controller is not continuos
 
-    turnController.setOutputRange(-0.3, 0.3);
-    driveController.setOutputRange(-1, 1);
+    turnController.setOutputRange(-0.5, 0.5);
+    driveController.setOutputRange(0, 0.5);
 
     turnController.setAbsoluteTolerance(kToleranceDegrees);
     driveController.setAbsoluteTolerance(kToleranceDistance);
@@ -90,10 +91,8 @@ public class DriveStraightDistance extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("The DISTANCE RUN is " + Robot.driveTrain.getTotalDistanceTravelled());
-    System.out.println("The DISTANCE OUTPUT is " + pidDriveOutput.getOutput());
-    System.out.println("The DISTANCE TARGET is " + driveController.getSetpoint());
-    Robot.driveTrain.drive(pidDriveOutput.getOutput(), pidTurnOutput.getOutput());
+    System.out.println("DISTANCE RUN"+ -Robot.driveTrain.getTotalDistanceTravelled() + "DISTANCE OUTPUT" + pidDriveOutput.getOutput() + "DISTANCE TARGET" + driveController.getSetpoint());
+    Robot.driveTrain.drive(-pidDriveOutput.getOutput(), pidTurnOutput.getOutput());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -105,6 +104,7 @@ public class DriveStraightDistance extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.driveTrain.drive(0,0);
     turnController.disable();
     driveController.disable();
   }

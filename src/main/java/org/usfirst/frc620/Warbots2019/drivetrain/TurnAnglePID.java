@@ -23,6 +23,7 @@ public class TurnAnglePID extends Command {
   private PIDController pidController;
   private DummyPIDOutput pidOutput;
   private Angle amountToTurn;
+  private Angle angle;
 
   double finalAngle;
 
@@ -32,12 +33,18 @@ public class TurnAnglePID extends Command {
   static final double kFTurn = 0.00;
   static final double kToleranceDegrees = 2.0f;
 
+  public TurnAnglePID() 
+  {
+    this( new Angle(180./360.));
+    
+  }
+
   public TurnAnglePID(Angle amountToTurn) 
   {
     requires(Robot.driveTrain);
 
     //PIDControllers expect a single sensor, so if the data comes from
-    //the drive train, we have to make a pretend sensor that pulls data
+    //the drive train, we have to make a pretend sensor that pulls data+
     //from the drive train.
     PIDSource pidSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
         () -> Robot.driveTrain.getAngle().toDegrees());
@@ -62,16 +69,17 @@ public class TurnAnglePID extends Command {
 
     //Force the robot to turn to within 3 degrees of the target before ending the command
     pidController.setAbsoluteTolerance(3);
-
     this.amountToTurn = amountToTurn;
   }
 
+  
   // Called just before this Command runs the first time
   @Override
   protected void initialize() 
   {
     //calculate the final direction based on the current direction the robot is facing
     finalAngle = Robot.driveTrain.getAngle().plus(amountToTurn).toDegrees();
+    System.out.print("");
     //set that final direction as the target
     pidController.setSetpoint(finalAngle);
 
@@ -84,6 +92,7 @@ public class TurnAnglePID extends Command {
   {
     //Read the speed that the PID Controller is giving to our fake
     //motor, and tell our actual drive train to turn at that speed
+    
     Robot.driveTrain.drive(0, pidOutput.getOutput());
     SmartDashboard.putString("turnPid", "" + pidOutput.getOutput());
   }
