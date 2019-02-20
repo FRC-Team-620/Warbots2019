@@ -28,6 +28,7 @@ import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
+import org.usfirst.frc620.Warbots2019.drivetrain.TurnAnglePID;
 //import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
@@ -37,6 +38,7 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
@@ -171,6 +173,7 @@ public class Robot extends TimedRobot {
 
         // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new TurnAngle());
+        SmartDashboard.putData(new TurnAnglePID(Angle.fromDegrees(90)));
         SmartDashboard.putData(new DriveDistance());
         SmartDashboard.putData(new DriveStraight());
         SmartDashboard.putData(new DriveStraightDistance());
