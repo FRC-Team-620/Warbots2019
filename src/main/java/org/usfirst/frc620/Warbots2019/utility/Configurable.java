@@ -1,10 +1,12 @@
+package org.usfirst.frc620.Warbots2019.utility;
+
 import java.util.ArrayList;
 
 /**
  * Configurable is an interface that different objects can implement
- * when they wantt o advertise the configuration data they care about.
+ * when they want to advertise the configuration data they care about.
  * A Configurable is then added to a list and passed into the ControlReader
- * so that ConrtolReader can dump a file of all the possible configuration
+ * so that ControlReader can dump a file of all the possible configuration
  * values that are possible in the system.
  */
 public interface Configurable
@@ -43,6 +45,8 @@ public interface Configurable
     /**
      * Return a string showing units and/or possible values/range of values,
      * or null if none for the configuration name.
+     * @param name
+     * @return ArrayList<String>
      */
     abstract public ArrayList<String> getPossibleValuesForName(String name);
 }
