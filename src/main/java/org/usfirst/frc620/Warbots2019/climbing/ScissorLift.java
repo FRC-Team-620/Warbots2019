@@ -22,15 +22,14 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
 
   public ScissorLift(int talonCanID)
   {
-    System.out.println("loaded scissor lift");
+    System.out.println("loaded scissor lift id:" + talonCanID);
     talon = new WPI_TalonSRX(talonCanID);
     talon.configFactoryDefault();
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ControlScissorLiftWithJoystick());
   }
 
   @Override
@@ -58,7 +57,8 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
     return talon.getSensorCollection().isRevLimitSwitchClosed();
   }
 
-  public void drive(double value) {
+  public void drive(double value) 
+  {
     talon.set(ControlMode.PercentOutput, value);
   }
 }

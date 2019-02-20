@@ -5,21 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
+package org.usfirst.frc620.Warbots2019.vision;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+import java.util.Arrays;
+
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class CaptureCargoCommand extends Command {
+public class FollowLineWithCameraCommand extends Command {
 
-  private CargoMech cargoMech;
+  private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
+  private NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");
+  private NetworkTableEntry x2Entry = lineTrackingData.getEntry("x2");
+  private NetworkTableEntry y1Entry = lineTrackingData.getEntry("y1");
+  private NetworkTableEntry y2Entry = lineTrackingData.getEntry("y2");
 
-  public CaptureCargoCommand() {
-    cargoMech = (CargoMech) Robot.scoringMechanism;
+  DriveTrain driveTrain = Robot.driveTrain;
+
+  public FollowLineWithCameraCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(cargoMech);
+
+    requires(driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -30,14 +42,13 @@ public class CaptureCargoCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("Capture");
-    cargoMech.captureCargo();
+    System.out.println("X1 data: " + Arrays.toString(x1Entry.getDoubleArray(new double[0])));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

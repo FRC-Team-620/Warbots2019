@@ -31,14 +31,14 @@ public class EjectCargoCommand extends Command {
   @Override
   protected void execute() {
     System.out.println("Eject");
-  cargoMech.ejectCargo(-1);
-}
+    cargoMech.ejectCargo();
+  }
   //if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

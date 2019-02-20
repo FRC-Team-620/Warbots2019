@@ -17,28 +17,33 @@ import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraight;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightDistance;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
+//import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
+import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.SparkCargoMech;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
-import org.usfirst.frc620.Warbots2019.utility.Angle;
-import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,11 +53,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * project.
  */
 public class Robot extends TimedRobot {
-    
-    Command autonomousCommand;
-    SendableChooser<Command> chooser = new SendableChooser<>();
-
-    public static OI oi;
 
     private static Compressor compressor;
     public static DriveTrain driveTrain;
@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static ControlReader config;
+    public static OI oi;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -70,33 +71,41 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         System.out.println("Robot initiated");
+        
+        // compressor = new Compressor(6);
+        // compressor.setClosedLoopControl(true);
+        // compressor.start();
         // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
+
         config = new ControlReader();
+        StateManager stateMan = StateManager.getInstance();
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_DRIVEDISTANCE, 0.1);
+        stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 3.0);
 
         System.out.println("Connecting to robot " + config.getRobotType());
-
+     
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null) {
             if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain")) {
-                // TODO: Make the subsystem constructors take the ControlReader reference
-                // and have their constructors extract the info they need internally.
                 driveTrain = new SparkDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                System.out.println("Configured with SparkDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) {
-
                 driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                System.out.println("Configured with SparkMaxDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.sim.SimDriveTrain")) {
-
                 driveTrain = new SimDriveTrain();
+                System.out.println("Configured with SimDriveTrain");
             } else {
-                System.err.println("no drive train specified");
+                System.err.println("Configured with no drive train ");
             }
         }
 
         String compressorOption = config.getMappedString("Compressor");
-        if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
+        if (compressorOption != null) /*&& compressorOption.equalsIgnoreCase("true")*/
+        
         {
             compressor = new Compressor(6);
             compressor.setClosedLoopControl(true);
@@ -107,8 +116,10 @@ public class Robot extends TimedRobot {
         if (ScoringMechanism != null) {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
-            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
-                scoringMechanism = new CargoMech(0, 4);
+            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.SparkCargoMech"))
+                scoringMechanism = new SparkCargoMech(0, 4);
+            else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech"))
+                scoringMechanism = new TalonCargoMech(9, 6, 0);
             else if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
@@ -143,12 +154,15 @@ public class Robot extends TimedRobot {
             CameraServer.getInstance().startAutomaticCapture(i);
 
         oi = new OI(config);
-    }
 
-    /**
-     * This function is called when the disabled button is hit. You can use it to
-     * reset subsystems before shutting down.
-     */
+        // Add Command Buttons to Smart Dashboard
+        SmartDashboard.putData(new FollowLineWithCameraCommand());
+        SmartDashboard.putData(new TurnAngle());
+        SmartDashboard.putData(new DriveDistance());
+        SmartDashboard.putData(new DriveStraight());
+        SmartDashboard.putData(new DriveStraightDistance());
+
+    }
     @Override
     public void disabledInit() {
 
@@ -156,7 +170,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        System.out.print("");
 
     }
 
@@ -167,8 +180,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Angle a = new Angle(1.5);
-        Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5)); // test change to TurnAngle 180
+        // Angle a = new Angle(1.5);
+        // Scheduler.getInstance().add(new TurnAngle(driveTrain, a, 0.5)); // test change to TurnAngle 180
     }
 
     /**
@@ -187,8 +200,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null)
-            autonomousCommand.cancel();
+        //if (autonomousCommand != null)
+         //   autonomousCommand.cancel();
     }
 
     /*

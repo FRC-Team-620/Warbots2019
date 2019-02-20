@@ -10,7 +10,6 @@ package org.usfirst.frc620.Warbots2019.elevator;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ControlElevatorWithJoystick extends Command {
@@ -34,7 +33,8 @@ public class ControlElevatorWithJoystick extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  protected void execute() 
+  {
     double speed = Robot.oi.getElevatorSpeed();
     Robot.elevator.drive(-speed * speedFactor);
   }

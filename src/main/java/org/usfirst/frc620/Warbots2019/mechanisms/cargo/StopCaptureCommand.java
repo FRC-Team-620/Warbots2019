@@ -31,13 +31,13 @@ public class StopCaptureCommand extends Command {
   @Override
   protected void execute() {
     System.out.println("Stop");
-  cargoMech.stopCapture(0);
+    cargoMech.stopCapture();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

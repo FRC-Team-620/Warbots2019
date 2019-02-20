@@ -13,14 +13,13 @@ package org.usfirst.frc620.Warbots2019.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.DeployScoringMechanismCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.StowScoringMechanismCommand;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -58,6 +57,9 @@ public class OI {
     public Joystick driverController;
     public JoystickButton moveElevatorToTop;
     public Joystick scorerController;
+    public JoystickButton bButton;
+    public JoystickButton xButton;
+    public JoystickButton aButton;
 
     ArrayList<AxisSpecification>  dynamicControls;
     /**
@@ -82,11 +84,15 @@ public class OI {
             driverController = new Joystick(0);
             System.out.println("driver enabled");
         }
+        else
+            System.out.println("driver not enabled");
         if (scorerEnabled)
         {
             scorerController = new Joystick(1);
             System.out.println("scorer enabled");
         }
+        else
+            System.out.println("scorer not enabled");
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",
@@ -211,8 +217,9 @@ public class OI {
         //aButton = new JoystickButton(driverController, 1);
         //aButton.whenPressed(new DeployScoringMechanismCommand());
 
-        //bButton = new JoystickButton(driverController, 2);
-        //bButton.whenPressed(new StowScoringMechanismCommand());
+        // bButton = new JoystickButton(driverController, 2);
+        // bButton.whenPressed(new StowScoringMechanismCommand());
+        
         // A Button
         // aButton = new JoystickButton(driverController, 1);
         // aButton.whileHeld(new CaptureCargoCommand());
@@ -221,21 +228,16 @@ public class OI {
         // bButton = new JoystickButton(driverController, 2);
         // bButton.whileHeld(new StopCaptureCommand());
 
-        // // X Button
+        // X Button
         // xButton = new JoystickButton(driverController, 3);
         // xButton.whileHeld(new EjectCargoCommand());
-
-        // // Y Button
-        //yButton = new JoystickButton(driverController, 4);
-        //yButton.whenPressed(new ControlCargo());
-
-         // Right Bumper (rb)
-        //rbButton = new JoystickButton(driverController, 5);
-        //rbButton.whenPressed(new Capture());
+        //bButton = new JoystickButton(driverController, 2);
+        //bButton.whenPressed(new StowScoringMechanismCommand());
+        
 
         // // Left Bumper (lb)
-        //lbButton = new JoystickButton(driverController, 6);
-        //lbButton.whenPressed(new Eject());
+        // lbButton = new JoystickButton(driverController, 6);
+        // lbButton.whenPressed(new Eject());
 
         // // Back Button
         //backButton = new JoystickButton(driverController, 7);
@@ -290,6 +292,7 @@ public class OI {
                 break;
             }
         }
+        SmartDashboard.putNumber("Robot Speed", ret);
         return ret;
     }
 
@@ -316,6 +319,7 @@ public class OI {
                 break;
             }
         }
+        SmartDashboard.putNumber("Robot Rotation Rate", ret);
         return ret;
     }
 
@@ -333,6 +337,7 @@ public class OI {
                 break;
             }
         }
+        SmartDashboard.putNumber("Elevator Speed", ret);
         return ret;
     }
     
@@ -345,7 +350,7 @@ public class OI {
     private void loadCommandOntoJoystick(String ctrl, String nameOfTheCMD)
     {
         Joystick controller = null;
-        Command cmd = null;
+        //Command cmd = null;
         String t = "driver";
         //Differentiate which controller is getting talked to
         if(ctrl.startsWith("driver"))

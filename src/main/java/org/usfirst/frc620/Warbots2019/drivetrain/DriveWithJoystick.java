@@ -14,7 +14,7 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
-import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -45,8 +45,10 @@ public class DriveWithJoystick extends Command {
     {
         // These speed/rotation -1.0 to 1.0
         double y_value = Robot.oi.getRobotSpeed();
-        double x_value = Robot.oi.getRobotRotationRate();
+        double x_value = -Robot.oi.getRobotRotationRate();
+
         double angle = Math.atan2(y_value, x_value);
+
         // System.out.println("The x is " + x_value + " the y is " + y_value);
         // System.out.println("The angle is " + angle);
         // System.out.println("The straight is " + (-Math.PI/2 - straightDZ));

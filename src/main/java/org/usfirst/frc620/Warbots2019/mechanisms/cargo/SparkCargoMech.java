@@ -10,41 +10,42 @@ package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Solenoid;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 /**
  * Add your docs here.
  */
-public class CargoMech extends ScoringMechanism {
+public class SparkCargoMech extends CargoMech {
 
-  private WPI_TalonSRX intakeWheels;
+  private double cmspeed = 0.7;
+
+  private SpeedController intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
-  // for TestBot
-  public CargoMech(int mainMotorPort) {
 
-    intakeWheels = new WPI_TalonSRX(mainMotorPort);
-    // I dont think we'll have a limit switch on the robot, at least with CargoMech (not sure about hatch)
-    //limitSwitch = new DigitalInput(limitSwitchPort);
-    //Uses the port for the wheels to instansiate the mainWheels
+  // for TestBot
+  public SparkCargoMech(int mainMotorPort, int limitSwitchPort) {
+
+    SpeedController mainWheels = new Spark(mainMotorPort);
+
+    limitSwitch = new DigitalInput(limitSwitchPort);
+    intakeWheels = new SpeedControllerGroup(mainWheels);
   }
 
-  //for this years robot
-  public CargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort /* or a motor port */, int PCMCanID ) {
-/*
+  // for this years robot
+  public SparkCargoMech(int mainMotorPort, int limitSwitchPort, int mainPistonPort, int PCMCanID) {
+
     SpeedController mainWheels = new Spark(mainMotorPort);
     
+
     limitSwitch = new DigitalInput(limitSwitchPort);
-    //Uses the port for the wheels to instansiate the mainWheels
     intakeWheels = new SpeedControllerGroup(mainWheels);
-    //I don't know if we're using a piston or motor to deploy and stow CargoMech
     mainPiston = new Solenoid(PCMCanID, mainPistonPort);
-    */
   }
   
-
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -52,7 +53,6 @@ public class CargoMech extends ScoringMechanism {
     System.out.print("Working");
   }
 
-  double cmspeed = 0.5;
   public void idle() {
     stow();
   }
@@ -62,15 +62,15 @@ public class CargoMech extends ScoringMechanism {
   }
 
   public void captureCargo() {
-  intakeWheels.set(-cmspeed);
+    intakeWheels.set(cmspeed);
   }
 
   public void stopCapture() {
-  intakeWheels.set(0);
+    intakeWheels.set(0);
   }
 
   public void ejectCargo() {
-    intakeWheels.set(cmspeed);
+    intakeWheels.set(-cmspeed);
   }
 
   public void deploy() {

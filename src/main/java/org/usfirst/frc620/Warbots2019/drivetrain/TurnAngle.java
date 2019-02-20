@@ -16,39 +16,49 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnAngle extends Command {
   private double m_speed;
   private Angle m_angle;
+  private Angle m_startAngle;
   private DriveTrain drivetrain;
+  private double finalAngle;
   //use these, they are giving errors
   
-  public TurnAngle(DriveTrain driveTrain, Angle a, double d){
-
+  public TurnAngle(){
+    drivetrain = Robot.driveTrain;
+    m_speed = 0.5;
+    System.out.println("=== grace is cool ===");
   }
  
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    m_angle = new Angle(StateManager.getInstance().getDoubleValue(StateManager.StateKey.FIELD_ANGLE));
   }
 
  // Called repeatedly when this Command is scheduled to run
  @Override
  protected void execute() {
-  System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle());
-  if (m_angle.toDegrees() < drivetrain.getAngle().toDegrees()) {
-    drivetrain.drive(0, m_speed * -1);
-    System.out.println("Direction: " + m_speed*-1);
-  }
-  else {
-    drivetrain.drive(0, m_speed);
-    System.out.println("Direction: " + m_speed);
-  }
-
+  m_angle = new Angle(StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE)/360.0);
+  m_startAngle = drivetrain.getAngle();
+  finalAngle = m_startAngle.plus(m_angle).toDegrees();
+  System.out.println("*** TurnAngle = " + m_angle.toDegrees());
+   System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle() + ", final angle: " + finalAngle);
+   if (!isFinished())
+   {
+   
+     drivetrain.drive(0, m_speed);
+     System.out.println("Direction: " + m_speed);
+   }
  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (m_angle == drivetrain.getAngle());
+  
+    double diff = Math.abs(m_angle.toDegrees() - drivetrain.getAngle().toDegrees());
+    if (diff < 0.5 )
+    {
+      drivetrain.drive(0, 0.0);
+    }
+    return diff < 0.5;
   }
 
   // Called once after isFinished returns true
