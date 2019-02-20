@@ -59,10 +59,11 @@ public class NavX extends SendableBase {
     {
         setName("NavX");
         navxBoard = port.constructNavxBoard();
+        SmartDashboard.putData(this);
     }
 
     public Angle getAngle() {
-		return Angle.fromDegrees(navxBoard.getYaw());
+		return Angle.fromDegrees(-navxBoard.getYaw());
     }
 
     public void reset()
