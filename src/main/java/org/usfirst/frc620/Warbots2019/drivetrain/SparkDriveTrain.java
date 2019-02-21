@@ -44,6 +44,11 @@ public class SparkDriveTrain extends DriveTrain {
     private SpeedControllerGroup rightMotors;
     private DifferentialDrive differentialDrive;
 
+    private static double kEncoderCount = 360;
+    private static double kGearRatio = 0.9;
+    private static double kWheelDiamter = 4/12;
+    private static double kEncoderCountsPerFoot = (kWheelDiamter * Math.PI * kGearRatio)/kEncoderCount;
+
     private Encoder leftEncoder;
     private Encoder rightEncoder;
     private NavX navX;
@@ -149,7 +154,9 @@ public class SparkDriveTrain extends DriveTrain {
 
     public double getTotalDistanceTravelled()
     {
-        return (-leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+        System.out.println(-leftEncoder.getDistance());
+        System.out.println(rightEncoder.getDistance());
+        return (-leftEncoder.getDistance() + rightEncoder.getDistance()) / 2 * kEncoderCountsPerFoot;
     }
 
     public void resetTotalDistanceTravelled()

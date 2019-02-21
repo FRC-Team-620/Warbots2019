@@ -10,6 +10,9 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.usfirst.frc620.Warbots2019.automation.AlignmentSystem;
 import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 //import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
@@ -25,6 +28,7 @@ import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
+import org.usfirst.frc620.Warbots2019.drivetrain.TurnAnglePID;
 //import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
@@ -34,8 +38,12 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -61,7 +69,7 @@ public class Robot extends TimedRobot {
     public static ClimbingMechanism climbingMechanism;
     public static ControlReader config;
     public static OI oi;
-
+    ConfigurableImpl configurable;
     /**
      * This function is run when the robot is first started up and should be used
      * for any initialization code.
@@ -69,13 +77,22 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         System.out.println("Robot initiated");
-        
+        //We now have a Configurable object with all methods implemented, so programs can carry it around like a suitcase
+        configurable = new ConfigurableImpl();
         // compressor = new Compressor(6);
         // compressor.setClosedLoopControl(true);
         // compressor.start();
         // driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
+        configurable.addElement(new Element("name", "Name Of Robot", null));
+        configurable.addElement(new Element("driver.enabled", "Whether to insantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+        configurable.addElement(new Element("scorer.enabled", "Whether to insantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
 
         config = new ControlReader();
+
+        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+        configurables.add(configurable);
+
+        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
         StateManager stateMan = StateManager.getInstance();
         stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_DRIVEDISTANCE, 0.5);
         stateMan.setDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE, 5.0);
@@ -155,6 +172,7 @@ public class Robot extends TimedRobot {
 
         // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new TurnAngle());
+        SmartDashboard.putData(new TurnAnglePID(Angle.fromDegrees(90)));
         SmartDashboard.putData(new DriveDistance());
         SmartDashboard.putData(new DriveStraight());
         SmartDashboard.putData(new DriveStraightDistance());
