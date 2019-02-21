@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
                 System.out.println("Configured with SparkDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) {
-                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SerialUSB);
                 System.out.println("Configured with SparkMaxDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.sim.SimDriveTrain")) {
@@ -102,13 +102,12 @@ public class Robot extends TimedRobot {
         }
 
         String compressorOption = config.getMappedString("Compressor");
-        if (compressorOption != null) /*&& compressorOption.equalsIgnoreCase("true")*/
-        
+        if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
         {
-            //compressor = new Compressor(6);
-            //
-            //compressor.setClosedLoopControl(true);
-            //compressor.start();
+            compressor = new Compressor(6);
+            
+            compressor.setClosedLoopControl(true);
+            compressor.start();
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
