@@ -10,5 +10,24 @@ package org.usfirst.frc620.Warbots2019.vision;
 /**
  * Add your docs here.
  */
-public class LineProcessor {
+public class LineProcessor 
+{
+    public Line Process (Line screenLine)
+    {
+        Point screenPoint1 = screenLine.getPoint(-50);
+        Point screenPoint2 = screenLine.getPoint(50);
+
+        //math to go from screen to floor
+        Point floorPoint1 = screenPoint1;
+        Point floorPoint2 = screenPoint2;
+
+        //how to get line
+        Line floorLine = Line.getNewInst(floorPoint1, floorPoint2);
+        return floorLine;
+    }
+    
+    private final int Rows = 100;
+    private final int Columns = 50;
 }
+
+

@@ -18,21 +18,11 @@ public class Line
     {
 
     }
-    public Line (double x1, double y1, double x2, double y2)
-    {
-        if (!(x2 - x1 == 0)) this(mFind(x1, y1, x2, y2), bFind(x1, y1, x2, y2));
-            
-        else 
-        {
-            isLine = false;
-            B = x1;
-        }
-
-    }
 
     public static Line getNewInst(double x1, double y1, double x2, double y2)
     {
         Line line;
+
         if (x2 - x1 == 0)
         {
             line = new Line();
@@ -42,7 +32,9 @@ public class Line
             
         else 
         {
-            line = getNewInst(mFind(x1, y1, x2, y2), bFind(x1, y1, x2, y2));
+            double m = (y2-y1) / (x2-x1);
+            double b = -1 * (m - y1);
+            line = getNewInst(m, b);
         }
 
         return line;
@@ -51,35 +43,32 @@ public class Line
     public static Line getNewInst (double m, double b)
     {
         Line line = new Line();
-        line.B = 
-    }
-    private static double mFind (double x1, double y1, double x2, double y2)
-    {
-        return (y2-y1) / (x2-x1);
-    }
-
-    private static double bFind (double x1, double y1, double x2, double y2)
-    {
-        return -1 * ((mFind(x1, y1, x2, y2) * x1) - y1);
+        line.B = b;
+        line.M = m;
+        return line;
     }
     
-    public Line (Point a, Point b)
+    public static Line getNewInst (Point a, Point b)
     {
-        this(a.getX(), a.getY(), b.getX(), b.getY());
-    }
-    public Line (double m, double b)
-    {
-        M = m;
-        B = b;
+        return getNewInst(a.getX(), a.getY(), b.getX(), b.getY());
     }
 
     public Line getPerpendicular (double x, double y)
     {
-        if (!this.isLine) return new Line (1, y, 2, y);
-        if (this.M == 0) return new Line(x, 1, x, 2);
+        if (!this.isLine) return getNewInst(1.0 , y, 2.0, y);
+        if (this.M == 0) return getNewInst(x, 1.0, x, 2.0);
         double m = -1 / this.M;
         double b = -1 * ((m * x) - y);
-        return new Line (m, b);
+        return getNewInst(m, b);
+    }
+
+    public Line getPerpendicular (Point a)
+    {
+        if (!this.isLine) return getNewInst(1.0 , a.getY(), 2.0, a.getY());
+        if (this.M == 0) return getNewInst(a.getX(), 1.0, a.getX(), 2.0);
+        double m = -1 / this.M;
+        double b = -1 * ((m * a.getX()) - a.getY());
+        return getNewInst(m, b);
     }
 
     public boolean isLine() 
