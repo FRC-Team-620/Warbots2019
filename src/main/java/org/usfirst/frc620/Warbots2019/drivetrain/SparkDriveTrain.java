@@ -142,6 +142,7 @@ public class SparkDriveTrain extends DriveTrain {
         //The boolean at the end allows the robot to turn in place
         //if set to true, but it makes the robot harder to maneuver
         //precisely.
+        System.out.println("Driving " + speed + " " + turnRate);
         differentialDrive.arcadeDrive(speed, turnRate);
         /*
         The other software options that work with the drive train
@@ -154,8 +155,8 @@ public class SparkDriveTrain extends DriveTrain {
 
     public double getTotalDistanceTravelled()
     {
-        System.out.println(-leftEncoder.getDistance());
-        System.out.println(rightEncoder.getDistance());
+        // System.out.println(-leftEncoder.getDistance());
+        // System.out.println(rightEncoder.getDistance());
         return (-leftEncoder.getDistance() + rightEncoder.getDistance()) / 2 * kEncoderCountsPerFoot;
     }
 
