@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.net.*;
 import java.util.Properties;
 import java.util.ArrayList;
@@ -260,5 +261,50 @@ public class ControlReader {
             }
         }
         return ret;
+    }
+    public static void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
+    {
+        try
+        {
+            File file = new File(fn);
+            FileWriter writer = new FileWriter(file);
+            for (int i = 0; i<confs.size(); i++)
+            {
+                int j = 0;
+                Configurable cfg = confs.get(i);
+                ArrayList<String> names = cfg.getNames();
+                for (j=0; j<names.size(); j++)
+                {
+                    
+                    String comment = cfg.getCommentForName(names.get(j));
+                    if (comment != null)
+                    {
+                        writer.write("// "+comment);
+                        writer.write("//\n");
+                    }
+                    ArrayList<String> opts = cfg.getPossibleValuesForName(names.get(j));
+                    if (opts != null)
+                    {
+                        writer.write("// Options:\n");
+                        for (int k=0; k<opts.size(); k++)
+                        {
+                            writer.write("//   "+opts.get(k)+"\n");
+                        }
+                    }
+                    else
+                    {
+                        writer.write("// (no options defined)\n");
+                    }
+                    
+                }
+                writer.write(names.get(j)+" = \n");
+                writer.write("\n");
+            }
+            writer.close();
+        }
+        catch(Exception e) 
+        {
+            // Don't care
+        }
     }
 }
