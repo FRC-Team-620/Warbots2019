@@ -10,7 +10,8 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import org.usfirst.frc620.Warbots2019.robot.StateManager;
 import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
-
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public abstract class DriveTrain extends Subsystem 
 {
+    protected ConfigurableImpl configurable;
     public abstract void drive(double speed, double turn);
 
     public abstract void curvatureDrive(double speed, double curvature); 
@@ -29,7 +31,11 @@ public abstract class DriveTrain extends Subsystem
 
     public DriveTrain()
     {
+        configurable = new ConfigurableImpl();
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE, 10);
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_TURNANGLE, 180);
+    }
+    public Configurable asConfigurable() {
+        return configurable;
     }
 }
