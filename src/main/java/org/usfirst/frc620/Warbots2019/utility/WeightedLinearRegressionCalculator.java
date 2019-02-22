@@ -50,6 +50,6 @@ public class WeightedLinearRegressionCalculator
                 .mult(exactFitFunctionVector);
 
         //Create a line from the components of the projection and  it
-        return new Line(projection.get(1, 0), projection.get(0, 0));
+        return Line.getNewInst(projection.get(1, 0), projection.get(0, 0));
     }
 }

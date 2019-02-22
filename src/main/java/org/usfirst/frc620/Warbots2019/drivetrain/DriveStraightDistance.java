@@ -41,8 +41,8 @@ public class DriveStraightDistance extends Command {
   static final double kDDrive = 0.00;
   static final double kFDrive = 0.00;
 
-  static final double kToleranceDegrees = 10f;
-  static final double kToleranceDistance = 5;
+  static final double kToleranceDegrees = 5.0f;
+  static final double kToleranceDistance = 5f;
       public DriveStraightDistance() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -60,30 +60,29 @@ public class DriveStraightDistance extends Command {
     turnController = new PIDController(kPTurn, kITurn, kDTurn, pidTurnSource, pidTurnOutput);
     driveController = new PIDController(kPDrive, kIDrive, kDDrive, pidDriveSource, pidDriveOutput);
     
-    turnController.setInputRange(-180, 180);
+    turnController.setInputRange(0, 360);
 
     turnController.setContinuous();
     //drive Controller is not continuos
 
     turnController.setOutputRange(-0.5, 0.5);
-    driveController.setOutputRange(0, 0.5);
+    driveController.setOutputRange(0, 0.8);
 
     turnController.setAbsoluteTolerance(kToleranceDegrees);
     driveController.setAbsoluteTolerance(kToleranceDistance);
 
     SmartDashboard.putData("Drive PID", driveController);
+    SmartDashboard.putData("Turn PID", turnController);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.driveTrain.resetTotalDistanceTravelled();
-    m_distance = StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE);
+    m_distance = 10;
     m_angle = Robot.driveTrain.getAngle();
     turnController.setSetpoint(m_angle.toDegrees());
     driveController.setSetpoint(m_distance);
-    System.out.println("The DISTANCE TO TRAVELL is " + m_distance);
-    System.out.println("The ENUM says " + StateKey.COMMANDED_DRIVEDISTANCE);
     turnController.enable();
     driveController.enable();
   }
@@ -91,7 +90,7 @@ public class DriveStraightDistance extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("DISTANCE RUN"+ -Robot.driveTrain.getTotalDistanceTravelled() + "DISTANCE OUTPUT" + pidDriveOutput.getOutput() + "DISTANCE TARGET" + driveController.getSetpoint());
+    System.err.println("DISTANCE RUN"+ Robot.driveTrain.getTotalDistanceTravelled() + " DISTANCE OUTPUT" + pidDriveOutput.getOutput() + " DISTANCE TARGET" + driveController.getSetpoint());
     Robot.driveTrain.drive(-pidDriveOutput.getOutput(), pidTurnOutput.getOutput());
   }
 
@@ -107,6 +106,8 @@ public class DriveStraightDistance extends Command {
     Robot.driveTrain.drive(0,0);
     turnController.disable();
     driveController.disable();
+    turnController.reset();
+    driveController.reset();
   }
 
   // Called when another command which requires one or more of the same
