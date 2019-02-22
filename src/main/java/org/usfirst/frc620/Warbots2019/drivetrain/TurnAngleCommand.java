@@ -10,57 +10,56 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.robot.StateManager;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TurnAngle extends Command {
+public class TurnAngleCommand extends Command {
   private DriveTrain drivetrain;
-  //The speed we want to turn
+  // The speed we want to turn
   private double m_speed;
-  //The amount we want to turn
+  // The amount we want to turn
   private Angle m_angle;
-  //The starting angle
+  // The starting angle
   private Angle m_startAngle;
-  //The angle we want to finish at
+  // The angle we want to finish at
   private double finalAngle;
-  //use these, they are giving errors
   
-  public TurnAngle(){
+  private ConfigurableImpl configurable;
+
+  public TurnAngleCommand() {
+    //Instantiates Configuration
+    configurable = new ConfigurableImpl();
+
     drivetrain = Robot.driveTrain;
-    m_speed = 1
-    ;
-    System.out.println("=== grace is cool ===");
+    m_speed = 1;
   }
- 
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
- // Called repeatedly when this Command is scheduled to run
- @Override
- protected void execute() {
-  m_angle = new Angle(StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE)/360.0);
-  m_startAngle = drivetrain.getAngle();
-  finalAngle = m_startAngle.plus(m_angle).toDegrees();
-  System.out.println("*** TurnAngle = " + m_angle.toDegrees());
-   System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle() + ", final angle: " + finalAngle);
-   if (!isFinished())
-   {
-
-     drivetrain.drive(0, m_speed);
-     System.out.println("Direction: " + m_speed);
-   }
- }
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+    m_angle = new Angle(StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE) / 360.0);
+    m_startAngle = drivetrain.getAngle();
+    finalAngle = m_startAngle.plus(m_angle).toDegrees();
+    System.out.println("*** TurnAngle = " + m_angle.toDegrees());
+    System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle() + ", final angle: " + finalAngle);
+    if (!isFinished()) {
+      drivetrain.drive(0, m_speed);
+      System.out.println("Direction: " + m_speed);
+    }
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-  
+
     double diff = Math.abs(m_angle.toDegrees() - drivetrain.getAngle().toDegrees());
-    if (diff < 0.5 )
-    {
+    if (diff < 0.5) {
       drivetrain.drive(0, 0.0);
     }
     return diff < 0.5;
@@ -75,5 +74,9 @@ public class TurnAngle extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+  }
+
+  public ConfigurableImpl asConfigurable(){
+    return configurable;
   }
 }

@@ -20,15 +20,14 @@ import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveDistance;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraight;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightDistance;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightDistancePIDCommand;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightPIDCommand;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
-import org.usfirst.frc620.Warbots2019.drivetrain.TurnAnglePID;
+import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngleCommand;
+import org.usfirst.frc620.Warbots2019.drivetrain.TurnAnglePIDCommand;
 //import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngle;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
@@ -39,11 +38,11 @@ import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPoin
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
-import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
-import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -171,11 +170,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(driveTrain);
 
         // Add Command Buttons to Smart Dashboard
-        SmartDashboard.putData(new TurnAngle());
-        SmartDashboard.putData(new TurnAnglePID(Angle.fromDegrees(90)));
-        SmartDashboard.putData(new DriveDistance());
-        SmartDashboard.putData(new DriveStraight());
-        SmartDashboard.putData(new DriveStraightDistance());
+        SmartDashboard.putData(new TurnAngleCommand());
+        SmartDashboard.putData(new TurnAnglePIDCommand(Angle.fromDegrees(90)));
+        SmartDashboard.putData(new DriveStraightPIDCommand());
+        SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         SmartDashboard.putData(new FollowLineWithCameraCommand());
     }
     @Override
