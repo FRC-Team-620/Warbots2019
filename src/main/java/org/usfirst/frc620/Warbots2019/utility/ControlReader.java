@@ -9,10 +9,14 @@ package org.usfirst.frc620.Warbots2019.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.net.*;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -258,6 +262,70 @@ public class ControlReader {
             {
                 System.err.println("control reader line 258: unable to find file: ["+filename+"]");
             }
+        }
+        return ret;
+    }
+    public static void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
+    {
+        try
+        {
+            System.out.println("Dumping configuration file!");
+            File file = new File(fn);
+            FileWriter writer = new FileWriter(file);
+            for (int i = 0; i<confs.size(); i++)
+            {
+                int j = 0;
+                Configurable cfg = confs.get(i);
+                ArrayList<String> names = cfg.getNames();
+                for (j=0; j<names.size(); j++)
+                {
+                    
+                    String comment = cfg.getCommentForName(names.get(j));
+                    if (comment != null)
+                    {
+                        System.out.println("Comment available!");
+                        writer.write("// "+comment);
+                        writer.write("//\n");
+                    }
+                    ArrayList<String> opts = cfg.getPossibleValuesForName(names.get(j));
+                    if (opts != null)
+                    {
+                        System.out.println("Options available!");
+                        writer.write("// Options:\n");
+                        for (int k=0; k<opts.size(); k++)
+                        {
+                            writer.write("//   "+opts.get(k)+"\n");
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("No options defined");
+                        writer.write("// (no options defined)\n");
+                    }
+                    
+                }
+                System.out.println("J For Loop Cycle complete!");
+                writer.write(names.get(j)+" = \n");
+                writer.write("\n");
+            }
+            writer.close();
+        }
+        catch(Exception e) 
+        {
+            // Don't care
+        }
+    }
+    /**
+     * returns String ArrayList of the paths/filenames that were loaded by dumpConfigurationFile()
+     * @param arr
+     * @return
+     */
+    public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr)
+    {
+        ArrayList<String> ret = new ArrayList<String>;
+        for(int i = 0; i < arr.size(); i++)
+        {
+            ret.add((String)arr.get(i));
         }
         return ret;
     }

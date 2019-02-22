@@ -36,7 +36,7 @@ public class ToggleGrabberOpen extends Command {
     {
       Robot.scoringMechanism.stow();
       System.out.println("Stowed!");
-      toggle = false;
+      toggle = true;
     }
   }
 
