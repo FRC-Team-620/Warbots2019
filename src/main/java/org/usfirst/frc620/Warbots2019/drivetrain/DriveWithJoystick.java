@@ -49,6 +49,14 @@ public class DriveWithJoystick extends Command {
 
         double angle = Math.atan2(y_value, x_value);
 
+        double speedCoeff = 1, turnCoeff = 1;
+
+        if (Robot.oi.getDriverController().getRawButton(5))
+            speedCoeff = .4;
+
+        if (Robot.oi.getDriverController().getRawButton(6))
+            turnCoeff = .4;
+
         // System.out.println("The x is " + x_value + " the y is " + y_value);
         // System.out.println("The angle is " + angle);
         // System.out.println("The straight is " + (-Math.PI/2 - straightDZ));
@@ -61,15 +69,15 @@ public class DriveWithJoystick extends Command {
         }
         else if(isInStraightDeadzone(angle)){
             //System.out.println("is in straightdz");
-            Robot.driveTrain.drive(y_value, 0);
+            Robot.driveTrain.drive(speedCoeff * y_value, 0);
         }
         else if(isInRotationDeadzone(angle)){
             // System.out.println("is in rotationdz");
             //Uses x_value for the turning speed
-            Robot.driveTrain.drive(0, x_value);
+            Robot.driveTrain.drive(0, turnCoeff * x_value);
         }
         else{
-            Robot.driveTrain.drive(y_value, x_value);
+            Robot.driveTrain.drive(speedCoeff * y_value, turnCoeff * x_value);
         }
     }
     
