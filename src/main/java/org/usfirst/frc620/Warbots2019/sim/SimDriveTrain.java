@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class SimDriveTrain 
-    extends DriveTrain 
+public class SimDriveTrain extends DriveTrain 
 {
 
     public SimDriveTrain() 
@@ -35,6 +34,12 @@ public class SimDriveTrain
     public void drive(double speed, double turnRate)
     {
         //System.out.println("drive "+speed+" "+turnRate);
+    }
+
+    @Override
+    public void curvatureDrive(double speed, double curvature) 
+    {
+        //System.out.println("drive "+speed+" "+curvature);
     }
 
     public double getTotalDistanceTravelled()

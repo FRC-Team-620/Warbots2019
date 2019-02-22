@@ -55,7 +55,8 @@ public class TwoTalonElevator extends Elevator {
     @Override
     public void drive(double speed) 
     {
-        if (Math.abs(speed) < 0.3)
+        // System.out.println("Driving elevator " + speed);
+        if (Math.abs(speed) < 0.1)
             talon.stopMotor();
         else
             talon.set(speed);
