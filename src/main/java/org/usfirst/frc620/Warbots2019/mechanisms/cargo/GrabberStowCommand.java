@@ -5,33 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.vision;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import java.util.Arrays;
-
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FollowLineWithCameraCommand extends Command {
+public class GrabberStowCommand extends Command {
 
-  private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
-  private NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");
-  private NetworkTableEntry x2Entry = lineTrackingData.getEntry("x2");
-  private NetworkTableEntry y1Entry = lineTrackingData.getEntry("y1");
-  private NetworkTableEntry y2Entry = lineTrackingData.getEntry("y2");
+  private CargoMech cargoMech;
 
-  DriveTrain driveTrain = Robot.driveTrain;
-
-  public FollowLineWithCameraCommand() {
+  public GrabberStowCommand() {
+    cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-
-    requires(driveTrain);
+    requires(cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -41,19 +29,16 @@ public class FollowLineWithCameraCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() 
-  {
-    System.out.println("X1 data: " + Arrays.toString(x1Entry.getDoubleArray(new double[0])));
-    double speed = 1/3;
-    double curvature = 1;
-    double turnConstant = 0.5;
-    driveTrain.curvatureDrive(1.0/3.0, curvature * turnConstant);
+  protected void execute() {
+    System.out.println("Eject");
+    cargoMech.stow();
   }
+  //if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

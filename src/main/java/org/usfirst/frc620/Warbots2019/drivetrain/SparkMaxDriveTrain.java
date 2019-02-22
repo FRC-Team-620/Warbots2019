@@ -137,6 +137,11 @@ public class SparkMaxDriveTrain extends DriveTrain {
         differentialDrive.arcadeDrive(speed, -1 * turnRate);
     }
 
+    @Override
+    public void curvatureDrive(double speed, double curvature) {
+        differentialDrive.curvatureDrive(speed, curvature, false);
+    }
+
     public double getTotalDistanceTravelled()
     {
         return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;

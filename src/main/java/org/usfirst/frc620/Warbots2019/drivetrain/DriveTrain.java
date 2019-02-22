@@ -20,15 +20,16 @@ public abstract class DriveTrain extends Subsystem
 {
     public abstract void drive(double speed, double turn);
 
+    public abstract void curvatureDrive(double speed, double curvature); 
+
     public abstract Angle getAngle();
 
     public abstract double getTotalDistanceTravelled();
     public abstract void resetTotalDistanceTravelled();
 
-
-    public DriveTrain(){
+    public DriveTrain()
+    {
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE, 10);
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_TURNANGLE, 180);
-        
     }
 }
