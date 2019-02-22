@@ -152,6 +152,11 @@ public class SparkDriveTrain extends DriveTrain {
         */
     }
 
+    @Override
+    public void curvatureDrive(double speed, double curvature) {
+        differentialDrive.curvatureDrive(speed, curvature, false);
+    }
+
     public double getTotalDistanceTravelled()
     {
         System.out.println(-leftEncoder.getDistance());

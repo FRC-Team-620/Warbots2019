@@ -41,8 +41,13 @@ public class FollowLineWithCameraCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  protected void execute() 
+  {
     System.out.println("X1 data: " + Arrays.toString(x1Entry.getDoubleArray(new double[0])));
+    double speed = 1/3;
+    double curvature = 1;
+    double turnConstant = 0.5;
+    driveTrain.curvatureDrive(1.0/3.0, curvature * turnConstant);
   }
 
   // Make this return true when this Command no longer needs to run execute()
