@@ -10,5 +10,10 @@ package org.usfirst.frc620.Warbots2019.vision;
 /**
  * Add your docs here.
  */
-public class Line {
+public class Line 
+{
+    public Line(double m, double b)
+    {
+        
+    }
 }
