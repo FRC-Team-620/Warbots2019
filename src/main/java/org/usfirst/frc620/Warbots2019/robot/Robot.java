@@ -32,11 +32,7 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-<<<<<<< HEAD
 import org.usfirst.frc620.Warbots2019.utility.Logger;
-=======
-import org.usfirst.frc620.Warbots2019.utility.WeightedLinearRegressionCalculator;
->>>>>>> 108ae2813ce587926fd2584093653fc172c65af2
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 import org.usfirst.frc620.Warbots2019.vision.Line;
 
@@ -83,19 +79,12 @@ public class Robot extends TimedRobot {
      * for any initialization code.
      */
     @Override
-<<<<<<< HEAD
     public void robotInit() {
 
         Logger.log("robotInit: Robot initialized");
 
         // We now have a Configurable object with all methods implemented
         // so programs can carry it around like a suitcase
-=======
-    public void robotInit() 
-    {
-        System.out.println("Robot initiated");
-        //We now have a Configurable object with all methods implemented, so programs can carry it around like a suitcase
->>>>>>> 108ae2813ce587926fd2584093653fc172c65af2
         configurable = new ConfigurableImpl();
         configurable.addElement(new Element("name", "Name Of Robot", null));
         configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));

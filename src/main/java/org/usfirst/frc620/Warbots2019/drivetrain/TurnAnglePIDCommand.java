@@ -26,7 +26,6 @@ public class TurnAnglePIDCommand extends Command {
   private PIDController pidController;
   private DummyPIDOutput pidOutput;
   private Angle amountToTurn;
-  private Angle angle;
 
   private ConfigurableImpl configurable;
 
@@ -39,10 +38,12 @@ public class TurnAnglePIDCommand extends Command {
   static final double kToleranceDegrees = 5.0f;
 
   public TurnAnglePIDCommand(Angle amountToTurn) {
+    
     requires(Robot.driveTrain);
 
-    //Instantiates Configuration
+    // Instantiates Configuration
     configurable = new ConfigurableImpl();
+
     // PIDControllers expect a single sensor, so if the data comes from
     // the drive train, we have to make a pretend sensor that pulls data+
     // from the drive train.
@@ -99,14 +100,13 @@ public class TurnAnglePIDCommand extends Command {
     // motor, and tell our actual drive train to turn at that speed
 
     Robot.driveTrain.drive(0, pidOutput.getOutput());
-    System.out.println(pidOutput.getOutput() + " " + Robot.driveTrain.getAngle().toDegrees());
+    // System.out.println(pidOutput.getOutput() + " " + Robot.driveTrain.getAngle().toDegrees());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return pidController.onTarget();
-    // return false;
   }
 
   // Called once after isFinished returns true
