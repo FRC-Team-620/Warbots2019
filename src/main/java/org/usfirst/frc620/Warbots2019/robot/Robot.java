@@ -42,10 +42,13 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.WeightedLinearRegressionCalculator;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
+import org.usfirst.frc620.Warbots2019.vision.Line;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -74,7 +77,8 @@ public class Robot extends TimedRobot {
      * for any initialization code.
      */
     @Override
-    public void robotInit() {
+    public void robotInit() 
+    {
         System.out.println("Robot initiated");
         //We now have a Configurable object with all methods implemented, so programs can carry it around like a suitcase
         configurable = new ConfigurableImpl();

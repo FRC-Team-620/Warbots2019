@@ -45,6 +45,7 @@ public class Line
         Line line = new Line();
         line.B = b;
         line.M = m;
+        line.isLine = true;
         return line;
     }
     
@@ -79,6 +80,15 @@ public class Line
     public Point getPoint (double x)
     {
         return new Point(x, (M * x + B));
+    }
+
+    @Override
+    public String toString()
+    {
+        if (isLine)
+            return "line[y = (" + M + ")x + (" + B + ")]";
+        else
+            return "line[x = (" + B + ")]";
     }
 
     private double M;
