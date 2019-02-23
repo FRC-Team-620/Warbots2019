@@ -3,9 +3,9 @@
 package org.usfirst.frc620.Warbots2019.utility;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class ConfigurableImpl implements Configurable {
+public class ConfigurableImpl implements Configurable 
+{
 
     private ArrayList<Element> configElements;
 
@@ -14,9 +14,9 @@ public class ConfigurableImpl implements Configurable {
      * for any initialization code.
      */
 
-    public ConfigurableImpl(){
+    public ConfigurableImpl()
+    {
         configElements = new ArrayList<Element>();
-        
     }
     
     public void addElement(Element e)
@@ -42,6 +42,7 @@ public class ConfigurableImpl implements Configurable {
         }
         return names;
     }
+
     /**
      * returns a list with the possible values for a config element s 
      * @return ArrayList<String> "possible values" posValues
@@ -59,6 +60,7 @@ public class ConfigurableImpl implements Configurable {
         }
         return posValues;
     }
+    
     /**
      * returns the comment present for config element s
      * @return String comment

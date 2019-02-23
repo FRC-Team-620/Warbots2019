@@ -63,8 +63,10 @@ public class ControlReader
             "C:" + s + "Users" + s + "Public" + s + "frc2019" + s + "workspace" + s + 
                 "Warbots2019" + s + "src" + s + "main" + s + "deploy"));
         
+        // Look first for MAC-address based robot file
         if (!lookForFiles(robotFileName))
         {
+            // This is only for debugging in case there's no MAC-address based file
             System.err.println("control reader line 62: Unable to locate MAC-based robot config ["+robotFileName+"]");
             if (!lookForFiles("laptop_robot.properties"))
             {
@@ -83,11 +85,18 @@ public class ControlReader
         }
         else
         {
+            // Look for robot-specific driver/scorer files in case there's no 
+            // user-specific files in USB stick.
             SmartDashboard.putString("Robot Name", name);
             Logger.log("control reader line 80: Name of robot is: " + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
         }
+
+        // Look for user-provided files that should be on the USB stick for matches
+        lookForFiles("driver.properties");
+        lookForFiles("scorer.properties"); 
+
         for (int i=0; i<loadedFiles.size(); i++)
             Logger.log("  file loaded: ["+loadedFiles.get(i)+"]");
 
