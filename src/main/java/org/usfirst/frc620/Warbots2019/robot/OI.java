@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -61,6 +62,10 @@ public class OI {
     public JoystickButton xButton;
     public JoystickButton aButton;
 
+    private AxisSpecification speedSpec;
+    private AxisSpecification robotRotationSpec;
+    private AxisSpecification elevatorSpeedSpec;
+
     ArrayList<AxisSpecification>  dynamicControls;
     /**
      * The Operator Interface of the robot, lets the driver and scorer interact with
@@ -73,26 +78,40 @@ public class OI {
      */
     public OI(ControlReader config) 
     {
+        speedSpec = null;
+        robotRotationSpec = null;
+        elevatorSpeedSpec = null;
         dynamicControls = new ArrayList<AxisSpecification>();
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
-        //System.out.println("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
+        //Logger.log("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
 
 
         if (driverEnabled)
         {
             driverController = new Joystick(0);
-            System.out.println("driver enabled");
+            Logger.log("driver enabled");
+            if (scorerEnabled)
+            {
+                scorerController = new Joystick(1);
+                Logger.log("scorer enabled");
+            }
+            else
+            {
+                Logger.log("scorer not enabled");
+            }   
         }
         else
-            System.out.println("driver not enabled");
-        if (scorerEnabled)
         {
-            scorerController = new Joystick(1);
-            System.out.println("scorer enabled");
+            Logger.log("driver not enabled");
+            if (scorerEnabled)
+            {
+                scorerController = new Joystick(0);
+                Logger.log("scorer enabled");
+            }
+            else
+                Logger.log("scorer not enabled");
         }
-        else
-            System.out.println("scorer not enabled");
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",
@@ -150,9 +169,9 @@ public class OI {
             "driver.RightTrigger",
             //Scorer commands 
             "scorer.LeftJS.X",
-            "scorer.LeftJS.X",
+            "scorer.LeftJS.Y",
             "scorer.RightJS.X",
-            "scorer.RightJS.X",
+            "scorer.RightJS.Y",
             "scorer.LeftTrigger",
             "scorer.RightTrigger"
         ));
@@ -160,7 +179,7 @@ public class OI {
         //
         // Loop through the possible controls
         //
-        System.out.println("Looping through the possible binary controls");
+        //Logger.log("Looping through the possible binary controls");
         for(int i = 0; i < availableBinaryControls.size(); i++)
         {
             String ctrl = availableBinaryControls.get(i);
@@ -182,15 +201,15 @@ public class OI {
             }
         }
         
-        System.out.println("Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
+        Logger.log("Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
         for(int i = 0; i < availableAnalogControls.size(); i++)
         {
             String ctrl = availableAnalogControls.get(i);
-            System.out.println("dynamic control mapping: ["+i+"] ["+ctrl+"]");
+            Logger.log("dynamic control mapping: ["+i+"] ["+ctrl+"]");
             String cfgValue = config.getMappedString(ctrl);
             if (cfgValue != null)
             {
-                System.out.println("            =["+cfgValue+"]");
+                Logger.log("            =["+cfgValue+"]");
                 AxisSpecification axisSpec = AxisSpecification.buildAxisSpecification(ctrl, cfgValue);
 
                 if (driverEnabled && ctrl.startsWith("driver"))
@@ -206,6 +225,11 @@ public class OI {
                 {
                     dynamicControls.add(axisSpec);
                 }
+                Logger.log("  new AsixSpec: "+axisSpec.toString());
+            }
+            else
+            {
+                System.err.println("OI Unknown cfg value for "+ctrl);
             }
         }
          //spinOutOfControlButton = new JoystickButton(driverController, 1);
@@ -281,18 +305,29 @@ public class OI {
     public double getRobotSpeed()
     {
         double ret = 0.0;
-        
-        for (int i = 0; i<dynamicControls.size(); i++)
+        if (speedSpec == null)
         {
-            AxisSpecification t = dynamicControls.get(i);
-            if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
-                (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_SPEED))
+            for (int i = 0; i<dynamicControls.size(); i++)
             {
-                ret = getAnalogValue(t);
-                break;
+                AxisSpecification t = dynamicControls.get(i);
+                if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
+                    (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_SPEED))
+                {
+                    speedSpec = t;
+                    break;
+                }
             }
+            SmartDashboard.putNumber("Robot Speed", ret);
         }
-        SmartDashboard.putNumber("Robot Speed", ret);
+        if (speedSpec != null)
+        {
+            ret = getAnalogValue(speedSpec);
+            //Logger.log("ret: "+ret);
+        }
+        else
+        {
+            //System.err.println("IO.getRobotSpeed: no speed specification found!");
+        }
         return ret;
     }
 
@@ -307,17 +342,27 @@ public class OI {
     public double getRobotRotationRate()
     {
         double ret = 0.0;
-        
-        for (int i = 0; i<dynamicControls.size(); i++)
+        if (robotRotationSpec == null)
         {
-            AxisSpecification t = dynamicControls.get(i);
-
-            if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
-                (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_ROTATION_RATE))
+            for (int i = 0; i<dynamicControls.size(); i++)
             {
-                ret = getAnalogValue(t);
-                break;
+                AxisSpecification t = dynamicControls.get(i);
+
+                if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
+                    (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_ROTATION_RATE))
+                {
+                    robotRotationSpec = t;
+                    break;
+                }
             }
+        }
+        if (robotRotationSpec != null)
+        {
+            ret = getAnalogValue(robotRotationSpec);
+        }
+        else
+        {
+            //System.err.println("getRobotRotationRate: no rotation rate control spec");
         }
         SmartDashboard.putNumber("Robot Rotation Rate", ret);
         return ret;
@@ -326,16 +371,28 @@ public class OI {
     public double getElevatorSpeed()
     {
         double ret = 0.0;
-        
-        for (int i = 0; i<dynamicControls.size(); i++)
+        if (elevatorSpeedSpec == null)
         {
-            AxisSpecification t = dynamicControls.get(i);
-
-            if (t.valueType == AxisSpecification.UserControlValueType.UCVT_ELEVATOR_SPEED)
+            for (int i = 0; i<dynamicControls.size(); i++)
             {
-                ret = getAnalogValue(t);
-                break;
+                AxisSpecification t = dynamicControls.get(i);
+
+                if (t.valueType == AxisSpecification.UserControlValueType.UCVT_ELEVATOR_SPEED)
+                {
+                    Logger.log("getElevatorSpeed: got Elevator speed spec");
+                    elevatorSpeedSpec = t;
+                    
+                    break;
+                }
             }
+        }
+        if (elevatorSpeedSpec != null)
+        {
+            ret = getAnalogValue(elevatorSpeedSpec);
+        }
+        else
+        {
+            System.err.println("getElevatorSpeed: no elevator speed control spec");
         }
         SmartDashboard.putNumber("Elevator Speed", ret);
         return ret;
@@ -387,7 +444,7 @@ public class OI {
         }
         else
         {
-            System.out.println("Unsuccessful determination of the controller: Control = " + ctrl);
+            Logger.log("Unsuccessful determination of the controller: Control = " + ctrl);
         }
         //Unsuccessful determination of the controller
     
@@ -410,9 +467,11 @@ public class OI {
             {
                 Class<?> clw = Class.forName(pkgs[i].getName() + "." + str);
                 ret = (Command) clw.getDeclaredConstructor().newInstance();
-                System.out.println("Successfully allocated the command " + ret + " to the robot!");
+                Logger.log("Successfully allocated the command " + ret + " to the robot!");
                 break;
-            }catch(Exception e){ 
+            }
+            catch(Exception e)
+            { 
                 //We are expecting a lot of exceptions, so no system.err.println or printStackTrace is needed
                 
             }
@@ -453,61 +512,74 @@ public class OI {
         double ret = 0.0;
         if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_JOYSTICK)
         {
-            GenericHID joystick = Robot.oi.driverController;
+            GenericHID joystick = driverController;
             if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
             {
-                joystick = Robot.oi.scorerController;
+                joystick = scorerController;
             }
-
-            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
-            {
-                // Left JS Y
-                ret = joystick.getRawAxis(1);
-            }
-            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-            {
-                // Left JS X
-                ret = joystick.getRawAxis(0);
-            }                    
+            //if (joystick != null)
+            //{
+            
+                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+                {
+                    // Left JS Y
+                    ret = joystick.getRawAxis(1);
+                }
+                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+                {
+                    // Left JS X
+                    ret = joystick.getRawAxis(0);
+                }
+           // }                    
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_JOYSTICK)
         {
-            GenericHID joystick = Robot.oi.driverController;
+            GenericHID joystick = driverController;
             if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
             {
-                joystick = Robot.oi.scorerController;
+                joystick = scorerController;
             }
 
-            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
-            {
-                // Right JS Y
-                ret = joystick.getRawAxis(5);
-            }
-            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-            {
-                // Right JS X
-                ret = joystick.getRawAxis(4);
-            }                    
+            //if (joystick != null)
+            //{
+                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+                {
+                    // Right JS Y
+                    ret = joystick.getRawAxis(5);
+                }
+                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+                {
+                    // Right JS X
+                    ret = joystick.getRawAxis(4);
+                }               
+            //}     
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_TRIGGER)
         {
-            GenericHID joystick = Robot.oi.driverController;
-            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
-            {
-                joystick = Robot.oi.scorerController;
-            }
-            ret = joystick.getRawAxis(3);
+            GenericHID joystick = driverController;
+            //if (joystick != null)
+            //{
+                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+                {
+                    joystick = scorerController;
+                }
+                ret = joystick.getRawAxis(3);
+            //}
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_TRIGGER)
         {
-            GenericHID joystick = Robot.oi.driverController;
-            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
-            {
-                joystick = Robot.oi.scorerController;
-            }
-            ret = joystick.getRawAxis(2);
+            GenericHID joystick = driverController;
+            //if (joystick != null)
+            //{
+                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+                {
+                    joystick = scorerController;
+                }
+                ret = joystick.getRawAxis(2);
+            //}
         }
         // Etc...
+
         return ret;
     }
 }
