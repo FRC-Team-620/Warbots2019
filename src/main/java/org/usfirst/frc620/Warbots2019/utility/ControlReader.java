@@ -67,10 +67,10 @@ public class ControlReader
         if (!lookForFiles(robotFileName))
         {
             // This is only for debugging in case there's no MAC-address based file
-            System.err.println("control reader line 62: Unable to locate MAC-based robot config ["+robotFileName+"]");
+            System.err.println("ControlReader: Unable to locate MAC-based robot config ["+robotFileName+"]");
             if (!lookForFiles("laptop_robot.properties"))
             {
-                System.err.println("control reader line 65: Unable to locate ANY robot properties");
+                System.err.println("ControlReader: Unable to locate ANY robot properties");
             }
         }
         
@@ -81,14 +81,14 @@ public class ControlReader
         String name = this.getNamedValue("name");
         if(name == null)
         {
-            System.err.println("control reader line 76: Config missing name property");
+            System.err.println("ControlReader: Config missing name property");
         }
         else
         {
             // Look for robot-specific driver/scorer files in case there's no 
             // user-specific files in USB stick.
             SmartDashboard.putString("Robot Name", name);
-            Logger.log("control reader line 80: Name of robot is: " + name);
+            Logger.log("ControlReader: Name of robot is: " + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
         }
@@ -152,7 +152,7 @@ public class ControlReader
         }
         if(!hasName(str))
         {
-            System.err.println("control reader line 116: doesn't have name " + str);    
+            System.err.println("ControlReader: doesn't have name " + str);    
         }
         if (ret != null)
         {
@@ -248,7 +248,7 @@ public class ControlReader
         String ret = null;
         try
         {
-            //Logger.log("control reader line 212: Get Robot Type");
+            //Logger.log("ControlReader: Get Robot Type");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
@@ -267,7 +267,7 @@ public class ControlReader
         }
         catch(Exception e)
         {
-            System.err.println("control reader line 232: Error Getting Robot Type: " + e.getMessage());
+            System.err.println("ControlReader: Error Getting Robot Type: " + e.getMessage());
         }
         return ret;
     }
@@ -280,21 +280,21 @@ public class ControlReader
     public boolean lookForFiles(String filename)
     {
         boolean ret = false;
-        //Logger.log("control reader line 245: Looking for file: ["+filename+"]");
+        //Logger.log("ControlReader: Looking for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
         {
             try
             {    
                 prop.load(new FileInputStream(new File(searchPath.get(i) + s + filename)));
                 SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
-                //Logger.log ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
+                //Logger.log ("ControlReader: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
                 loadedFiles.add(searchPath.get(i) + s + filename);
                 break;
             }
             catch(Exception e)
             {
-                System.err.println("control reader line 258: unable to find file: ["+filename+"]");
+                System.err.println("ControlReader: unable to find file: ["+filename+"]");
             }
         }
         return ret;
@@ -314,7 +314,7 @@ public class ControlReader
             File file = new File(fn);
             FileWriter writer = new FileWriter(file);
             writer.write("##########################################################\n");
-            writer.write("#  This file was generator at one time - in order to ease\n");
+            writer.write("#  This file was generated at one time - in order to ease\n");
             writer.write("#  comparison with other config files it is advisable that\n");
             writer.write("#  you do not alter the ORDER of things, though you're free\n");
             writer.write("#  to change the values, comment-out, or remove names altogether\n");
