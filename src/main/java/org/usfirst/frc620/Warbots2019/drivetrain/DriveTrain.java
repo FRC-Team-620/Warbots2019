@@ -11,7 +11,7 @@ import org.usfirst.frc620.Warbots2019.robot.StateManager;
 import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
-import org.usfirst.frc620.Warbots2019.utility.Configurable;;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
