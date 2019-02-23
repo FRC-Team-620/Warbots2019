@@ -5,7 +5,7 @@ package org.usfirst.frc620.Warbots2019.sim;
 
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystickCommand;
 import org.usfirst.frc620.Warbots2019.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,7 +22,7 @@ public class SimDriveTrain extends DriveTrain
     @Override
     public void initDefaultCommand() 
     {
-        setDefaultCommand(new DriveWithJoystick());
+        setDefaultCommand(new DriveWithJoystickCommand());
         System.out.println("We are in sim drive train");
     }
 
