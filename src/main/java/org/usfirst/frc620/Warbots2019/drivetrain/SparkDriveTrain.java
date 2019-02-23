@@ -116,7 +116,7 @@ public class SparkDriveTrain extends DriveTrain {
     @Override
     public void initDefaultCommand() 
     {
-        setDefaultCommand(new DriveWithJoystick());
+        setDefaultCommand(new DriveWithJoystickCommand());
     }
 
     @Override
