@@ -5,20 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
+package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class GrabberDeployCommand extends Command {
+public class TazCloseCommand extends Command {
 
-  CargoMech cargoMech = (CargoMech) Robot.scoringMechanism;
+  private TazGrabber tazGrabber;
 
-  public GrabberDeployCommand() {
+  public TazCloseCommand() {
+    tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(cargoMech);
+    //requires(tazGrabber);
   }
 
   // Called just before this Command runs the first time
@@ -29,15 +30,13 @@ public class GrabberDeployCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("Eject");
-    cargoMech.deploy();
+    tazGrabber.close();
   }
-  //if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
