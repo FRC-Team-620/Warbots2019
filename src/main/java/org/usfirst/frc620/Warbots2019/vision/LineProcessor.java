@@ -26,8 +26,8 @@ public class LineProcessor
         return floorLine;
     }
     
-    private final int Rows = 100;
-    private final int Columns = 50;
+    // private final int Rows = 100;
+    // private final int Columns = 50;
 }
 
 
