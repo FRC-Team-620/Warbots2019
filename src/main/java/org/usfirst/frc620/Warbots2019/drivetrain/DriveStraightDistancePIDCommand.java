@@ -8,9 +8,8 @@
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.robot.StateManager;
-import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.DummyPIDOutput;
 import org.usfirst.frc620.Warbots2019.utility.LambdaPIDSource;
 
@@ -18,8 +17,9 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveStraight extends Command {
+public class DriveStraightDistancePIDCommand extends Command {
   private double m_distance;
   private Angle m_angle;
   private PIDController turnController;
@@ -29,72 +29,75 @@ public class DriveStraight extends Command {
   double driveToDistanceRate;
   private DummyPIDOutput pidDriveOutput;
 
+  private ConfigurableImpl configurable;
+
   static final double kPTurn = 0.03;
   static final double kITurn = 0.00;
   static final double kDTurn = 0.00;
   static final double kFTurn = 0.00;
 
-  static final double kPDrive = 0.3;
+  static final double kPDrive = 0.1;
   static final double kIDrive = 0.00;
   static final double kDDrive = 0.00;
   static final double kFDrive = 0.00;
 
-  static final double kToleranceDegrees = 10f;
-  static final double kToleranceDistance = 1f;
+  static final double kToleranceDegrees = 5.0f;
+  static final double kToleranceDistance = 5f;
 
-  public DriveStraight() {
+  public DriveStraightDistancePIDCommand() {
+    //Instantiates Configuration
+    configurable = new ConfigurableImpl();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    System.out.println("hello");
     requires(Robot.driveTrain);
 
-    PIDSource pidTurnSource = new LambdaPIDSource(PIDSourceType.kDisplacement, 
-      () -> Robot.driveTrain.getAngle().toDegrees());
+    PIDSource pidTurnSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
+        () -> Robot.driveTrain.getAngle().toDegrees());
 
-    PIDSource pidDriveSource = new LambdaPIDSource(PIDSourceType.kDisplacement, 
-      () -> Robot.driveTrain.getTotalDistanceTravelled());
+    PIDSource pidDriveSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
+        () -> Robot.driveTrain.getTotalDistanceTravelled());
 
     pidTurnOutput = new DummyPIDOutput();
     pidDriveOutput = new DummyPIDOutput();
-    
+
     turnController = new PIDController(kPTurn, kITurn, kDTurn, pidTurnSource, pidTurnOutput);
     driveController = new PIDController(kPDrive, kIDrive, kDDrive, pidDriveSource, pidDriveOutput);
-    
-    turnController.setInputRange(-180, 180);
-    driveController.setInputRange(-1, 1);
+
+    turnController.setInputRange(0, 360);
 
     turnController.setContinuous();
-    //drive Controller is not continuos
+    // drive Controller is not continuos
 
-    turnController.setOutputRange(-0.3, 0.3);
-    driveController.setOutputRange(-1, 1);
+    turnController.setOutputRange(-0.5, 0.5);
+    driveController.setOutputRange(0, 0.8);
 
     turnController.setAbsoluteTolerance(kToleranceDegrees);
     driveController.setAbsoluteTolerance(kToleranceDistance);
 
-    
+    SmartDashboard.putData("Drive PID", driveController);
+    SmartDashboard.putData("Turn PID", turnController);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
-    m_distance = StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE);
+    Robot.driveTrain.resetTotalDistanceTravelled();
+    m_distance = 10;
     m_angle = Robot.driveTrain.getAngle();
     turnController.setSetpoint(m_angle.toDegrees());
-    System.out.println("The angle is " + m_angle.toDegrees());
+    driveController.setSetpoint(m_distance);
     turnController.enable();
     driveController.enable();
-    Robot.driveTrain.resetTotalDistanceTravelled();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.drive(0.5, pidTurnOutput.getOutput());
-    System.out.println("The turn output is " + pidTurnOutput.getOutput() + " The drive output is " + pidDriveOutput.getOutput());
-
+    System.err.println("Distance Run: " + Robot.driveTrain.getTotalDistanceTravelled() + " Distance Output: "
+        + pidDriveOutput.getOutput() + " Distance Target: " + driveController.getSetpoint());
+    Robot.driveTrain.drive(-pidDriveOutput.getOutput(), pidTurnOutput.getOutput());
   }
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
@@ -104,14 +107,21 @@ public class DriveStraight extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.driveTrain.drive(0, 0);
     turnController.disable();
     driveController.disable();
+    turnController.reset();
+    driveController.reset();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    this.end();
+    end();
+  }
+
+  public ConfigurableImpl asConfigurable(){
+    return configurable;
   }
 }

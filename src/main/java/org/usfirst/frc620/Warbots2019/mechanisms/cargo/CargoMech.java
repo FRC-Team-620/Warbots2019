@@ -72,7 +72,7 @@ public class CargoMech extends ScoringMechanism {
   }
 
   public void captureCargo() {
-  intakeWheels.set(-cmspeed);
+    intakeWheels.set(-cmspeed);
   }
 
   public void stopCapture() {

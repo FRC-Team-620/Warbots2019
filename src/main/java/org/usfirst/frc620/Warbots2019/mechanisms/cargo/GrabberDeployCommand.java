@@ -5,54 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.drivetrain;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.robot.StateManager;
-import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveDistance extends Command {
-  private double m_speed;
-  private double m_distance;
-  private double init_position;
-  private double position;
-  private double final_position;
+public class GrabberDeployCommand extends Command {
 
-  public DriveDistance() {
-    
+  CargoMech cargoMech = (CargoMech) Robot.scoringMechanism;
+
+  public GrabberDeployCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+    requires(cargoMech);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    m_distance = StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE);
-    m_speed = 0.1;
-    init_position = Robot.driveTrain.getTotalDistanceTravelled();
-    final_position = init_position + m_distance;
-    System.out.println("The initial distance is: " + init_position);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.drive(m_speed, 0);
-    position = Robot.driveTrain.getTotalDistanceTravelled() - init_position;
+    System.out.println("Eject");
+    cargoMech.deploy();
   }
-//h
+  //if(cargoMech)
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = Math.abs(position) >= final_position;
-    if (Math.abs(position) >= final_position)
-      Robot.driveTrain.drive(0, 0);
-
-    init_position = 0;
-    return ret;
+    return true;
   }
 
   // Called once after isFinished returns true
