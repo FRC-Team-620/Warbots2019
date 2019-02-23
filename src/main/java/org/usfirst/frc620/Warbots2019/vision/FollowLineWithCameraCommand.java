@@ -16,54 +16,63 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class FollowLineWithCameraCommand extends Command {
 
-  private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
-  private NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");
-  private NetworkTableEntry x2Entry = lineTrackingData.getEntry("x2");
-  private NetworkTableEntry y1Entry = lineTrackingData.getEntry("y1");
-  private NetworkTableEntry y2Entry = lineTrackingData.getEntry("y2");
-
-  DriveTrain driveTrain = Robot.driveTrain;
-
-  public FollowLineWithCameraCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-
-    requires(driveTrain);
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() 
-  {
-    System.out.println("X1 data: " + Arrays.toString(x1Entry.getDoubleArray(new double[0])));
-    double speed = 1/3;
-    double curvature = 1;
+public class FollowLineWithCameraCommand extends Command 
+{
     double turnConstant = 0.5;
-    driveTrain.curvatureDrive(1.0/3.0, curvature * turnConstant);
-  }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    DriveTrain driveTrain = Robot.driveTrain; 
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
+    public FollowLineWithCameraCommand() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+        requires(driveTrain);
+    }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
+
+
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+    }
+
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+
+        double speed = 1 / 3;
+        double curvature = 1;
+        driveTrain.curvatureDrive(1.0 / 3.0, curvature * turnConstant);
+    }
+
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
+
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) 
+    {
+        super.initSendable(builder);
+
+        builder.addDoubleProperty("Turn Curvature Constant", () -> turnConstant , (turnConstant) -> 
+          { 
+            this.turnConstant = turnConstant; 
+          });
+    }
 }
