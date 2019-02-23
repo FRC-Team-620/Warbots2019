@@ -79,7 +79,7 @@ public class ControlReader {
         else
         {
             SmartDashboard.putString("Robot Name", name);
-            System.out.println("control reader line 80: Name of robot is: " + name);
+            //System.out.println("control reader line 80: Name of robot is: " + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
         }
@@ -115,13 +115,13 @@ public class ControlReader {
         }
         if(!hasName(str))
         {
-            System.out.println("control reader line 116: doesn't have name " + str);    
+            System.err.println("control reader line 116: doesn't have name " + str);    
         }
         if (ret != null)
         {
             ret = ret.trim();
         }
-        System.out.println("control reader line 122: found name " + str);    
+        //System.out.println("control reader line 122: found name " + str);    
         return ret;
     }
 
@@ -212,7 +212,7 @@ public class ControlReader {
         String ret = null;
         try
         {
-            System.out.println("control reader line 212: Get Robot Type");
+            //System.out.println("control reader line 212: Get Robot Type");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
@@ -244,14 +244,14 @@ public class ControlReader {
     public boolean lookForFiles(String filename)
     {
         boolean ret = false;
-        System.out.println("control reader line 245: Looking for file: ["+filename+"]");
+        //System.out.println("control reader line 245: Looking for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
         {
             try
             {    
                 prop.load(new FileInputStream(new File(searchPath.get(i) + s + filename)));
                 SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
-                System.out.println ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
+                //System.out.println ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
                 break;
             }
@@ -275,16 +275,18 @@ public class ControlReader {
                 ArrayList<String> names = cfg.getNames();
                 for (j=0; j<names.size(); j++)
                 {
-                    
+
                     String comment = cfg.getCommentForName(names.get(j));
                     if (comment != null)
                     {
-                        writer.write("// "+comment);
+                        writer.write("// "+comment+"\\n");
                         writer.write("//\n");
                     }
+
                     ArrayList<String> opts = cfg.getPossibleValuesForName(names.get(j));
                     if (opts != null)
                     {
+
                         writer.write("// Options:\n");
                         for (int k=0; k<opts.size(); k++)
                         {
@@ -295,15 +297,17 @@ public class ControlReader {
                     {
                         writer.write("// (no options defined)\n");
                     }
-                    
+                    writer.write(names.get(j)+" = \n");
                 }
-                writer.write(names.get(j)+" = \n");
+                
                 writer.write("\n");
             }
+            
             writer.close();
         }
         catch(Exception e) 
         {
+            System.err.println("dumpConfigurationFile(): "+e.getMessage());
             // Don't care
         }
     }

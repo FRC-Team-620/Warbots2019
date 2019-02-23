@@ -83,16 +83,23 @@ public class OI {
         {
             driverController = new Joystick(0);
             System.out.println("driver enabled");
+            if (scorerEnabled)
+            {
+                scorerController = new Joystick(1);
+                System.out.println("scorer enabled");
+            }
+            else
+                System.out.println("scorer not enabled");
         }
         else
             System.out.println("driver not enabled");
-        if (scorerEnabled)
-        {
-            scorerController = new Joystick(1);
-            System.out.println("scorer enabled");
-        }
-        else
-            System.out.println("scorer not enabled");
+            if (scorerEnabled)
+            {
+                scorerController = new Joystick(0);
+                System.out.println("scorer enabled");
+            }
+            else
+                System.out.println("scorer not enabled");
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",
@@ -453,59 +460,71 @@ public class OI {
         double ret = 0.0;
         if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_JOYSTICK)
         {
-            GenericHID joystick = Robot.oi.driverController;
+            GenericHID joystick = driverController;
             if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
             {
-                joystick = Robot.oi.scorerController;
+                joystick = scorerController;
             }
-
-            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+            if (joystick != null)
             {
-                // Left JS Y
-                ret = joystick.getRawAxis(1);
-            }
-            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-            {
-                // Left JS X
-                ret = joystick.getRawAxis(0);
+            
+                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+                {
+                    // Left JS Y
+                    ret = joystick.getRawAxis(1);
+                }
+                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+                {
+                    // Left JS X
+                    ret = joystick.getRawAxis(0);
+                }
             }                    
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_JOYSTICK)
         {
-            GenericHID joystick = Robot.oi.driverController;
+            GenericHID joystick = driverController;
             if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
             {
-                joystick = Robot.oi.scorerController;
+                joystick = scorerController;
             }
 
-            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+            if (joystick != null)
             {
-                // Right JS Y
-                ret = joystick.getRawAxis(5);
-            }
-            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-            {
-                // Right JS X
-                ret = joystick.getRawAxis(4);
-            }                    
+                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+                {
+                    // Right JS Y
+                    ret = joystick.getRawAxis(5);
+                }
+                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+                {
+                    // Right JS X
+                    ret = joystick.getRawAxis(4);
+                }               
+            }     
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_TRIGGER)
         {
-            GenericHID joystick = Robot.oi.driverController;
-            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            GenericHID joystick = driverController;
+            if (joystick != null)
             {
-                joystick = Robot.oi.scorerController;
+                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+                {
+                    joystick = Robot.oi.scorerController;
+                }
+                ret = joystick.getRawAxis(3);
             }
-            ret = joystick.getRawAxis(3);
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_TRIGGER)
         {
-            GenericHID joystick = Robot.oi.driverController;
-            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            GenericHID joystick = driverController;
+            if (joystick != null)
             {
-                joystick = Robot.oi.scorerController;
+                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+                {
+                    joystick = scorerController;
+                }
+                ret = joystick.getRawAxis(2);
             }
-            ret = joystick.getRawAxis(2);
         }
         // Etc...
         return ret;
