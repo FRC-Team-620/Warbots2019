@@ -14,6 +14,7 @@ import java.net.*;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +22,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
-public class ControlReader {
+public class ControlReader 
+{
+    ArrayList<String> loadedFiles;
 
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
@@ -33,7 +36,9 @@ public class ControlReader {
      */
     public ControlReader()
     {
-
+        Logger.log("==============================================================");
+        Logger.log("===                    Begin Configuration                 ===");
+        loadedFiles = new ArrayList<String>();
         prop = new Properties();
         
         s = File.separator;
@@ -79,11 +84,34 @@ public class ControlReader {
         else
         {
             SmartDashboard.putString("Robot Name", name);
-            //System.out.println("control reader line 80: Name of robot is: " + name);
+            Logger.log("control reader line 80: Name of robot is: " + name);
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
         }
-        
+        for (int i=0; i<loadedFiles.size(); i++)
+            Logger.log("  file loaded: ["+loadedFiles.get(i)+"]");
+
+        // Remove comments from values
+        for (Enumeration<Object> e=prop.keys(); e.hasMoreElements(); )
+        {
+            String key = e.nextElement().toString();
+            String v = prop.getProperty(key, "");
+            if (v.indexOf("#") > -1)
+            {
+                if (v.indexOf("#") > 0)
+                {
+                    // Remove chars after comment char
+                    prop.put(key, v.substring(0, v.indexOf("#")-1).trim());
+                }
+                else
+                {
+                    // Value is entirely a comment
+                    prop.put(key, "");
+                }
+            }
+        }
+        Logger.log("===                     End Configuration                  ===");
+        Logger.log("==============================================================");
     }
 
     /**
@@ -121,7 +149,6 @@ public class ControlReader {
         {
             ret = ret.trim();
         }
-        //System.out.println("control reader line 122: found name " + str);    
         return ret;
     }
 
@@ -212,7 +239,7 @@ public class ControlReader {
         String ret = null;
         try
         {
-            //System.out.println("control reader line 212: Get Robot Type");
+            //Logger.log("control reader line 212: Get Robot Type");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
@@ -244,15 +271,16 @@ public class ControlReader {
     public boolean lookForFiles(String filename)
     {
         boolean ret = false;
-        //System.out.println("control reader line 245: Looking for file: ["+filename+"]");
+        //Logger.log("control reader line 245: Looking for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
         {
             try
             {    
                 prop.load(new FileInputStream(new File(searchPath.get(i) + s + filename)));
                 SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
-                //System.out.println ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
+                //Logger.log ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
+                loadedFiles.add(searchPath.get(i) + s + filename);
                 break;
             }
             catch(Exception e)
@@ -262,12 +290,26 @@ public class ControlReader {
         }
         return ret;
     }
+
+    /**
+     * Dumps all the possible configuration settings to the dump file - this file
+     * can serve as a template for new config files or for comparison to other
+     * files that may have issues.
+     * @param fn
+     * @param confs
+     */
     public static void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
     {
         try
         {
             File file = new File(fn);
             FileWriter writer = new FileWriter(file);
+            writer.write("##########################################################\n");
+            writer.write("#  This file was generator at one time - in order to ease\n");
+            writer.write("#  comparison with other config files it is advisable that\n");
+            writer.write("#  you do not alter the ORDER of things, though you're free\n");
+            writer.write("#  to change the values, comment-out, or remove names altogether\n");
+            writer.write("##########################################################\n");
             for (int i = 0; i<confs.size(); i++)
             {
                 int j = 0;
@@ -279,27 +321,27 @@ public class ControlReader {
                     String comment = cfg.getCommentForName(names.get(j));
                     if (comment != null)
                     {
-                        writer.write("// "+comment+"\\n");
-                        writer.write("//\n");
+                        writer.write("# "+comment+"\n");
+                        writer.write("#\n");
                     }
 
                     ArrayList<String> opts = cfg.getPossibleValuesForName(names.get(j));
                     if (opts != null)
                     {
 
-                        writer.write("// Options:\n");
+                        writer.write("# Options:\n");
                         for (int k=0; k<opts.size(); k++)
                         {
-                            writer.write("//   "+opts.get(k)+"\n");
+                            writer.write("#   "+opts.get(k)+"\n");
                         }
                     }
                     else
                     {
-                        writer.write("// (no options defined)\n");
+                        writer.write("# (no options defined)\n");
                     }
                     writer.write(names.get(j)+" = \n");
+                    writer.write("\n");
                 }
-                
                 writer.write("\n");
             }
             

@@ -93,11 +93,11 @@ public class AxisSpecification
         {
             axisSpec.controlType = AnalogControlType.CONTROL_RIGHT_JOYSTICK;
         }
-        else if (ctrl.contains(".LeftTrigger"))
+        else if (ctrl.endsWith(".LeftTrigger"))
         {
             axisSpec.controlType = AnalogControlType.CONTROL_LEFT_TRIGGER;
         }
-        else if (ctrl.contains(".RightTrigger"))
+        else if (ctrl.endsWith(".RightTrigger"))
         {
             axisSpec.controlType = AnalogControlType.CONTROL_RIGHT_TRIGGER;
         }
@@ -107,33 +107,112 @@ public class AxisSpecification
         }
 
         // Set axis
-        if (ctrl.contains(".Y"))
+        if (ctrl.endsWith(".Y"))
         {
             axisSpec.axis = ControlAxis.AXIS_UP_DOWN;
         }
-        else if (ctrl.contains(".X"))
+        else if (ctrl.endsWith(".X"))
         {
             axisSpec.axis = ControlAxis.AXIS_LEFT_RIGHT;
         }
 
         // Set value type
-        if (cfgValue.equals("OI.robot.speed"))
+        if (cfgValue.endsWith("OI.robot.speed"))
         {
             axisSpec.valueType = UserControlValueType.UCVT_ROBOT_SPEED;
         }
-        else if (cfgValue.equals("OI.robot.rotation_rate"))
+        else if (cfgValue.endsWith("OI.robot.rotation_rate"))
         {
             axisSpec.valueType = UserControlValueType.UCVT_ROBOT_ROTATION_RATE;
         }
-        else if (cfgValue.equals("OI.elevator.speed")) // Example
+        else if (cfgValue.endsWith("OI.elevator.speed")) // Example
         {
             axisSpec.valueType = UserControlValueType.UCVT_ELEVATOR_SPEED;
         }
-        else if (cfgValue.equals("OI.mech.deploy_rate")) // Example
+        else if (cfgValue.endsWith("OI.mech.deploy_rate")) // Example
         {
             axisSpec.valueType = UserControlValueType.UCVT_DEPLOY_RATE;
         }
         return axisSpec;
+    }
+
+    public String toString()
+    {
+        String ret = "";
+
+        if (userDesignation == UserDesignation.USER_UNDEFINED)
+        {
+            ret += "USER_UNDEFINED:";
+        }
+        else if (userDesignation == UserDesignation.USER_DRIVER)
+        {
+            ret += "DRIVER:";
+        }
+        else if (userDesignation == UserDesignation.USER_SCORER)
+        {
+            ret += "SCORER:";
+        };
+
+        if (controlType == AnalogControlType.CONTROL_UNDEFINED)
+        {
+            ret += "CONTROL_UNDEFINED:";
+        }
+        else if (controlType == AnalogControlType.CONTROL_LEFT_JOYSTICK)
+        {
+            ret += "LEFT_JOYSTICK:";
+        }
+        else if (controlType == AnalogControlType.CONTROL_RIGHT_JOYSTICK)
+        {
+            ret += "RIGHT_JOYSTICK:";
+        }
+        else if (controlType == AnalogControlType.CONTROL_LEFT_TRIGGER)
+        {
+            ret += "LEFT_TRIGGER:";
+        }
+        else if (controlType == AnalogControlType.CONTROL_RIGHT_TRIGGER)
+        {
+            ret += "RIGHT_TRIGGER:";
+        }
+        else if (controlType == AnalogControlType.CONTROL_DPAD)
+        {
+            ret += "DPAD:";
+        }
+
+        if (axis == ControlAxis.AXIS_UNDEFINED)
+        {
+            ret += "AXIS_UNDEFINED:";
+        }
+        else if (axis == ControlAxis.AXIS_UP_DOWN)
+        {
+            ret += "UP_DOWN:";
+        }
+        else if (axis == ControlAxis.AXIS_LEFT_RIGHT)
+        {
+            ret += "LEFT_RIGHT:";
+        }
+        
+        if (valueType == UserControlValueType.UCVT_UNDEFINED)
+        {
+            ret += "UCVT_UNDEFINED";
+        }
+        else if (valueType == UserControlValueType.UCVT_ROBOT_SPEED)
+        {
+            ret += "ROBOT_SPEED";
+        }
+        else if (valueType == UserControlValueType.UCVT_ROBOT_ROTATION_RATE)
+        {
+            ret += "ROBOT_ROTATION_RATE";
+        }
+        else if (valueType == UserControlValueType.UCVT_ELEVATOR_SPEED)
+        {
+            ret += "ELEVATOR_SPEED";
+        }
+        else if (valueType == UserControlValueType.UCVT_DEPLOY_RATE)
+        {
+            ret += "DEPLOY_RATE";
+        }
+    
+        return ret;
     }
 };
 
