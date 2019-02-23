@@ -13,7 +13,6 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
@@ -21,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  */
 public class CargoMech extends ScoringMechanism {
 
+  public boolean configurable = true;
   private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
@@ -33,38 +33,24 @@ public class CargoMech extends ScoringMechanism {
     cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
     if (cmspeed < 0)
       cmspeed = 1;
-
-    //wrist = new Solenoid(PCMCanID, wristPistonChannel);
-    
- 
-    //wrist = new Solenoid(PCMCanID, wristPistonChannel)
   }
-
-  //for this years robot
-  
-/*
-    SpeedController mainWheels = new Spark(mainMotorPort);
-    
-    limitSwitch = new DigitalInput(limitSwitchPort);
-    //Uses the port for the wheels to instansiate the mainWheels
-    intakeWheels = new SpeedControllerGroup(mainWheels);
-    //I don't know if we're using a piston or motor to deploy and stow CargoMech
-    mainPiston = new Solenoid(PCMCanID, mainPistonPort);
-    */
-  
-  
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    System.out.print("Working");
+    System.out.print("CargoMech is working");
   }
 
   ControlReader config = Robot.config;
   double cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+
   public void idle() {
     stow();
+  }
+
+  public boolean asConfigurable() {
+    return configurable;
   }
 
   public boolean hasCargo() {

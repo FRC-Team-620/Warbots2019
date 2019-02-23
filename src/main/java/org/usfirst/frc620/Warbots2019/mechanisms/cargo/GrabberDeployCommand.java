@@ -7,13 +7,22 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+<<<<<<< HEAD
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+=======
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
+>>>>>>> b079634d5340df17eed0472693fe4cd2443cfa11
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GrabberDeployCommand extends Command {
 
+<<<<<<< HEAD
+private CargoMech cargoMech;
+=======
   CargoMech cargoMech = (CargoMech) Robot.scoringMechanism;
+>>>>>>> b079634d5340df17eed0472693fe4cd2443cfa11
 
   public GrabberDeployCommand() {
     // Use requires() here to declare subsystem dependencies
