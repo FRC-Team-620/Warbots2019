@@ -29,13 +29,14 @@ public class ControlReader {
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
     ArrayList<String> searchPath;
- 
+    static ArrayList<String> loadedFiles;
     /**
      * Constructor method
      * Helps programs look for and read the .properties config files
      */
     public ControlReader()
     {
+        loadedFiles = new ArrayList<String>();
 
         prop = new Properties();
         
@@ -256,6 +257,7 @@ public class ControlReader {
                 SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
                 System.out.println ("control reader line 252: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
+                loadedFiles.add(searchPath.get(i) + s + filename);
                 break;
             }
             catch(Exception e)
@@ -279,7 +281,6 @@ public class ControlReader {
                 ArrayList<String> names = cfg.getNames();
                 for (j=0; j<names.size(); j++)
                 {
-                    
                     String comment = cfg.getCommentForName(names.get(j));
                     if (comment != null)
                     {
@@ -302,7 +303,6 @@ public class ControlReader {
                         System.out.println("No options defined");
                         writer.write("// (no options defined)\n");
                     }
-                    
                 }
                 System.out.println("J For Loop Cycle complete!");
                 writer.write(names.get(j)+" = \n");
@@ -322,11 +322,6 @@ public class ControlReader {
      */
     public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr)
     {
-        ArrayList<String> ret = new ArrayList<String>;
-        for(int i = 0; i < arr.size(); i++)
-        {
-            ret.add((String)arr.get(i));
-        }
-        return ret;
+        return loadedFiles;
     }
 }

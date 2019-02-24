@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
     public static ControlReader config;
     public static OI oi;
     ConfigurableImpl configurable;
+    public static ArrayList<Configurable> dumpConfig;
     /**
      * This function is run when the robot is first started up and should be used
      * for any initialization code.
@@ -226,5 +227,15 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+    }
+
+    /**
+     * Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+     */
+    public void dumpConfiguration()
+    {
+        //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+        dumpConfig = new ArrayList<Configurable>();
+        dumpConfig.add(configurable.asConfigurable(alignmentSystem));
     }
 }
