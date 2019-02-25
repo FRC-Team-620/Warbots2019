@@ -1,9 +1,14 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package org.usfirst.frc620.Warbots2019.utility;
 
-import java.lang.Thread;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  *  Recorder of messages to log file
@@ -34,32 +39,6 @@ public class Logger
                 if (writer == null)
                 {
                     File file = new File("/home/lvuser/events.log");
-                    
-                    if (file.exists())
-                    {
-                        for (int i=0; i<1000; i++)
-                        {
-                            String dest = String.format("/home/lvuser/events.log_%03d", i);
-                            File tfile = new File(dest);
-                            if (!tfile.exists())
-                            {
-                                try
-                                {
-                                    // move to new name to save it off so it's not lost
-                                    Runtime.getRuntime().exec("cp /home/lvuser/events.log "+ dest);
-                                }
-                                catch(IOException ioe)
-                                {
-                                    // don't care
-                                }
-                                break;
-                            }
-                            if (i > 900)
-                            {
-                                System.err.println("WARNING: empty the event.log saved files!");
-                            }
-                        }
-                    }
                     writer = new FileWriter(file);
                     writer.write("Opened log file\n");
                     writer.flush();

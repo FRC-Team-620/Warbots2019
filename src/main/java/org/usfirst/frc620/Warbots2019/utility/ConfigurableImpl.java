@@ -1,11 +1,15 @@
-
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.utility;
 
 import java.util.ArrayList;
 
-public class ConfigurableImpl implements Configurable 
-{
+public class ConfigurableImpl implements Configurable {
 
     private ArrayList<Element> configElements;
 
@@ -14,9 +18,9 @@ public class ConfigurableImpl implements Configurable
      * for any initialization code.
      */
 
-    public ConfigurableImpl()
-    {
+    public ConfigurableImpl(){
         configElements = new ArrayList<Element>();
+        
     }
     
     public void addElement(Element e)
@@ -42,7 +46,6 @@ public class ConfigurableImpl implements Configurable
         }
         return names;
     }
-
     /**
      * returns a list with the possible values for a config element s 
      * @return ArrayList<String> "possible values" posValues
@@ -60,7 +63,6 @@ public class ConfigurableImpl implements Configurable
         }
         return posValues;
     }
-    
     /**
      * returns the comment present for config element s
      * @return String comment
