@@ -63,14 +63,15 @@ public class Robot extends TimedRobot {
     private static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
-    public static AlignmentSystem alignmentSystem;
-    public static TrackingSystem trackingSystem;
+    public static AlignmentSystem alignmentSystem; //subsystem
+    public static TrackingSystem trackingSystem; //subsystem
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static ControlReader config;
     public static OI oi;
     ConfigurableImpl configurable;
     public static ArrayList<Configurable> dumpConfig;
+    public static ArrayList<Configurable> configurables;
     /**
      * This function is run when the robot is first started up and should be used
      * for any initialization code.
@@ -90,7 +91,7 @@ public class Robot extends TimedRobot {
 
         config = new ControlReader();
 
-        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+        configurables = new ArrayList<Configurable>();
         configurables.add(configurable);
 
         //TODO all configurables must be added before this line
@@ -236,6 +237,6 @@ public class Robot extends TimedRobot {
     {
         //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
         dumpConfig = new ArrayList<Configurable>();
-        dumpConfig.add(configurable.asConfigurable(alignmentSystem));
+        dumpConfig = configurables;
     }
 }
