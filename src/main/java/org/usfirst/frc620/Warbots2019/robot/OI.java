@@ -10,10 +10,6 @@ package org.usfirst.frc620.Warbots2019.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CaptureCargo;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberCaptureCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberEjectCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberStopCommand;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
