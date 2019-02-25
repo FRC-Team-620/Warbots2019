@@ -13,6 +13,10 @@ package org.usfirst.frc620.Warbots2019.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CaptureCargo;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberCaptureCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberEjectCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberStopCommand;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
@@ -50,7 +54,7 @@ public class OI {
     // the button is released.
     // button.whileHeld(new ExampleCommand());
 
-    // Start the command when the button is released  and let it run the command
+    // Start the command when the button is released and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 
@@ -66,7 +70,8 @@ public class OI {
     private AxisSpecification robotRotationSpec;
     private AxisSpecification elevatorSpeedSpec;
 
-    ArrayList<AxisSpecification>  dynamicControls;
+    ArrayList<AxisSpecification> dynamicControls;
+
     /**
      * The Operator Interface of the robot, lets the driver and scorer interact with
      * the robot through commands Takes a ControlReader to look .properties config
@@ -76,42 +81,33 @@ public class OI {
      * 
      * @param config
      */
-    public OI(ControlReader config) 
-    {
+    public OI(ControlReader config) {
         speedSpec = null;
         robotRotationSpec = null;
         elevatorSpeedSpec = null;
         dynamicControls = new ArrayList<AxisSpecification>();
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
-        //Logger.log("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
+        // Logger.log("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
 
-
-        if (driverEnabled)
-        {
+        if (driverEnabled) {
             driverController = new Joystick(0);
             Logger.log("driver enabled");
-            if (scorerEnabled)
-            {
+            if (scorerEnabled) {
                 scorerController = new Joystick(1);
                 Logger.log("scorer enabled");
-            }
-            else
-            {
+            } else {
                 Logger.log("scorer not enabled");
-            }   
-        }
-        else
-        {
+            }
+        } else {
             Logger.log("driver not enabled");
-            if (scorerEnabled)
-            {
+            if (scorerEnabled) {
                 scorerController = new Joystick(0);
                 Logger.log("scorer enabled");
-            }
-            else
+            } else
                 Logger.log("scorer not enabled");
         }
+
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",

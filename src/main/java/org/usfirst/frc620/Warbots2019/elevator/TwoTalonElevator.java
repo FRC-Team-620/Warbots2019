@@ -35,7 +35,6 @@ public class TwoTalonElevator extends Elevator
 
     public TwoTalonElevator(int masterCanID, int slaveCanID) 
     {
-        System.out.println("Loaded two talon elevator");
         talon = new WPI_TalonSRX(masterCanID);
         talon.configFactoryDefault();
         talon.setNeutralMode(NeutralMode.Brake);

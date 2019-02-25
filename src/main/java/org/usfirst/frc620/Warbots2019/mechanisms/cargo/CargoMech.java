@@ -7,13 +7,16 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -33,6 +36,8 @@ public class CargoMech extends ScoringMechanism {
     cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
     if (cmspeed < 0)
       cmspeed = 1;
+
+    SmartDashboard.putData(new SendableTalonWrapper(intakeWheels));
   }
 
   @Override
