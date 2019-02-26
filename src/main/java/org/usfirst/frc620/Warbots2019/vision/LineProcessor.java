@@ -115,6 +115,8 @@ public class LineProcessor
         }
 
     }
+    // private final int Rows = 100;
+    // private final int Columns = 50;
 
     private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
     private final NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");

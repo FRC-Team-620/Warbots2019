@@ -7,23 +7,30 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class CargoMech extends ScoringMechanism {
 
+  public boolean configurable = true;
   private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
+  private double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+  private double intakeCurrent = intakeWheels.getOutputCurrent();
+  private double intakeResistance = intakeVoltage / intakeCurrent;
+
   // for TestBot
   public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) {
     
@@ -34,37 +41,25 @@ public class CargoMech extends ScoringMechanism {
     if (cmspeed < 0)
       cmspeed = 1;
 
-    //wrist = new Solenoid(PCMCanID, wristPistonChannel);
-    
- 
-    //wrist = new Solenoid(PCMCanID, wristPistonChannel)
+    SmartDashboard.putData(new SendableTalonWrapper(intakeWheels));
   }
-
-  //for this years robot
-  
-/*
-    SpeedController mainWheels = new Spark(mainMotorPort);
-    
-    limitSwitch = new DigitalInput(limitSwitchPort);
-    //Uses the port for the wheels to instansiate the mainWheels
-    intakeWheels = new SpeedControllerGroup(mainWheels);
-    //I don't know if we're using a piston or motor to deploy and stow CargoMech
-    mainPiston = new Solenoid(PCMCanID, mainPistonPort);
-    */
-  
-  
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    System.out.print("Working");
+    System.out.print("CargoMech is working");
   }
 
   ControlReader config = Robot.config;
   double cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+
   public void idle() {
     stow();
+  }
+
+  public boolean asConfigurable() {
+    return configurable;
   }
 
   public boolean hasCargo() {
@@ -73,14 +68,33 @@ public class CargoMech extends ScoringMechanism {
 
   public void captureCargo() {
     intakeWheels.set(-cmspeed);
+    intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    intakeCurrent = intakeWheels.getOutputCurrent();
+    intakeResistance = intakeVoltage / intakeCurrent;
+    System.out.println("IntakeResistance is" + intakeResistance);
+    System.out.println("IntakeCurrent is" +intakeCurrent);
+    System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
   public void stopCapture() {
-  intakeWheels.set(0);
+    intakeWheels.set(0);
+    
+   intakeVoltage = intakeWheels.getMotorOutputVoltage();
+   intakeCurrent = intakeWheels.getOutputCurrent();
+   intakeResistance = intakeVoltage / intakeCurrent;
+    System.out.println("IntakeResistance is" + intakeResistance);
+    System.out.println("IntakeCurrent is" +intakeCurrent);
+    System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
   public void ejectCargo() {
     intakeWheels.set(cmspeed);
+    intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    intakeCurrent = intakeWheels.getOutputCurrent();
+    intakeResistance = intakeVoltage / intakeCurrent;
+    System.out.println("IntakeResistance is" + intakeResistance);
+    System.out.println("IntakeCurrent is" +intakeCurrent);
+    System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
   public void deploy() {
