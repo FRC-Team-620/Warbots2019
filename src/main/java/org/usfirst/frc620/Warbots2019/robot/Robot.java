@@ -84,7 +84,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-
         Logger.log("robotInit: Robot initialized");
 
         config = new ControlReader();

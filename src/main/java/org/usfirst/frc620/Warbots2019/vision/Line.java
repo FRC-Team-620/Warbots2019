@@ -32,7 +32,7 @@ public class Line
         else 
         {
             double m = (y2-y1) / (x2-x1);
-            double b = -1 * (m - y1);
+            double b = -1 * (m * x1 - y1);
             line = getNewInst(m, b);
         }
 
@@ -44,6 +44,7 @@ public class Line
         Line line = new Line();
         line.B = b;
         line.M = m;
+        line.IsFunction = true;
         return line;
     }
     
@@ -104,6 +105,15 @@ public class Line
     {
         if (!IsFunction) return Angle.fromDegrees(90);
         return Angle.fromSlope(M);
+    }
+
+    @Override
+    public String toString() 
+    {
+        if (IsFunction)
+            return "line[y = (" + M + ")x + (" + B + ")]";
+        else
+            return "line[x = " + B + "]";
     }
 
     private double M;
