@@ -13,9 +13,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public abstract class Elevator extends Subsystem 
 {
+    public static enum ElevatorLevel
+    {
+        FLOOR, MIDDLE, TOP
+    }
+
     public abstract void drive(double speed);
 
-    public abstract void driveTo(double height);
+    public abstract void driveTo(ElevatorLevel level);
 
     public abstract double getHeight();
 

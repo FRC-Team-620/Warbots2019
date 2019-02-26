@@ -21,7 +21,9 @@ public class SendableTalonWrapper extends SendableBase
         Map.entry("integralZone", ParamEnum.eProfileParamSlot_IZone),
         Map.entry("maxAccumulatable", ParamEnum.eProfileParamSlot_MaxIAccum),
         Map.entry("peakOutput", ParamEnum.eProfileParamSlot_PeakOutput),
-        Map.entry("allowableError", ParamEnum.eProfileParamSlot_AllowableErr)
+        Map.entry("allowableError", ParamEnum.eProfileParamSlot_AllowableErr),
+        Map.entry("motionMagicAcceleration", ParamEnum.eMotMag_Accel),
+        Map.entry("motionMagicCruiseVelocity", ParamEnum.eMotMag_VelCruise)
     );
 
     private WPI_TalonSRX talon;
@@ -40,7 +42,7 @@ public class SendableTalonWrapper extends SendableBase
 
         builder.addDoubleProperty("sensorPosition", talon::getSelectedSensorPosition, null);
         builder.addDoubleProperty("sensorVelocity", talon::getSelectedSensorVelocity, null);
-
+        
         for (var entry : talonPIDSettings.entrySet())
             builder.addDoubleProperty(
                 entry.getKey(), 
