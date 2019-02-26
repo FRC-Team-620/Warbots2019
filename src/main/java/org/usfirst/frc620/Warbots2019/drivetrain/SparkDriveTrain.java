@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -91,10 +93,13 @@ public class SparkDriveTrain extends DriveTrain {
         rightEncoder.setDistancePerPulse(kEncoderCountsPerFoot);
         rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 
+        // Initialize NavX
         navX = new NavX(navXPort);
 
-        SmartDashboard.putNumber("kEncoderCountsPerFoot", kEncoderCountsPerFoot);
-        SmartDashboard.putNumber("totalDistance", totalDistance);
+        // Create Shuffleboard Tab
+        ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
+        tab.add("kEncoderCountsPerFoot", kEncoderCountsPerFoot);
+        tab.add("totalDistance", totalDistance);
     }
 
     @Override

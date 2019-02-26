@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  *
@@ -32,7 +34,6 @@ public class SparkMaxDriveTrain extends DriveTrain {
     private DifferentialDrive differentialDrive;
     private Encoder leftEncoder;
     private Encoder rightEncoder;
-
     private NavX navX;
   
     // This is an example of state
@@ -78,8 +79,14 @@ public class SparkMaxDriveTrain extends DriveTrain {
         rightEncoder.setDistancePerPulse(1.0);
         rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 
-        // TODO Navx needs to be enabled in SparkMaxDriveTrain
-        // navX = new NavX(navXPort);
+         // Initialize NavX
+         // TODO initializing the NavX on the prototype is crashing
+         navX = new NavX(navXPort);
+
+        // Create Shuffleboard Tab
+        ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
+        tab.add("lastLeftEncoderSpeedRead", lastLeftEncoderSpeedRead);
+        tab.add("lastRightEncoderSpeedRead", lastRightEncoderSpeedRead);  
     }
 
     @Override
