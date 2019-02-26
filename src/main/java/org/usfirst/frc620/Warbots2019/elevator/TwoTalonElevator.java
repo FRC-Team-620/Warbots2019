@@ -8,9 +8,11 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import java.util.Map;
+
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
@@ -18,68 +20,32 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 /**
  *
  */
-public class TwoTalonElevator extends Elevator {
+public class TwoTalonElevator extends TalonElevator 
+{
+    private final static Map<ElevatorLevel, Integer> HEIGHTS = Map.ofEntries(
+        Map.entry(ElevatorLevel.FLOOR, 0),
+        Map.entry(ElevatorLevel.MIDDLE, 10000),
+        Map.entry(ElevatorLevel.TOP, 20000)
+    );
 
     private WPI_TalonSRX talon;
 
     public TwoTalonElevator(int masterCanID, int slaveCanID) 
     {
+        super(masterCanID);
         Logger.log("Loaded two talon elevator");
-        talon = new WPI_TalonSRX(masterCanID);
-        talon.configFactoryDefault();
-        talon.setNeutralMode(NeutralMode.Brake);
-        talon.configClearPositionOnLimitR(true, 0);
+        talon = super.getTalon();
 
         WPI_TalonSRX slave = new WPI_TalonSRX(slaveCanID);
-        slave.configFactoryDefault();
-        slave.setNeutralMode(NeutralMode.Brake);
+        TalonSRXConfiguration masterConfiguration = new TalonSRXConfiguration();
+        talon.getAllConfigs(masterConfiguration);
+        slave.configAllSettings(masterConfiguration);
         slave.follow(talon);
-
-        talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-
-        // var pidConfig = new SendablePIDConfig();
-        // pidConfig.setPeak(0.5);
-        // pidConfig.setMaxError(100);
-        // pidConfig.setRamp(0.5);
-        // pidConfig.setP(0.1);
-
-        //SmartDashboard.putData(pidConfig);
     }
 
     @Override
-    public void drive(double speed) 
+    public double getHeight(ElevatorLevel level) 
     {
-        // System.out.println("Driving elevator " + speed);
-        if (Math.abs(speed) < 0.1)
-            talon.stopMotor();
-        else
-            talon.set(speed);
-    }
-
-    @Override
-    public void driveTo(double height) 
-    {
-        System.out.println("Driving elevator to " + height);
-        System.out.println("Error: " + talon.getClosedLoopError());
-        System.out.println("Output: " + talon.getMotorOutputPercent());
-        talon.set(ControlMode.Position, height);
-    }
-
-    @Override
-    public double getHeight() 
-    {
-        return talon.getSelectedSensorPosition();
-    }
-
-    @Override
-    public boolean isAtTop()
-    {
-        return talon.getSensorCollection().isFwdLimitSwitchClosed();
-    }
-
-    @Override
-    public boolean isAtBottom() 
-    {
-        return talon.getSensorCollection().isRevLimitSwitchClosed();
+        return HEIGHTS.get(level);
     }
 }

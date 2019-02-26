@@ -7,6 +7,7 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
+import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,9 +16,9 @@ public class MoveElevatorTo extends Command
 {
   private Elevator elevator = Robot.elevator;
   
-  private double height;
+  private ElevatorLevel height;
 
-  public MoveElevatorTo(double height) 
+  public MoveElevatorTo(ElevatorLevel height) 
   {
     this.height = height;
     requires(elevator);
@@ -29,7 +30,6 @@ public class MoveElevatorTo extends Command
     elevator.driveTo(height);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() 
   {
