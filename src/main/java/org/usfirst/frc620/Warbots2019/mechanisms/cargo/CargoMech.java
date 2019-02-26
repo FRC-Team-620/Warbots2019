@@ -68,6 +68,9 @@ public class CargoMech extends ScoringMechanism {
 
   public void captureCargo() {
     intakeWheels.set(-cmspeed);
+    intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    intakeCurrent = intakeWheels.getOutputCurrent();
+    intakeResistance = intakeVoltage / intakeCurrent;
     System.out.println("IntakeResistance is" + intakeResistance);
     System.out.println("IntakeCurrent is" +intakeCurrent);
     System.out.println("IntakeVoltage is" + intakeVoltage);
@@ -75,6 +78,10 @@ public class CargoMech extends ScoringMechanism {
 
   public void stopCapture() {
     intakeWheels.set(0);
+    
+   intakeVoltage = intakeWheels.getMotorOutputVoltage();
+   intakeCurrent = intakeWheels.getOutputCurrent();
+   intakeResistance = intakeVoltage / intakeCurrent;
     System.out.println("IntakeResistance is" + intakeResistance);
     System.out.println("IntakeCurrent is" +intakeCurrent);
     System.out.println("IntakeVoltage is" + intakeVoltage);
@@ -82,6 +89,9 @@ public class CargoMech extends ScoringMechanism {
 
   public void ejectCargo() {
     intakeWheels.set(cmspeed);
+    intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    intakeCurrent = intakeWheels.getOutputCurrent();
+    intakeResistance = intakeVoltage / intakeCurrent;
     System.out.println("IntakeResistance is" + intakeResistance);
     System.out.println("IntakeCurrent is" +intakeCurrent);
     System.out.println("IntakeVoltage is" + intakeVoltage);
