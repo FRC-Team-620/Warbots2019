@@ -61,12 +61,12 @@ public class Robot extends TimedRobot {
     public static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
-    public static AlignmentSystem alignmentSystem;
-    public static TrackingSystem trackingSystem;
+    public static AlignmentSystem alignmentSystem; //subsystem
+    public static TrackingSystem trackingSystem; //subsystem
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
-
+    
     // Control Reader enables configuration for multiple robots and operators
     public static ControlReader config;
     ConfigurableImpl configurable;
@@ -87,19 +87,9 @@ public class Robot extends TimedRobot {
 
         Logger.log("robotInit: Robot initialized");
 
-        // We now have a Configurable object with all methods implemented
-        // so programs can carry it around like a suitcase
-        configurable = new ConfigurableImpl();
-        configurable.addElement(new Element("name", "Name Of Robot", null));
-        configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-        configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-
         config = new ControlReader();
-
-        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
-        configurables.add(configurable);
-
-        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
+        
+        dumpConfiguration();
 
        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
      
@@ -252,5 +242,28 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+    }
+
+    /**
+     * Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+     */
+    public void dumpConfiguration()
+    {
+        //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+        // We now have a Configurable object with all methods implemented
+        // so programs can carry it around like a suitcase
+        configurable = new ConfigurableImpl();
+        configurable.addElement(new Element("name", "Name Of Robot", null));
+        configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+        configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+
+        
+        config = new ControlReader();
+
+        configurables.add(configurable);
+        configurables.add(new OI(config).asConfigurable());
+        //TODO all configurables must be added before this line
+        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
     }
 }

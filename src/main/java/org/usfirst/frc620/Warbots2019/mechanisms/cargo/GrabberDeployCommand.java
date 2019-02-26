@@ -5,36 +5,50 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class StowScoringMechanismCommand extends Command {
+public class GrabberDeployCommand extends Command {
+  private CargoMech cargoMech;
 
-  ScoringMechanism scoringMechanism = Robot.scoringMechanism;
+  public GrabberDeployCommand() {
+    cargoMech = (CargoMech) Robot.scoringMechanism;
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(cargoMech);
+  }
 
-  public StowScoringMechanismCommand() {
-    requires(scoringMechanism);
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    scoringMechanism.stow();
-    System.out.println("Stowing!");
+    System.out.println("Eject");
+    cargoMech.deploy();
   }
+  //if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return scoringMechanism.isStowed();
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    scoringMechanism.stop();
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
   }
 }

@@ -7,11 +7,15 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
+import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -502,5 +506,209 @@ public class OI {
         // Etc...
 
         return ret;
+    }
+    /**
+     * Reloads the configuration from files TODO so far this is just redoing what is in the constructor, what really needs to be done?
+     */
+    public void reloadConfig(String filename, ControlReader config)
+    {
+        dynamicControls = new ArrayList<AxisSpecification>();
+        boolean driverEnabled = config.getMappedBoolean("driver.enabled");
+        boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
+        //System.out.println("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
+
+
+        if (driverEnabled)
+        {
+            driverController = new Joystick(0);
+            System.out.println("driver enabled");
+        }
+        else
+            System.out.println("driver not enabled");
+        if (scorerEnabled)
+        {
+            scorerController = new Joystick(1);
+            System.out.println("scorer enabled");
+        }
+        else
+            System.out.println("scorer not enabled");
+        ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
+            "driver.A.pressed",
+            "driver.B.pressed",
+            "driver.X.pressed",
+            "driver.Y.pressed",
+            "driver.LeftBumper.pressed",
+            "driver.RightBumper.pressed",
+            "driver.Back.pressed",
+            "driver.Start.pressed",
+            /*"driver.LeftStick",
+            "driver.RightStick",
+            "driver.LeftTrigger",
+            "driver.RightTrigger",
+            "driver.DPadUp",
+            "driver.DPadDown",
+            "driver.DPadLeft",
+            "driver.DPadRight",
+            "driver.LeftAxis",
+            "driver.RightAxis",
+            "driver.LeftDeadzoneX",
+            "driver.LeftDeadzoneY",
+            "driver.RightDeadzoneX",
+            "driver.RightDeadzoneY",*/
+            //Scorer commands 
+            "scorer.A.pressed",
+            "scorer.B.pressed",
+            "scorer.X.pressed",
+            "scorer.Y.pressed",
+            "scorer.LeftBumper.pressed",
+            "scorer.RightBumper.pressed",
+            "scorer.Back.pressed",
+            "scorer.Start.pressed"
+            /*"scorer.LeftStick",
+            "scorer.RightStick",
+            "scorer.LeftTrigger",
+            "scorer.RightTrigger",
+            "scorer.DPadUp",
+            "scorer.DPadDown",
+            "scorer.DPadLeft",
+            "scorer.DPadRight",
+            "scorer.LeftAxis",
+            "scorer.RightAxis",
+            "scorer.LeftDeadzoneX",
+            "scorer.LeftDeadzoneY",
+            "scorer.RightDeadzoneX",
+            "scorer.RightDeadzoneY" */
+        ));
+
+        ArrayList<String> availableAnalogControls = new ArrayList<String>(Arrays.asList(
+            "driver.LeftJS.X",
+            "driver.LeftJS.Y",
+            "driver.RightJS.X",
+            "driver.RightJS.Y",
+            "driver.LeftTrigger",
+            "driver.RightTrigger",
+            //Scorer commands 
+            "scorer.LeftJS.X",
+            "scorer.LeftJS.X",
+            "scorer.RightJS.X",
+            "scorer.RightJS.X",
+            "scorer.LeftTrigger",
+            "scorer.RightTrigger"
+        ));
+
+        //
+        // Loop through the possible controls
+        //
+        System.out.println("Looping through the possible binary controls");
+        for(int i = 0; i < availableBinaryControls.size(); i++)
+        {
+            String ctrl = availableBinaryControls.get(i);
+            
+            if ((driverEnabled && ctrl.startsWith("driver")) ||
+                (scorerEnabled && ctrl.startsWith("scorer")))
+            {
+            
+                String val = config.getMappedString(ctrl);
+                if(val != null)
+                {
+                    val = val.trim();
+                
+                    if(val.length() > 0)
+                    {
+                        loadCommandOntoJoystick(ctrl, val);
+                    }
+                }
+            }
+        }
+        
+        System.out.println("Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
+        for(int i = 0; i < availableAnalogControls.size(); i++)
+        {
+            String ctrl = availableAnalogControls.get(i);
+            System.out.println("dynamic control mapping: ["+i+"] ["+ctrl+"]");
+            String cfgValue = config.getMappedString(ctrl);
+            if (cfgValue != null)
+            {
+                System.out.println("            =["+cfgValue+"]");
+                AxisSpecification axisSpec = AxisSpecification.buildAxisSpecification(ctrl, cfgValue);
+
+                if (driverEnabled && ctrl.startsWith("driver"))
+                {
+                    axisSpec.userDesignation = AxisSpecification.UserDesignation.USER_DRIVER;
+                }
+                else if(scorerEnabled && ctrl.startsWith("scorer"))
+                {
+                    axisSpec.userDesignation = AxisSpecification.UserDesignation.USER_SCORER;
+                }
+
+                if (axisSpec.isValidAxisSpecification(axisSpec))
+                {
+                    dynamicControls.add(axisSpec);
+                }
+            }
+        }
+    }
+    public Configurable asConfigurable()
+    {
+        ConfigurableImpl ret = new ConfigurableImpl();
+        addBinaryOIControls("driver", ret);
+        addBinaryOIControls("scorer", ret);
+        return ret;
+    }
+    private void addBinaryOIControls(String user, ConfigurableImpl ret)
+    {
+        final ArrayList<String> frue = new ArrayList<String>(Arrays.asList(
+            "tazOpenCommand, tazStowCommand"));
+        
+        ret.addElement(new Element(user + ".A.pressed", "This is a binary control (like b, xy, leftBumper, rightBumper, " + 
+             "All the possible binary commands are listed below. ", frue));
+        
+/**    
+#B Button
+driver.B.pressed = 
+#X Button
+driver.X.pressed = 
+#Y Button
+driver.Y.pressed = 
+#Left Bumper
+driver.LeftBumper.pressed = 
+#Right Bumper
+driver.RightBumper.pressed = 
+#Back Button
+driver.Back.pressed = 
+#Start Button
+driver.Start.pressed = 
+#Left Stick 
+driver.LeftJS.Y = OI.robot.speed
+driver.LeftJS.X = OI.robot.rotation_rate
+#Right Stick 
+driver.RightJS.Y = OI.elevator.speed
+driver.RightJS.X = #OI.robot.rotation_rate 
+#Left Trigger
+driver.LeftTrigger = 
+#Right Trigger
+driver.RightTrigger = 
+#D-Pad Up
+driver.DPadUp = 
+#D-Pad Down
+driver.DPadDown = 
+#D-Pad Left
+driver.DPadLeft =
+#D-Pad Right
+driver.DPadRight =
+#Left Stick (Movement)
+driver.LeftAxis =
+#Right Stick (Movement)
+driver.RightAxis =
+
+#Other Variables
+#Left Stick Deadzones
+driver.LeftDeadzoneX =
+driver.LeftDeadzoneY =
+
+        #Right Stick Deadzones
+        driver.RightDeadzoneX =     
+        driver.RightDeadzoneY = 
+        */
     }
 }
