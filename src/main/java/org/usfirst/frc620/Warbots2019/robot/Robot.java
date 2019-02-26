@@ -43,6 +43,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -160,6 +162,11 @@ public class Robot extends TimedRobot {
 
         oi = new OI(config);
 
+        // Enable Shuffleboard logging
+        Shuffleboard.startRecording();
+        
+        Shuffleboard.addEventMarker("Robot initialized", EventImportance.kTrivial);
+
         // Add Subsystems to SmartDashboard
         SmartDashboard.putData(driveTrain);
 
@@ -174,8 +181,9 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
-     
-    }
+
+      }
+
     @Override
     public void disabledInit() {
 
@@ -193,6 +201,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
+        
         m_autoSelected = m_chooser.getSelected();
         System.out.println("Auto selected: " + m_autoSelected);
     }
@@ -216,6 +226,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
     
+        Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
+        
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove

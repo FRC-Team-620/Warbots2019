@@ -540,22 +540,22 @@
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/TurnAngle",
-                  "_title": ""
+                  "_title": "/SmartDashboard/TurnAngle"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/DriveStraightDistance",
-                  "_title": ""
+                  "_title": "/SmartDashboard/DriveStraightDistance"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/FollowLineWithCameraCommand",
-                  "_title": ""
+                  "_title": "/SmartDashboard/FollowLineWithCameraCommand"
                 },
                 {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/DriveStraight",
-                  "_title": ""
+                  "_title": "/SmartDashboard/DriveStraight"
                 }
               ]
             }
