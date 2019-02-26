@@ -38,14 +38,14 @@ import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
+import org.usfirst.frc620.Warbots2019.vision.VisionSubsystem;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
+    public static VisionSubsystem visionSystem;
 
     // Control Reader enables configuration for multiple robots and operators
     public static ControlReader config;
@@ -164,9 +165,8 @@ public class Robot extends TimedRobot {
             System.err.println("no climbing mechanism specified");
         }
 
-        int numberOfCameras = config.getMappedInt("NumberOfCameras");
-        for (int i = 0; i < numberOfCameras; ++i)
-            CameraServer.getInstance().startAutomaticCapture(i);
+        visionSystem = new VisionSubsystem(config);
+        
 
         oi = new OI(config);
 
