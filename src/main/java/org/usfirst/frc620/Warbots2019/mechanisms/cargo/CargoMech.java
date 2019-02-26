@@ -27,9 +27,6 @@ public class CargoMech extends ScoringMechanism {
   private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
-  private double intakeVoltage = intakeWheels.getMotorOutputVoltage();
-  private double intakeCurrent = intakeWheels.getOutputCurrent();
-  private double intakeResistance = intakeVoltage / intakeCurrent;
 
   // for TestBot
   public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) {
@@ -68,33 +65,32 @@ public class CargoMech extends ScoringMechanism {
 
   public void captureCargo() {
     intakeWheels.set(-cmspeed);
-    intakeVoltage = intakeWheels.getMotorOutputVoltage();
-    intakeCurrent = intakeWheels.getOutputCurrent();
-    intakeResistance = intakeVoltage / intakeCurrent;
-    System.out.println("IntakeResistance is" + intakeResistance);
-    System.out.println("IntakeCurrent is" +intakeCurrent);
-    System.out.println("IntakeVoltage is" + intakeVoltage);
+    double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    double intakeCurrent = intakeWheels.getOutputCurrent();
+    double intakeResistance = intakeVoltage / intakeCurrent;
+    // System.out.println("IntakeResistance is" + intakeResistance);
+    // System.out.println("IntakeCurrent is" +intakeCurrent);
+    // System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
   public void stopCapture() {
     intakeWheels.set(0);
-    
-   intakeVoltage = intakeWheels.getMotorOutputVoltage();
-   intakeCurrent = intakeWheels.getOutputCurrent();
-   intakeResistance = intakeVoltage / intakeCurrent;
-    System.out.println("IntakeResistance is" + intakeResistance);
-    System.out.println("IntakeCurrent is" +intakeCurrent);
-    System.out.println("IntakeVoltage is" + intakeVoltage);
+    double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    double intakeCurrent = intakeWheels.getOutputCurrent();
+    double intakeResistance = intakeVoltage / intakeCurrent;
+    // System.out.println("IntakeResistance is" + intakeResistance);
+    // System.out.println("IntakeCurrent is" +intakeCurrent);
+    // System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
   public void ejectCargo() {
     intakeWheels.set(cmspeed);
-    intakeVoltage = intakeWheels.getMotorOutputVoltage();
-    intakeCurrent = intakeWheels.getOutputCurrent();
-    intakeResistance = intakeVoltage / intakeCurrent;
-    System.out.println("IntakeResistance is" + intakeResistance);
-    System.out.println("IntakeCurrent is" +intakeCurrent);
-    System.out.println("IntakeVoltage is" + intakeVoltage);
+    double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    double intakeCurrent = intakeWheels.getOutputCurrent();
+    double intakeResistance = intakeVoltage / intakeCurrent;
+    // System.out.println("IntakeResistance is" + intakeResistance);
+    // System.out.println("IntakeCurrent is" +intakeCurrent);
+    // System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
   public void deploy() {
