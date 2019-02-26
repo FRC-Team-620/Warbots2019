@@ -29,6 +29,7 @@ public class FollowLineWithCameraCommand extends Command
     @Override
     protected void initialize() 
     {
+        //System.out.println("Starting follow line with camera");
     }
 
     // Called repeatedly when this Command is scheduled to run
