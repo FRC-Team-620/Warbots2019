@@ -255,7 +255,7 @@ public class Robot extends TimedRobot {
         configurable.addElement(new Element("name", "Name Of Robot", null));
         configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
         configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-
+/*
         // Add subsystems to Robot's Configurable
         configurable.addElement(new Element("DriveTrain", 
             "Fully-scoped name of a DriveTrain implementation.", 
@@ -279,7 +279,7 @@ public class Robot extends TimedRobot {
         configurables.add(new SparkMaxDriveTrain().asConfigurable());
         configurables.add(new CargoMech().asConfigurable());
         // etc... for each Subsystem
-
+*/
         config = new ControlReader();
 
         configurables.add(configurable);
