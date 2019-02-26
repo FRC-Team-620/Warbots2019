@@ -80,6 +80,7 @@ public class SparkMaxDriveTrain extends DriveTrain {
         rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 
          // Initialize NavX
+         // TODO initializing the NavX on the prototype is crashing
          navX = new NavX(navXPort);
 
         // Create Shuffleboard Tab
