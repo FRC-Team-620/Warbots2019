@@ -659,7 +659,7 @@ public class OI {
         ret.addElement(new Element("OI.LeftJS.X", "This is an analog control and therefore this maps " + 
         "to OI analog functionalities. ", analogCommands));
         return ret;
-    }
+    }   
     private void addBinaryOIControls(String user, ConfigurableImpl ret)
     {
         final ArrayList<String> binaryCommands = new ArrayList<String>(Arrays.asList(

@@ -16,11 +16,11 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable;
  */
 public abstract class ScoringMechanism extends Subsystem 
 {
-    protected ConfigurableImpl configurable;
+    
 
     public ScoringMechanism()
     {
-        configurable = new ConfigurableImpl();
+        
     }
 
     public abstract void deploy();
@@ -33,7 +33,9 @@ public abstract class ScoringMechanism extends Subsystem
 
     public abstract boolean isStowed();
 
-    public Configurable asConfigurable() {
+    public static Configurable asConfigurable() {
+        final ConfigurableImpl configurable;
+        configurable = new ConfigurableImpl();
         return configurable;
     }
 }

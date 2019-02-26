@@ -30,7 +30,7 @@ public class DriveStraightPIDCommand extends Command {
   double driveToDistanceRate;
   private DummyPIDOutput pidDriveOutput;
 
-  private ConfigurableImpl configurable;
+  
 
   static final double kPTurn = 0.03;
   static final double kITurn = 0.00;
@@ -47,7 +47,7 @@ public class DriveStraightPIDCommand extends Command {
 
   public DriveStraightPIDCommand() {
     //Instantiates Configuration
-    configurable = new ConfigurableImpl();
+    
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveTrain);
@@ -119,7 +119,9 @@ public class DriveStraightPIDCommand extends Command {
     this.end();
   }
 
-  public ConfigurableImpl asConfigurable(){
+  public static ConfigurableImpl asConfigurable(){
+    final ConfigurableImpl configurable;
+    configurable = new ConfigurableImpl();
     return configurable;
   }
 }
