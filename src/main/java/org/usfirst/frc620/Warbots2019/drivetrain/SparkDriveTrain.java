@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import org.usfirst.frc620.Warbots2019.utility.Angle;
+
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -39,8 +40,8 @@ public class SparkDriveTrain extends DriveTrain {
     private static double kEncoderCountsPerFoot; 
     private static double totalDistance;
 
-    private Encoder leftEncoder;
-    private Encoder rightEncoder;
+    private final Encoder leftEncoder;
+    private final Encoder rightEncoder;
     private NavX navX;
 
     // This is an example of state
@@ -48,17 +49,9 @@ public class SparkDriveTrain extends DriveTrain {
     private double lastRightEncoderSpeedRead = 0;
     private double acceleration = 0;
 
-    public SparkDriveTrain()
-    {
-        // TODO add Elements to the configurable container (See OI as example)
-        // Elements to add: commands, other config settings specific to this
-        // sub-system (prefix impl specific names with 'spark_')
-    }
-
     public SparkDriveTrain(int leftMotor1Port, int leftMotor2Port, 
         int rightMotor1Port, int rightMotor2Port, NavX.Port navXPort) 
     {
-        this();
         setName("SparkDriveTrain");
 
         kEncoderCountsPerFoot = (kWheelDiamter * Math.PI * kGearRatio)/kEncoderCount;
@@ -92,6 +85,7 @@ public class SparkDriveTrain extends DriveTrain {
         differentialDrive.setMaxOutput(1.0);
 
         leftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
+        System.out.println("Constructed left encoder: " + leftEncoder);
         addChild("Left Encoder",leftEncoder);
         leftEncoder.setDistancePerPulse(kEncoderCountsPerFoot);
         leftEncoder.setPIDSourceType(PIDSourceType.kRate);
@@ -108,18 +102,29 @@ public class SparkDriveTrain extends DriveTrain {
         ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
         tab.add("kEncoderCountsPerFoot", kEncoderCountsPerFoot);
         tab.add("totalDistance", totalDistance);
+
+        System.out.println("Just checking left encoder: " + leftEncoder);
+    }
+
+    public SparkDriveTrain()
+    {
+        //TODO: Load these values from config
+        this(1, 2, 3, 4, NavX.Port.SPIMXP);
     }
 
     @Override
     public void initDefaultCommand() 
     {
+        System.out.println("In init default command: " + leftEncoder);
         setDefaultCommand(new DriveWithJoystickCommand());
+        System.out.println("After init default commmand: " + leftEncoder);
     }
 
     @Override
     public void periodic() {
         // Put code here to be run every loop, or every 1/20th of a second
 
+        System.out.println("Left encoder: " + leftEncoder);
         //Read speed data from the encoders
         double leftEncoderSpeed = leftEncoder.getRate();
         double rightEncoderSpeed = rightEncoder.getRate();
