@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -22,47 +23,59 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FollowLineWithCameraCommand extends Command 
 {
-    double turnConstant = 0.5;
-
-    DriveTrain driveTrain = Robot.driveTrain; 
-
-    public FollowLineWithCameraCommand() {
+    public FollowLineWithCameraCommand() 
+    {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);
+        Processor = new LineProcessor();
     }
 
 
 
     // Called just before this Command runs the first time
     @Override
-    protected void initialize() {
+    protected void initialize() 
+    {
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
+    protected void execute() 
+    {
+        try
+        {
+            Line line = Processor.Process();
+            double xIntercept = line.getXIntercept().getX();
+            double invSlope = 1.0 / line.getM();
+            double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
+            driveTrain.curvatureDrive(Speed, curvature); 
+        }
+        catch (Exception e)
+        {
 
-        double speed = 1 / 3;
-        double curvature = 1;
-        driveTrain.curvatureDrive(1.0 / 3.0, curvature * turnConstant);
+        }
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return false;
     }
 
     // Called once after isFinished returns true
     @Override
-    protected void end() {
+    protected void end() 
+    {//TODO: cut control, catch impossible case, buzz drivers
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
-    protected void interrupted() {
+    protected void interrupted() 
+    {
     }
 
     @Override
@@ -70,9 +83,23 @@ public class FollowLineWithCameraCommand extends Command
     {
         super.initSendable(builder);
 
-        builder.addDoubleProperty("Turn Curvature Constant", () -> turnConstant , (turnConstant) -> 
-          { 
-            this.turnConstant = turnConstant; 
-          });
+        builder.addDoubleProperty("Inverse Slope Constant", () -> InverseSlopeConstant , (constant) -> 
+            { 
+                this.InverseSlopeConstant = constant; 
+            });
+        builder.addDoubleProperty("X Intercept Constant", () -> XInterceptConstant , (constant) -> 
+            { 
+                this.XInterceptConstant = constant; 
+            });
+        builder.addDoubleProperty("Speed Constant", () -> Speed , (constant) -> 
+        { 
+            this.Speed = constant; 
+        });
     }
+
+    double InverseSlopeConstant = 0.5;
+    double Speed = 0.25;
+    double XInterceptConstant = 0.5;
+    LineProcessor Processor;
+    DriveTrain driveTrain = Robot.driveTrain; 
 }
