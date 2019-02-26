@@ -653,15 +653,27 @@ public class OI {
         ConfigurableImpl ret = new ConfigurableImpl();
         addBinaryOIControls("driver", ret);
         addBinaryOIControls("scorer", ret);
+        
+        final ArrayList<String> analogCommands = new ArrayList<String>(Arrays.asList(
+            "OI.robot.speed", "OI.robot.rotation_rate", "OI.elevator.speed", "OI.mech.deploy_rate"));
+
+        ret.addElement(new Element("OI.LeftJS.X", "This is an analog control and therefore this maps " + 
+        "to OI analog functionalities. ", analogCommands));
         return ret;
     }
     private void addBinaryOIControls(String user, ConfigurableImpl ret)
     {
-        final ArrayList<String> frue = new ArrayList<String>(Arrays.asList(
-            "tazOpenCommand, tazStowCommand"));
+        final ArrayList<String> binaryCommands = new ArrayList<String>(Arrays.asList(
+            "tazOpenCommand", "tazStowCommand"));
         
-        ret.addElement(new Element(user + ".A.pressed", "This is a binary control (like b, xy, leftBumper, rightBumper, " + 
-             "All the possible binary commands are listed below. ", frue));
+        ret.addElement(new Element(user + ".A.pressed", "This is a binary control (like b, x, y, leftBumper, rightBumper, " + 
+             "All the possible binary commands are listed below. ", binaryCommands));
+        ret.addElement(new Element(user + ".B.pressed", "B Button (binary command)", null));
+        ret.addElement(new Element(user + ".X.pressed", "X Button (binary command)", null));
+        ret.addElement(new Element(user + ".Y.pressed", "Y Button (binary command)", null));
+        ret.addElement(new Element(user + ".LB.pressed", "Left Bumper (binary command)", null));
+        ret.addElement(new Element(user + ".RB.pressed", "Right Bumper (binary command)", null));
+        
         
 /**    
 #B Button
