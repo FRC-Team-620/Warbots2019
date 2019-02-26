@@ -5,14 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.drivetrain;
+package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
+import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveDistancePID extends Command {
-  public DriveDistancePID() {
+public class TazCloseCommand extends Command {
+
+  private TazGrabber tazGrabber;
+
+  public TazCloseCommand() {
+    tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    //requires(tazGrabber);
   }
 
   // Called just before this Command runs the first time
@@ -23,6 +30,7 @@ public class DriveDistancePID extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    tazGrabber.close();
   }
 
   // Make this return true when this Command no longer needs to run execute()

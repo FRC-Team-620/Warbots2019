@@ -1,13 +1,20 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 // Simulated Drive Train for use when instantiating the robot on a local 
-// laptop when no other drive train iclass is appropriate
+// laptop when no other drive train class is appropriate
 
 package org.usfirst.frc620.Warbots2019.sim;
 
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystick;
-import org.usfirst.frc620.Warbots2019.*;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveWithJoystickCommand;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 
 /**
  *
@@ -22,8 +29,8 @@ public class SimDriveTrain extends DriveTrain
     @Override
     public void initDefaultCommand() 
     {
-        setDefaultCommand(new DriveWithJoystick());
-        System.out.println("We are in sim drive train");
+        setDefaultCommand(new DriveWithJoystickCommand());
+        Logger.log("simdrivetrain: initDefaultCommand");
     }
 
     @Override
@@ -33,13 +40,13 @@ public class SimDriveTrain extends DriveTrain
 
     public void drive(double speed, double turnRate)
     {
-        //System.out.println("drive "+speed+" "+turnRate);
+        // System.out.println("drive "+speed+" "+turnRate);
     }
 
     @Override
     public void curvatureDrive(double speed, double curvature) 
     {
-        //System.out.println("drive "+speed+" "+curvature);
+        // System.out.println("drive "+speed+" "+curvature);
     }
 
     public double getTotalDistanceTravelled()

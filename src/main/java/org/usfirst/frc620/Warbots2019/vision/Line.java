@@ -7,8 +7,6 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
-import java.time.chrono.ThaiBuddhistEra;
-
 /**
  * Add your docs here.
  */

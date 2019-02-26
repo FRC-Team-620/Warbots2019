@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 /**
  *
@@ -42,6 +43,7 @@ public class TalonElevator extends Elevator
     @Override
     public void drive(double speed) 
     {
+        Logger.log("TalonElevator:drive()  elev spped: "+speed);
         talon.set(speedFactor * speed);
     }
 

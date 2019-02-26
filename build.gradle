@@ -50,6 +50,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
+    compile group: 'org.ejml', name: 'ejml-all', version: '0.37.1'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
