@@ -44,6 +44,9 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -59,13 +62,13 @@ public class Robot extends TimedRobot {
     public static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
-    public static AlignmentSystem alignmentSystem;
-    public static TrackingSystem trackingSystem;
+    public static AlignmentSystem alignmentSystem; //subsystem
+    public static TrackingSystem trackingSystem; //subsystem
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
     public static VisionSubsystem visionSystem;
-
+    
     // Control Reader enables configuration for multiple robots and operators
     public static ControlReader config;
     ConfigurableImpl configurable;
@@ -86,19 +89,9 @@ public class Robot extends TimedRobot {
 
         Logger.log("robotInit: Robot initialized");
 
-        // We now have a Configurable object with all methods implemented
-        // so programs can carry it around like a suitcase
-        configurable = new ConfigurableImpl();
-        configurable.addElement(new Element("name", "Name Of Robot", null));
-        configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-        configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-
         config = new ControlReader();
-
-        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
-        configurables.add(configurable);
-
-        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
+        
+        dumpConfiguration();
 
        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
      
@@ -170,6 +163,11 @@ public class Robot extends TimedRobot {
 
         oi = new OI(config);
 
+        // Enable Shuffleboard logging
+        Shuffleboard.startRecording();
+        
+        Shuffleboard.addEventMarker("Robot initialized", EventImportance.kTrivial);
+
         // Add Subsystems to SmartDashboard
         SmartDashboard.putData(driveTrain);
 
@@ -184,8 +182,9 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
-     
-    }
+
+      }
+
     @Override
     public void disabledInit() {
 
@@ -203,6 +202,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
+        
         m_autoSelected = m_chooser.getSelected();
         System.out.println("Auto selected: " + m_autoSelected);
     }
@@ -226,6 +227,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
     
+        Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
+        
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -240,5 +243,28 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+    }
+
+    /**
+     * Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+     */
+    public void dumpConfiguration()
+    {
+        //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+        // We now have a Configurable object with all methods implemented
+        // so programs can carry it around like a suitcase
+        configurable = new ConfigurableImpl();
+        configurable.addElement(new Element("name", "Name Of Robot", null));
+        configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+        configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+
+        
+        config = new ControlReader();
+
+        configurables.add(configurable);
+        configurables.add(new OI(config).asConfigurable());
+        //TODO all configurables must be added before this line
+        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
     }
 }

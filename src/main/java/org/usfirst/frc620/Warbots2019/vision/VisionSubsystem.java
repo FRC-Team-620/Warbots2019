@@ -26,7 +26,7 @@ public class VisionSubsystem extends Subsystem {
     int[] cameraStuff;
     for (int i = 0; i < numberOfCameras; ++i)
         CameraServer.getInstance().startAutomaticCapture(i);
-    cameraStuff = [];
+  
   }
   @Override
   public void initDefaultCommand() {
