@@ -150,7 +150,7 @@ public class SparkDriveTrain extends DriveTrain {
         //if set to true, but it makes the robot harder to maneuver
         //precisely.
 
-        differentialDrive.arcadeDrive(speed, turnRate);
+        differentialDrive.arcadeDrive(speed, -turnRate);
         /*
         The other software options that work with the drive train
         hardware that we're using this year are arcadeDrive,
