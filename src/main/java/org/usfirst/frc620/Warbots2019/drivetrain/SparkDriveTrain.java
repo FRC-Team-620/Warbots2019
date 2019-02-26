@@ -48,9 +48,17 @@ public class SparkDriveTrain extends DriveTrain {
     private double lastRightEncoderSpeedRead = 0;
     private double acceleration = 0;
 
+    public SparkDriveTrain()
+    {
+        // TODO add Elements to the configurable container (See OI as example)
+        // Elements to add: commands, other config settings specific to this
+        // sub-system (prefix impl specific names with 'spark_')
+    }
+
     public SparkDriveTrain(int leftMotor1Port, int leftMotor2Port, 
         int rightMotor1Port, int rightMotor2Port, NavX.Port navXPort) 
     {
+        this();
         setName("SparkDriveTrain");
 
         kEncoderCountsPerFoot = (kWheelDiamter * Math.PI * kGearRatio)/kEncoderCount;

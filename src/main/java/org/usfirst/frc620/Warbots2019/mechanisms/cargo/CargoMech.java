@@ -28,9 +28,14 @@ public class CargoMech extends ScoringMechanism {
   private DigitalInput limitSwitch;
   private Solenoid mainPiston;
 
+  public CargoMech()
+  {
+    // populate Configurable
+  }
   // for TestBot
-  public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) {
-    
+  public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) 
+  {
+    this();
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
 
     ControlReader config = Robot.config;
@@ -42,7 +47,8 @@ public class CargoMech extends ScoringMechanism {
   }
 
   @Override
-  public void initDefaultCommand() {
+  public void initDefaultCommand() 
+  {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     System.out.print("CargoMech is working");
@@ -51,19 +57,18 @@ public class CargoMech extends ScoringMechanism {
   ControlReader config = Robot.config;
   double cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
 
-  public void idle() {
+  public void idle()
+  {
     stow();
   }
 
-  public boolean asConfigurable() {
-    return configurable;
-  }
-
-  public boolean hasCargo() {
+  public boolean hasCargo()
+  {
     return limitSwitch.get();
   }
 
-  public void captureCargo() {
+  public void captureCargo() 
+  {
     intakeWheels.set(-cmspeed);
     double intakeVoltage = intakeWheels.getMotorOutputVoltage();
     double intakeCurrent = intakeWheels.getOutputCurrent();
