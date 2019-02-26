@@ -70,7 +70,7 @@ public class Line
         return getNewInst(m, b);
     }
 
-    private boolean IsFunction() 
+    public boolean IsFunction() 
     {
         return IsFunction;
     }

@@ -12,10 +12,13 @@ package org.usfirst.frc620.Warbots2019.vision;
  */
 public class ApproachingHorizontalLineException extends Exception
 {
-    public ApproachingHorizontalLineException ()
+    private static final long serialVersionUID = 2731935013378995941L;
+
+    public ApproachingHorizontalLineException()
     {
         super("");
     }
+
     public ApproachingHorizontalLineException (String message)
     {
         super(message);

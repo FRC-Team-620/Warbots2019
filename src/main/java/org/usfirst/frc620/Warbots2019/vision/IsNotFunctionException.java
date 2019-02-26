@@ -12,10 +12,13 @@ package org.usfirst.frc620.Warbots2019.vision;
  */
 public class IsNotFunctionException extends Exception
 {
-    public IsNotFunctionException ()
+    private static final long serialVersionUID = 4458251120871324054L;
+
+    public IsNotFunctionException()
     {
         super("");
     }
+
     public IsNotFunctionException (String message)
     {
         super(message);

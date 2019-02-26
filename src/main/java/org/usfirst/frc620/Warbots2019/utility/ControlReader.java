@@ -10,15 +10,12 @@ package org.usfirst.frc620.Warbots2019.utility;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.net.*;
-import java.util.Properties;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-
-import org.usfirst.frc620.Warbots2019.utility.Configurable;
-import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
-import org.usfirst.frc620.Warbots2019.robot.OI;
+import java.util.Properties;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

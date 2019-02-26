@@ -18,16 +18,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 
-public class VisionSubsystem extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  public VisionSubsystem(ControlReader config){
+public class VisionSubsystem extends Subsystem 
+{
+  public VisionSubsystem(ControlReader config)
+  {
     int numberOfCameras = config.getMappedInt("NumberOfCameras");
     int[] cameraStuff;
     for (int i = 0; i < numberOfCameras; ++i)
         CameraServer.getInstance().startAutomaticCapture(i);
   
   }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

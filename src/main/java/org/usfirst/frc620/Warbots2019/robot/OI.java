@@ -7,15 +7,14 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
-import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
-import org.usfirst.frc620.Warbots2019.utility.Configurable;
-import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
-import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;

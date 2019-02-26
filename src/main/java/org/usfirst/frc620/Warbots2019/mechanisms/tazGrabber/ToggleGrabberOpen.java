@@ -7,9 +7,9 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
+
+import edu.wpi.first.wpilibj.command.Command;
 public class ToggleGrabberOpen extends Command {
   public static boolean toggle = true;
   public ToggleGrabberOpen() {
