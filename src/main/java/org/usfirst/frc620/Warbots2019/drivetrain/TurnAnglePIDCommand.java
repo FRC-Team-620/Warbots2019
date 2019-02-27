@@ -29,7 +29,7 @@ public class TurnAnglePIDCommand extends Command {
 
   private ConfigurableImpl configurable;
 
-  double finalAngle;
+  Angle finalAngle;
 
   static final double kPTurn = 0.03;
   static final double kITurn = 0.00;
@@ -37,7 +37,7 @@ public class TurnAnglePIDCommand extends Command {
   static final double kFTurn = 0.00;
   static final double kToleranceDegrees = 5.0f;
 
-  public TurnAnglePIDCommand(Angle amountToTurn) {
+  public TurnAnglePIDCommand() {
     
     requires(Robot.driveTrain);
 
@@ -71,21 +71,21 @@ public class TurnAnglePIDCommand extends Command {
     // Force the robot to turn to within 3 degrees of the target before ending the
     // command
     pidController.setAbsoluteTolerance(3);
-    this.amountToTurn = amountToTurn;
+    //this.amountToTurn = amountToTurn;
 
     SmartDashboard.putData(pidController);
   }
 
-  public TurnAnglePIDCommand() {
-    this(Angle.fromDegrees(StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_TURNANGLE)));
-  }
+  //public TurnAnglePIDCommand() {
+  //  this(Angle.fromDegrees(StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_TURNANGLE)));
+  //}
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     // calculate the final direction based on the current direction the robot is
     // facing
-    finalAngle = Robot.driveTrain.getAngle().plus(amountToTurn).toDegrees();
+    finalAngle = new Angle(90);
     // set that final direction as the target
     // System.out.println("The current angle is " + currentAngle.toDegrees() + "The
     // final angle is " + finalAngle.toDegrees());
