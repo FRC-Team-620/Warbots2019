@@ -102,8 +102,6 @@ public class SparkDriveTrain extends DriveTrain {
         ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
         tab.add("kEncoderCountsPerFoot", kEncoderCountsPerFoot);
         tab.add("totalDistance", totalDistance);
-
-        System.out.println("Just checking left encoder: " + leftEncoder);
     }
 
     public SparkDriveTrain()
@@ -115,16 +113,13 @@ public class SparkDriveTrain extends DriveTrain {
     @Override
     public void initDefaultCommand() 
     {
-        System.out.println("In init default command: " + leftEncoder);
         setDefaultCommand(new DriveWithJoystickCommand());
-        System.out.println("After init default commmand: " + leftEncoder);
     }
 
     @Override
     public void periodic() {
         // Put code here to be run every loop, or every 1/20th of a second
 
-        System.out.println("Left encoder: " + leftEncoder);
         //Read speed data from the encoders
         double leftEncoderSpeed = leftEncoder.getRate();
         double rightEncoderSpeed = rightEncoder.getRate();

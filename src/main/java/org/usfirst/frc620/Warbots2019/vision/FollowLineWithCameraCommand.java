@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.vision;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -20,6 +21,7 @@ public class FollowLineWithCameraCommand extends Command
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);
+System.out.println("FollowLineCommand is Constructing");
         Processor = new LineProcessor();
     }
 
@@ -29,7 +31,7 @@ public class FollowLineWithCameraCommand extends Command
     @Override
     protected void initialize() 
     {
-        //System.out.println("Starting follow line with camera");
+System.out.println("Starting follow line with camera");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,15 +40,21 @@ public class FollowLineWithCameraCommand extends Command
     {
         try
         {
+System.out.println("FollowLineCommand is running");
+
             Line line = Processor.Process();
+            System.out.println("Line: " + line);
             double xIntercept = line.getXIntercept().getX();
+            System.out.println("xIntercept: " + xIntercept);
             double invSlope = 1.0 / line.getM();
+            System.out.println("invSlope: " + invSlope);
             double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
+            System.out.println("curvature: " + curvature);
             driveTrain.curvatureDrive(Speed, curvature); 
         }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
 
     }
