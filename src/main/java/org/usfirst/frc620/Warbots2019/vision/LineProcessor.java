@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
+import java.util.Arrays;
+
 import org.usfirst.frc620.Warbots2019.utility.WeightedLinearRegressionCalculator;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -25,6 +27,7 @@ public class LineProcessor
     
     public Line Process ()
     {
+        System.out.println("Line Processer Running");
         Line line = getProperCoordinates(linRegCalc.calculateWeightedLinearRegression(getXs(), getYs(), getWeights()));
         return line;
     }
@@ -51,6 +54,7 @@ public class LineProcessor
         {
             xs[i + numberOfLines] = x2s[i];
         }
+        System.out.println(Arrays.toString(xs));
 
         return xs;
     }
@@ -72,6 +76,7 @@ public class LineProcessor
         {
             ys[i + numberOfLines] = y2s[i];
         }
+        System.out.println(Arrays.toString(ys));
 
         return ys;
     }
@@ -94,6 +99,7 @@ public class LineProcessor
         {
             weights[i + numberOfLines] = Math.sqrt(Math.pow((x2s[i] - x1s[i]), 2) + Math.pow((y2s[i] - y1s[i]), 2));
         }
+        System.out.println(Arrays.toString(weights));
 
         return weights;
     }
@@ -102,16 +108,19 @@ public class LineProcessor
     {
         while(true)
         {
-        try
-        {
-            Line tempLine = Line.getNewInst(originalLine.getM(), originalLine.getB());
-            Line finLine = Line.getNewInst(tempLine.getM(), tempLine.getB() - ImageWidth/2);
-            return finLine;
-        }
-        catch(Exception e)
-        {
+            try
+            {
+                System.out.println(originalLine);
+                Line tempLine = Line.getNewInst(originalLine.getM(), originalLine.getB());
+                System.out.println("Temp Line: " + tempLine);
+                Line finLine = Line.getNewInst(tempLine.getM(), tempLine.getB() - ImageWidth/2);
+                System.out.println("FinLine: " + finLine);
+                return finLine;
+            }
+            catch(Exception e)
+            {
 
-        }
+            }
         }
 
     }

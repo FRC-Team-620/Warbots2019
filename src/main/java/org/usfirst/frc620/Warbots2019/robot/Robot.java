@@ -174,7 +174,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(new DriveStraightPIDCommand());
         SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         SmartDashboard.putData(new FollowLineWithCameraCommand());
-
+        SmartDashboard.putData(new FollowLineWithCameraCommand());
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
@@ -255,7 +255,7 @@ public class Robot extends TimedRobot {
         configurable.addElement(new Element("name", "Name Of Robot", null));
         configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
         configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-/*
+
         // Add subsystems to Robot's Configurable
         configurable.addElement(new Element("DriveTrain", 
             "Fully-scoped name of a DriveTrain implementation.", 
@@ -263,23 +263,46 @@ public class Robot extends TimedRobot {
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain", 
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain",
                 "org.usfirst.frc620.Warbots2019.sim.SimDriveTrain"))));
-        
+        //New Element
         configurable.addElement(new Element("ScoringMechanism", 
             "Fully-scoped name of a ScoringMechanism implementation.", 
             new ArrayList<String>(Arrays.asList(
                 "org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech", 
                 "org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber",
                 "org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))));
-        
+        //New Element
+        configurable.addElement(new Element("ClimbingMechanism", 
+            "Fully-scoped name of a ClimbingMechanism implementation",
+            new ArrayList<String>(Arrays.asList(
+                "org.usfirst.frc620.Warbots2019.climbing.PistonLift",
+                "org.usfirst.frc620.Warbots2019.climbing.ScissorLift"
+                ))));
+        //New Element
+        configurable.addElement(new Element("Elevator", 
+            "Fully-scopes name of an Elevator implementation",
+            new ArrayList<String>(Arrays.asList(
+                "org.usfirst.frc620.Warbots2019.elevator.TalonElevator",
+                "org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator"))));
+            
+        //New Element
+        configurable.addElement(new Element("Compressor",
+            "The pump that powers all pneumatic systems",
+            new ArrayList<String>(Arrays.asList(
+                "nothing available"))));
+            
+
+
+     
         // Ask each subsystem to add it's details (need to make sure commands of the
         // same name are overwritten.
         // Call default constructors - we only need them to populate their Configurable
         // instance, with commands, etc.
-        configurables.add(new SparkDriveTrain().asConfigurable());
+        configurables.add(SparkDriveTrain.asConfigurable());
+/*  
         configurables.add(new SparkMaxDriveTrain().asConfigurable());
         configurables.add(new CargoMech().asConfigurable());
         // etc... for each Subsystem
-*/
+*/ 
         config = new ControlReader();
 
         configurables.add(configurable);

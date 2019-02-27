@@ -761,7 +761,7 @@ public class OI {
         ret.addElement(new Element("OI.LeftJS.Y", "(OI Analog Control)", null));
         // etc.
         return ret;
-    }
+    }   
     private void addBinaryOIControls(String user, ConfigurableImpl ret)
     {
         final ArrayList<String> binaryCommands = new ArrayList<String>(Arrays.asList(
