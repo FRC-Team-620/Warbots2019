@@ -244,6 +244,7 @@ public class OI {
         if (driverController != null)
         {
             int driverAngle = driverController.getPOV();
+            Logger.log("IO.periodic driver angle: "+driverAngle);
             if (povDriverCommandMap.containsKey(driverAngle))
             {
                 // Make sure one isn't already running
@@ -252,6 +253,7 @@ public class OI {
                     Command cmd = povDriverCommandMap.get(driverAngle);
                     if (cmd != null)
                     {
+                        Logger.log("found command: "+driverAngle+" "+cmd.toString());
                         // Create a clone
                         Scheduler.getInstance().add(createCommand(cmd.getName()));
                         Logger.log("Driver POV command: "+cmd.toString());
@@ -268,6 +270,8 @@ public class OI {
                     }
                 }
             }
+            else
+            Logger.log("nope");
         }
         if (scorerController != null)
         {
@@ -624,20 +628,11 @@ public class OI {
             "driver.RightBumper.pressed",
             "driver.Back.pressed",
             "driver.Start.pressed",
-            /*"driver.LeftStick",
-            "driver.RightStick",
-            "driver.LeftTrigger",
-            "driver.RightTrigger",
-            "driver.DPadUp",
-            "driver.DPadDown",
-            "driver.DPadLeft",
-            "driver.DPadRight",
-            "driver.LeftAxis",
-            "driver.RightAxis",
-            "driver.LeftDeadzoneX",
-            "driver.LeftDeadzoneY",
-            "driver.RightDeadzoneX",
-            "driver.RightDeadzoneY",*/
+            "driver.pov.up",
+            "driver.pov.right",
+            "driver.pov.down",
+            "driver.pov.left",
+
             //Scorer commands 
             "scorer.A.pressed",
             "scorer.B.pressed",
@@ -646,21 +641,12 @@ public class OI {
             "scorer.LeftBumper.pressed",
             "scorer.RightBumper.pressed",
             "scorer.Back.pressed",
-            "scorer.Start.pressed"
-            /*"scorer.LeftStick",
-            "scorer.RightStick",
-            "scorer.LeftTrigger",
-            "scorer.RightTrigger",
-            "scorer.DPadUp",
-            "scorer.DPadDown",
-            "scorer.DPadLeft",
-            "scorer.DPadRight",
-            "scorer.LeftAxis",
-            "scorer.RightAxis",
-            "scorer.LeftDeadzoneX",
-            "scorer.LeftDeadzoneY",
-            "scorer.RightDeadzoneX",
-            "scorer.RightDeadzoneY" */
+            "scorer.Start.pressed",
+            "scorer.pov.up",
+            "scorer.pov.right",
+            "scorer.pov.down",
+            "scorer.pov.left"
+
         ));
 
         ArrayList<String> availableAnalogControls = new ArrayList<String>(Arrays.asList(
@@ -712,6 +698,9 @@ public class OI {
                 }
 
                 // Handle "analog" controls: D-Pad
+                // The following "createCommands" doesn't put anything on
+                // the scheduler - we'll clone the commands prior to putting
+                // the copies on the scheduler.
                 if (ctrl.endsWith(".pov.up"))
                 {
                     theMap.put(0, createCommand(val));
