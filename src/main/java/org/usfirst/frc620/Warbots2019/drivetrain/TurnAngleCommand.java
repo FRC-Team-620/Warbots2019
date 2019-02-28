@@ -14,6 +14,8 @@ import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class TurnAngleCommand extends Command {
   private DriveTrain drivetrain;
   // The speed we want to turn
@@ -28,6 +30,7 @@ public class TurnAngleCommand extends Command {
   private ConfigurableImpl configurable;
 
   public TurnAngleCommand() {
+    Logger.log("New Command: "+this.getName());
     //Instantiates Configuration
     configurable = new ConfigurableImpl();
 

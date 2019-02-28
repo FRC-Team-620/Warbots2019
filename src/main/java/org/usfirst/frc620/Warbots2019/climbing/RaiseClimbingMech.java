@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.climbing;
-
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,7 +15,10 @@ public class RaiseClimbingMech extends Command {
   // Called repeatedly when this Command is scheduled to run
 
   ClimbingMechanism climbingMechanism = Robot.climbingMechanism;
-
+  public RaiseClimbingMech()
+  {
+    Logger.log("New Command: "+this.getName());
+  }
   @Override
   protected void execute() {
     climbingMechanism.raise();

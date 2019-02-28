@@ -16,6 +16,8 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 /**
  * Add your docs here.
  */
@@ -33,7 +35,7 @@ public abstract class DriveTrain extends Subsystem
 
     public DriveTrain()
     {
-        
+        Logger.log("New Command: "+this.getName());
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE, 10);
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_TURNANGLE, 180);
     }

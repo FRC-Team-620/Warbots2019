@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class FollowLineWithCameraCommand extends Command 
 {
     public FollowLineWithCameraCommand() {
+        Logger.log("New Command: "+this.getName());
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);

@@ -6,13 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignToTarget extends Command {
   public AlignToTarget() {
+    Logger.log("New Command: "+this.getName());
     requires(Robot.driveTrain);
     requires(Robot.trackingSystem);
     requires(Robot.alignmentSystem);

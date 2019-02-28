@@ -9,9 +9,13 @@ package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 
 public class Capture extends Command {
   public Capture() {
+
+    Logger.log("New Command: "+this.getName());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 /**
  * Add your docs here.
  */
@@ -30,6 +32,7 @@ public class CargoMech extends ScoringMechanism {
 
   public CargoMech()
   {
+    Logger.log("New Command: "+this.getName());
     // populate Configurable
   }
   // for TestBot

@@ -11,11 +11,14 @@ import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class TazCloseCommand extends Command {
 
   private TazGrabber tazGrabber;
 
   public TazCloseCommand() {
+    Logger.log("New Command: "+this.getName());
     tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
