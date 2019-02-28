@@ -24,8 +24,10 @@ import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngleCommand;
 import org.usfirst.frc620.Warbots2019.drivetrain.TurnAnglePIDCommand;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
+import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
+import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
@@ -145,6 +147,8 @@ public class Robot extends TimedRobot {
             System.err.println("no elevator specified");
         }
 
+        SmartDashboard.putData(elevator);
+
         String climbingMechanismClass = config.getMappedString("ClimbingMechanism");
         if (climbingMechanismClass != null) {
             if (climbingMechanismClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.climbing.PistonLift"))
@@ -174,6 +178,11 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(new DriveStraightPIDCommand());
         SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         SmartDashboard.putData(new FollowLineWithCameraCommand());
+
+        //Add Elevator test commands
+        SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.FLOOR));
+        SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.MIDDLE));
+        SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.TOP));
 
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);

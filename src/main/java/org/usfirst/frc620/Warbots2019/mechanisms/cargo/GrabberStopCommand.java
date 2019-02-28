@@ -20,6 +20,7 @@ public class GrabberStopCommand extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     //requires(cargoMech);
+    System.out.println("CargoMech: " + cargoMech);
   }
 
   // Called just before this Command runs the first time

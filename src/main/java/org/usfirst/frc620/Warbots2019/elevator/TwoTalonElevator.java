@@ -23,9 +23,9 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 public class TwoTalonElevator extends TalonElevator 
 {
     private final static Map<ElevatorLevel, Integer> HEIGHTS = Map.ofEntries(
-        Map.entry(ElevatorLevel.FLOOR, 0),
+        Map.entry(ElevatorLevel.FLOOR, 2000),
         Map.entry(ElevatorLevel.MIDDLE, 10000),
-        Map.entry(ElevatorLevel.TOP, 20000)
+        Map.entry(ElevatorLevel.TOP, 18000)
     );
 
     private WPI_TalonSRX talon;
