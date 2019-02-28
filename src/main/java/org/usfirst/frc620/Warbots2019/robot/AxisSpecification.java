@@ -17,7 +17,7 @@ public class AxisSpecification
         CONTROL_RIGHT_JOYSTICK,
         CONTROL_LEFT_TRIGGER,
         CONTROL_RIGHT_TRIGGER,
-        CONTROL_DPAD
+        CONTROL_DPAD // POV
     };
     
     public enum UserDesignation
@@ -40,7 +40,11 @@ public class AxisSpecification
         UCVT_ROBOT_SPEED,         // -1.0 to 1.0
         UCVT_ROBOT_ROTATION_RATE, 
         UCVT_ELEVATOR_SPEED,     
-        UCVT_DEPLOY_RATE
+        UCVT_DEPLOY_RATE,
+        UCVT_POV_0_DEG,
+        UCVT_POV_90_DEG,
+        UCVT_POV_180_DEG,
+        UCVT_POV_270_DEG
     };
 
     UserDesignation      userDesignation;

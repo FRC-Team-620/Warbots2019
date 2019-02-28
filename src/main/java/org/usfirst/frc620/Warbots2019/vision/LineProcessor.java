@@ -7,6 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
+import java.util.Arrays;
+
 import org.usfirst.frc620.Warbots2019.utility.WeightedLinearRegressionCalculator;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -21,10 +23,16 @@ public class LineProcessor
     public LineProcessor ()
     {
         linRegCalc = new WeightedLinearRegressionCalculator();
+        lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
+        x1Entry = lineTrackingData.getEntry("x1");
+        x2Entry = lineTrackingData.getEntry("x2");
+        y1Entry = lineTrackingData.getEntry("y1");
+        y2Entry = lineTrackingData.getEntry("y2");
     }
     
     public Line Process ()
     {
+        System.out.println("Line Processer Running");
         Line line = getProperCoordinates(linRegCalc.calculateWeightedLinearRegression(getXs(), getYs(), getWeights()));
         return line;
     }
@@ -38,10 +46,11 @@ public class LineProcessor
     {
         double [] x1s = getEntries(x1Entry);
         double [] x2s = getEntries(x2Entry);
-
+System.out.println("x1s: " + Arrays.toString(x1s));
         int numberOfLines = x1s.length;
+System.out.println("number of Lines: " + numberOfLines);
         double [] xs = new double [2 * numberOfLines]; //2s indices are index + numberOfLines
-
+System.out.println("xs: " + Arrays.toString(xs));
         for (int i = 0; i < numberOfLines; i++)
         {
             xs[i] = x1s[i];
@@ -51,6 +60,7 @@ public class LineProcessor
         {
             xs[i + numberOfLines] = x2s[i];
         }
+        System.out.println(Arrays.toString(xs));
 
         return xs;
     }
@@ -72,6 +82,7 @@ public class LineProcessor
         {
             ys[i + numberOfLines] = y2s[i];
         }
+        System.out.println(Arrays.toString(ys));
 
         return ys;
     }
@@ -94,6 +105,7 @@ public class LineProcessor
         {
             weights[i + numberOfLines] = Math.sqrt(Math.pow((x2s[i] - x1s[i]), 2) + Math.pow((y2s[i] - y1s[i]), 2));
         }
+        System.out.println(Arrays.toString(weights));
 
         return weights;
     }
@@ -102,16 +114,19 @@ public class LineProcessor
     {
         while(true)
         {
-        try
-        {
-            Line tempLine = Line.getNewInst(originalLine.getM(), originalLine.getB());
-            Line finLine = Line.getNewInst(tempLine.getM(), tempLine.getB() - ImageWidth/2);
-            return finLine;
-        }
-        catch(Exception e)
-        {
+            try
+            {
+                System.out.println(originalLine);
+                Line tempLine = Line.getNewInst(originalLine.getM(), originalLine.getB());
+                System.out.println("Temp Line: " + tempLine);
+                Line finLine = Line.getNewInst(tempLine.getM(), tempLine.getB() - ImageWidth/2);
+                System.out.println("FinLine: " + finLine);
+                return finLine;
+            }
+            catch(Exception e)
+            {
 
-        }
+            }
         }
 
     }
@@ -119,10 +134,10 @@ public class LineProcessor
     // private final int Columns = 50;
 
     private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
-    private final NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");
-    private final NetworkTableEntry x2Entry = lineTrackingData.getEntry("x2");
-    private final NetworkTableEntry y1Entry = lineTrackingData.getEntry("y1");
-    private final NetworkTableEntry y2Entry = lineTrackingData.getEntry("y2");
+    private NetworkTableEntry x1Entry;
+    private NetworkTableEntry x2Entry;
+    private NetworkTableEntry y1Entry;
+    private NetworkTableEntry y2Entry;
     private WeightedLinearRegressionCalculator linRegCalc;
     private final int ImageWidth  = 180; //TODO: figure out actual width
 

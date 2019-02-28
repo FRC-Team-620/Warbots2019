@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TazStowCommand extends Command {
@@ -16,7 +17,7 @@ public class TazStowCommand extends Command {
   private TazGrabber tazGrabber;
 
   public TazStowCommand() {
-
+    Logger.log("New Command: "+this.getName());
     tazGrabber = (TazGrabber) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
