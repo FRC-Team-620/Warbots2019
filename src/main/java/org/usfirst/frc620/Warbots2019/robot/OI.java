@@ -143,7 +143,7 @@ public class OI {
 //LoggerLogger.log("IO.periodic driver angle: "+driverAngle);
                 if (povDriverCommandMap.containsKey(driverAngle))
                 {
-Logger.log("  found angle: "+driverAngle);
+//Logger.log("  found angle: "+driverAngle);
                     // Make sure one isn't already running
                     if (povDriverCommandActiveMap.get(driverAngle) == 0)
                     {
@@ -158,13 +158,13 @@ Logger.log("  found angle: "+driverAngle);
                                 Class<?> clw = Class.forName(cmd.getClass().getPackageName()+"."+cmd.getName());
                                 Command r = (Command) clw.getDeclaredConstructor().newInstance();
                                 Scheduler.getInstance().add(r);
-Logger.log("    Driver POV command: "+cmd.toString());
+//Logger.log("    Driver POV command: "+cmd.toString());
                                 povDriverCommandActiveMap.put(driverAngle, 
                                     povDriverCommandActiveMap.get(driverAngle)+1);
                             }
                             catch(Exception ex)
                             {
-System.out.println("exception instantiating class: ["+ex.getClass().getName()+"] ["+ex.getMessage()+"]");
+                                System.err.println("exception instantiating class: ["+ex.getClass().getName()+"] ["+ex.getMessage()+"]");
                             }
                         }
                     }
