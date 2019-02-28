@@ -247,6 +247,8 @@ public class Robot extends TimedRobot {
      */
     public void dumpConfiguration()
     {
+        Logger.log("Dumping config for Robot");
+        
         //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
         ArrayList<Configurable> configurables = new ArrayList<Configurable>();
         // We now have a Configurable object with all methods implemented
