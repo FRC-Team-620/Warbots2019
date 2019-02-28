@@ -704,6 +704,8 @@ public class OI {
         ret.addElement(new Element("OI.LeftJS.X", "This is an analog control and therefore this maps " + 
             "to OI analog functionalities. ", analogCommands));
         ret.addElement(new Element("OI.LeftJS.Y", "(OI Analog Control)", null));
+
+        
         // etc.
         return ret;
     }   

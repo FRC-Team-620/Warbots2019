@@ -6,12 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.usfirst.frc620.Warbots2019.robot.StateManager;
 import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -38,6 +40,17 @@ public abstract class DriveTrain extends Subsystem
     public static Configurable asConfigurable() {
         final ConfigurableImpl configurable;
         configurable = new ConfigurableImpl();
+
+        // NOTE: These should move to OI, for speed and rotation speed
+        // so that getRobotSpeed returns post-filtered speed value.
+        configurable.addElement(new Element("driver.center_deadzone", 
+            "DriveTrain: Raw scale range 0 to 1.0 for speed dead zone", 
+            new ArrayList<String>(Arrays.asList("(0,1.0)")))); 
+        configurable.addElement(new Element("driver.rotation_deadzone", 
+            "DriveTrain: radians of wedge that isolates a joystick 'spin' for values near 0", null));
+        configurable.addElement(new Element("driver.speed_deadzone", 
+            "DriveTrain: radians of wedge that isolates a joystick 'straight' for values near 0", null ));
+
         return configurable;
     }
 }
