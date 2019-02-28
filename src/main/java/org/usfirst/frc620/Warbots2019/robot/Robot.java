@@ -40,15 +40,6 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 import org.usfirst.frc620.Warbots2019.vision.VisionSubsystem;
 
-<<<<<<< HEAD
-import edu.wpi.first.cameraserver.CameraServer;
-//import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-=======
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -56,7 +47,6 @@ import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
->>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -75,6 +65,7 @@ public class Robot extends TimedRobot {
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
+    public static Compressor compressor;
     public static VisionSubsystem visionSystem;
     
     // Control Reader enables configuration for multiple robots and operators
@@ -97,18 +88,8 @@ public class Robot extends TimedRobot {
         Logger.log("robotInit: Robot initialized");
 
         config = new ControlReader();
-<<<<<<< HEAD
-        System.out.println("hellooooooo2733");
-        System.out.println(config.getMappedString("driver.A.pressed"));
-        System.out.println("bye83274982374132");
-        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
-        configurables.add(configurable);
-
-        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
-=======
         
         dumpConfiguration();
->>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
 
        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
      
@@ -134,10 +115,10 @@ public class Robot extends TimedRobot {
         String compressorOption = config.getMappedString("Compressor");
         if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
         {
-            // compressor = new Compressor(6);
+             compressor = new Compressor(6);
             
-            // compressor.setClosedLoopControl(true);
-            // compressor.start();
+             compressor.setClosedLoopControl(true);
+             compressor.start();
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
@@ -199,23 +180,16 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
-<<<<<<< HEAD
-    }
-=======
 
       }
 
->>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
     @Override
     public void disabledInit() {
     }
 
     @Override
     public void robotPeriodic() {
-<<<<<<< HEAD
-=======
         oi.periodic();
->>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
     }
 
     @Override
@@ -249,12 +223,8 @@ public class Robot extends TimedRobot {
     
     @Override
     public void teleopInit() {
-<<<<<<< HEAD
-=======
     
         Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
-        
->>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
