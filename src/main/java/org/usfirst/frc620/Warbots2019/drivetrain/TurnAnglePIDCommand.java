@@ -7,6 +7,7 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
+import org.usfirst.frc620.Warbots2019.robot.GetAngleCommand;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.robot.StateManager;
 import org.usfirst.frc620.Warbots2019.robot.StateManager.StateKey;
@@ -26,6 +27,7 @@ public class TurnAnglePIDCommand extends Command {
   private PIDController pidController;
   private DummyPIDOutput pidOutput;
   private Angle amountToTurn;
+  private DriveTrain driveTrain;
 
   private ConfigurableImpl configurable;
 
@@ -33,7 +35,7 @@ public class TurnAnglePIDCommand extends Command {
 
   static final double kPTurn = 0.03;
   static final double kITurn = 0.00;
-  static final double kDTurn = 0.07;
+  static final double kDTurn = 0.00;
   static final double kFTurn = 0.00;
   static final double kToleranceDegrees = 5.0f;
 
@@ -47,7 +49,10 @@ public class TurnAnglePIDCommand extends Command {
     // PIDControllers expect a single sensor, so if the data comes from
     // the drive train, we have to make a pretend sensor that pulls data+
     // from the drive train.
-    PIDSource pidSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
+    //PIDSource pidSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
+        //() -> Robot.driveTrain.getAngle().toDegrees());
+
+        PIDSource pidSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
         () -> Robot.driveTrain.getAngle().toDegrees());
 
     // PIDControllers expect a single motor, so for a full drive train,
@@ -59,21 +64,21 @@ public class TurnAnglePIDCommand extends Command {
     pidController = new PIDController(kPTurn, kITurn, kDTurn, pidSource, pidOutput);
 
     // Angle.toDegrees will report values between -180 degrees and 180 degrees
-    pidController.setInputRange(0, 360);
+    pidController.setInputRange(-360, 360);
 
     // Use this for angles to specify that the input value is circular
     // (ie turning past 180 wraps backs around to -180)
     pidController.setContinuous();
 
     // The drive train drive method accepts values between -1 and 1
-    pidController.setOutputRange(-1, 1);
+    pidController.setOutputRange(-0.5, 0.5);
 
     // Force the robot to turn to within 3 degrees of the target before ending the
     // command
     pidController.setAbsoluteTolerance(3);
     //this.amountToTurn = amountToTurn;
 
-    SmartDashboard.putData(pidController);
+    SmartDashboard.putData("TurnAnglePID", pidController);
   }
 
   //public TurnAnglePIDCommand() {
@@ -85,11 +90,12 @@ public class TurnAnglePIDCommand extends Command {
   protected void initialize() {
     // calculate the final direction based on the current direction the robot is
     // facing
-    finalAngle = new Angle(90);
+    finalAngle = new Angle(0.25);
     // set that final direction as the target
     // System.out.println("The current angle is " + currentAngle.toDegrees() + "The
     // final angle is " + finalAngle.toDegrees());
-    // pidController.setSetpoint(finalAngle.toDegrees());
+    pidController.setSetpoint(Robot.driveTrain.getAngle().plus(finalAngle).toDegrees());
+    //pidController.setSetpoint(finalAngle.toDegrees());
     pidController.enable();
   }
 
@@ -100,19 +106,23 @@ public class TurnAnglePIDCommand extends Command {
     // motor, and tell our actual drive train to turn at that speed
 
     Robot.driveTrain.drive(0, pidOutput.getOutput());
+    //System.out.println("Current Angle "+ Robot.driveTrain.getAngle().toDegrees() + " Turn SetPoint" + pidController.getSetpoint() + " Turn Output " + pidOutput.getOutput());
     // System.out.println(pidOutput.getOutput() + " " + Robot.driveTrain.getAngle().toDegrees());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    
     return pidController.onTarget();
+    
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     pidController.disable();
+    
   }
 
   // Called when another command which requires one or more of the same

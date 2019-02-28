@@ -40,11 +40,11 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.Compressor;
+//import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -56,7 +56,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class Robot extends TimedRobot {
 
-    public static Compressor compressor;
+    //public static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
     public static AlignmentSystem alignmentSystem;
@@ -82,7 +82,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-
         Logger.log("robotInit: Robot initialized");
 
         // We now have a Configurable object with all methods implemented
@@ -93,7 +92,9 @@ public class Robot extends TimedRobot {
         configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
 
         config = new ControlReader();
-
+        System.out.println("hellooooooo2733");
+        System.out.println(config.getMappedString("driver.A.pressed"));
+        System.out.println("bye83274982374132");
         ArrayList<Configurable> configurables = new ArrayList<Configurable>();
         configurables.add(configurable);
 
@@ -123,10 +124,10 @@ public class Robot extends TimedRobot {
         String compressorOption = config.getMappedString("Compressor");
         if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
         {
-            compressor = new Compressor(6);
+            // compressor = new Compressor(6);
             
-            compressor.setClosedLoopControl(true);
-            compressor.start();
+            // compressor.setClosedLoopControl(true);
+            // compressor.start();
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
@@ -152,7 +153,7 @@ public class Robot extends TimedRobot {
         else
         {
             System.err.println("no elevator specified");
-        }
+        }                                                   
 
         String climbingMechanismClass = config.getMappedString("ClimbingMechanism");
         if (climbingMechanismClass != null) {
@@ -175,7 +176,7 @@ public class Robot extends TimedRobot {
 
         // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new TurnAngleCommand());
-        //SmartDashboard.putData(new TurnAnglePIDCommand(Angle.fromDegrees(90)));
+        SmartDashboard.putData(new TurnAnglePIDCommand());
         SmartDashboard.putData(new DriveStraightPIDCommand());
         SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         SmartDashboard.putData(new FollowLineWithCameraCommand());
@@ -184,16 +185,13 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
-     
     }
     @Override
     public void disabledInit() {
-
     }
 
     @Override
     public void robotPeriodic() {
-
     }
 
     @Override
@@ -225,7 +223,6 @@ public class Robot extends TimedRobot {
     
     @Override
     public void teleopInit() {
-    
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -239,6 +236,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+
         Scheduler.getInstance().run();
     }
 }

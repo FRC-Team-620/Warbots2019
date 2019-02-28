@@ -5,25 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.elevator;
+package org.usfirst.frc620.Warbots2019.robot;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ControlElevatorWithJoystick extends Command {
-  double speedFactor;
-  public ControlElevatorWithJoystick() {
+public class GetAngleCommand extends Command {
+
+  public static DriveTrain driveTrain;
+
+  public GetAngleCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    speedFactor = 1.0;
-    ControlReader config = Robot.config;
-    if (config.getMappedString("elevator.speed_factor") != null)
-    {
-        speedFactor = config.getMappedDouble("elevator.speed_factor");
-    }
-    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
@@ -33,11 +26,8 @@ public class ControlElevatorWithJoystick extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() 
-  {
-    System.out.print("Working");
-    double speed = Robot.oi.getElevatorSpeed();
-    Robot.elevator.drive(-speed * speedFactor);
+  protected void execute() {
+    System.out.println(driveTrain.getAngle());
   }
 
   // Make this return true when this Command no longer needs to run execute()
