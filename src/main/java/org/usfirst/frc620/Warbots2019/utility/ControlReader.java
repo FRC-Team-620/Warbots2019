@@ -10,11 +10,12 @@ package org.usfirst.frc620.Warbots2019.utility;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.net.*;
-import java.util.Properties;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Properties;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,19 +25,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ControlReader 
 {
-    ArrayList<String> loadedFiles;
 
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
     ArrayList<String> searchPath;
- 
+    static ArrayList<String> loadedFiles;
     /**
      * Constructor method
      * Helps programs look for and read the .properties config files
      */
     public ControlReader()
     {
-        Logger.log("==============================================================");
+        Logger.log("\n==============================================================");
         Logger.log("===                    Begin Configuration                 ===");
         loadedFiles = new ArrayList<String>();
         prop = new Properties();
@@ -46,81 +46,8 @@ public class ControlReader
 
         String robotFileName = getRobotType();
 
-        //
-        // Build list of search paths, in order of precedence.
-        // First look on USB stick, if not there, look in deploy
-        // directory, then we may be running on a developer's laptop
-        // in sim mode/Debug mode, so allow finding defaults in local
-        // Windows file system.
-        //
-        searchPath = new ArrayList<String>(Arrays.asList(
-            // USB memory stick
-            s + "media" + s + "sda1",
-            s + "media" + s + "sda2",
-            // Deploy location in the Linux RoboRIO OS
-            rootDeployDir,
-            // Local windows machine development environment.
-            "C:" + s + "Users" + s + "Public" + s + "frc2019" + s + "workspace" + s + 
-                "Warbots2019" + s + "src" + s + "main" + s + "deploy"));
+        reloadConfiguration();
         
-        // Look first for MAC-address based robot file
-        if (!lookForFiles(robotFileName))
-        {
-            // This is only for debugging in case there's no MAC-address based file
-            System.err.println("ControlReader: Unable to locate MAC-based robot config ["+robotFileName+"]");
-            if (!lookForFiles("laptop_robot.properties"))
-            {
-                System.err.println("ControlReader: Unable to locate ANY robot properties");
-            }
-        }
-        
-        //
-        // The robot properties MUST contain a 'name' property so we can
-        // have user-readable file-names for the default driver/scorer properties.
-        //
-        String name = this.getNamedValue("name");
-        if(name == null)
-        {
-            System.err.println("ControlReader: Config missing name property");
-        }
-        else
-        {
-            // Look for robot-specific driver/scorer files in case there's no 
-            // user-specific files in USB stick.
-            SmartDashboard.putString("Robot Name", name);
-            Logger.log("ControlReader: Name of robot is: " + name);
-            lookForFiles(name + ".driver.properties");
-            lookForFiles(name + ".scorer.properties");      
-        }
-
-        // Look for user-provided files that should be on the USB stick for matches
-        lookForFiles("driver.properties");
-        lookForFiles("scorer.properties"); 
-
-        for (int i=0; i<loadedFiles.size(); i++)
-            Logger.log("  file loaded: ["+loadedFiles.get(i)+"]");
-
-        // Remove comments from values
-        for (Enumeration<Object> e=prop.keys(); e.hasMoreElements(); )
-        {
-            String key = e.nextElement().toString();
-            String v = prop.getProperty(key, "");
-            if (v.indexOf("#") > -1)
-            {
-                if (v.indexOf("#") > 0)
-                {
-                    // Remove chars after comment char
-                    prop.put(key, v.substring(0, v.indexOf("#")-1).trim());
-                }
-                else
-                {
-                    // Value is entirely a comment
-                    prop.put(key, "");
-                }
-            }
-        }
-        Logger.log("===                     End Configuration                  ===");
-        Logger.log("==============================================================");
     }
 
     /**
@@ -285,11 +212,14 @@ public class ControlReader
         {
             try
             {    
-                prop.load(new FileInputStream(new File(searchPath.get(i) + s + filename)));
-                SmartDashboard.putString("Files", searchPath.get(i) + s + filename);
+                String fn = searchPath.get(i) + s + filename;
+                Logger.log("  looking for file: ["+fn+"]");
+                prop.load(new FileInputStream(new File(fn)));
+                SmartDashboard.putString("Files", fn);
                 //Logger.log ("ControlReader: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
-                loadedFiles.add(searchPath.get(i) + s + filename);
+                loadedFiles.add(fn);
+                Logger.log("  found file: ["+fn+"]");
                 break;
             }
             catch(Exception e)
@@ -311,6 +241,7 @@ public class ControlReader
     {
         try
         {
+            Logger.log("Dumping configuration file ["+fn+"]");
             File file = new File(fn);
             FileWriter writer = new FileWriter(file);
             writer.write("##########################################################\n");
@@ -319,6 +250,7 @@ public class ControlReader
             writer.write("#  you do not alter the ORDER of things, though you're free\n");
             writer.write("#  to change the values, comment-out, or remove names altogether\n");
             writer.write("##########################################################\n");
+            Logger.log("    looping through Configurables ["+confs.size()+"]");
             for (int i = 0; i<confs.size(); i++)
             {
                 int j = 0;
@@ -326,7 +258,7 @@ public class ControlReader
                 ArrayList<String> names = cfg.getNames();
                 for (j=0; j<names.size(); j++)
                 {
-
+                    Logger.log("    processing Configuable ["+names.get(j)+"]");
                     String comment = cfg.getCommentForName(names.get(j));
                     if (comment != null)
                     {
@@ -361,5 +293,109 @@ public class ControlReader
             System.err.println("dumpConfigurationFile(): "+e.getMessage());
             // Don't care
         }
+    }
+    /**
+     * returns String ArrayList of the paths/filenames that were loaded by dumpConfigurationFile()
+     * @param arr
+     * @return
+     */
+    public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr)
+    {
+        return loadedFiles;
+    }    
+    /**
+     * Reloads the configuration
+     * Exact copy of what happens in the consstructor
+     */
+    public void reloadConfiguration()
+    {
+        Logger.log("==============================================================");
+        Logger.log("===                    Begin Configuration                 ===");
+        loadedFiles = new ArrayList<String>();
+        prop = new Properties();
+        
+        s = File.separator;
+        rootDeployDir = "" + Filesystem.getDeployDirectory();
+
+        String robotFileName = getRobotType();
+
+        //
+        // Build list of search paths, in order of precedence.
+        // First look on USB stick, if not there, look in deploy
+        // directory, then we may be running on a developer's laptop
+        // in sim mode/Debug mode, so allow finding defaults in local
+        // Windows file system.
+        //
+        searchPath = new ArrayList<String>(Arrays.asList(
+            // USB memory stick
+            s + "media" + s + "sda1",
+            s + "media" + s + "sda2",
+            // Deploy location in the Linux RoboRIO OS
+            rootDeployDir,
+            // Local windows machine development environment.
+            "C:" + s + "Users" + s + "Public" + s + "frc2019" + s + "workspace" + s + 
+                "Warbots2019" + s + "src" + s + "main" + s + "deploy"));
+
+        Logger.log("Robot filename: ["+robotFileName+"]");
+
+        // Look first for MAC-address based robot file
+        if (!lookForFiles(robotFileName))
+        {
+            // This is only for debugging in case there's no MAC-address based file
+            System.err.println("ControlReader: Unable to locate MAC-based robot config ["+
+                robotFileName+"]");
+            if (!lookForFiles("laptop_robot.properties"))
+            {
+                System.err.println("ControlReader: Unable to locate ANY robot properties");
+            }
+        }
+        
+        //
+        // The robot properties MUST contain a 'name' property so we can
+        // have user-readable file-names for the default driver/scorer properties.
+        //
+        String name = this.getNamedValue("name");
+        if(name == null)
+        {
+            System.err.println("ControlReader: Config missing name property");
+        }
+        else
+        {
+            // Look for robot-specific driver/scorer files in case there's no 
+            // user-specific files in USB stick.
+            SmartDashboard.putString("Robot Name", name);
+            Logger.log("Robot Name: [" + name+"]");
+            lookForFiles(name + ".driver.properties");
+            lookForFiles(name + ".scorer.properties");      
+        }
+
+        // Look for user-provided files that should be on the USB stick for matches
+        lookForFiles("driver.properties");
+        lookForFiles("scorer.properties"); 
+
+        for (int i=0; i<loadedFiles.size(); i++)
+            Logger.log("  file loaded: ["+loadedFiles.get(i)+"]");
+
+        // Remove comments from values
+        for (Enumeration<Object> e=prop.keys(); e.hasMoreElements(); )
+        {
+            String key = e.nextElement().toString();
+            String v = prop.getProperty(key, "");
+            if (v.indexOf("#") > -1)
+            {
+                if (v.indexOf("#") > 0)
+                {
+                    // Remove chars after comment char
+                    prop.put(key, v.substring(0, v.indexOf("#")-1).trim());
+                }
+                else
+                {
+                    // Value is entirely a comment
+                    prop.put(key, "");
+                }
+            }
+        }
+        Logger.log("===                     End Configuration                  ===");
+        Logger.log("==============================================================");
     }
 }

@@ -77,7 +77,9 @@ public class TurnAngleCommand extends Command {
   protected void interrupted() {
   }
 
-  public ConfigurableImpl asConfigurable(){
+  public static ConfigurableImpl asConfigurable(){
+    ConfigurableImpl configurable;
+    configurable = new ConfigurableImpl();
     return configurable;
   }
 }

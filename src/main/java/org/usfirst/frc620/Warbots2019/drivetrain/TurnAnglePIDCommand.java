@@ -29,7 +29,7 @@ public class TurnAnglePIDCommand extends Command {
   private Angle amountToTurn;
   private DriveTrain driveTrain;
 
-  private ConfigurableImpl configurable;
+  
 
   Angle finalAngle;
 
@@ -44,7 +44,6 @@ public class TurnAnglePIDCommand extends Command {
     requires(Robot.driveTrain);
 
     // Instantiates Configuration
-    configurable = new ConfigurableImpl();
 
     // PIDControllers expect a single sensor, so if the data comes from
     // the drive train, we have to make a pretend sensor that pulls data+
@@ -132,7 +131,9 @@ public class TurnAnglePIDCommand extends Command {
     end();
   }
 
-  public ConfigurableImpl asConfigurable(){
+  public static ConfigurableImpl asConfigurable(){
+    ConfigurableImpl configurable;
+    configurable = new ConfigurableImpl();
     return configurable;
   }
 }

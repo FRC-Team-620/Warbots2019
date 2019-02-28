@@ -8,55 +8,88 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import java.util.Map;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class TalonElevator extends Elevator
 {
+    private final static Map<ElevatorLevel, Integer> HEIGHTS = Map.ofEntries(
+        Map.entry(ElevatorLevel.FLOOR, 0),
+        Map.entry(ElevatorLevel.MIDDLE, 6000),
+        Map.entry(ElevatorLevel.TOP, 12000)
+    );
+
     private WPI_TalonSRX talon;
     private double speedFactor;
 
     public TalonElevator(int canID) 
     {
+        Logger.log("Loaded talon elevator");
         ControlReader config = Robot.config;
-        speedFactor = 1.0;
 
-        System.out.println("Loaded talon elevator");
+        speedFactor = 1.0;
+        if (config.getMappedString("elevator.speed_factor") != null)
+            speedFactor = config.getMappedDouble("elevator.speed_factor");
+
         talon = new WPI_TalonSRX(canID);
         talon.configFactoryDefault();
+        talon.setNeutralMode(NeutralMode.Brake);
+        talon.configClearPositionOnLimitR(true, 50);
+        talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
-        if (config.getMappedString("elevator.speed_factor") != null)
-        {
-            speedFactor = config.getMappedDouble("elevator.speed_factor");
-        }
+        var talonConfig = new SendableTalonWrapper(talon);
+        SmartDashboard.putData(talonConfig);
+    }
+
+    public WPI_TalonSRX getTalon()
+    {
+        return talon;
     }
 
     @Override
     public void drive(double speed) 
     {
-        Logger.log("TalonElevator:drive()  elev spped: "+speed);
-        talon.set(speedFactor * speed);
+        // System.out.println("Driving elevator " + speed);
+        if (Math.abs(speed) < 0.1)
+            talon.stopMotor();
+        else
+            talon.set(speedFactor * speed);
     }
 
     @Override
-    public void driveTo(double height) 
+    public void driveTo(ElevatorLevel level) 
     {
-        throw new UnsupportedOperationException("Not yet implemented");
+        double height = getHeight(level);
+        System.out.println("Driving elevator to " + height);
+        System.out.println("Error: " + talon.getClosedLoopError());
+        System.out.println("Output: " + talon.getMotorOutputPercent());
+        talon.set(ControlMode.MotionMagic, height);
+    }
+
+    double getHeight(ElevatorLevel level)
+    {
+        return HEIGHTS.get(level);
     }
 
     @Override
     public double getHeight() 
     {
-        talon.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0);
         return talon.getSelectedSensorPosition();
     }
 

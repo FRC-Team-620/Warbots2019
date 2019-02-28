@@ -38,7 +38,9 @@ import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
+import org.usfirst.frc620.Warbots2019.vision.VisionSubsystem;
 
+<<<<<<< HEAD
 import edu.wpi.first.cameraserver.CameraServer;
 //import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -46,6 +48,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+=======
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+>>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,12 +70,13 @@ public class Robot extends TimedRobot {
     //public static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
-    public static AlignmentSystem alignmentSystem;
-    public static TrackingSystem trackingSystem;
+    public static AlignmentSystem alignmentSystem; //subsystem
+    public static TrackingSystem trackingSystem; //subsystem
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
-
+    public static VisionSubsystem visionSystem;
+    
     // Control Reader enables configuration for multiple robots and operators
     public static ControlReader config;
     ConfigurableImpl configurable;
@@ -84,14 +96,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logger.log("robotInit: Robot initialized");
 
-        // We now have a Configurable object with all methods implemented
-        // so programs can carry it around like a suitcase
-        configurable = new ConfigurableImpl();
-        configurable.addElement(new Element("name", "Name Of Robot", null));
-        configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-        configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-
         config = new ControlReader();
+<<<<<<< HEAD
         System.out.println("hellooooooo2733");
         System.out.println(config.getMappedString("driver.A.pressed"));
         System.out.println("bye83274982374132");
@@ -99,6 +105,10 @@ public class Robot extends TimedRobot {
         configurables.add(configurable);
 
         config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
+=======
+        
+        dumpConfiguration();
+>>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
 
        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
      
@@ -165,11 +175,15 @@ public class Robot extends TimedRobot {
             System.err.println("no climbing mechanism specified");
         }
 
-        int numberOfCameras = config.getMappedInt("NumberOfCameras");
-        for (int i = 0; i < numberOfCameras; ++i)
-            CameraServer.getInstance().startAutomaticCapture(i);
+        visionSystem = new VisionSubsystem(config);
+        
 
         oi = new OI(config);
+
+        // Enable Shuffleboard logging
+        Shuffleboard.startRecording();
+        
+        Shuffleboard.addEventMarker("Robot initialized", EventImportance.kTrivial);
 
         // Add Subsystems to SmartDashboard
         SmartDashboard.putData(driveTrain);
@@ -180,18 +194,28 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(new DriveStraightPIDCommand());
         SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         SmartDashboard.putData(new FollowLineWithCameraCommand());
-
+        SmartDashboard.putData(new FollowLineWithCameraCommand());
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
+<<<<<<< HEAD
     }
+=======
+
+      }
+
+>>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
     @Override
     public void disabledInit() {
     }
 
     @Override
     public void robotPeriodic() {
+<<<<<<< HEAD
+=======
+        oi.periodic();
+>>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
     }
 
     @Override
@@ -201,6 +225,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
+        
         m_autoSelected = m_chooser.getSelected();
         System.out.println("Auto selected: " + m_autoSelected);
     }
@@ -223,6 +249,12 @@ public class Robot extends TimedRobot {
     
     @Override
     public void teleopInit() {
+<<<<<<< HEAD
+=======
+    
+        Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
+        
+>>>>>>> 5e00a35072a16e33da067c16a8095f51f93c3bce
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -238,5 +270,76 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
 
         Scheduler.getInstance().run();
+    }
+
+    /**
+     * Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+     */
+    public void dumpConfiguration()
+    {
+        Logger.log("Dumping config for Robot");
+        
+        //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+        // We now have a Configurable object with all methods implemented
+        // so programs can carry it around like a suitcase
+        configurable = new ConfigurableImpl();
+        configurable.addElement(new Element("name", "Name Of Robot", null));
+        configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+        configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
+
+        // Add subsystems to Robot's Configurable
+        configurable.addElement(new Element("DriveTrain", 
+            "Fully-scoped name of a DriveTrain implementation.", 
+            new ArrayList<String>(Arrays.asList(
+                "org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain", 
+                "org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain",
+                "org.usfirst.frc620.Warbots2019.sim.SimDriveTrain"))));
+        //New Element
+        configurable.addElement(new Element("ScoringMechanism", 
+            "Fully-scoped name of a ScoringMechanism implementation.", 
+            new ArrayList<String>(Arrays.asList(
+                "org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech", 
+                "org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber",
+                "org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))));
+        //New Element
+        configurable.addElement(new Element("ClimbingMechanism", 
+            "Fully-scoped name of a ClimbingMechanism implementation",
+            new ArrayList<String>(Arrays.asList(
+                "org.usfirst.frc620.Warbots2019.climbing.PistonLift",
+                "org.usfirst.frc620.Warbots2019.climbing.ScissorLift"
+                ))));
+        //New Element
+        configurable.addElement(new Element("Elevator", 
+            "Fully-scopes name of an Elevator implementation",
+            new ArrayList<String>(Arrays.asList(
+                "org.usfirst.frc620.Warbots2019.elevator.TalonElevator",
+                "org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator"))));
+            
+        //New Element
+        configurable.addElement(new Element("Compressor",
+            "The pump that powers all pneumatic systems",
+            new ArrayList<String>(Arrays.asList(
+                "nothing available"))));
+            
+
+
+     
+        // Ask each subsystem to add it's details (need to make sure commands of the
+        // same name are overwritten.
+        // Call default constructors - we only need them to populate their Configurable
+        // instance, with commands, etc.
+        configurables.add(SparkDriveTrain.asConfigurable());
+/*  
+        configurables.add(new SparkMaxDriveTrain().asConfigurable());
+        configurables.add(new CargoMech().asConfigurable());
+        // etc... for each Subsystem
+*/ 
+        config = new ControlReader();
+
+        configurables.add(configurable);
+        configurables.add(new OI(config).asConfigurable());
+        //TODO all configurables must be added before this line
+        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
     }
 }

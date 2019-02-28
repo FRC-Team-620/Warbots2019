@@ -7,19 +7,19 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 import edu.wpi.first.wpilibj.command.Command;
-
-public class TazCloseCommand extends Command {
-
-  private TazGrabber tazGrabber;
-
-  public TazCloseCommand() {
-    tazGrabber = (TazGrabber) Robot.scoringMechanism;
+public class ToggleGrabberOpen extends Command 
+{
+  public static boolean toggle = true;
+  public ToggleGrabberOpen() 
+  {
+    Logger.log("New Command: "+this.getName());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(tazGrabber);
+    requires(Robot.scoringMechanism);
   }
 
   // Called just before this Command runs the first time
@@ -30,7 +30,18 @@ public class TazCloseCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    tazGrabber.close();
+    if(toggle)
+    {
+      Robot.scoringMechanism.deploy();
+      System.out.println("Deployed!");
+      toggle = false;
+    } 
+    else
+    {
+      Robot.scoringMechanism.stow();
+      System.out.println("Stowed!");
+      toggle = true;
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

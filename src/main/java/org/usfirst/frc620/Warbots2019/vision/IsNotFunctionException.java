@@ -5,13 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
-
-import edu.wpi.first.wpilibj.command.Subsystem;
+package org.usfirst.frc620.Warbots2019.vision;
 
 /**
  * Add your docs here.
  */
-public abstract class AlignmentSystem extends Subsystem 
+public class IsNotFunctionException extends Exception
 {
+    private static final long serialVersionUID = 4458251120871324054L;
+
+    public IsNotFunctionException()
+    {
+        super("");
+    }
+
+    public IsNotFunctionException (String message)
+    {
+        super(message);
+    }
 }

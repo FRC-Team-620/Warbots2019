@@ -7,15 +7,27 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
 public abstract class Elevator extends Subsystem 
 {
+    public static enum ElevatorLevel
+    {
+        FLOOR, MIDDLE, TOP
+    }
+
     public abstract void drive(double speed);
 
-    public abstract void driveTo(double height);
+    public abstract void driveTo(ElevatorLevel level);
 
     public abstract double getHeight();
 
@@ -27,5 +39,15 @@ public abstract class Elevator extends Subsystem
     public void initDefaultCommand() 
     {
         setDefaultCommand(new ControlElevatorWithJoystick());
+    }
+
+    public static Configurable asConfigurable()
+    {
+        ConfigurableImpl configurable = new ConfigurableImpl();
+        configurable.addElement(new Element("Elevator Speed", 
+        "The speed of the elevator as it travels between the enumerations of its levels", new ArrayList<String>(Arrays.asList(
+            "elevator.speed_top"))));
+
+        return configurable;
     }
 }

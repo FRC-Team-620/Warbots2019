@@ -5,13 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
-
-import edu.wpi.first.wpilibj.command.Subsystem;
+package org.usfirst.frc620.Warbots2019.vision;
 
 /**
  * Add your docs here.
  */
-public abstract class AlignmentSystem extends Subsystem 
+public class ApproachingHorizontalLineException extends Exception
 {
+    private static final long serialVersionUID = 2731935013378995941L;
+
+    public ApproachingHorizontalLineException()
+    {
+        super("");
+    }
+
+    public ApproachingHorizontalLineException (String message)
+    {
+        super(message);
+    }
 }

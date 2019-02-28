@@ -7,63 +7,100 @@
 
 package org.usfirst.frc620.Warbots2019.vision;
 
-import java.util.Arrays;
-
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
-public class FollowLineWithCameraCommand extends Command {
 
-  private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
-  private NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");
-  // private NetworkTableEntry x2Entry = lineTrackingData.getEntry("x2");
-  // private NetworkTableEntry y1Entry = lineTrackingData.getEntry("y1");
-  // private NetworkTableEntry y2Entry = lineTrackingData.getEntry("y2");
+public class FollowLineWithCameraCommand extends Command 
+{
+    public FollowLineWithCameraCommand() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+        requires(driveTrain);
+System.out.println("FollowLineCommand is Constructing");
+        Processor = new LineProcessor();
+    }
 
-  DriveTrain driveTrain = Robot.driveTrain;
 
-  public FollowLineWithCameraCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
 
-    requires(driveTrain);
-  }
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() 
+    {
+System.out.println("Starting follow line with camera");
+    }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() 
+    {
+        try
+        {
+System.out.println("FollowLineCommand is running");
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() 
-  {
-    System.out.println("X1 data: " + Arrays.toString(x1Entry.getDoubleArray(new double[0])));
-    // double speed = 1/3;
-    double curvature = 1;
-    double turnConstant = 0.5;
-    driveTrain.curvatureDrive(1.0/3.0, curvature * turnConstant);
-  }
+            Line line = Processor.Process();
+            System.out.println("Line: " + line);
+            double xIntercept = line.getXIntercept().getX();
+            System.out.println("xIntercept: " + xIntercept);
+            double invSlope = 1.0 / line.getM();
+            System.out.println("invSlope: " + invSlope);
+            double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
+            System.out.println("curvature: " + curvature);
+            driveTrain.curvatureDrive(Speed, curvature); 
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() 
+    {
+        return false;
+    }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
+    // Called once after isFinished returns true
+    @Override
+    protected void end() 
+    {//TODO: cut control, catch impossible case, buzz drivers
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() 
+    {
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) 
+    {
+        super.initSendable(builder);
+
+        builder.addDoubleProperty("Inverse Slope Constant", () -> InverseSlopeConstant , (constant) -> 
+            { 
+                this.InverseSlopeConstant = constant; 
+            });
+        builder.addDoubleProperty("X Intercept Constant", () -> XInterceptConstant , (constant) -> 
+            { 
+                this.XInterceptConstant = constant; 
+            });
+        builder.addDoubleProperty("Speed Constant", () -> Speed , (constant) -> 
+        { 
+            this.Speed = constant; 
+        });
+    }
+
+    double InverseSlopeConstant = 0.5;
+    double Speed = 0.25;
+    double XInterceptConstant = 0.5;
+    LineProcessor Processor;
+    DriveTrain driveTrain = Robot.driveTrain; 
 }

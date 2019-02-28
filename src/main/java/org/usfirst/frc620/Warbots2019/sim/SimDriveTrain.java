@@ -24,6 +24,9 @@ public class SimDriveTrain extends DriveTrain
 
     public SimDriveTrain() 
     {
+        // TODO add Elements to the configurable container (See OI as example)
+        // Elements to add: commands, other config settings specific to this
+        // sub-system (prefix impl specific names with 'sim_')
     }
 
     @Override

@@ -23,6 +23,7 @@ public class StowScoringMechanismCommand extends Command {
   @Override
   protected void execute() {
     scoringMechanism.stow();
+    System.out.println("Stowing!");
   }
 
   // Make this return true when this Command no longer needs to run execute()
