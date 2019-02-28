@@ -31,11 +31,11 @@ public class CargoMech extends ScoringMechanism {
   public CargoMech()
   {
     // populate Configurable
+    this(9, 8, 0);
   }
   // for TestBot
   public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) 
   {
-    this();
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
 
     ControlReader config = Robot.config;
@@ -43,7 +43,7 @@ public class CargoMech extends ScoringMechanism {
     if (cmspeed < 0)
       cmspeed = 1;
 
-    SmartDashboard.putData(new SendableTalonWrapper(intakeWheels));
+    addChild(new SendableTalonWrapper(intakeWheels));
   }
 
   @Override
