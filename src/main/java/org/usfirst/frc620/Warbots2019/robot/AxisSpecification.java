@@ -90,10 +90,6 @@ public class AxisSpecification
         {
             axisSpec.controlType = AnalogControlType.CONTROL_RIGHT_TRIGGER;
         }
-        else if (ctrl.contains(".DPad."))
-        {
-            axisSpec.controlType = AnalogControlType.CONTROL_DPAD;
-        }
 
         // Set axis
         if (ctrl.endsWith(".Y"))

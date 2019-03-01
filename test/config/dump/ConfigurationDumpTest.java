@@ -107,7 +107,7 @@ public class ConfigurationDumpTest
 		}
 		if (!success)
 		{
-			Logger.log("ERROR: missing valid 'scorer.RightJS.Y'");
+			Logger.log("ERROR: missing valid 'driver.speed_deadzone'");
 		}
 		
 		return (num == 5)?0:1;

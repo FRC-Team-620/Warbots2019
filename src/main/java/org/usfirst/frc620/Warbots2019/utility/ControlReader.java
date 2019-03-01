@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
 
 // SEP removed dependency on WPILib so we can do unit test
 // without needing access to WPILib semantics/runtime issues
@@ -246,12 +249,17 @@ public class ControlReader
             Logger.log("Dumping configuration file ["+fn+"]");
             File file = new File(fn);
             FileWriter writer = new FileWriter(file);
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	        Date date = new Date();
+	        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
             writer.write("##########################################################\n");
             writer.write("#  This file was generated at one time - in order to ease\n");
             writer.write("#  comparison with other config files it is advisable that\n");
             writer.write("#  you do not alter the ORDER of things, though you're free\n");
             writer.write("#  to change the values, comment-out, or remove names altogether\n");
             writer.write("##########################################################\n");
+            writer.write("# data of template generation: ["+dateFormat.format(date)+"]\n");
             Logger.log("    looping through Configurables ["+confs.size()+"]");
             for (int i = 0; i<confs.size(); i++)
             {

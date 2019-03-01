@@ -86,10 +86,8 @@ public class Robot extends TimedRobot {
         Logger.log("robotInit: Robot initialized");
 
         config = new ControlReader();
-        
-        
 
-       Logger.log("robotInit: Connecting to robot " + config.getRobotType());
+        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
      
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null) {
@@ -256,7 +254,7 @@ public class Robot extends TimedRobot {
         configurable.addElement(new Element("name", "Name Of Robot", null));
         configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
         configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
-
+        
         // Add subsystems to Robot's Configurable
         configurable.addElement(new Element("DriveTrain", 
             "Fully-scoped name of a DriveTrain implementation.", 
@@ -284,12 +282,25 @@ public class Robot extends TimedRobot {
             new ArrayList<String>(Arrays.asList(
                 "org.usfirst.frc620.Warbots2019.elevator.TalonElevator",
                 "org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator"))));
-            
+        
         //New Element
         configurable.addElement(new Element("Compressor",
             "The pump that powers all pneumatic systems",
             new ArrayList<String>(Arrays.asList(
-                "nothing available"))));
+                "true", "false"))));
+
+        configurable.addElement(new Element("Tracking", 
+            "Fully-scoped name of a Tracking implementation.", 
+            new ArrayList<String>(Arrays.asList("none - REVISIT IF THIS IS NECESSARY"))));
+
+        configurable.addElement(new Element("Alignment", 
+            "Fully-scoped name of a Alignment implementation.", 
+                new ArrayList<String>(Arrays.asList("none - REVISIT IF THIS IS NECESSARY"))));
+
+        configurable.addElement(new Element("NumberOfCameras", 
+            "Number of cameras", 
+                new ArrayList<String>(Arrays.asList("0","1"))));
+        
         return configurable;
     }
 
@@ -304,18 +315,15 @@ public class Robot extends TimedRobot {
         ArrayList<Configurable> configurables = new ArrayList<Configurable>();
         
         Configurable configurable = asConfigurable();
-     
+        configurables.add(configurable);
         // Ask each subsystem to add it's details (need to make sure commands of the
         // same name are overwritten.
         // Call default constructors - we only need them to populate their Configurable
         // instance, with commands, etc.
-        configurables.add(SparkDriveTrain.asConfigurable());
-/*  
-        configurables.add(new SparkMaxDriveTrain().asConfigurable());
-        configurables.add(new CargoMech().asConfigurable());
-        // etc... for each Subsystem
-*/ 
-        configurables.add(configurable);
+        configurables.add(DriveTrain.asConfigurable());
+        configurables.add(CargoMech.asConfigurable());
+        configurables.add(Elevator.asConfigurable());
+        
         configurables.add(OI.asConfigurable());
         //TODO all configurables must be added before this line
         if (new File("/home/lvuser").exists())

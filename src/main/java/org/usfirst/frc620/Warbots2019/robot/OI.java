@@ -109,7 +109,7 @@ public class OI {
         if (driverEnabled)
         {
             driverController = new Joystick(0);
-            Logger.log("driver enabled");
+            Logger.log("abled");
             if (scorerEnabled) {
                 scorerController = new Joystick(1);
                 Logger.log("scorer enabled");
@@ -466,20 +466,17 @@ public class OI {
             {
                 joystick = scorerController;
             }
-            //if (joystick != null)
-            //{
-            
-                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
-                {
-                    // Left JS Y
-                    ret = joystick.getRawAxis(1);
-                }
-                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-                {
-                    // Left JS X
-                    ret = joystick.getRawAxis(0);
-                }
-           // }                    
+
+            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+            {
+                // Left JS Y
+                ret = joystick.getRawAxis(1);
+            }
+            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+            {
+                // Left JS X
+                ret = joystick.getRawAxis(0);
+            }           
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_JOYSTICK)
         {
@@ -489,45 +486,38 @@ public class OI {
                 joystick = scorerController;
             }
 
-            //if (joystick != null)
-            //{
-                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
-                {
-                    // Right JS Y
-                    ret = joystick.getRawAxis(5);
-                }
-                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-                {
-                    // Right JS X
-                    ret = joystick.getRawAxis(4);
-                }               
-            //}     
+            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+            {
+                // Right JS Y
+                ret = joystick.getRawAxis(5);
+            }
+            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+            {
+                // Right JS X
+                ret = joystick.getRawAxis(4);
+            }               
+
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_TRIGGER)
         {
             GenericHID joystick = driverController;
-            //if (joystick != null)
-            //{
-                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
-                {
-                    joystick = scorerController;
-                }
-                ret = joystick.getRawAxis(3);
-            //}
+
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            {
+                joystick = scorerController;
+            }
+            ret = joystick.getRawAxis(3);
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_TRIGGER)
         {
             GenericHID joystick = driverController;
-            //if (joystick != null)
-            //{
-                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
-                {
-                    joystick = scorerController;
-                }
-                ret = joystick.getRawAxis(2);
-            //}
+
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            {
+                joystick = scorerController;
+            }
+            ret = joystick.getRawAxis(2);
         }
-        // Etc...
 
         return ret;
     }
@@ -536,26 +526,29 @@ public class OI {
      */
     public void reloadConfig(ControlReader config)
     {
+        String sig = "reloadConfig()";
         dynamicControls = new ArrayList<AxisSpecification>();
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
-        //System.out.println("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
-
 
         if (driverEnabled)
         {
             driverController = new Joystick(0);
-            System.out.println("driver enabled");
+            Logger.log(sig+": driver enabled");
         }
         else
-            System.out.println("driver not enabled");
+        {
+            Logger.log(sig+": driver not enabled");
+        }
         if (scorerEnabled)
         {
             scorerController = new Joystick(1);
-            System.out.println("scorer enabled");
+            Logger.log(sig+": scorer enabled");
         }
         else
-            System.out.println("scorer not enabled");
+        {
+            Logger.log(sig+": scorer not enabled");
+        }
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",
@@ -605,7 +598,7 @@ public class OI {
         //
         // Loop through the possible controls
         //
-        System.out.println("Looping through the possible binary controls");
+        Logger.log(sig+": Looping through the possible binary controls");
         for(int i = 0; i < availableBinaryControls.size(); i++)
         {
             String ctrl = availableBinaryControls.get(i);
@@ -622,22 +615,20 @@ public class OI {
                     if(val.length() > 0)
                     {
                         loadCommandOntoJoystick(ctrl, val);
-                    
-                        
                     }
                 }
             }
         }
         
-        System.out.println("Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
+        Logger.log(sig+": Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
         for(int i = 0; i < availableAnalogControls.size(); i++)
         {
             String ctrl = availableAnalogControls.get(i);
-            System.out.println("dynamic control mapping: ["+i+"] ["+ctrl+"]");
+            Logger.log(sig+": dynamic control mapping: ["+i+"] ["+ctrl+"]");
             String cfgValue = config.getMappedString(ctrl);
             if (cfgValue != null)
             {
-                System.out.println("            =["+cfgValue+"]");
+                Logger.log("            =["+cfgValue+"]");
                 AxisSpecification axisSpec = AxisSpecification.buildAxisSpecification(ctrl, cfgValue);
 
                 if (driverEnabled && ctrl.startsWith("driver"))
@@ -662,7 +653,7 @@ public class OI {
             if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
                 (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_SPEED))
             {
-                Logger.log("OI: found robot speed spec");
+                Logger.log(sig+": found robot speed spec");
                 speedSpec = t;
                 break;
             }
@@ -670,7 +661,7 @@ public class OI {
         if (speedSpec == null)
         {
              System.err.println("Unable to find robot speed spec"); 
-             Logger.log("Unable to find robot speed spec");
+             Logger.log(sig+": Unable to find robot speed spec");
         }        
 
         // Make sure we have a rotation speed spec
@@ -681,7 +672,7 @@ public class OI {
             if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
                 (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_ROTATION_RATE))
             {
-                Logger.log("OI: found rotation speed spec");
+                Logger.log(sig+": found rotation speed spec");
                 robotRotationSpec = t;
                 break;
             }
@@ -689,22 +680,16 @@ public class OI {
         if (robotRotationSpec == null)
         {
              System.err.println("Unable to find rotation speed spec"); 
-             Logger.log("Unable to find rotation speed spec");
+             Logger.log(sig+": Unable to find rotation speed spec");
         }  
     }
     public static Configurable asConfigurable()
     {
         ConfigurableImpl ret = new ConfigurableImpl();
         addBinaryOIControls("driver", ret);
+        addAnalogOIControls("driver", ret);
         addBinaryOIControls("scorer", ret);
-        
-        final ArrayList<String> analogCommands = new ArrayList<String>(Arrays.asList(
-            "OI.robot.speed", "OI.robot.rotation_rate", "OI.elevator.speed", "OI.mech.deploy_rate"));
-
-        ret.addElement(new Element("OI.LeftJS.X", "This is an analog control and therefore this maps " + 
-            "to OI analog functionalities. ", analogCommands));
-        ret.addElement(new Element("OI.LeftJS.Y", "(OI Analog Control)", null));
-
+        addAnalogOIControls("scorer", ret);
         
         // etc.
         return ret;
@@ -712,16 +697,32 @@ public class OI {
     private static void addBinaryOIControls(String user, ConfigurableImpl ret)
     {
         final ArrayList<String> binaryCommands = new ArrayList<String>(Arrays.asList(
-            "tazOpenCommand", "tazStowCommand"));
+            "DriveTrainCommands:",
+            "    DriveStraightDistancePIDCommand, DriveStraightPIDCommand,",
+            "    TurnAngleCommand, TurnAnglePIDCommand",
+            "Climbing Commands:",
+            "    LowerClimbingMech, RaiseClimbingMech",
+            "Automation Commands:",
+            "    AlignToTarget, DepositCargo, DepositHatch",
+            "    DriveTowardTarget",
+            "Taz Only Scoring Commands:", 
+            "    TazCaptureCommand, TazCloseCommand, TazDeployCommand",
+            "    TazEjectCommand, TazLeftExtendCommand, TazOpenCommand",
+            "    TazStowCommand, ToggleGrabberOpen",
+            "Elevator Commands:",
+            "    MoveElevatorTo",
+            "General Commands:",
+            "    CaptureCargo, GrapperCaptureCommand, GrabberDeployCommand",
+            "    GrabberEjectCommand, GrabberStopCommand, GrabberStowCommand"));
         
         ret.addElement(new Element(user + ".A.pressed", "This is a binary control (like b, x, y, leftBumper, rightBumper, " + 
              "All the possible binary commands are listed below. ", binaryCommands));
         ret.addElement(new Element(user + ".B.pressed", "B Button (binary command)", null));
         ret.addElement(new Element(user + ".X.pressed", "X Button (binary command)", null));
         ret.addElement(new Element(user + ".Y.pressed", "Y Button (binary command)", null));
-        ret.addElement(new Element(user + ".LB.pressed", "Left Bumper (binary command)", null));
-        ret.addElement(new Element(user + ".RB.pressed", "Right Bumper (binary command)", null));
-        
+        ret.addElement(new Element(user + ".LeftBumper.pressed", "Left Bumper (binary command)", null));
+        ret.addElement(new Element(user + ".RightBumper.pressed", "Right Bumper (binary command)", null));
+
         ret.addElement(new Element(user + ".pov.up", "Pressing DPad UP", null));
         ret.addElement(new Element(user + ".pov.right", "Pressing DPad RIGHT", null));
         ret.addElement(new Element(user + ".pov.down", "Pressing DPad DOWN", null));
@@ -773,5 +774,19 @@ driver.LeftDeadzoneY =
         driver.RightDeadzoneX =     
         driver.RightDeadzoneY = 
         */
+    }
+    private static void addAnalogOIControls(String user, ConfigurableImpl ret)
+    {
+        final ArrayList<String> analogCommands = new ArrayList<String>(Arrays.asList(
+            "OI.robot.speed", "OI.robot.rotation_rate", "OI.elevator.speed", "OI.mech.deploy_rate"));
+
+        ret.addElement(new Element(user+".LeftJS.X", "This is an analog control and therefore this maps " + 
+            "to OI analog functionalities. ", analogCommands));
+        ret.addElement(new Element(user+".LeftJS.Y", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".RightJS.X", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".RightJS.Y", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".LeftTrigger", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".RightTrigger", "(OI Analog Control)", null));
+
     }
 }
