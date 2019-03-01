@@ -1,13 +1,21 @@
 package robot.config;
 
+// JDK code
 import java.util.ArrayList;
-		
+import java.util.Timer;
+import java.util.TimerTask;
+
+// WPILib code
+import edu.wpi.first.wpilibj.RobotBase;
+
+// JMHS code
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.sim.SimRobot;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 public class RobotConfigurationTest
 {
-	static Robot robot;
+
 	/**
 	 * Check robot loading config
 	 */
@@ -16,33 +24,12 @@ public class RobotConfigurationTest
 		String sig = "checkRobotInit()";
 		int ret = 0;
 		Logger.log(sig+":");
-		robot = new Robot();
-		RobotConfigurationTest.robot.robotInit();
-		Logger.log("a");
-		Thread thr = new Thread(new Runnable(){
-			public void run(){
-				
-				RobotConfigurationTest.robot.startCompetition();
-				Logger.log("b");
-			}
-		});
-		thr.start();
 		
-		Logger.log("c");
-		robot.close();
-		Logger.log("d");
-		try
-		{
-		    thr.join();
-		}
-		catch(Exception e)
-		{
-		}
-		Logger.log("e");
-		//if (!success)
-		//{
-		//	Logger.log("ERROR: missing valid 'scorer.RightJS.Y'");
-		//}
+		// This is equivalent to Robot.startRobot(Robot::new);, in the main()
+		// but ours exits after 5 iterations
+		SimRobot.testRobot(SimRobot::new, 5);
+		
+        Logger.log(sig+": sim robot run done");
 		return ret;
 	}
 	/**
@@ -54,11 +41,6 @@ public class RobotConfigurationTest
 		int ret = 0;
 		Logger.log(sig+":");
 		Robot.dumpConfiguration();
-		//if (!success)
-		//{
-		//	Logger.log("ERROR: missing valid 'scorer.RightJS.Y'");
-		//}
-		
 		return ret;
 	}
 	
@@ -71,7 +53,6 @@ public class RobotConfigurationTest
 		{
 			ret = checkRobotInit();
 		}
-		
-		System.exit(ret);
+		Runtime.getRuntime().halt(ret);
     }
 }

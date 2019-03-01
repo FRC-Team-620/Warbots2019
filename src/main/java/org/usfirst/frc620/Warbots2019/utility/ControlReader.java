@@ -342,7 +342,7 @@ public class ControlReader
         Logger.log("Robot filename: ["+robotFileName+"]");
 
         // Look first for MAC-address based robot file
-        if (!lookForFiles(robotFileName))
+        if (!lookForFiles(robotFileName) && !lookForFiles("any_robot.properties"))
         {
             // This is only for debugging in case there's no MAC-address based file
             System.err.println("ControlReader: Unable to locate MAC-based robot config ["+

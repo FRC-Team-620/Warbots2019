@@ -15,8 +15,18 @@ if errorlevel == 1 (
 )
 POPD
 
+REM
+REM !!!!!!!!! NOTE !!!!!!!!! 
+REM This is a complete hack - we're trying to run the RobotConfigurationTest
+REM and have it terminate cleanly - however whenever we instantiate the Robot and
+REM and run it, the JVM hangs despite calling Runtime.getRuntime().halt!
+REM Therefore we "start" the java appl, and then kill it some time later.
+REM
 PUSHD %PROJ_PATH%\test\robot\config
-%JAVA_EXE% -classpath "%OUR_CLASSPATH%;%WPI_CLASSPATH%" robot.config.RobotConfigurationTest
+taskkill /f /im "java.exe"
+start "Robot Config" /B %JAVA_EXE% -classpath "%OUR_CLASSPATH%;%WPI_CLASSPATH%" robot.config.RobotConfigurationTest
+ping 127.0.0.1 -n 5 > nul
+taskkill /f /im "java.exe"
 if errorlevel == 1 (
     echo  RobotConfigurationTest                   FAIL
 ) ELSE (

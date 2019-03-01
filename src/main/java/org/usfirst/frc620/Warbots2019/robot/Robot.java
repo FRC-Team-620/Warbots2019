@@ -328,24 +328,4 @@ public class Robot extends TimedRobot {
             ControlReader.dumpConfigurationFile("demo.properties", configurables);
         }
     }
-
-    public static boolean isSimulation()
-    {
-        boolean ret = false;
-        if (!(new File("/home/lvuser").exists()))
-        {
-            ret = true;
-        }
-        return ret;
-    }
-
-    public static boolean isReal()
-    {
-        boolean ret = false;
-        if ((new File("/home/lvuser").exists()))
-        {
-            ret = true;
-        }
-        return ret;
-    }
 }
