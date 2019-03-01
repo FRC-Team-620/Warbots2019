@@ -39,7 +39,7 @@ public class LineProcessor
 
     private double[] getEntries (NetworkTableEntry entry)
     {
-        return entry.getDoubleArray(new double[0]);
+        return entry.getDoubleArray(new double[0]); //TODO: change back to get double array
     }
 
     private double[] getXs ()
@@ -133,7 +133,7 @@ System.out.println("xs: " + Arrays.toString(xs));
     // private final int Rows = 100;
     // private final int Columns = 50;
 
-    private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
+    private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/myLinesReport");
     private NetworkTableEntry x1Entry;
     private NetworkTableEntry x2Entry;
     private NetworkTableEntry y1Entry;
