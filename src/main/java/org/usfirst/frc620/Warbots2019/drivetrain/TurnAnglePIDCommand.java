@@ -74,7 +74,7 @@ public class TurnAnglePIDCommand extends Command {
 
     // Force the robot to turn to within 3 degrees of the target before ending the
     // command
-    pidController.setAbsoluteTolerance(3);
+    pidController.setAbsoluteTolerance(1);
     //this.amountToTurn = amountToTurn;
 
     SmartDashboard.putData("TurnAnglePID", pidController);
@@ -89,11 +89,11 @@ public class TurnAnglePIDCommand extends Command {
   protected void initialize() {
     // calculate the final direction based on the current direction the robot is
     // facing
-    finalAngle = new Angle(0.25);
+    finalAngle = new Angle(0.75);
     // set that final direction as the target
     // System.out.println("The current angle is " + currentAngle.toDegrees() + "The
     // final angle is " + finalAngle.toDegrees());
-    pidController.setSetpoint(Robot.driveTrain.getAngle().plus(finalAngle).toDegrees());
+    pidController.setSetpoint(driveTrain.getAngle().plus(finalAngle).toDegrees());
     //pidController.setSetpoint(finalAngle.toDegrees());
     pidController.enable();
   }
