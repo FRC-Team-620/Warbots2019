@@ -38,7 +38,15 @@ public class Logger
             {
                 if (writer == null)
                 {
-                    File file = new File("/home/lvuser/events.log");
+                    File file = null;
+                    if (new File("/home/lvuser").exists())
+                    {
+                        file = new File("/home/lvuser/events.log");
+                    }
+                    else
+                    {
+                        file = new File("events.log");
+                    }
                     writer = new FileWriter(file);
                     writer.write("Opened log file\n");
                     writer.flush();

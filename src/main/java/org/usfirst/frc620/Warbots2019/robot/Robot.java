@@ -180,6 +180,14 @@ public class Robot extends TimedRobot {
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
         dumpConfiguration();
+
+        // Show config data on SmartDashboard
+        SmartDashboard.putString("Robot Name", config.robotName);
+        ArrayList<String> loadedFiles = ControlReader.getLoadedFiles();
+        for (int i=0;i<loadedFiles.size();i++)
+        {
+            SmartDashboard.putString("Files", loadedFiles.get(i));
+        }
       }
 
     @Override

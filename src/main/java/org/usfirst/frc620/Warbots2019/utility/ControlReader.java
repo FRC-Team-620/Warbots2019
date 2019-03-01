@@ -17,18 +17,21 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// SEP removed dependency on WPILib so we can do unit test
+// without needing access to WPILib semantics/runtime issues
+//import edu.wpi.first.wpilibj.Filesystem;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class ControlReader 
 {
-
+    public String robotName;
     Properties prop;
     String rootDeployDir;
     String rootUSBDir;
+    
     String s;
     ArrayList<String> searchPath;
     static ArrayList<String> loadedFiles;
@@ -42,10 +45,8 @@ public class ControlReader
         prop = new Properties();
         
         s = File.separator;
-        rootDeployDir = "" + Filesystem.getDeployDirectory();
-
+        rootDeployDir = "/home/lvuser/deploy"; //"" + Filesystem.getDeployDirectory();
         reloadConfiguration();
-        
     }
 
     /**
@@ -53,7 +54,7 @@ public class ControlReader
      * @param str
      * @return ret
      */
-    private boolean hasName(String str)
+    public boolean hasName(String str)
     {
         boolean ret = false;
         if( prop.getProperty(str) != null)
@@ -66,7 +67,8 @@ public class ControlReader
     /**
      * Internal Utility for getting a string value from any of the containers
      * @param str
-     * @return ret
+     * @return null if it doesn't exist, "" if it's in file but not set to 
+     *         anything, or string it's assigned to
      */
     private String getNamedValue(String str)
     {
@@ -174,7 +176,9 @@ public class ControlReader
         try
         {
             //Logger.log("ControlReader: Get Robot Type");
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
+            // On robot, hn will be "roboRIO-620-FRC"
+            String hn = InetAddress.getLocalHost().getHostName() ;
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName(hn));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
             StringBuilder sb = new StringBuilder();
@@ -213,7 +217,7 @@ public class ControlReader
                 String fn = searchPath.get(i) + s + filename;
                 Logger.log("  looking for file: ["+fn+"]");
                 prop.load(new FileInputStream(new File(fn)));
-                SmartDashboard.putString("Files", fn);
+                
                 //Logger.log ("ControlReader: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
                 loadedFiles.add(fn);
@@ -222,7 +226,7 @@ public class ControlReader
             }
             catch(Exception e)
             {
-                System.err.println("ControlReader: unable to find file: ["+filename+"]");
+                //System.err.println("ControlReader: unable to find file: ["+filename+"]");
             }
         }
         return ret;
@@ -297,7 +301,7 @@ public class ControlReader
      * @param arr
      * @return
      */
-    public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr)
+    public static ArrayList<String> getLoadedFiles()
     {
         return loadedFiles;
     }    
@@ -331,7 +335,9 @@ public class ControlReader
             rootDeployDir,
             // Local windows machine development environment.
             "C:" + s + "Users" + s + "Public" + s + "frc2019" + s + "workspace" + s + 
-                "Warbots2019" + s + "src" + s + "main" + s + "deploy"));
+                "Warbots2019" + s + "src" + s + "main" + s + "deploy",
+            // Local Windows machine unit test directory
+            "."));
 
         Logger.log("Robot filename: ["+robotFileName+"]");
 
@@ -360,7 +366,8 @@ public class ControlReader
         {
             // Look for robot-specific driver/scorer files in case there's no 
             // user-specific files in USB stick.
-            SmartDashboard.putString("Robot Name", name);
+            robotName = name;
+           
             Logger.log("Robot Name: [" + name+"]");
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      
