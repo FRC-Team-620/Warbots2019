@@ -7,19 +7,47 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+import java.io.PrintStream;
+import java.io.FileOutputStream;
+
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 public class GrabberCaptureCommand extends Command {
 
   private CargoMech cargoMech;
 
   public GrabberCaptureCommand() {
+
+    Logger.log("New Command: "+this.getName());
+    /*
+    THIS IS DEBUGGING CODE FOR USE WHEN TRYING TO FIGURE OUT 
+    WHERE THIS COMMAND IS BEING INSTANTIATED - BEST FOR
+    SEEING WHAT HAPPENS WHEN THIS COMMAND IS MAPPED TO A DPad
+    VALUE IN THE CONFIG, like driver.pov.up
+    try
+    {
+       throw new Exception();
+    }
+    catch(Exception e)
+    {
+      StackTraceElement[] arr = e.getStackTrace();
+      Logger.log("-------------- EXCEPTION ---------------");
+      for (int i=0;i<arr.length; i++)
+      {
+          Logger.log(arr[i].toString());
+      }
+    }
+*/
     cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(cargoMech);
+
+
   }
 
   // Called just before this Command runs the first time

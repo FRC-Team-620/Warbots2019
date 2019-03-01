@@ -13,11 +13,14 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class driveElevatorWithJoysticks extends Command {
 
   private Elevator elevator;
 
   public driveElevatorWithJoysticks() {
+    Logger.log("New Command: "+this.getName());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     elevator = Robot.elevator;

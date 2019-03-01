@@ -12,6 +12,8 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class MoveElevatorTo extends Command 
 {
   private Elevator elevator = Robot.elevator;
@@ -20,6 +22,7 @@ public class MoveElevatorTo extends Command
 
   public MoveElevatorTo(ElevatorLevel height) 
   {
+    Logger.log("New Command: "+this.getName());
     this.height = height;
     requires(elevator);
   }

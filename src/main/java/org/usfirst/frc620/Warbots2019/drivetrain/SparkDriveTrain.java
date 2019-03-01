@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 /**
  * Implementation of DriveTrain
  */
@@ -52,6 +54,7 @@ public class SparkDriveTrain extends DriveTrain {
     public SparkDriveTrain(int leftMotor1Port, int leftMotor2Port, 
         int rightMotor1Port, int rightMotor2Port, NavX.Port navXPort) 
     {
+        Logger.log("New Command: "+this.getName());
         setName("SparkDriveTrain");
 
         kEncoderCountsPerFoot = (kWheelDiamter * Math.PI * kGearRatio)/kEncoderCount;
@@ -154,6 +157,7 @@ public class SparkDriveTrain extends DriveTrain {
 
     @Override
     public void curvatureDrive(double speed, double curvature) {
+System.out.println("This is curvature drive, sparkDriveTrain");
         differentialDrive.curvatureDrive(speed, curvature, false);
     }
 

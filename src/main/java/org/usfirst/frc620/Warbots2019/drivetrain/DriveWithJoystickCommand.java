@@ -12,6 +12,8 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class DriveWithJoystickCommand extends Command {
 
     double centerDZ;
@@ -19,6 +21,7 @@ public class DriveWithJoystickCommand extends Command {
     double straightDZ;
 
     public DriveWithJoystickCommand() {
+        Logger.log("New Command: "+this.getName());
         ControlReader config = Robot.config;
         centerDZ = config.getMappedDouble("driver.center_deadzone");
         rotationDZ = config.getMappedDouble("driver.rotation_deadzone");

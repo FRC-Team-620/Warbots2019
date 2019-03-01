@@ -11,11 +11,14 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class DeployScoringMechanismCommand extends Command {
 
   ScoringMechanism scoringMechanism = Robot.scoringMechanism;
 
   public DeployScoringMechanismCommand() {
+    Logger.log("New Command: "+this.getName());
     requires(scoringMechanism);
   }
 

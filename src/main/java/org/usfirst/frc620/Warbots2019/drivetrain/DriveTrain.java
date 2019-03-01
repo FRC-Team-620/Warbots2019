@@ -16,6 +16,8 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 /**
  * Add your docs here.
  */
@@ -33,7 +35,7 @@ public abstract class DriveTrain extends Subsystem
 
     public DriveTrain()
     {
-        
+        Logger.log("New Command: "+this.getName());
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE, 10);
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_TURNANGLE, 180);
     }
@@ -44,12 +46,12 @@ public abstract class DriveTrain extends Subsystem
         // NOTE: These should move to OI, for speed and rotation speed
         // so that getRobotSpeed returns post-filtered speed value.
         configurable.addElement(new Element("driver.center_deadzone", 
-            "DriveTrain: Raw scale range 0 to 1.0 for speed dead zone", 
+            "General DriveTrain Setting: Raw scale range 0 to 1.0 for speed dead zone", 
             new ArrayList<String>(Arrays.asList("(0,1.0)")))); 
         configurable.addElement(new Element("driver.rotation_deadzone", 
-            "DriveTrain: radians of wedge that isolates a joystick 'spin' for values near 0", null));
+            "General DriveTrain Setting: radians of wedge that isolates a joystick 'spin' for values near 0", null));
         configurable.addElement(new Element("driver.speed_deadzone", 
-            "DriveTrain: radians of wedge that isolates a joystick 'straight' for values near 0", null ));
+            "General DriveTrain Setting: radians of wedge that isolates a joystick 'straight' for values near 0", null ));
 
         return configurable;
     }

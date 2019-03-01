@@ -13,10 +13,15 @@ import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 /**
  * Add your docs here.
@@ -30,6 +35,7 @@ public class CargoMech extends ScoringMechanism {
 
   public CargoMech()
   {
+    Logger.log("New Command: "+this.getName());
     // populate Configurable
   }
   // for TestBot
@@ -39,7 +45,7 @@ public class CargoMech extends ScoringMechanism {
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
 
     ControlReader config = Robot.config;
-    cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+    cmspeed = config.getMappedDouble("CargoMech.MotorSpeed");
     if (cmspeed < 0)
       cmspeed = 1;
 
@@ -55,8 +61,16 @@ public class CargoMech extends ScoringMechanism {
   }
 
   ControlReader config = Robot.config;
-  double cmspeed = config.getMappedDouble("CargoMechMotorSpeed");
+  double cmspeed = config.getMappedDouble("CargoMech.MotorSpeed");
 
+  public static Configurable asConfigurable()
+    {
+        // We now have a Configurable object with all methods implemented
+        // so programs can carry it around like a suitcase
+        ConfigurableImpl configurable = new ConfigurableImpl();
+        configurable.addElement(new Element("CargoMech.MotorSpeed", "CargoMech Setting: Max speed of cargo mech wheels 0-1.0", null));
+        return configurable;
+    }
   public void idle()
   {
     stow();

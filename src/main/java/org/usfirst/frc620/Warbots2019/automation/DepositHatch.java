@@ -6,11 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DepositHatch extends Command {
   public DepositHatch() {
+    Logger.log("New Command: "+this.getName());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

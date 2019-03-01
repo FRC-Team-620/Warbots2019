@@ -8,7 +8,7 @@
 package org.usfirst.frc620.Warbots2019.climbing;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,6 +19,7 @@ public class ControlScissorLiftWithJoystick extends Command {
 
   public ControlScissorLiftWithJoystick()
   {
+    Logger.log("New Command: "+this.getName());
     requires(scissorLift);
   }
 

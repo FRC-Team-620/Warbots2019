@@ -17,15 +17,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class FollowLineWithCameraCommand extends Command 
 {
-    public FollowLineWithCameraCommand() {
+    public FollowLineWithCameraCommand() 
+    {
+        Logger.log("New Command: "+this.getName());
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);
-System.out.println("FollowLineCommand is Constructing");
         Processor = new LineProcessor();
     }
-
-
 
     // Called just before this Command runs the first time
     @Override
@@ -50,7 +49,7 @@ System.out.println("FollowLineCommand is running");
             System.out.println("invSlope: " + invSlope);
             double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
             System.out.println("curvature: " + curvature);
-            driveTrain.curvatureDrive(Speed, curvature); 
+            driveTrain.curvatureDrive(Speed, 0); 
         }
         catch (Exception e)
         {

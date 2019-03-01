@@ -44,9 +44,11 @@ public abstract class Elevator extends Subsystem
     public static Configurable asConfigurable()
     {
         ConfigurableImpl configurable = new ConfigurableImpl();
-        configurable.addElement(new Element("Elevator Speed", 
-        "The speed of the elevator as it travels between the enumerations of its levels", new ArrayList<String>(Arrays.asList(
-            "elevator.speed_top"))));
+
+        configurable.addElement(new Element("elevator.speed_factor", 
+            "General Elevator Setting: The speed of the elevator as it travels between the enumerations of its levels", 
+            new ArrayList<String>(Arrays.asList(
+                "(0 to 1)"))));
 
         return configurable;
     }

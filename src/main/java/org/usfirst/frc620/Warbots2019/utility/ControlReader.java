@@ -16,18 +16,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
 
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// SEP removed dependency on WPILib so we can do unit test
+// without needing access to WPILib semantics/runtime issues
+//import edu.wpi.first.wpilibj.Filesystem;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class ControlReader 
 {
-
+    public String robotName;
     Properties prop;
-    String rootDeployDir, rootUSBDir, s;
+    String rootDeployDir;
+    String rootUSBDir;
+    
+    String s;
     ArrayList<String> searchPath;
     static ArrayList<String> loadedFiles;
     /**
@@ -36,18 +44,12 @@ public class ControlReader
      */
     public ControlReader()
     {
-        Logger.log("\n==============================================================");
-        Logger.log("===                    Begin Configuration                 ===");
         loadedFiles = new ArrayList<String>();
         prop = new Properties();
         
         s = File.separator;
-        rootDeployDir = "" + Filesystem.getDeployDirectory();
-
-        String robotFileName = getRobotType();
-
+        rootDeployDir = "/home/lvuser/deploy"; //"" + Filesystem.getDeployDirectory();
         reloadConfiguration();
-        
     }
 
     /**
@@ -55,7 +57,7 @@ public class ControlReader
      * @param str
      * @return ret
      */
-    private boolean hasName(String str)
+    public boolean hasName(String str)
     {
         boolean ret = false;
         if( prop.getProperty(str) != null)
@@ -68,7 +70,8 @@ public class ControlReader
     /**
      * Internal Utility for getting a string value from any of the containers
      * @param str
-     * @return ret
+     * @return null if it doesn't exist, "" if it's in file but not set to 
+     *         anything, or string it's assigned to
      */
     private String getNamedValue(String str)
     {
@@ -176,7 +179,9 @@ public class ControlReader
         try
         {
             //Logger.log("ControlReader: Get Robot Type");
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
+            // On robot, hn will be "roboRIO-620-FRC"
+            String hn = InetAddress.getLocalHost().getHostName() ;
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName(hn));
             
             byte[] address = net.getHardwareAddress(); //MAC Address
             StringBuilder sb = new StringBuilder();
@@ -215,7 +220,7 @@ public class ControlReader
                 String fn = searchPath.get(i) + s + filename;
                 Logger.log("  looking for file: ["+fn+"]");
                 prop.load(new FileInputStream(new File(fn)));
-                SmartDashboard.putString("Files", fn);
+                
                 //Logger.log ("ControlReader: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
                 loadedFiles.add(fn);
@@ -224,7 +229,7 @@ public class ControlReader
             }
             catch(Exception e)
             {
-                System.err.println("ControlReader: unable to find file: ["+filename+"]");
+                //System.err.println("ControlReader: unable to find file: ["+filename+"]");
             }
         }
         return ret;
@@ -237,19 +242,24 @@ public class ControlReader
      * @param fn
      * @param confs
      */
-    public void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
+    public static void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
     {
         try
         {
             Logger.log("Dumping configuration file ["+fn+"]");
             File file = new File(fn);
             FileWriter writer = new FileWriter(file);
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	        Date date = new Date();
+	        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
             writer.write("##########################################################\n");
             writer.write("#  This file was generated at one time - in order to ease\n");
             writer.write("#  comparison with other config files it is advisable that\n");
             writer.write("#  you do not alter the ORDER of things, though you're free\n");
             writer.write("#  to change the values, comment-out, or remove names altogether\n");
             writer.write("##########################################################\n");
+            writer.write("# data of template generation: ["+dateFormat.format(date)+"]\n");
             Logger.log("    looping through Configurables ["+confs.size()+"]");
             for (int i = 0; i<confs.size(); i++)
             {
@@ -299,7 +309,7 @@ public class ControlReader
      * @param arr
      * @return
      */
-    public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr)
+    public static ArrayList<String> getLoadedFiles()
     {
         return loadedFiles;
     }    
@@ -315,7 +325,6 @@ public class ControlReader
         prop = new Properties();
         
         s = File.separator;
-        rootDeployDir = "" + Filesystem.getDeployDirectory();
 
         String robotFileName = getRobotType();
 
@@ -334,12 +343,14 @@ public class ControlReader
             rootDeployDir,
             // Local windows machine development environment.
             "C:" + s + "Users" + s + "Public" + s + "frc2019" + s + "workspace" + s + 
-                "Warbots2019" + s + "src" + s + "main" + s + "deploy"));
+                "Warbots2019" + s + "src" + s + "main" + s + "deploy",
+            // Local Windows machine unit test directory
+            "."));
 
         Logger.log("Robot filename: ["+robotFileName+"]");
 
         // Look first for MAC-address based robot file
-        if (!lookForFiles(robotFileName))
+        if (!lookForFiles(robotFileName) && !lookForFiles("any_robot.properties"))
         {
             // This is only for debugging in case there's no MAC-address based file
             System.err.println("ControlReader: Unable to locate MAC-based robot config ["+
@@ -363,7 +374,8 @@ public class ControlReader
         {
             // Look for robot-specific driver/scorer files in case there's no 
             // user-specific files in USB stick.
-            SmartDashboard.putString("Robot Name", name);
+            robotName = name;
+           
             Logger.log("Robot Name: [" + name+"]");
             lookForFiles(name + ".driver.properties");
             lookForFiles(name + ".scorer.properties");      

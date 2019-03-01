@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class TurnAnglePIDCommand extends Command {
 
   private PIDController pidController;
@@ -39,8 +41,13 @@ public class TurnAnglePIDCommand extends Command {
   static final double kFTurn = 0.00;
   static final double kToleranceDegrees = 5.0f;
 
+<<<<<<< HEAD
   public TurnAnglePIDCommand() {
     
+=======
+  public TurnAnglePIDCommand(Angle amountToTurn) {
+    Logger.log("New Command: "+this.getName());
+>>>>>>> a46080ac6e31132370b7bb1cef2ad55d0052603a
     requires(Robot.driveTrain);
 
     // Instantiates Configuration

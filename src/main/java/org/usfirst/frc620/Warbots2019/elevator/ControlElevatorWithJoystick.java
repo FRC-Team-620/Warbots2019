@@ -12,9 +12,13 @@ import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class ControlElevatorWithJoystick extends Command {
   double speedFactor;
   public ControlElevatorWithJoystick() {
+    Logger.log("New Command: "+this.getName());
+
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     speedFactor = 1.0;
