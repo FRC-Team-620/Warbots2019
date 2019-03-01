@@ -23,6 +23,11 @@ public class LineProcessor
     public LineProcessor ()
     {
         linRegCalc = new WeightedLinearRegressionCalculator();
+        lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
+        x1Entry = lineTrackingData.getEntry("x1");
+        x2Entry = lineTrackingData.getEntry("x2");
+        y1Entry = lineTrackingData.getEntry("y1");
+        y2Entry = lineTrackingData.getEntry("y2");
     }
     
     public Line Process ()
@@ -41,10 +46,11 @@ public class LineProcessor
     {
         double [] x1s = getEntries(x1Entry);
         double [] x2s = getEntries(x2Entry);
-
+System.out.println("x1s: " + Arrays.toString(x1s));
         int numberOfLines = x1s.length;
+System.out.println("number of Lines: " + numberOfLines);
         double [] xs = new double [2 * numberOfLines]; //2s indices are index + numberOfLines
-
+System.out.println("xs: " + Arrays.toString(xs));
         for (int i = 0; i < numberOfLines; i++)
         {
             xs[i] = x1s[i];
@@ -128,10 +134,10 @@ public class LineProcessor
     // private final int Columns = 50;
 
     private NetworkTable lineTrackingData = NetworkTableInstance.getDefault().getTable("GRIP/trackingLines");
-    private final NetworkTableEntry x1Entry = lineTrackingData.getEntry("x1");
-    private final NetworkTableEntry x2Entry = lineTrackingData.getEntry("x2");
-    private final NetworkTableEntry y1Entry = lineTrackingData.getEntry("y1");
-    private final NetworkTableEntry y2Entry = lineTrackingData.getEntry("y2");
+    private NetworkTableEntry x1Entry;
+    private NetworkTableEntry x2Entry;
+    private NetworkTableEntry y1Entry;
+    private NetworkTableEntry y2Entry;
     private WeightedLinearRegressionCalculator linRegCalc;
     private final int ImageWidth  = 180; //TODO: figure out actual width
 

@@ -8,11 +8,15 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
-public class ToggleGrabberOpen extends Command {
+public class ToggleGrabberOpen extends Command 
+{
   public static boolean toggle = true;
-  public ToggleGrabberOpen() {
+  public ToggleGrabberOpen() 
+  {
+    Logger.log("New Command: "+this.getName());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.scoringMechanism);
