@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 
         config = new ControlReader();
         
-        dumpConfiguration();
+        
 
        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
      
@@ -179,7 +179,7 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
-
+        dumpConfiguration();
       }
 
     @Override
@@ -308,7 +308,7 @@ public class Robot extends TimedRobot {
         config = new ControlReader();
 
         configurables.add(configurable);
-        configurables.add(new OI(config).asConfigurable());
+        configurables.add(oi.asConfigurable());
         //TODO all configurables must be added before this line
         config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
     }

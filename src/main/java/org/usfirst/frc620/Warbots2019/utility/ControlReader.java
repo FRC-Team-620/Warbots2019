@@ -27,7 +27,9 @@ public class ControlReader
 {
 
     Properties prop;
-    String rootDeployDir, rootUSBDir, s;
+    String rootDeployDir;
+    String rootUSBDir;
+    String s;
     ArrayList<String> searchPath;
     static ArrayList<String> loadedFiles;
     /**
@@ -36,15 +38,11 @@ public class ControlReader
      */
     public ControlReader()
     {
-        Logger.log("\n==============================================================");
-        Logger.log("===                    Begin Configuration                 ===");
         loadedFiles = new ArrayList<String>();
         prop = new Properties();
         
         s = File.separator;
         rootDeployDir = "" + Filesystem.getDeployDirectory();
-
-        String robotFileName = getRobotType();
 
         reloadConfiguration();
         
@@ -315,7 +313,6 @@ public class ControlReader
         prop = new Properties();
         
         s = File.separator;
-        rootDeployDir = "" + Filesystem.getDeployDirectory();
 
         String robotFileName = getRobotType();
 

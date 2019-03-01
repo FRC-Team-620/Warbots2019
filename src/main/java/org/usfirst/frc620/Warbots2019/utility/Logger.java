@@ -24,7 +24,7 @@ public class Logger
     /**
      * Instance of file to write to - instantiated when needed first.
      */
-    private static FileWriter writer = null;
+    public static FileWriter writer = null;
 
     /**
      * Record a string to the log file, if logging is enabled.
