@@ -41,13 +41,8 @@ public class TurnAnglePIDCommand extends Command {
   static final double kFTurn = 0.00;
   static final double kToleranceDegrees = 5.0f;
 
-<<<<<<< HEAD
-  public TurnAnglePIDCommand() {
-    
-=======
   public TurnAnglePIDCommand(Angle amountToTurn) {
     Logger.log("New Command: "+this.getName());
->>>>>>> a46080ac6e31132370b7bb1cef2ad55d0052603a
     requires(Robot.driveTrain);
 
     // Instantiates Configuration
@@ -95,7 +90,7 @@ public class TurnAnglePIDCommand extends Command {
   @Override
   protected void initialize() {
     // calculate the final direction based on the current direction the robot is
-    // facing
+    // facingM
     finalAngle = new Angle(0.75);
     // set that final direction as the target
     // System.out.println("The current angle is " + currentAngle.toDegrees() + "The
