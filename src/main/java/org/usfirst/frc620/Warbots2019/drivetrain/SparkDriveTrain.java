@@ -157,6 +157,7 @@ public class SparkDriveTrain extends DriveTrain {
 
     @Override
     public void curvatureDrive(double speed, double curvature) {
+System.out.println("This is curvature drive, sparkDriveTrain");
         differentialDrive.curvatureDrive(speed, curvature, false);
     }
 

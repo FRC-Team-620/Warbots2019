@@ -26,8 +26,6 @@ public class FollowLineWithCameraCommand extends Command
         Processor = new LineProcessor();
     }
 
-
-
     // Called just before this Command runs the first time
     @Override
     protected void initialize() 
@@ -51,7 +49,7 @@ System.out.println("FollowLineCommand is running");
             System.out.println("invSlope: " + invSlope);
             double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
             System.out.println("curvature: " + curvature);
-            driveTrain.curvatureDrive(Speed, curvature); 
+            driveTrain.curvatureDrive(Speed, 0); 
         }
         catch (Exception e)
         {
