@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.File;
 
 import org.usfirst.frc620.Warbots2019.automation.AlignmentSystem;
 import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
@@ -69,14 +70,12 @@ public class Robot extends TimedRobot {
     
     // Control Reader enables configuration for multiple robots and operators
     public static ControlReader config;
-    ConfigurableImpl configurable;
 
     // SendableChooser lets you select the autonomous command to run from the SmartDashboard
     private static final String kDefaultAuto = "Default";
     private static final String kCustomAuto = "My Auto";
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
 
     /*
      * This function is run when the robot is first started up and should be used
@@ -179,7 +178,6 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
-        dumpConfiguration();
 
         // Show config data on SmartDashboard
         SmartDashboard.putString("Robot Name", config.robotName);
@@ -250,18 +248,11 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
     }
 
-    /**
-     * Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
-     */
-    public void dumpConfiguration()
+    public static Configurable asConfigurable()
     {
-        Logger.log("Dumping config for Robot");
-        
-        //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
-        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
         // We now have a Configurable object with all methods implemented
         // so programs can carry it around like a suitcase
-        configurable = new ConfigurableImpl();
+        ConfigurableImpl configurable = new ConfigurableImpl();
         configurable.addElement(new Element("name", "Name Of Robot", null));
         configurable.addElement(new Element("driver.enabled", "Whether to instantiate driverJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
         configurable.addElement(new Element("scorer.enabled", "Whether to instantiate scorerJoystick", new ArrayList<String>(Arrays.asList("true", "false"))));
@@ -299,9 +290,20 @@ public class Robot extends TimedRobot {
             "The pump that powers all pneumatic systems",
             new ArrayList<String>(Arrays.asList(
                 "nothing available"))));
-            
+        return configurable;
+    }
 
-
+    /**
+     * Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+     */
+    public static void dumpConfiguration()
+    {
+        Logger.log("Dumping config for Robot");
+        
+        //Insantiate ONE version of each subsystem class and call asConfigurable and add it to the list for dumping in the ControlReader
+        ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+        
+        Configurable configurable = asConfigurable();
      
         // Ask each subsystem to add it's details (need to make sure commands of the
         // same name are overwritten.
@@ -313,11 +315,37 @@ public class Robot extends TimedRobot {
         configurables.add(new CargoMech().asConfigurable());
         // etc... for each Subsystem
 */ 
-        config = new ControlReader();
-
         configurables.add(configurable);
-        configurables.add(oi.asConfigurable());
+        configurables.add(OI.asConfigurable());
         //TODO all configurables must be added before this line
-        config.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
+        if (new File("/home/lvuser").exists())
+        {
+            ControlReader.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);
+        }
+        else
+        {
+            // save to local dir
+            ControlReader.dumpConfigurationFile("demo.properties", configurables);
+        }
+    }
+
+    public static boolean isSimulation()
+    {
+        boolean ret = false;
+        if (!(new File("/home/lvuser").exists()))
+        {
+            ret = true;
+        }
+        return ret;
+    }
+
+    public static boolean isReal()
+    {
+        boolean ret = false;
+        if ((new File("/home/lvuser").exists()))
+        {
+            ret = true;
+        }
+        return ret;
     }
 }

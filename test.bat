@@ -15,4 +15,13 @@ if errorlevel == 1 (
 )
 POPD
 
+PUSHD %PROJ_PATH%\test\robot\config
+%JAVA_EXE% -classpath "%OUR_CLASSPATH%;%WPI_CLASSPATH%" robot.config.RobotConfigurationTest
+if errorlevel == 1 (
+    echo  RobotConfigurationTest                   FAIL
+) ELSE (
+    echo  RobotConfigurationTest                   PASS
+)
+POPD
+
 endlocal

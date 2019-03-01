@@ -692,7 +692,7 @@ public class OI {
              Logger.log("Unable to find rotation speed spec");
         }  
     }
-    public Configurable asConfigurable()
+    public static Configurable asConfigurable()
     {
         ConfigurableImpl ret = new ConfigurableImpl();
         addBinaryOIControls("driver", ret);
@@ -709,7 +709,7 @@ public class OI {
         // etc.
         return ret;
     }   
-    private void addBinaryOIControls(String user, ConfigurableImpl ret)
+    private static void addBinaryOIControls(String user, ConfigurableImpl ret)
     {
         final ArrayList<String> binaryCommands = new ArrayList<String>(Arrays.asList(
             "tazOpenCommand", "tazStowCommand"));

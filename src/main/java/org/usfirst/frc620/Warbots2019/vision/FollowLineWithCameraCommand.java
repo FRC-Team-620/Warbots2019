@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class FollowLineWithCameraCommand extends Command 
 {
-    public FollowLineWithCameraCommand() {
+    public FollowLineWithCameraCommand() 
+    {
         Logger.log("New Command: "+this.getName());
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);
-System.out.println("FollowLineCommand is Constructing");
         Processor = new LineProcessor();
     }
 

@@ -239,7 +239,7 @@ public class ControlReader
      * @param fn
      * @param confs
      */
-    public void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
+    public static void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
     {
         try
         {
