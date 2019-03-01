@@ -1,5 +1,7 @@
-
-
+REM
+REM This script is called by the other batch files to establish various
+REM environment variables
+REM
 set PROJ_PATH=C:\Users\Public\frc2019\workspace\Warbots2019
 set JDK_PATH=C:\Users\Public\frc2019\jdk\bin
 set JAVAC_EXE=%JDK_PATH%\javac.exe
