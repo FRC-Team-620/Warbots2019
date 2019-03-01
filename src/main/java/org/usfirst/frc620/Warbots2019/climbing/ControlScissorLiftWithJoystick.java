@@ -12,9 +12,8 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ControlScissorLiftWithJoystick extends Command {
-
-  Joystick joystick = Robot.oi.driverController;
+public class ControlScissorLiftWithJoystick extends Command 
+{
   ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
 
   public ControlScissorLiftWithJoystick()
@@ -25,10 +24,10 @@ public class ControlScissorLiftWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Joystick joystick = Robot.oi.driverController;
     double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
     if (Math.abs(speed) < 0.2)
       speed = 0;
-    // System.out.println("Drving sicor lift " + speed);
     scissorLift.drive(speed);
   }
 

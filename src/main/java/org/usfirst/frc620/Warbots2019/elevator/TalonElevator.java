@@ -37,6 +37,7 @@ public class TalonElevator extends Elevator
 
     private WPI_TalonSRX talon;
     private double speedFactor;
+    private double kP, kI, kD, kF, accel, cruise;
 
     public TalonElevator(int canID) 
     {
@@ -53,8 +54,22 @@ public class TalonElevator extends Elevator
         talon.configClearPositionOnLimitR(true, 50);
         talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
+        kP = config.getMappedDouble("Elevator.MotionMagic.kP");
+        kI = config.getMappedDouble("Elevator.MotionMagic.kI");
+        kD = config.getMappedDouble("Elevator.MotionMagic.kD");
+        kF = config.getMappedDouble("Elevator.MotionMagic.kF");
+        accel = config.getMappedDouble("Elevator.MotionMagic.acceleration");
+        cruise = config.getMappedDouble("Elevator.MotionMagic.cruiseVelocity");
+
+        talon.config_kP(0, kP);
+        talon.config_kI(0, kI);
+        talon.config_kD(0, kD);
+        talon.config_kF(0, kF);
+        talon.configMotionCruiseVelocity((int) cruise);
+        talon.configMotionAcceleration((int) accel);
+
         var talonConfig = new SendableTalonWrapper(talon);
-        SmartDashboard.putData(talonConfig);
+        addChild(talonConfig);
     }
 
     public WPI_TalonSRX getTalon()

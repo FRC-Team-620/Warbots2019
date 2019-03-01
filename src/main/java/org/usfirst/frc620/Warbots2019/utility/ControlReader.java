@@ -18,30 +18,28 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
-public class ControlReader 
-{
-
+public class ControlReader extends SendableBase {
     Properties prop;
     String rootDeployDir, rootUSBDir, s;
     ArrayList<String> searchPath;
     static ArrayList<String> loadedFiles;
+
     /**
-     * Constructor method
-     * Helps programs look for and read the .properties config files
+     * Constructor method Helps programs look for and read the .properties config
+     * files
      */
     public ControlReader()
     {
-        Logger.log("\n==============================================================");
-        Logger.log("===                    Begin Configuration                 ===");
         loadedFiles = new ArrayList<String>();
         prop = new Properties();
-        
-        s = File.separator;
+
         rootDeployDir = "" + Filesystem.getDeployDirectory();
 
         String robotFileName = getRobotType();
@@ -51,38 +49,35 @@ public class ControlReader
     }
 
     /**
-     * Internal Utility for seeing if a string value exists from any of the containers
+     * Internal Utility for seeing if a string value exists from any of the
+     * containers
+     * 
      * @param str
      * @return ret
      */
-    private boolean hasName(String str)
-    {
+    private boolean hasName(String str) {
         boolean ret = false;
-        if( prop.getProperty(str) != null)
-        {
+        if (prop.getProperty(str) != null) {
             ret = true;
         }
         return ret;
     }
-    
+
     /**
      * Internal Utility for getting a string value from any of the containers
+     * 
      * @param str
      * @return ret
      */
-    private String getNamedValue(String str)
-    {
+    private String getNamedValue(String str) {
         String ret = null;
-        if( prop.getProperty(str) != null)
-        {
+        if (prop.getProperty(str) != null) {
             ret = prop.getProperty(str);
         }
-        if(!hasName(str))
-        {
-            System.err.println("ControlReader: doesn't have name " + str);    
+        if (!hasName(str)) {
+            System.err.println("ControlReader: doesn't have name " + str);
         }
-        if (ret != null)
-        {
+        if (ret != null) {
             ret = ret.trim();
         }
         return ret;
@@ -90,19 +85,16 @@ public class ControlReader
 
     /**
      * returns int from files, -1 if invalid
+     * 
      * @param string
      * @return i
      */
-    public int getMappedInt(String string)
-    {
+    public int getMappedInt(String string) {
         int i;
         String v = getNamedValue(string);
-        try
-        {
+        try {
             i = Integer.parseInt(v);
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             i = -1;
         }
         return i;
@@ -110,90 +102,81 @@ public class ControlReader
 
     /**
      * returns int from files, -1 if invalid
+     * 
      * @param string
      * @return i
      */
-    public boolean getMappedBoolean(String string)
-    {
+    public boolean getMappedBoolean(String string) {
         boolean i = false;
         String v = getNamedValue(string);
-        try
-        {
+        try {
             i = Boolean.parseBoolean(v);
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
         }
         return i;
     }
-    
+
     /**
      * Returns the named value string in a file
+     * 
      * @param string
      * @return ret
      */
-    public String getMappedString(String string)
-    {
+    public String getMappedString(String string) {
         String ret = getNamedValue(string);
-        
+
         return ret;
     }
 
-    //returns String from variables (no boolean field)
+    // returns String from variables (no boolean field)
 
     /**
      * returns double from files, -1.0 if invalid
+     * 
      * @param string
-     * @return 
+     * @return
      */
-    public double getMappedDouble(String string)
-    {
+    public double getMappedDouble(String string) {
         double d;
         String v = getNamedValue(string);
-        try
-        {
+        try {
             d = Double.parseDouble(v);
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             d = -1.0;
         }
         return d;
     }
 
-    public void getProperties()
-    {
+    public void getProperties() {
 
         prop.list(System.out);
     }
+
     /**
      * Returns the robot type in a String ret
-     * @return 
+     * 
+     * @return
      */
-    public String getRobotType()
-    {
+    public String getRobotType() {
         String ret = null;
-        try
-        {
-            //Logger.log("ControlReader: Get Robot Type");
+        try {
+            // Logger.log("ControlReader: Get Robot Type");
             NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getByName("roboRIO-620-FRC"));
-            
-            byte[] address = net.getHardwareAddress(); //MAC Address
+
+            byte[] address = net.getHardwareAddress(); // MAC Address
             StringBuilder sb = new StringBuilder();
-            for(byte b : address) {
+            for (byte b : address) {
                 sb.append(String.format("%02X", b));
                 sb.append("_");
-            } 
-            sb.deleteCharAt(sb.length()-1);
+            }
+            sb.deleteCharAt(sb.length() - 1);
             String ad = sb.toString();
 
             // look for file named after MAC address
-            String mac = ad.strip(); 
-            ret = mac +".properties";
+            String mac = ad.strip();
+            ret = mac + ".properties";
 
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.err.println("ControlReader: Error Getting Robot Type: " + e.getMessage());
         }
         return ret;
@@ -201,11 +184,11 @@ public class ControlReader
 
     /**
      * Looks for the .properties files based off a given filename
+     * 
      * @param filename
      * @return the completion status of the operation
      */
-    public boolean lookForFiles(String filename)
-    {
+    public boolean lookForFiles(String filename) {
         boolean ret = false;
         //Logger.log("ControlReader: Looking for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
@@ -221,10 +204,8 @@ public class ControlReader
                 loadedFiles.add(fn);
                 Logger.log("  found file: ["+fn+"]");
                 break;
-            }
-            catch(Exception e)
-            {
-                System.err.println("ControlReader: unable to find file: ["+filename+"]");
+            } catch (Exception e) {
+                System.err.println("ControlReader: unable to find file: [" + filename + "]");
             }
         }
         return ret;
@@ -232,8 +213,9 @@ public class ControlReader
 
     /**
      * Dumps all the possible configuration settings to the dump file - this file
-     * can serve as a template for new config files or for comparison to other
-     * files that may have issues.
+     * can serve as a template for new config files or for comparison to other files
+     * that may have issues.
+     * 
      * @param fn
      * @param confs
      */
@@ -260,60 +242,54 @@ public class ControlReader
                 {
                     Logger.log("    processing Configuable ["+names.get(j)+"]");
                     String comment = cfg.getCommentForName(names.get(j));
-                    if (comment != null)
-                    {
-                        writer.write("# "+comment+"\n");
+                    if (comment != null) {
+                        writer.write("# " + comment + "\n");
                         writer.write("#\n");
                     }
 
                     ArrayList<String> opts = cfg.getPossibleValuesForName(names.get(j));
-                    if (opts != null)
-                    {
+                    if (opts != null) {
 
                         writer.write("# Options:\n");
-                        for (int k=0; k<opts.size(); k++)
-                        {
-                            writer.write("#   "+opts.get(k)+"\n");
+                        for (int k = 0; k < opts.size(); k++) {
+                            writer.write("#   " + opts.get(k) + "\n");
                         }
-                    }
-                    else
-                    {
+                    } else {
                         writer.write("# (no options defined)\n");
                     }
-                    writer.write(names.get(j)+" = \n");
+                    writer.write(names.get(j) + " = \n");
                     writer.write("\n");
                 }
                 writer.write("\n");
             }
-            
+
             writer.close();
-        }
-        catch(Exception e) 
-        {
-            System.err.println("dumpConfigurationFile(): "+e.getMessage());
+        } catch (Exception e) {
+            System.err.println("dumpConfigurationFile(): " + e.getMessage());
             // Don't care
         }
     }
+
     /**
-     * returns String ArrayList of the paths/filenames that were loaded by dumpConfigurationFile()
+     * returns String ArrayList of the paths/filenames that were loaded by
+     * dumpConfigurationFile()
+     * 
      * @param arr
      * @return
      */
-    public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr)
-    {
+    public static ArrayList<String> getLoadedFiles(ArrayList<Configurable> arr) {
         return loadedFiles;
-    }    
+    }
+
     /**
-     * Reloads the configuration
-     * Exact copy of what happens in the consstructor
+     * Reloads the configuration Exact copy of what happens in the consstructor
      */
-    public void reloadConfiguration()
-    {
+    public void reloadConfiguration() {
         Logger.log("==============================================================");
         Logger.log("===                    Begin Configuration                 ===");
         loadedFiles = new ArrayList<String>();
         prop = new Properties();
-        
+
         s = File.separator;
         rootDeployDir = "" + Filesystem.getDeployDirectory();
 
@@ -339,8 +315,7 @@ public class ControlReader
         Logger.log("Robot filename: ["+robotFileName+"]");
 
         // Look first for MAC-address based robot file
-        if (!lookForFiles(robotFileName))
-        {
+        if (!lookForFiles(robotFileName)) {
             // This is only for debugging in case there's no MAC-address based file
             System.err.println("ControlReader: Unable to locate MAC-based robot config ["+
                 robotFileName+"]");
@@ -349,47 +324,39 @@ public class ControlReader
                 System.err.println("ControlReader: Unable to locate ANY robot properties");
             }
         }
-        
+
         //
         // The robot properties MUST contain a 'name' property so we can
         // have user-readable file-names for the default driver/scorer properties.
         //
         String name = this.getNamedValue("name");
-        if(name == null)
-        {
+        if (name == null) {
             System.err.println("ControlReader: Config missing name property");
-        }
-        else
-        {
-            // Look for robot-specific driver/scorer files in case there's no 
+        } else {
+            // Look for robot-specific driver/scorer files in case there's no
             // user-specific files in USB stick.
             SmartDashboard.putString("Robot Name", name);
             Logger.log("Robot Name: [" + name+"]");
             lookForFiles(name + ".driver.properties");
-            lookForFiles(name + ".scorer.properties");      
+            lookForFiles(name + ".scorer.properties");
         }
 
         // Look for user-provided files that should be on the USB stick for matches
         lookForFiles("driver.properties");
-        lookForFiles("scorer.properties"); 
+        lookForFiles("scorer.properties");
 
-        for (int i=0; i<loadedFiles.size(); i++)
-            Logger.log("  file loaded: ["+loadedFiles.get(i)+"]");
+        for (int i = 0; i < loadedFiles.size(); i++)
+            Logger.log("  file loaded: [" + loadedFiles.get(i) + "]");
 
         // Remove comments from values
-        for (Enumeration<Object> e=prop.keys(); e.hasMoreElements(); )
-        {
+        for (Enumeration<Object> e = prop.keys(); e.hasMoreElements();) {
             String key = e.nextElement().toString();
             String v = prop.getProperty(key, "");
-            if (v.indexOf("#") > -1)
-            {
-                if (v.indexOf("#") > 0)
-                {
+            if (v.indexOf("#") > -1) {
+                if (v.indexOf("#") > 0) {
                     // Remove chars after comment char
-                    prop.put(key, v.substring(0, v.indexOf("#")-1).trim());
-                }
-                else
-                {
+                    prop.put(key, v.substring(0, v.indexOf("#") - 1).trim());
+                } else {
                     // Value is entirely a comment
                     prop.put(key, "");
                 }
@@ -397,5 +364,11 @@ public class ControlReader
         }
         Logger.log("===                     End Configuration                  ===");
         Logger.log("==============================================================");
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) 
+    {
+
     }
 }

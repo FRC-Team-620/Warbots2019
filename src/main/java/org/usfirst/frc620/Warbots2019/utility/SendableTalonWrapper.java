@@ -47,7 +47,11 @@ public class SendableTalonWrapper extends SendableBase
             builder.addDoubleProperty(
                 entry.getKey(), 
                 () -> talon.configGetParameter(entry.getValue(), 0), 
-                (value) -> talon.configSetParameter(entry.getValue(), value, 0, 0)
+                value -> 
+                {
+                    System.out.println("Attempted to change " + entry.getKey() + " to " + entry.getValue());
+                    talon.configSetParameter(entry.getValue(), value, 0, 0);
+                }
             );
 
         builder.addDoubleProperty("temperature", talon::getTemperature, null);

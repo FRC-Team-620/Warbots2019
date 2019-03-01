@@ -20,6 +20,7 @@ public class MoveElevatorTo extends Command
 
   public MoveElevatorTo(ElevatorLevel height) 
   {
+    setName("MoveElevatorTo" + height);
     this.height = height;
     requires(elevator);
   }
