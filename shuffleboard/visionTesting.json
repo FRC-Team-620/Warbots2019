@@ -169,8 +169,8 @@
               "Crosshair/Show crosshair": true,
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": 10.0,
+              "Controls/Rotation": "QUARTER_CW",
+              "compression": 17.0,
               "fps": 30,
               "imageWidth": 640,
               "imageHeight": 480
@@ -180,46 +180,46 @@
       }
     },
     {
-      "title": "Tab 3",
+      "title": "Hardware Test",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 64.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "5,1": {
+          "0,0": {
             "size": [
-              1,
-              1
+              4,
+              8
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TalonSRX Speed Controller/outputResistance",
-              "_title": "/SmartDashboard/TalonSRX Speed Controller/outputResistance"
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller",
+              "_title": "LiveWindow/TwoTalonElevator/TalonSRX Speed Controller"
             }
           },
-          "3,1": {
+          "4,0": {
             "size": [
-              1,
-              1
+              4,
+              8
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TalonSRX Speed Controller/outputCurrent",
-              "_title": "/SmartDashboard/TalonSRX Speed Controller/outputCurrent"
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/ScissorLift/TalonSRX Speed Controller",
+              "_title": "LiveWindow/ScissorLift/TalonSRX Speed Controller"
             }
           },
-          "4,1": {
+          "8,0": {
             "size": [
-              1,
-              1
+              4,
+              8
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TalonSRX Speed Controller/outputVoltage",
-              "_title": "/SmartDashboard/TalonSRX Speed Controller/outputVoltage"
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller",
+              "_title": "LiveWindow/CargoMech/TalonSRX Speed Controller"
             }
           }
         }
@@ -230,144 +230,11 @@
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 64.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
-        "tiles": {
-          "7,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/sensorPosition",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/sensorPosition"
-            }
-          },
-          "7,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/sensorVelocity",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/sensorVelocity"
-            }
-          },
-          "4,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kP",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kP"
-            }
-          },
-          "4,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kI",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kI"
-            }
-          },
-          "4,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kD",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kD"
-            }
-          },
-          "4,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kF",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/kF"
-            }
-          },
-          "5,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/motionMagicAcceleration",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/motionMagicAcceleration"
-            }
-          },
-          "5,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/motionMagicCruiseVelocity",
-              "_title": "/LiveWindow/TwoTalonElevator/TalonSRX Speed Controller/motionMagicCruiseVelocity"
-            }
-          },
-          "7,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/MoveElevatorToFLOOR",
-              "_title": "/SmartDashboard/MoveElevatorToFLOOR"
-            }
-          },
-          "8,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/MoveElevatorToMIDDLE",
-              "_title": "/SmartDashboard/MoveElevatorToMIDDLE"
-            }
-          },
-          "9,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/MoveElevatorToTOP",
-              "_title": "/SmartDashboard/MoveElevatorToTOP"
-            }
-          },
-          "9,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/TalonSRX Speed Controller/outputCurrent",
-              "_title": "/LiveWindow/Ungrouped/TalonSRX Speed Controller/outputCurrent"
-            }
-          }
-        }
+        "tiles": {}
       }
     }
   ],
