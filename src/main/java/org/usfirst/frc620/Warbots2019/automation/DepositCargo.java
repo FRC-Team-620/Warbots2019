@@ -10,36 +10,42 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DepositCargo extends Command {
-  public DepositCargo() {
-    Logger.log("New Command: "+this.getName());
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-  }
+    public DepositCargo() 
+    {
+        Logger.log("New Command: "+this.getName());
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+    }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        boolean ret = false;
+        if (ret)
+        {
+            Logger.log("Command: ["+this.getName()+"] done");
+        }
+        return ret;
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+    }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+    }
 }

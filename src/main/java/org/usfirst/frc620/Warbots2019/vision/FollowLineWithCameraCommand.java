@@ -62,7 +62,12 @@ System.out.println("FollowLineCommand is running");
     @Override
     protected boolean isFinished() 
     {
-        return false;
+        boolean ret = false;
+        if (ret)
+        {
+            Logger.log("Command: ["+this.getName()+"] done");
+        }
+        return ret;
     }
 
     // Called once after isFinished returns true

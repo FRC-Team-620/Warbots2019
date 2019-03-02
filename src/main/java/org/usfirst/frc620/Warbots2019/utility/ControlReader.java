@@ -211,6 +211,7 @@ public class ControlReader
      */
     public boolean lookForFiles(String filename)
     {
+        String sig = "lookForFiles()";
         boolean ret = false;
         //Logger.log("ControlReader: Looking for file: ["+filename+"]");
         for(int i = 0; i < searchPath.size(); i++)
@@ -218,13 +219,13 @@ public class ControlReader
             try
             {    
                 String fn = searchPath.get(i) + s + filename;
-                Logger.log("  looking for file: ["+fn+"]");
+                Logger.log(sig+" :looking for file: ["+fn+"]");
                 prop.load(new FileInputStream(new File(fn)));
                 
                 //Logger.log ("ControlReader: found ["+ searchPath.get(i) + s + filename+"]");
                 ret = true;
                 loadedFiles.add(fn);
-                Logger.log("  found file: ["+fn+"]");
+                Logger.log(sig+" :found file: ["+fn+"]");
                 break;
             }
             catch(Exception e)
@@ -244,9 +245,10 @@ public class ControlReader
      */
     public static void dumpConfigurationFile(String fn, ArrayList<Configurable> confs)
     {
+        String sig = "dumpConfigurationFile()";
         try
         {
-            Logger.log("Dumping configuration file ["+fn+"]");
+            Logger.log(sig+": Dumping configuration file ["+fn+"]");
             File file = new File(fn);
             FileWriter writer = new FileWriter(file);
             
@@ -260,7 +262,7 @@ public class ControlReader
             writer.write("#  to change the values, comment-out, or remove names altogether\n");
             writer.write("##########################################################\n");
             writer.write("# data of template generation: ["+dateFormat.format(date)+"]\n");
-            Logger.log("    looping through Configurables ["+confs.size()+"]");
+            Logger.log(sig+": looping through Configurables ["+confs.size()+"]");
             for (int i = 0; i<confs.size(); i++)
             {
                 int j = 0;
@@ -268,7 +270,7 @@ public class ControlReader
                 ArrayList<String> names = cfg.getNames();
                 for (j=0; j<names.size(); j++)
                 {
-                    Logger.log("    processing Configuable ["+names.get(j)+"]");
+                    Logger.log(sig+": processing Configuable ["+names.get(j)+"]");
                     String comment = cfg.getCommentForName(names.get(j));
                     if (comment != null)
                     {
@@ -300,7 +302,7 @@ public class ControlReader
         }
         catch(Exception e) 
         {
-            System.err.println("dumpConfigurationFile(): "+e.getMessage());
+            System.err.println(sig+": "+e.getMessage());
             // Don't care
         }
     }
@@ -319,8 +321,11 @@ public class ControlReader
      */
     public void reloadConfiguration()
     {
+        String sig = "reloadConfiguration()";
         Logger.log("==============================================================");
-        Logger.log("===                    Begin Configuration                 ===");
+        Logger.log("===                   Reload Configuration                 ===");
+        Logger.log("==                                                          ==");
+        Logger.log("=                                                            =");
         loadedFiles = new ArrayList<String>();
         prop = new Properties();
         
@@ -347,17 +352,17 @@ public class ControlReader
             // Local Windows machine unit test directory
             "."));
 
-        Logger.log("Robot filename: ["+robotFileName+"]");
+        Logger.log(sig+": Robot filename: ["+robotFileName+"]");
 
         // Look first for MAC-address based robot file
         if (!lookForFiles(robotFileName) && !lookForFiles("any_robot.properties"))
         {
             // This is only for debugging in case there's no MAC-address based file
-            System.err.println("ControlReader: Unable to locate MAC-based robot config ["+
+            System.err.println(sig+": Unable to locate MAC-based robot config ["+
                 robotFileName+"]");
             if (!lookForFiles("laptop_robot.properties"))
             {
-                System.err.println("ControlReader: Unable to locate ANY robot properties");
+                System.err.println(sig+": Unable to locate ANY robot properties");
             }
         }
         
@@ -368,7 +373,7 @@ public class ControlReader
         String name = this.getNamedValue("name");
         if(name == null)
         {
-            System.err.println("ControlReader: Config missing name property");
+            System.err.println(sig+": Config missing name property");
         }
         else
         {
@@ -386,7 +391,7 @@ public class ControlReader
         lookForFiles("scorer.properties"); 
 
         for (int i=0; i<loadedFiles.size(); i++)
-            Logger.log("  file loaded: ["+loadedFiles.get(i)+"]");
+            Logger.log(sig+": file loaded: ["+loadedFiles.get(i)+"]");
 
         // Remove comments from values
         for (Enumeration<Object> e=prop.keys(); e.hasMoreElements(); )
@@ -407,6 +412,8 @@ public class ControlReader
                 }
             }
         }
+        Logger.log("=                                                            =");
+        Logger.log("==                                                          ==");
         Logger.log("===                     End Configuration                  ===");
         Logger.log("==============================================================");
     }

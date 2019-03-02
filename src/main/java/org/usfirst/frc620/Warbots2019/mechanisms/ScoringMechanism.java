@@ -18,11 +18,8 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
  */
 public abstract class ScoringMechanism extends Subsystem 
 {
-    
-
     public ScoringMechanism()
     {
-        Logger.log("New Command: "+this.getName());
     }
 
     public abstract void deploy();

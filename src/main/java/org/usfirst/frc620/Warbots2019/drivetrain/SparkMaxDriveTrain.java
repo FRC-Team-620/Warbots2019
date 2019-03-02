@@ -46,7 +46,6 @@ public class SparkMaxDriveTrain extends DriveTrain {
     public SparkMaxDriveTrain(int leftMotor1CanID, int leftMotor2CanID, 
         int rightMotor1CanID, int rightMotor2CanID, NavX.Port navXPort) 
     {
-        Logger.log("New Command: "+this.getName());
         setName("SparkMaxDriveTrain");
 
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);

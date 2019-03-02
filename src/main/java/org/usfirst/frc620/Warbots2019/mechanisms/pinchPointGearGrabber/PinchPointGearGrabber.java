@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
@@ -28,7 +29,6 @@ public class PinchPointGearGrabber extends ScoringMechanism {
 
   public PinchPointGearGrabber(int motorPort, int lowerLimitSwitchPort, int upperLimitSwitchPort)
   {
-    Logger.log("New Command: "+this.getName());
     motor = new Spark(motorPort);
     lowerLimitSwitch = new DigitalInput(lowerLimitSwitchPort);
     upperLimitSwitch = new DigitalInput(upperLimitSwitchPort);
@@ -63,5 +63,13 @@ public class PinchPointGearGrabber extends ScoringMechanism {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public static Configurable asConfigurable()
+  {
+      // We now have a Configurable object with all methods implemented
+      // so programs can carry it around like a suitcase
+      Configurable configurable = ScoringMechanism.asConfigurable();
+      return configurable;
   }
 }

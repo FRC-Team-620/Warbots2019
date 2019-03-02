@@ -35,11 +35,12 @@ public abstract class DriveTrain extends Subsystem
 
     public DriveTrain()
     {
-        Logger.log("New Command: "+this.getName());
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_DRIVEDISTANCE, 10);
         StateManager.getInstance().setDoubleValue(StateKey.COMMANDED_TURNANGLE, 180);
     }
-    public static Configurable asConfigurable() {
+
+    public static Configurable asConfigurable() 
+    {
         final ConfigurableImpl configurable;
         configurable = new ConfigurableImpl();
 

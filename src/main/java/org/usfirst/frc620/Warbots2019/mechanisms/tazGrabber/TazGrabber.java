@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -167,5 +168,13 @@ public class TazGrabber extends ScoringMechanism {
   @Override
   public boolean isStowed() {
     return !wristPiston.get();
+  }
+
+  public static Configurable asConfigurable()
+  {
+      // We now have a Configurable object with all methods implemented
+      // so programs can carry it around like a suitcase
+      Configurable configurable = ScoringMechanism.asConfigurable();
+      return configurable;
   }
 }

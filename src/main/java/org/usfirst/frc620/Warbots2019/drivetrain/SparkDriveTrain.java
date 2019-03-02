@@ -54,7 +54,6 @@ public class SparkDriveTrain extends DriveTrain {
     public SparkDriveTrain(int leftMotor1Port, int leftMotor2Port, 
         int rightMotor1Port, int rightMotor2Port, NavX.Port navXPort) 
     {
-        Logger.log("New Command: "+this.getName());
         setName("SparkDriveTrain");
 
         kEncoderCountsPerFoot = (kWheelDiamter * Math.PI * kGearRatio)/kEncoderCount;

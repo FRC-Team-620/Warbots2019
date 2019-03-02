@@ -36,6 +36,11 @@ public class MoveElevatorTo extends Command
   @Override
   protected boolean isFinished() 
   {
-    return Math.abs(Robot.oi.getElevatorSpeed()) > 0.1;
+    boolean ret = Math.abs(Robot.oi.getElevatorSpeed()) > 0.1;
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 }

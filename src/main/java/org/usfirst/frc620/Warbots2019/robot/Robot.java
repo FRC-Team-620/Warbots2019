@@ -316,16 +316,21 @@ public class Robot extends TimedRobot {
         
         Configurable configurable = asConfigurable();
         configurables.add(configurable);
+
         // Ask each subsystem to add it's details (need to make sure commands of the
         // same name are overwritten.
         // Call default constructors - we only need them to populate their Configurable
         // instance, with commands, etc.
         configurables.add(DriveTrain.asConfigurable());
         configurables.add(CargoMech.asConfigurable());
+        configurables.add(TazGrabber.asConfigurable());
+        configurables.add(PinchPointGearGrabber.asConfigurable());
         configurables.add(Elevator.asConfigurable());
         
+        // OI goes next - these settings eventually get distributed to
+        // the driver and scorer properties files.
         configurables.add(OI.asConfigurable());
-        //TODO all configurables must be added before this line
+        
         if (new File("/home/lvuser").exists())
         {
             ControlReader.dumpConfigurationFile("/home/lvuser/demo.properties", configurables);

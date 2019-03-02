@@ -67,8 +67,9 @@ public class CargoMech extends ScoringMechanism {
     {
         // We now have a Configurable object with all methods implemented
         // so programs can carry it around like a suitcase
-        ConfigurableImpl configurable = new ConfigurableImpl();
-        configurable.addElement(new Element("CargoMech.MotorSpeed", "CargoMech Setting: Max speed of cargo mech wheels 0-1.0", null));
+        ConfigurableImpl configurable = (ConfigurableImpl)ScoringMechanism.asConfigurable();
+        configurable.addElement(new Element("CargoMech.MotorSpeed", 
+            "CargoMech Setting: Max speed of cargo mech wheels 0-1.0", null));
         return configurable;
     }
   public void idle()

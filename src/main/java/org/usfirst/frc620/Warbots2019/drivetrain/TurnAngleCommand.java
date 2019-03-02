@@ -65,7 +65,12 @@ public class TurnAngleCommand extends Command {
     if (diff < 0.5) {
       drivetrain.drive(0, 0.0);
     }
-    return diff < 0.5;
+    boolean ret = diff < 0.5;
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true
