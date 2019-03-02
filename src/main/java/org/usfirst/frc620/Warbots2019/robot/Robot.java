@@ -58,7 +58,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-    public static Compressor compressor;
+    //public static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
     public static AlignmentSystem alignmentSystem; //subsystem
@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
+    public static Compressor compressor;
     public static VisionSubsystem visionSystem;
     
     // Control Reader enables configuration for multiple robots and operators
@@ -111,10 +112,10 @@ public class Robot extends TimedRobot {
         String compressorOption = config.getMappedString("Compressor");
         if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
         {
-            compressor = new Compressor(6);
+             compressor = new Compressor(6);
             
-            compressor.setClosedLoopControl(true);
-            compressor.start();
+             compressor.setClosedLoopControl(true);
+             compressor.start();
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
@@ -140,7 +141,7 @@ public class Robot extends TimedRobot {
         else
         {
             System.err.println("no elevator specified");
-        }
+        }                                                   
 
         String climbingMechanismClass = config.getMappedString("ClimbingMechanism");
         if (climbingMechanismClass != null) {
@@ -167,7 +168,7 @@ public class Robot extends TimedRobot {
 
         // Add Command Buttons to Smart Dashboard
         SmartDashboard.putData(new TurnAngleCommand());
-        SmartDashboard.putData(new TurnAnglePIDCommand(Angle.fromDegrees(90)));
+        SmartDashboard.putData(new TurnAnglePIDCommand());
         SmartDashboard.putData(new DriveStraightPIDCommand());
         SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         SmartDashboard.putData(new FollowLineWithCameraCommand());
@@ -188,7 +189,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-
     }
 
     @Override
@@ -229,7 +229,6 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
     
         Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
-        
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -243,6 +242,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+
         Scheduler.getInstance().run();
     }
 
