@@ -14,35 +14,25 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ScaleHabClosedLoopCommand extends Command 
-{
-  //TODO: load these from somewhere else
+public class ScaleHabOpenLoopCommand extends Command {
   private static final double elevatorBaseSpeed = 0.3;
   private static final double scissorLiftBaseSpeed = 1;
-  private static final double elevatorKP = 0.4;
-  private static final double scissorLiftKP = 0.1;
 
   private Elevator elevator = Robot.elevator;
   private ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
-  private DriveTrain driveTrain = Robot.driveTrain;
 
-  public ScaleHabClosedLoopCommand() 
+  public ScaleHabOpenLoopCommand() 
   {
     requires(elevator);
     requires(scissorLift);
-
-    //Uses drive train for navX, but does not prevent other commands form using the
-    //drive train. Should NOT call requires(driveTrain).
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() 
   {
-    double pitch = driveTrain.getPitch().toDegrees();
-
-    elevator.drive(elevatorBaseSpeed + elevatorKP * pitch);
-    scissorLift.drive(scissorLiftBaseSpeed - scissorLiftKP * pitch);
+    elevator.drive(elevatorBaseSpeed);
+    scissorLift.drive(scissorLiftBaseSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
