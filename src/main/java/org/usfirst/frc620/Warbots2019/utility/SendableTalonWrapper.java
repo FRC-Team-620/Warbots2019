@@ -34,6 +34,17 @@ public class SendableTalonWrapper extends SendableBase
         this.talon = talon;
     }
 
+    public void loadSettingsFromConfig(ControlReader config, String prefix)
+    {
+        for (var entry : talonPIDSettings.entrySet())
+        {
+            String key = prefix + "." + entry.getKey();
+            double value = config.getMappedDouble(key);
+            if (value >= 0)
+                talon.configSetParameter(entry.getValue(), value, 0, 0);
+        }
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) 
     {

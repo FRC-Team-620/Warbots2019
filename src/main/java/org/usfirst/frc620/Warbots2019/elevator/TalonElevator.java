@@ -54,7 +54,8 @@ public class TalonElevator extends Elevator
         talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
         var talonConfig = new SendableTalonWrapper(talon);
-        SmartDashboard.putData(talonConfig);
+        talonConfig.loadSettingsFromConfig(Robot.config, "Elevator.MotionMagic");
+        addChild(talonConfig);
     }
 
     public WPI_TalonSRX getTalon()
