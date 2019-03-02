@@ -6,38 +6,40 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-import org.usfirst.frc620.Warbots2019.utility.Logger;
+
+import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
+import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveTowardTarget extends Command {
-  public DriveTowardTarget() {
-    Logger.log("New Command: "+this.getName());
-    requires(Robot.trackingSystem);
-    requires(Robot.alignmentSystem);
-    requires(Robot.driveTrain);
-  }
+public class ScaleHabClosedLoopCommand extends Command {
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
+  private ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
+  private Elevator elevator = Robot.elevator;
+  private DriveTrain driveTrain = Robot.driveTrain;
+
+  public ScaleHabClosedLoopCommand() 
+  {
+    requires(scissorLift);
+    requires(elevator);
+
+    //uses drive train for navX; should not call requires(driveTrain) because
+    //this command does not prevent other drive train commands from running
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  protected void execute() 
+  {
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = false;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return false;
   }
 
   // Called once after isFinished returns true

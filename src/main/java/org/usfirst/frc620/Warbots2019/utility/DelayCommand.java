@@ -5,13 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
+package org.usfirst.frc620.Warbots2019.utility;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * Add your docs here.
- */
-public abstract class AlignmentSystem extends Subsystem 
-{
+public class DelayCommand extends Command {
+
+  private double time;
+
+  public DelayCommand(double time) {
+    this.time = time;
+  }
+
+  @Override
+  protected boolean isFinished() {
+    return timeSinceInitialized() >= time;
+  }
 }

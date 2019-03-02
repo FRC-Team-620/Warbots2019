@@ -31,8 +31,6 @@ public class TurnAnglePIDCommand extends Command {
   private Angle amountToTurn;
   private DriveTrain driveTrain;
 
-  
-
   Angle finalAngle;
 
   static final double kPTurn = 0.03;
@@ -91,7 +89,7 @@ public class TurnAnglePIDCommand extends Command {
   protected void initialize() {
     // calculate the final direction based on the current direction the robot is
     // facingM
-    finalAngle = new Angle(0.75);
+    finalAngle = Angle.fromTurns(0.75);
     // set that final direction as the target
     // System.out.println("The current angle is " + currentAngle.toDegrees() + "The
     // final angle is " + finalAngle.toDegrees());

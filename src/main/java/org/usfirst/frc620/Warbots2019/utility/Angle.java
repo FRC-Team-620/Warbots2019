@@ -40,7 +40,7 @@ public class Angle implements Comparable<Angle>
 	 *            The value of the angle, in turns
 	 *            </p>
 	 */
-	public Angle(double value)
+	private Angle(double value)
 	{
 		this.value = value;
 	}

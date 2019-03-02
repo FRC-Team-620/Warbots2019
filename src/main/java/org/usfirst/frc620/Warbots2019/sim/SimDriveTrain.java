@@ -69,7 +69,12 @@ public class SimDriveTrain extends DriveTrain
     @Override
     public Angle getAngle() 
     {
-        return new Angle(0.0);
+        return Angle.ZERO;
+    }
+
+    @Override
+    public Angle getPitch() {
+        return Angle.ZERO;
     }
 }
 

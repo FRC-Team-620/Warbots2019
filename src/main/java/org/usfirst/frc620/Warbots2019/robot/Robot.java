@@ -7,12 +7,10 @@
 
 package org.usfirst.frc620.Warbots2019.robot;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.io.File;
 
-import org.usfirst.frc620.Warbots2019.automation.AlignmentSystem;
-import org.usfirst.frc620.Warbots2019.automation.TrackingSystem;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
@@ -32,7 +30,6 @@ import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
 import org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber;
 import org.usfirst.frc620.Warbots2019.sim.SimDriveTrain;
-import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
@@ -61,8 +58,6 @@ public class Robot extends TimedRobot {
     //public static Compressor compressor;
     public static DriveTrain driveTrain;
     public static Elevator elevator;
-    public static AlignmentSystem alignmentSystem; //subsystem
-    public static TrackingSystem trackingSystem; //subsystem
     public static ScoringMechanism scoringMechanism;
     public static ClimbingMechanism climbingMechanism;
     public static OI oi;
@@ -124,13 +119,13 @@ public class Robot extends TimedRobot {
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
             else if (ScoringMechanism
-                    .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech"))
-                scoringMechanism = new CargoMech(9, 6, 4, 6);
+                    .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
+                scoringMechanism = new CargoMech(9, 6, 4, 6, 11, 12);
             else if (ScoringMechanism
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
-            System.err.println("no scoring mech specified");
+            System.out.println("no scoring mech specified");
         }
         SmartDashboard.putData(scoringMechanism);
 

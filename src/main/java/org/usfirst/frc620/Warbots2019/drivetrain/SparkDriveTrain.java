@@ -185,6 +185,11 @@ System.out.println("This is curvature drive, sparkDriveTrain");
     }
 
     @Override
+    public Angle getPitch() {
+        return navX.getPitch();
+    }
+
+    @Override
     public void initSendable(SendableBuilder builder) 
     {
         super.initSendable(builder);

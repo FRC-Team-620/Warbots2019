@@ -47,8 +47,8 @@ public class TurnAngleCommand extends Command {
   @Override
   protected void execute() {
     //System.out.print("Ya Yeet its working");
-    m_angle = new Angle(90/*StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE) / 360.0*/);
-    m_startAngle = new Angle(0);//drivetrain.getAngle();
+    m_angle = Angle.fromDegrees(90/*StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE) / 360.0*/);
+    m_startAngle = Angle.ZERO;//drivetrain.getAngle();
     finalAngle = (m_angle).toDegrees();
     System.out.println("*** TurnAngle = " + m_angle.toDegrees());
     System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle() + ", final angle: " + finalAngle);

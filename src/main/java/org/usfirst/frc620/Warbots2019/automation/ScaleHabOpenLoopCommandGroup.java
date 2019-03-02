@@ -6,10 +6,19 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
-public abstract class TrackingSystem extends Subsystem {
+import org.usfirst.frc620.Warbots2019.climbing.LowerClimbingMech;
+import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
+import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
+public class ScaleHabOpenLoopCommandGroup extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public ScaleHabOpenLoopCommandGroup() {
+    addParallel(new MoveElevatorTo(ElevatorLevel.FLOOR));
+    addSequential(new LowerClimbingMech());
+  }
 }

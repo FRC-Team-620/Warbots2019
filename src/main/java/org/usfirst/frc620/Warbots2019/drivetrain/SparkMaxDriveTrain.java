@@ -84,8 +84,7 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
          // Initialize NavX
          // TODO initializing the NavX on the prototype is crashing
-        //  navX = new NavX(navXPort);
-
+        navX = new NavX(navXPort);
         addChild(navX);
 
         // Create Shuffleboard Tab
@@ -151,5 +150,10 @@ public class SparkMaxDriveTrain extends DriveTrain {
     @Override
     public Angle getAngle() {
         return navX.getAngle();
+    }
+
+    @Override
+    public Angle getPitch() {
+        return navX.getPitch();
     }
 }

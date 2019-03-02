@@ -11,17 +11,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
-import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 /**
  * Add your docs here.
@@ -33,6 +32,8 @@ public class CargoMech extends ScoringMechanism {
   private DigitalInput limitSwitch;
   private Solenoid wristPiston1;
   private Solenoid wristPiston2;
+  private DigitalOutput latch1;
+  private DigitalOutput latch2;
 
   public CargoMech()
   {
@@ -40,7 +41,12 @@ public class CargoMech extends ScoringMechanism {
     // populate Configurable
   }
   // for TestBot
-  public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel1, int wristPistonChannel2) 
+  public CargoMech(int intakeWheelsCanID, 
+      int PCMCanID, 
+      int wristPistonChannel1, 
+      int wristPistonChannel2,
+      int latchPort1,
+      int latchPort2) 
   {
     this();
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
@@ -54,6 +60,9 @@ public class CargoMech extends ScoringMechanism {
 
     wristPiston1 = new Solenoid(wristPistonChannel1);
     wristPiston2 = new Solenoid(wristPistonChannel2);
+
+    latch1 = new DigitalOutput(latchPort1);
+    latch2 = new DigitalOutput(latchPort2);
   }
 
   @Override
@@ -139,5 +148,17 @@ public class CargoMech extends ScoringMechanism {
   @Override
   public boolean isStowed() {
     return !isDeployed();
+  }
+
+  public void openLatch()
+  {
+    latch1.set(true);
+    latch2.set(true);
+  }
+
+  public void closeLatch()
+  {
+    latch1.set(false);
+    latch2.set(false);
   }
 }
