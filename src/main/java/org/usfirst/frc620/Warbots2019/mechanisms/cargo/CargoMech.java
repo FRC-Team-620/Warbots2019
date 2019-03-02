@@ -50,7 +50,7 @@ public class CargoMech extends ScoringMechanism {
     if (cmspeed < 0)
       cmspeed = 1;
 
-    SmartDashboard.putData(new SendableTalonWrapper(intakeWheels));
+    addChild(new SendableTalonWrapper(intakeWheels));
 
     wristPiston1 = new Solenoid(wristPistonChannel1);
     wristPiston2 = new Solenoid(wristPistonChannel2);
