@@ -101,9 +101,9 @@ public class SparkDriveTrain extends DriveTrain {
         navX = new NavX(navXPort);
 
         // Create Shuffleboard Tab
-        ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
-        tab.add("kEncoderCountsPerFoot", kEncoderCountsPerFoot);
-        tab.add("totalDistance", totalDistance);
+        // ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
+        // tab.add("kEncoderCountsPerFoot", kEncoderCountsPerFoot);
+        // tab.add("totalDistance", totalDistance);
     }
 
     public SparkDriveTrain()
@@ -155,6 +155,11 @@ public class SparkDriveTrain extends DriveTrain {
     }
 
     @Override
+    public void stop() {
+        differentialDrive.stopMotor();
+    }
+
+    @Override
     public void curvatureDrive(double speed, double curvature) {
 System.out.println("This is curvature drive, sparkDriveTrain");
         differentialDrive.curvatureDrive(speed, curvature, false);
@@ -163,7 +168,7 @@ System.out.println("This is curvature drive, sparkDriveTrain");
     public double getTotalDistanceTravelled()
     {
         totalDistance = (-leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
-        SmartDashboard.putNumber("totalDistance", totalDistance);
+        // SmartDashboard.putNumber("totalDistance", totalDistance);
         return totalDistance;
     }
 

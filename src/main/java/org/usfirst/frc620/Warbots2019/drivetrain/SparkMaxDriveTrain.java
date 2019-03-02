@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -27,11 +28,11 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 public class SparkMaxDriveTrain extends DriveTrain {
 
     // These are all the hardware bits we added to this subsystem in robotbuilder
-    private SpeedController leftFrontMotor;
-    private SpeedController leftRearMotor;
+    private CANSparkMax leftFrontMotor;
+    private CANSparkMax leftRearMotor;
     private SpeedControllerGroup leftMotors;
-    private SpeedController rightFrontMotor;
-    private SpeedController rightRearMotor;
+    private CANSparkMax rightFrontMotor;
+    private CANSparkMax rightRearMotor;
     private SpeedControllerGroup rightMotors;
     private DifferentialDrive differentialDrive;
     private Encoder leftEncoder;
@@ -48,20 +49,31 @@ public class SparkMaxDriveTrain extends DriveTrain {
     {
         setName("SparkMaxDriveTrain");
 
+        double ramp = 1;
+        var idleMode = IdleMode.kCoast;
+
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);
         leftFrontMotor.setInverted(false);
+        leftFrontMotor.setIdleMode(idleMode);
+        leftFrontMotor.setOpenLoopRampRate(ramp);
 
         leftRearMotor = new CANSparkMax(leftMotor2CanID, MotorType.kBrushless);
         leftRearMotor.setInverted(false);
+        leftRearMotor.setIdleMode(idleMode);
+        leftRearMotor.setOpenLoopRampRate(ramp);
 
         leftMotors = new SpeedControllerGroup(leftFrontMotor, leftRearMotor);
         addChild("Left Motors", leftMotors);
 
         rightFrontMotor = new CANSparkMax(rightMotor1CanID, MotorType.kBrushless);
         rightFrontMotor.setInverted(false);
+        rightFrontMotor.setIdleMode(idleMode);
+        rightFrontMotor.setOpenLoopRampRate(ramp);
 
         rightRearMotor = new CANSparkMax(rightMotor2CanID, MotorType.kBrushless);
         rightRearMotor.setInverted(false);
+        rightRearMotor.setIdleMode(idleMode);
+        rightRearMotor.setOpenLoopRampRate(ramp);
 
         rightMotors = new SpeedControllerGroup(rightFrontMotor, rightRearMotor);
         addChild("Right Motors", rightMotors);
@@ -88,9 +100,9 @@ public class SparkMaxDriveTrain extends DriveTrain {
         addChild(navX);
 
         // Create Shuffleboard Tab
-        ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
-        tab.add("lastLeftEncoderSpeedRead", lastLeftEncoderSpeedRead);
-        tab.add("lastRightEncoderSpeedRead", lastRightEncoderSpeedRead);  
+        // ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
+        // tab.add("lastLeftEncoderSpeedRead", lastLeftEncoderSpeedRead);
+        // tab.add("lastRightEncoderSpeedRead", lastRightEncoderSpeedRead);  
     }
 
     @Override
@@ -125,6 +137,11 @@ public class SparkMaxDriveTrain extends DriveTrain {
     public void drive(double speed, double turnRate) {
         // System.out.println("Driving (" + speed + ", " + (-turnRate) + ")");
         differentialDrive.arcadeDrive(speed, -1 * turnRate);
+    }
+
+    @Override
+    public void stop() {
+        differentialDrive.stopMotor();
     }
 
     @Override

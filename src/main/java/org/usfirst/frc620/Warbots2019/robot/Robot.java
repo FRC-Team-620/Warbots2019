@@ -14,14 +14,10 @@ import java.util.Arrays;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightDistancePIDCommand;
-import org.usfirst.frc620.Warbots2019.drivetrain.DriveStraightPIDCommand;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.TurnAngleCommand;
-import org.usfirst.frc620.Warbots2019.drivetrain.TurnAnglePIDCommand;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
@@ -35,16 +31,12 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
-import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 import org.usfirst.frc620.Warbots2019.vision.VisionSubsystem;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -87,7 +79,7 @@ public class Robot extends TimedRobot {
 
         Logger.log(sig + ": Connecting to robot " + config.getRobotType());
 
-        SmartDashboard.putData(Scheduler.getInstance());
+        // SmartDashboard.putData(Scheduler.getInstance());
 
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null)
@@ -115,7 +107,7 @@ public class Robot extends TimedRobot {
                 Logger.log(sig + ": Configured with no drive train ");
             }
         }
-        SmartDashboard.putData(driveTrain);
+        // SmartDashboard.putData(driveTrain);
 
         boolean compressorEnabled = config.getMappedBoolean("Compressor");
         if (compressorEnabled) 
@@ -138,7 +130,7 @@ public class Robot extends TimedRobot {
             else if (scoringMechanismClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
             {
-                scoringMechanism = new CargoMech(9, 6, 4, 6, 4, 5);
+                scoringMechanism = new CargoMech(9, 6, 6, 4, 6, 4, 5);
             }
             else if (scoringMechanismClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
@@ -148,7 +140,7 @@ public class Robot extends TimedRobot {
 
             if (scoringMechanism != null) 
             {
-                SmartDashboard.putData(scoringMechanism);
+                // SmartDashboard.putData(scoringMechanism);
             } 
             else 
             {
@@ -177,7 +169,7 @@ public class Robot extends TimedRobot {
 
             if (elevator != null) 
             {
-                SmartDashboard.putData(elevator);
+                // SmartDashboard.putData(elevator);
             } 
             else 
             {
@@ -206,7 +198,7 @@ public class Robot extends TimedRobot {
 
             if (climbingMechanism != null) 
             {
-                SmartDashboard.putData(climbingMechanism);
+                // SmartDashboard.putData(climbingMechanism);
             } 
             else 
             {
@@ -223,31 +215,31 @@ public class Robot extends TimedRobot {
         oi = new OI(config);
 
         // Enable Shuffleboard logging
-        Shuffleboard.startRecording();
+        // Shuffleboard.startRecording();
 
-        Shuffleboard.addEventMarker("Robot initialized", EventImportance.kTrivial);
+        // Shuffleboard.addEventMarker("Robot initialized", EventImportance.kTrivial);
 
         // Add Subsystems to SmartDashboard
-        SmartDashboard.putData(driveTrain);
+        // SmartDashboard.putData(driveTrain);
 
         // Add Command Buttons to Smart Dashboard
-        SmartDashboard.putData(new TurnAngleCommand());
-        SmartDashboard.putData(new TurnAnglePIDCommand());
-        SmartDashboard.putData(new DriveStraightPIDCommand());
-        SmartDashboard.putData(new DriveStraightDistancePIDCommand());
-        SmartDashboard.putData(new FollowLineWithCameraCommand());
-        SmartDashboard.putData(new FollowLineWithCameraCommand());
+        // SmartDashboard.putData(new TurnAngleCommand());
+        // SmartDashboard.putData(new TurnAnglePIDCommand());
+        // SmartDashboard.putData(new DriveStraightPIDCommand());
+        // SmartDashboard.putData(new DriveStraightDistancePIDCommand());
+        // SmartDashboard.putData(new FollowLineWithCameraCommand());
+        // SmartDashboard.putData(new FollowLineWithCameraCommand());
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
-        SmartDashboard.putData("Auto choices", m_chooser);
+        // SmartDashboard.putData("Auto choices", m_chooser);
 
         // Show config data on SmartDashboard
-        SmartDashboard.putString("Robot Name", config.robotName);
+        // SmartDashboard.putString("Robot Name", config.robotName);
         ArrayList<String> loadedFiles = ControlReader.getLoadedFiles();
         for (int i = 0; i < loadedFiles.size(); i++) 
         {
-            SmartDashboard.putString("Files", loadedFiles.get(i));
+            // SmartDashboard.putString("Files", loadedFiles.get(i));
         }
     }
 
@@ -268,7 +260,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
+        // Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
 
         m_autoSelected = m_chooser.getSelected();
         System.out.println("Auto selected: " + m_autoSelected);
@@ -295,7 +287,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() 
     {
-        Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
+        // Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove

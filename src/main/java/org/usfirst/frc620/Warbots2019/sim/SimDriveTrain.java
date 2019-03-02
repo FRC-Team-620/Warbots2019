@@ -47,6 +47,11 @@ public class SimDriveTrain extends DriveTrain
     }
 
     @Override
+    public void stop() {
+        
+    }
+
+    @Override
     public void curvatureDrive(double speed, double curvature) 
     {
         // System.out.println("drive "+speed+" "+curvature);

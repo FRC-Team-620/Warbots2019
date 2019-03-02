@@ -43,7 +43,8 @@ public class CargoMech extends ScoringMechanism {
   }
   // for TestBot
   public CargoMech(int intakeWheelsCanID, 
-      int PCMCanID, 
+      int PCMCanID,
+      int limitSwitchPort, 
       int wristPistonChannel1, 
       int wristPistonChannel2,
       int latchPort1,
@@ -65,6 +66,8 @@ public class CargoMech extends ScoringMechanism {
     System.out.println("Creating latches on ports: " + latchPort1 + " and " + latchPort2);
     latch1 = new DigitalOutput(latchPort1);
     latch2 = new DigitalOutput(latchPort2);
+
+    limitSwitch = new DigitalInput(limitSwitchPort);
   }
 
   @Override

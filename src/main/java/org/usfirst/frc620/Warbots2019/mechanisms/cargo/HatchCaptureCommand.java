@@ -5,28 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber;
+package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.elevator.Elevator;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
-public class driveElevatorWithJoysticks extends Command {
+public class HatchCaptureCommand extends Command {
 
-  private Elevator elevator;
+  private CargoMech cargoMech;
 
-  public driveElevatorWithJoysticks() {
+  public HatchCaptureCommand() {
     Logger.log("New Command: "+this.getName());
+    cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    elevator = Robot.elevator;
-
-    requires(elevator);
-    
+    requires(cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -37,15 +33,15 @@ public class driveElevatorWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    GenericHID joystick = Robot.oi.driverController;
-    double speed = joystick.getRawAxis(5);
-    elevator.drive(speed);
+    System.out.println("Eject");
+    cargoMech.ejectCargo();
   }
+  //if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = false;
+    boolean ret = cargoMech.hasCargo();
     if (ret)
     {
         Logger.log("Command: ["+this.getName()+"] done");

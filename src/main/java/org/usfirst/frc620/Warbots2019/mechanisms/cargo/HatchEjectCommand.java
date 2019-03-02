@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
-public class GrabberEjectCommand extends Command {
+public class HatchEjectCommand extends Command {
 
   private CargoMech cargoMech;
 
-  public GrabberEjectCommand() {
+  public HatchEjectCommand() {
     Logger.log("New Command: "+this.getName());
     cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
@@ -34,7 +34,7 @@ public class GrabberEjectCommand extends Command {
   @Override
   protected void execute() {
     System.out.println("Eject");
-    cargoMech.ejectCargo();
+    cargoMech.captureCargo();
   }
   //if(cargoMech)
 

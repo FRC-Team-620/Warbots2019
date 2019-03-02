@@ -74,8 +74,8 @@ public class DriveStraightDistancePIDCommand extends Command {
     turnController.setAbsoluteTolerance(kToleranceDegrees);
     driveController.setAbsoluteTolerance(kToleranceDistance);
 
-    SmartDashboard.putData("Drive PID", driveController);
-    SmartDashboard.putData("Turn PID", turnController);
+    // SmartDashboard.putData("Drive PID", driveController);
+    // SmartDashboard.putData("Turn PID", turnController);
   }
 
   // Called just before this Command runs the first time

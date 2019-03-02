@@ -39,6 +39,20 @@ public class Logger
                 if (writer == null)
                 {
                     File file = null;
+                    // if (new File("/home/lvuser/events.log").exists())
+                    // {
+                    //     String fn = null;
+                    //     for (int i=0;i<5000; i++)
+                    //     {
+                    //         fn = "/home/lvuser/events_"+i+".log";
+                    //         if (!(new File(fn).exists()))
+                    //         {
+                    //             break;
+                    //         }
+                    //     }
+                    //     if (fn != null)
+                    //         Runtime.getRuntime().exec("copy /home/lvuser/events.log "+fn);
+                    // }
                     if (new File("/home/lvuser").exists())
                     {
                         file = new File("/home/lvuser/events.log");

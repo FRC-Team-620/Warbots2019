@@ -9,10 +9,10 @@ package org.usfirst.frc620.Warbots2019.elevator;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class ControlElevatorWithJoystick extends Command {
   double speedFactor;
@@ -39,8 +39,8 @@ public class ControlElevatorWithJoystick extends Command {
   @Override
   protected void execute() 
   {
-    System.out.print("Working");
-    double speed = Robot.oi.getElevatorSpeed();
+    // double speed = Robot.oi.getElevatorSpeed();
+    double speed = Robot.oi.scorerController.getY(Hand.kLeft);
     Robot.elevator.drive(-speed * speedFactor);
   }
 

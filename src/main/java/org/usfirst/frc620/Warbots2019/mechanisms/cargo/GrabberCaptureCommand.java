@@ -7,14 +7,10 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import java.io.PrintStream;
-import java.io.FileOutputStream;
-
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 public class GrabberCaptureCommand extends Command {
 
@@ -65,7 +61,7 @@ public class GrabberCaptureCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = true;
+    boolean ret = cargoMech.hasCargo();
     if (ret)
     {
         Logger.log("Command: ["+this.getName()+"] done");

@@ -159,7 +159,7 @@
         "tiles": {
           "3,0": {
             "size": [
-              7,
+              6,
               4
             ],
             "content": {
@@ -169,7 +169,7 @@
               "Crosshair/Show crosshair": true,
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
-              "Controls/Rotation": "QUARTER_CW",
+              "Controls/Rotation": "NONE",
               "compression": 17.0,
               "fps": 30,
               "imageWidth": 640,
@@ -220,6 +220,190 @@
               "_type": "Network Table Tree",
               "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller",
               "_title": "LiveWindow/CargoMech/TalonSRX Speed Controller"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Grabber",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "5,0": {
+            "size": [
+              5,
+              8
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/CargoMech",
+              "_title": "LiveWindow/CargoMech",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///LiveWindow/CargoMech/GrabberDeployCommand",
+                  "_title": "GrabberDeployCommand"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///LiveWindow/CargoMech/GrabberCaptureCommand",
+                  "_title": "GrabberCaptureCommand"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/temperature",
+                  "_title": "TalonSRX Speed Controller/temperature"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/CargoMech/Latch1",
+                  "_title": "Latch1",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/CargoMech/Latch2",
+                  "_title": "Latch2",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/busVoltage",
+                  "_title": "TalonSRX Speed Controller/busVoltage"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/sensorVelocity",
+                  "_title": "TalonSRX Speed Controller/sensorVelocity"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///LiveWindow/CargoMech/GrabberOpenLatchCommand",
+                  "_title": "GrabberOpenLatchCommand"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///LiveWindow/CargoMech/GrabberEjectCommand",
+                  "_title": "GrabberEjectCommand"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/motionMagicAcceleration",
+                  "_title": "TalonSRX Speed Controller/motionMagicAcceleration"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///LiveWindow/CargoMech/GrabberStowCommand",
+                  "_title": "GrabberStowCommand"
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///LiveWindow/CargoMech/GrabberCloseLatchCommand",
+                  "_title": "GrabberCloseLatchCommand"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/kD",
+                  "_title": "TalonSRX Speed Controller/kD"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/kF",
+                  "_title": "TalonSRX Speed Controller/kF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/kI",
+                  "_title": "TalonSRX Speed Controller/kI"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/kP",
+                  "_title": "TalonSRX Speed Controller/kP"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/CargoMech/Wrist2",
+                  "_title": "Wrist2",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/CargoMech/Wrist1",
+                  "_title": "Wrist1",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/CargoMech/Stowed",
+                  "_title": "Stowed",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/outputVoltage",
+                  "_title": "TalonSRX Speed Controller/outputVoltage"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/motionMagicCruiseVelocity",
+                  "_title": "TalonSRX Speed Controller/motionMagicCruiseVelocity"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/sensorPosition",
+                  "_title": "TalonSRX Speed Controller/sensorPosition"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/output",
+                  "_title": "TalonSRX Speed Controller/output"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/controlMode",
+                  "_title": "TalonSRX Speed Controller/controlMode"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/peakOutput",
+                  "_title": "TalonSRX Speed Controller/peakOutput"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/integralZone",
+                  "_title": "TalonSRX Speed Controller/integralZone"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/allowableError",
+                  "_title": "TalonSRX Speed Controller/allowableError"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/CargoMech/Deployed",
+                  "_title": "Deployed",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller/maxAccumulatable",
+                  "_title": "TalonSRX Speed Controller/maxAccumulatable"
+                }
+              ]
             }
           }
         }

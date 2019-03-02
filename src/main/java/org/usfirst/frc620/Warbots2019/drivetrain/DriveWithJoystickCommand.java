@@ -67,7 +67,7 @@ public class DriveWithJoystickCommand extends Command {
             // System.out.println("center dz");
             // Doesn't move, x and y value are zero
             // System.out.println("Is in CENTERDZ");
-            Robot.driveTrain.drive(0, 0);
+            Robot.driveTrain.stop();
         }
         else if(isInStraightDeadzone(angle)){
             // System.out.println("str dz");

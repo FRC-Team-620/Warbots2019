@@ -9,7 +9,6 @@ package org.usfirst.frc620.Warbots2019.climbing;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 

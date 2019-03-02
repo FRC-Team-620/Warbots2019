@@ -19,6 +19,7 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -233,7 +234,7 @@ public class OI {
         if (speedSpec != null)
         {
             ret = getAnalogValue(speedSpec);
-            SmartDashboard.putNumber("Robot Speed", ret);
+            // SmartDashboard.putNumber("Robot Speed", ret);
         }
         else
         {
@@ -263,7 +264,7 @@ public class OI {
             System.err.println("getRobotRotationRate: no rotation rate control spec");
         }
 
-        SmartDashboard.putNumber("Robot Rotation Rate", ret);
+        // SmartDashboard.putNumber("Robot Rotation Rate", ret);
         return ret;
     }
 
@@ -285,6 +286,7 @@ public class OI {
                 }
             }
         }
+
         if (elevatorSpeedSpec != null)
         {
             ret = getAnalogValue(elevatorSpeedSpec);
@@ -293,7 +295,7 @@ public class OI {
         {
             System.err.println("getElevatorSpeed: no elevator speed control spec");
         }
-        SmartDashboard.putNumber("Elevator Speed", ret);
+        // SmartDashboard.putNumber("Elevator Speed", ret);
         return ret;
     }
     

@@ -58,4 +58,6 @@ public abstract class DriveTrain extends Subsystem
 
         return configurable;
     }
+
+    public abstract void stop();
 }
