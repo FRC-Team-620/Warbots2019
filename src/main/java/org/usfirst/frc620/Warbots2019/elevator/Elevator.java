@@ -29,6 +29,8 @@ public abstract class Elevator extends Subsystem
 
     public abstract void driveTo(ElevatorLevel level);
 
+    public abstract void holdCurrentHeight();
+
     public abstract double getHeight();
 
     public abstract boolean isAtTop();

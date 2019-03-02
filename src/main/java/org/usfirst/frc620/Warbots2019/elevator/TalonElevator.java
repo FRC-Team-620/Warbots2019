@@ -83,6 +83,16 @@ public class TalonElevator extends Elevator
         talon.set(ControlMode.MotionMagic, height);
     }
 
+    @Override
+    public void holdCurrentHeight()
+    {
+        double height = getHeight();
+        System.out.println("Holding Elevator at " + height);
+        System.out.println("Error: " + talon.getClosedLoopError());
+        System.out.println("Output: " + talon.getMotorOutputPercent());
+        talon.set(ControlMode.MotionMagic, height);
+    }
+
     double getHeight(ElevatorLevel level)
     {
         return HEIGHTS.get(level);
