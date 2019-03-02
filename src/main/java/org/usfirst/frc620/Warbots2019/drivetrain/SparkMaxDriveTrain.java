@@ -86,6 +86,8 @@ public class SparkMaxDriveTrain extends DriveTrain {
          // TODO initializing the NavX on the prototype is crashing
         //  navX = new NavX(navXPort);
 
+        addChild(navX);
+
         // Create Shuffleboard Tab
         ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
         tab.add("lastLeftEncoderSpeedRead", lastLeftEncoderSpeedRead);

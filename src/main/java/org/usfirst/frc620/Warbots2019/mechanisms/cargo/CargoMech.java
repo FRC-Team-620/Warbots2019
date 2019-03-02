@@ -31,7 +31,8 @@ public class CargoMech extends ScoringMechanism {
   public boolean configurable = true;
   private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;
-  private Solenoid mainPiston;
+  private Solenoid wristPiston1;
+  private Solenoid wristPiston2;
 
   public CargoMech()
   {
@@ -39,7 +40,7 @@ public class CargoMech extends ScoringMechanism {
     // populate Configurable
   }
   // for TestBot
-  public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel) 
+  public CargoMech(int intakeWheelsCanID, int PCMCanID, int wristPistonChannel1, int wristPistonChannel2) 
   {
     this();
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
@@ -50,6 +51,9 @@ public class CargoMech extends ScoringMechanism {
       cmspeed = 1;
 
     SmartDashboard.putData(new SendableTalonWrapper(intakeWheels));
+
+    wristPiston1 = new Solenoid(wristPistonChannel1);
+    wristPiston2 = new Solenoid(wristPistonChannel2);
   }
 
   @Override
@@ -114,11 +118,13 @@ public class CargoMech extends ScoringMechanism {
   }
 
   public void deploy() {
-    mainPiston.set(true);
+    wristPiston1.set(true);
+    wristPiston2.set(true);
   }
 
   public void stow() {
-    mainPiston.set(false);
+    wristPiston1.set(false);
+    wristPiston2.set(false);
   }
 
   @Override
@@ -127,11 +133,11 @@ public class CargoMech extends ScoringMechanism {
 
   @Override
   public boolean isDeployed() {
-    return true;
+    return wristPiston1.get();
   }
 
   @Override
   public boolean isStowed() {
-    return false;
+    return !isDeployed();
   }
 }

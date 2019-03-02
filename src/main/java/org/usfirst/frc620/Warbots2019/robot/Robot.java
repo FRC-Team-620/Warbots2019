@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
                 Logger.log("robotInit: Configured with no drive train ");
             }
         }
+        SmartDashboard.putData(driveTrain);
 
         String compressorOption = config.getMappedString("Compressor");
         if (compressorOption != null && compressorOption.equalsIgnoreCase("true"))
@@ -124,13 +125,14 @@ public class Robot extends TimedRobot {
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
             else if (ScoringMechanism
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.TalonCargoMech"))
-                scoringMechanism = new CargoMech(9, 6, 0);
+                scoringMechanism = new CargoMech(9, 6, 4, 6);
             else if (ScoringMechanism
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
         } else {
             System.err.println("no scoring mech specified");
         }
+        SmartDashboard.putData(scoringMechanism);
 
         String elevatorClass = config.getMappedString("Elevator");
         if (elevatorClass != null)
@@ -143,7 +145,8 @@ public class Robot extends TimedRobot {
         else
         {
             System.err.println("no elevator specified");
-        }                                                   
+        }   
+        SmartDashboard.putData(elevator);                                                
 
         String climbingMechanismClass = config.getMappedString("ClimbingMechanism");
         if (climbingMechanismClass != null) {
@@ -154,6 +157,7 @@ public class Robot extends TimedRobot {
         } else {
             System.err.println("no climbing mechanism specified");
         }
+        SmartDashboard.putData(climbingMechanism);
 
         visionSystem = new VisionSubsystem(config);
         
