@@ -58,8 +58,8 @@ public class CargoMech extends ScoringMechanism {
 
     addChild(new SendableTalonWrapper(intakeWheels));
 
-    wristPiston1 = new Solenoid(wristPistonChannel1);
-    wristPiston2 = new Solenoid(wristPistonChannel2);
+    wristPiston1 = new Solenoid(PCMCanID, wristPistonChannel1);
+    wristPiston2 = new Solenoid(PCMCanID, wristPistonChannel2);
 
     latch1 = new DigitalOutput(latchPort1);
     latch2 = new DigitalOutput(latchPort2);

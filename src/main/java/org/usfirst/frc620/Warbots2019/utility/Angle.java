@@ -100,8 +100,6 @@ public class Angle implements Comparable<Angle>
         val += .5;
         val -= (int) val;
         val -= .5;
-        if (val < 0) 
-            val += 1;
 		
 		return new Angle(val);
 	}

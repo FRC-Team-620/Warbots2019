@@ -74,6 +74,7 @@ public class NavX extends SendableBase {
     public void initSendable(SendableBuilder builder) 
     {
         builder.addDoubleProperty("yaw", () -> getAngle().toDegrees(), null);
+        builder.addDoubleProperty("pitch", () -> getPitch().toDegrees(), null);
     }
 
     public Angle getPitch() 
