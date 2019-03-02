@@ -82,9 +82,9 @@ public class TurnAnglePIDCommand extends Command {
     SmartDashboard.putData("TurnAnglePID", pidController);
   }
 
-  //public TurnAnglePIDCommand() {
-  //  this(Angle.fromDegrees(StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_TURNANGLE)));
-  //}
+  public TurnAnglePIDCommand() {
+    this(Angle.fromDegrees(StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_TURNANGLE)));
+  }
 
   // Called just before this Command runs the first time
   @Override
