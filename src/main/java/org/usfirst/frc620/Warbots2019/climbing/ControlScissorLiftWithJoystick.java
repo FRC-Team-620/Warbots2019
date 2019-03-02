@@ -12,25 +12,38 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ControlScissorLiftWithJoystick extends Command {
+public class ControlScissorLiftWithJoystick extends Command 
+{
 
-  Joystick joystick = Robot.oi.driverController;
+  public Joystick joystick = null;
   ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
 
   public ControlScissorLiftWithJoystick()
   {
     Logger.log("New Command: "+this.getName());
+
+    
     requires(scissorLift);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
-    double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
-    if (Math.abs(speed) < 0.2)
-      speed = 0;
-    // System.out.println("Drving sicor lift " + speed);
-    scissorLift.drive(speed);
+  protected void execute() 
+  {
+
+    // TODO - convert this to use a new method on OI, such as
+    // getLiftSpeed, similar to getRobotSpeed, so we can map different
+    // analog controls to it...
+    if ((Robot.oi != null) && (Robot.oi.driverController != null))
+    {
+        joystick = Robot.oi.driverController;
+
+        double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
+        if (Math.abs(speed) < 0.2)
+          speed = 0;
+        // System.out.println("Drving sicor lift " + speed);
+        scissorLift.drive(speed);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

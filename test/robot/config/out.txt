@@ -1,0 +1,8 @@
+2019/03/01 22:44:20
+loaded scissor lift id:5
+CTR: No new response to update signal
+	Talon SRX 5 ConfigFactoryDefault
+CTR: No new response to update signal
+	Talon SRX 5 ConfigFactoryDefault
+[phoenix] Could NOT shutdown cleanly
+	

@@ -84,28 +84,29 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        Logger.log("robotInit: Robot initialized");
+        String sig = "robotInit()";
+        Logger.log(sig+": Robot initialized");
 
         config = new ControlReader();
 
-        Logger.log("robotInit: Connecting to robot " + config.getRobotType());
+        Logger.log(sig+": Connecting to robot " + config.getRobotType());
      
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null) {
             if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain")) {
                 driveTrain = new SparkDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
-                Logger.log("robotInit: Configured with SparkDriveTrain");
+                Logger.log(sig+": Configured with SparkDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) {
                 driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SerialUSB);
-                Logger.log("robotInit: Configured with SparkMaxDriveTrain");
+                Logger.log(sig+": Configured with SparkMaxDriveTrain");
             } else if (driverTrainClass.equalsIgnoreCase(
                 "org.usfirst.frc620.Warbots2019.sim.SimDriveTrain")) {
                 driveTrain = new SimDriveTrain();
-                Logger.log("robotInit: Configured with SimDriveTrain");
+                Logger.log(sig+": Configured with SimDriveTrain");
             } else {
-                Logger.log("robotInit: Configured with no drive train ");
+                Logger.log(sig+": Configured with no drive train ");
             }
         }
         SmartDashboard.putData(driveTrain);
@@ -120,7 +121,9 @@ public class Robot extends TimedRobot {
         }
 
         String ScoringMechanism = config.getMappedString("ScoringMechanism");
-        if (ScoringMechanism != null) {
+        if (ScoringMechanism != null && !ScoringMechanism.equals("")) 
+        {
+            Logger.log(sig+": got scoring mechanism: ["+ScoringMechanism+"]");
             if (ScoringMechanism.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.tazGrabber.TazGrabber"))
                 scoringMechanism = new TazGrabber(5, 6, 5, 7, 4, 2, 0, 3, 1);
             else if (ScoringMechanism
@@ -129,35 +132,63 @@ public class Robot extends TimedRobot {
             else if (ScoringMechanism
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
                 scoringMechanism = new PinchPointGearGrabber(5, 2, 3);
+            if (scoringMechanism != null)
+            {
+                SmartDashboard.putData(scoringMechanism);
+            }
+            else
+            {
+                System.err.println(sig+": no valid scoring mechanism found");
+            }
         } else {
             System.err.println("no scoring mech specified");
         }
-        SmartDashboard.putData(scoringMechanism);
 
         String elevatorClass = config.getMappedString("Elevator");
-        if (elevatorClass != null)
+        if (elevatorClass != null && !elevatorClass.equals(""))
         {
+            Logger.log(sig+": got elevator: ["+ScoringMechanism+"]");
             if (elevatorClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator"))
                 elevator = new TwoTalonElevator(7, 8);
             else if (elevatorClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.elevator.TalonElevator"))
                 elevator = new TalonElevator(5);
+
+            if (elevator != null)
+            {
+                SmartDashboard.putData(elevator);
+            }
+            else
+            {
+                System.err.println(sig+": no valid elevator found");
+            }
         }
         else
         {
             System.err.println("no elevator specified");
         }   
-        SmartDashboard.putData(elevator);                                                
+                                                       
 
         String climbingMechanismClass = config.getMappedString("ClimbingMechanism");
-        if (climbingMechanismClass != null) {
+        if (climbingMechanismClass != null && !climbingMechanismClass.equals("")) 
+        {
+            Logger.log(sig+": got climbing mech: ["+climbingMechanismClass+"]");
             if (climbingMechanismClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.climbing.PistonLift"))
                 climbingMechanism = new PistonLift(6, 0);
             else if (climbingMechanismClass.equalsIgnoreCase("org.usfirst.frc620.Warbots2019.climbing.ScissorLift"))
                 climbingMechanism = new ScissorLift(5);
+
+            if (climbingMechanism != null)
+            {
+                SmartDashboard.putData(climbingMechanism);
+            }
+            else
+            {
+                System.err.println(sig+": no climbing Mechanism found");
+            }
         } else {
             System.err.println("no climbing mechanism specified");
         }
-        SmartDashboard.putData(climbingMechanism);
+        
 
         visionSystem = new VisionSubsystem(config);
         
@@ -331,7 +362,7 @@ public class Robot extends TimedRobot {
         configurables.add(CargoMech.asConfigurable());
         configurables.add(TazGrabber.asConfigurable());
         configurables.add(PinchPointGearGrabber.asConfigurable());
-        configurables.add(Elevator.asConfigurable());
+        configurables.add(TalonElevator.asConfigurable());
         
         // OI goes next - these settings eventually get distributed to
         // the driver and scorer properties files.
