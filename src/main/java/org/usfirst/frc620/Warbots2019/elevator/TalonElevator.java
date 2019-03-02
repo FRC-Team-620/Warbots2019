@@ -21,6 +21,9 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -112,5 +115,29 @@ public class TalonElevator extends Elevator
     @Override
     public boolean isAtBottom() {
         return talon.getSensorCollection().isRevLimitSwitchClosed();
+    }
+
+    public static Configurable asConfigurable()
+    {
+        ConfigurableImpl configurable = (ConfigurableImpl)Elevator.asConfigurable();
+
+        configurable.addElement(new Element("Elevator.MotionMagic.kP", 
+            "Talon Elevator Setting: PID Proportional constant", null));
+
+        configurable.addElement(new Element("Elevator.MotionMagic.kI", 
+            "Talon Elevator Setting: PID Integral constant", null));
+
+        configurable.addElement(new Element("Elevator.MotionMagic.kD", 
+            "Talon Elevator Setting: PID Differential constant", null));
+
+        configurable.addElement(new Element("Elevator.MotionMagic.kF", 
+            "Talon Elevator Setting: PID Differential constant", null));
+
+        configurable.addElement(new Element("Elevator.MotionMagic.motionMagicAcceleration", 
+            "Talon Elevator Setting: Elevator acceleration encoder cnts/sec^2?", null));
+
+        configurable.addElement(new Element("Elevator.MotionMagic.motionMagicCruiseVelocity", 
+            "Talon Elevator Setting: Elevator velocity encoder cnts/sec?", null));
+        return configurable;
     }
 }

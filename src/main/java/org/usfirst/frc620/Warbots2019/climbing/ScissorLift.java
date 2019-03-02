@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.climbing;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 
@@ -31,8 +32,13 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
   }
 
   @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new ControlScissorLiftWithJoystick());
+  public void initDefaultCommand() 
+  {
+    // We were getting NullPointerException since OI is created AFTER 
+    // subsystems.
+    ControlScissorLiftWithJoystick cmd = new ControlScissorLiftWithJoystick();
+    
+    setDefaultCommand(cmd);
   }
 
   @Override

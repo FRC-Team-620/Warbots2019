@@ -23,12 +23,15 @@ REM and run it, the JVM hangs despite calling Runtime.getRuntime().halt!
 REM Therefore we "start" the java appl, and then kill it some time later.
 REM
 PUSHD %PROJ_PATH%\test\robot\config
+if exist demo.properties ( 
+    rm demo.properties
+)
 taskkill /f /im "java.exe"
 start "Robot Config" /B %JAVA_EXE% -classpath "%OUR_CLASSPATH%;%WPI_CLASSPATH%" robot.config.RobotConfigurationTest
 ping 127.0.0.1 -n 5 > nul
 taskkill /f /im "java.exe"
-if errorlevel == 1 (
-    echo  RobotConfigurationTest                   FAIL
+if not exist demo.properties  (
+    echo  RobotConfigurationTest                   FAIL 
 ) ELSE (
     echo  RobotConfigurationTest                   PASS
 )
