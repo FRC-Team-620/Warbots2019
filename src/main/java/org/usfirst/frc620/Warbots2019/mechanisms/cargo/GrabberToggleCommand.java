@@ -27,10 +27,17 @@ public class GrabberToggleCommand extends Command {
   @Override
   protected void execute() 
   {
+    System.out.println("Toggling Grabber");
     if (cargoMech.isDeployed())
+    {
+      System.out.println("Stowing");
       Scheduler.getInstance().add(new GrabberStowCommand());
+    }
     else
+    {
+      System.out.println("Deploying");
       Scheduler.getInstance().add(new GrabberDeployCommand());
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

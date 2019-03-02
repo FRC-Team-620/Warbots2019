@@ -87,6 +87,8 @@ public class Robot extends TimedRobot {
 
         Logger.log(sig + ": Connecting to robot " + config.getRobotType());
 
+        SmartDashboard.putData(Scheduler.getInstance());
+
         String driverTrainClass = config.getMappedString("DriveTrain");
         if (driverTrainClass != null)
         {
@@ -136,7 +138,7 @@ public class Robot extends TimedRobot {
             else if (scoringMechanismClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
             {
-                scoringMechanism = new CargoMech(9, 6, 4, 6, 0, 1);
+                scoringMechanism = new CargoMech(9, 6, 4, 6, 4, 5);
             }
             else if (scoringMechanismClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))
@@ -254,7 +256,8 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void robotPeriodic() {
+    public void robotPeriodic() 
+    {
         oi.periodic();
     }
 
@@ -290,8 +293,8 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopInit() {
-
+    public void teleopInit() 
+    {
         Shuffleboard.addEventMarker("Teleop start", EventImportance.kNormal);
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -305,8 +308,8 @@ public class Robot extends TimedRobot {
      * This function is called periodically during operator control
      */
     @Override
-    public void teleopPeriodic() {
-
+    public void teleopPeriodic() 
+    {
         Scheduler.getInstance().run();
     }
 

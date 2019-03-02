@@ -30,6 +30,8 @@ import java.util.Date;
  */
 public class ControlReader 
 {
+    public static String DEFAULT_MAC_ADDRESS = "00_80_2F_22_B0_90.properties";
+
     public String robotName;
     Properties prop;
     String rootDeployDir;
@@ -200,6 +202,7 @@ public class ControlReader
         catch(Exception e)
         {
             System.err.println("ControlReader: Error Getting Robot Type: " + e.getMessage());
+            return DEFAULT_MAC_ADDRESS;
         }
         return ret;
     }

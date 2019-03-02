@@ -21,6 +21,7 @@ import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Add your docs here.
@@ -61,6 +62,7 @@ public class CargoMech extends ScoringMechanism {
     wristPiston1 = new Solenoid(PCMCanID, wristPistonChannel1);
     wristPiston2 = new Solenoid(PCMCanID, wristPistonChannel2);
 
+    System.out.println("Creating latches on ports: " + latchPort1 + " and " + latchPort2);
     latch1 = new DigitalOutput(latchPort1);
     latch2 = new DigitalOutput(latchPort2);
   }
@@ -71,6 +73,13 @@ public class CargoMech extends ScoringMechanism {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     System.out.print("CargoMech is working");
+
+    addChild(new GrabberDeployCommand());
+    addChild(new GrabberStowCommand());
+    addChild(new GrabberCaptureCommand());
+    addChild(new GrabberEjectCommand());
+    addChild(new GrabberOpenLatchCommand());
+    addChild(new GrabberCloseLatchCommand());
   }
 
   ControlReader config = Robot.config;
@@ -160,5 +169,16 @@ public class CargoMech extends ScoringMechanism {
   {
     latch1.set(false);
     latch2.set(false);
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) 
+  {
+    builder.addBooleanProperty("Deployed", this::isDeployed, null);
+    builder.addBooleanProperty("Stowed", this::isStowed, null);
+    builder.addBooleanProperty("Wrist1", wristPiston1::get, null);
+    builder.addBooleanProperty("Wrist2", wristPiston2::get, null);
+    builder.addBooleanProperty("Latch1", latch1::get, null);
+    builder.addBooleanProperty("Latch2", latch2::get, null);
   }
 }
