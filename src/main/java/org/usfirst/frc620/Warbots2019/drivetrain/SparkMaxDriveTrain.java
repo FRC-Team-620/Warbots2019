@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 /**
  *
  */
@@ -44,7 +46,6 @@ public class SparkMaxDriveTrain extends DriveTrain {
     public SparkMaxDriveTrain(int leftMotor1CanID, int leftMotor2CanID, 
         int rightMotor1CanID, int rightMotor2CanID, NavX.Port navXPort) 
     {
-     
         setName("SparkMaxDriveTrain");
 
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);

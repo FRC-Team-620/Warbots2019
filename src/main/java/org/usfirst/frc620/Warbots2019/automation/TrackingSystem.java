@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**

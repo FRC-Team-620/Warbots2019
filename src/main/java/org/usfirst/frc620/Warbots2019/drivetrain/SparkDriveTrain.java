@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 /**
  * Implementation of DriveTrain
  */
@@ -154,6 +156,7 @@ public class SparkDriveTrain extends DriveTrain {
 
     @Override
     public void curvatureDrive(double speed, double curvature) {
+System.out.println("This is curvature drive, sparkDriveTrain");
         differentialDrive.curvatureDrive(speed, curvature, false);
     }
 

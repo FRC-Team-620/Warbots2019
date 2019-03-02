@@ -14,6 +14,8 @@ import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class TurnAngleCommand extends Command {
   private DriveTrain drivetrain;
   // The speed we want to turn
@@ -28,6 +30,7 @@ public class TurnAngleCommand extends Command {
   private ConfigurableImpl configurable;
 
   public TurnAngleCommand() {
+    Logger.log("New Command: "+this.getName());
     //Instantiates Configuration
     configurable = new ConfigurableImpl();
 
@@ -43,9 +46,10 @@ public class TurnAngleCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    m_angle = new Angle(StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE) / 360.0);
-    m_startAngle = drivetrain.getAngle();
-    finalAngle = m_startAngle.plus(m_angle).toDegrees();
+    //System.out.print("Ya Yeet its working");
+    m_angle = new Angle(90/*StateManager.getInstance().getDoubleValue(StateManager.StateKey.COMMANDED_TURNANGLE) / 360.0*/);
+    m_startAngle = new Angle(0);//drivetrain.getAngle();
+    finalAngle = (m_angle).toDegrees();
     System.out.println("*** TurnAngle = " + m_angle.toDegrees());
     System.out.println("Turning: " + m_speed + ", angle: " + drivetrain.getAngle() + ", final angle: " + finalAngle);
     if (!isFinished()) {
@@ -62,7 +66,12 @@ public class TurnAngleCommand extends Command {
     if (diff < 0.5) {
       drivetrain.drive(0, 0.0);
     }
-    return diff < 0.5;
+    boolean ret = diff < 0.5;
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true

@@ -24,7 +24,7 @@ public class Logger
     /**
      * Instance of file to write to - instantiated when needed first.
      */
-    private static FileWriter writer = null;
+    public static FileWriter writer = null;
 
     /**
      * Record a string to the log file, if logging is enabled.
@@ -38,7 +38,15 @@ public class Logger
             {
                 if (writer == null)
                 {
-                    File file = new File("/home/lvuser/events.log");
+                    File file = null;
+                    if (new File("/home/lvuser").exists())
+                    {
+                        file = new File("/home/lvuser/events.log");
+                    }
+                    else
+                    {
+                        file = new File("events.log");
+                    }
                     writer = new FileWriter(file);
                     writer.write("Opened log file\n");
                     writer.flush();

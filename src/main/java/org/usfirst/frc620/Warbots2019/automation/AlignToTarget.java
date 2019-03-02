@@ -6,13 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignToTarget extends Command {
   public AlignToTarget() {
+    Logger.log("New Command: "+this.getName());
     requires(Robot.driveTrain);
     requires(Robot.trackingSystem);
     requires(Robot.alignmentSystem);
@@ -31,7 +32,12 @@ public class AlignToTarget extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    boolean ret = false;
+    if (ret)
+    {
+      Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true

@@ -11,11 +11,15 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class CaptureCargo extends Command {
 
   private CargoMech cargoMech;
 
   public CaptureCargo() {
+
+    Logger.log("New Command: "+this.getName());
     cargoMech = (CargoMech) Robot.scoringMechanism;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -42,7 +46,12 @@ public class CaptureCargo extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    boolean ret = false;
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true

@@ -11,16 +11,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
+
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 /**
  * Add your docs here.
  */
 public abstract class ScoringMechanism extends Subsystem 
 {
-    
-
     public ScoringMechanism()
     {
-        
     }
 
     public abstract void deploy();

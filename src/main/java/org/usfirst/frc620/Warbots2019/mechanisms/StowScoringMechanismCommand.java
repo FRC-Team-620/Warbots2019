@@ -11,11 +11,14 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class StowScoringMechanismCommand extends Command {
 
   ScoringMechanism scoringMechanism = Robot.scoringMechanism;
 
   public StowScoringMechanismCommand() {
+    Logger.log("New Command: "+this.getName());
     requires(scoringMechanism);
   }
 
@@ -29,7 +32,12 @@ public class StowScoringMechanismCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return scoringMechanism.isStowed();
+    boolean ret = scoringMechanism.isStowed();
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true

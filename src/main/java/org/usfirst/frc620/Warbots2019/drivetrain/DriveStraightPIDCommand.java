@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 public class DriveStraightPIDCommand extends Command {
   private double m_distance;
   private Angle m_angle;
@@ -47,7 +49,7 @@ public class DriveStraightPIDCommand extends Command {
 
   public DriveStraightPIDCommand() {
     //Instantiates Configuration
-    
+    Logger.log("New Command: "+this.getName());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveTrain);
@@ -102,7 +104,12 @@ public class DriveStraightPIDCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return turnController.onTarget() && driveController.onTarget();
+    boolean ret = turnController.onTarget() && driveController.onTarget();
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true

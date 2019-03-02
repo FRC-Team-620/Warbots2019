@@ -1,8 +1,6 @@
 package org.usfirst.frc620.Warbots2019.climbing;
 
-import edu.wpi.first.wpilibj.Sendable;
-
-public interface ClimbingMechanism extends Sendable
+public interface ClimbingMechanism
 {
     public void raise();
 

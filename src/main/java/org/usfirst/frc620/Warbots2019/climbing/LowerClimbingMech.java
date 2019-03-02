@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.climbing;
-
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class LowerClimbingMech extends Command {
   
   ClimbingMechanism climbingMechanism = Robot.climbingMechanism;
-
+  public LowerClimbingMech()
+  {
+    Logger.log("New Command: "+this.getName());
+  }
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
@@ -24,7 +27,12 @@ public class LowerClimbingMech extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return climbingMechanism.isLowered();
+    boolean ret = climbingMechanism.isLowered();
+    if (ret)
+    {
+        Logger.log("Command: ["+this.getName()+"] done");
+    }
+    return ret;
   }
 
   // Called once after isFinished returns true

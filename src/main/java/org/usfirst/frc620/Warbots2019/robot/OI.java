@@ -104,12 +104,10 @@ public class OI {
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
 
-        Logger.log("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
-
         if (driverEnabled)
         {
             driverController = new Joystick(0);
-            Logger.log("driver enabled");
+            Logger.log("abled");
             if (scorerEnabled) {
                 scorerController = new Joystick(1);
                 Logger.log("scorer enabled");
@@ -301,12 +299,17 @@ public class OI {
     
     /**
      * Loads commands onto joysticks in the OI constructor
-     * Only press and release is supported currently
-     * @param ctrl
-     * @param nameOfTheCMD
+     * Only press and release is supported currently. This handles binary
+     * commands and DPad commands.
+     * @param ctrl The string identifying the specific joystick control
+     * @param nameOfTheCMD The class name of the command. The package of
+     *        the command class is determined by trial and error.
+     * @return whether a valid command was instantiated and associated with
+     *        a button.
      */
     private boolean loadCommandOntoJoystick(String ctrl, String nameOfTheCMD)
     {
+        String sig = "loadCommandOntoJoystick()";
         Joystick controller = null;
         boolean ret = false;
         String t = "driver";
@@ -331,26 +334,26 @@ public class OI {
             //
             // NOTE: 't + ".A.pressed"' and 'ctrl' are redundant?
             // Switch the two parameters
-            ret = bob(ctrl, t + ".A.pressed", controller, nameOfTheCMD, 1);
+            ret = assignHIDButtonPressed(ctrl, t + ".A.pressed", controller, nameOfTheCMD, 1);
             if (!ret)
-                ret = bob(ctrl, t + ".B.pressed",  controller, nameOfTheCMD, 2);
+                ret = assignHIDButtonPressed(ctrl, t + ".B.pressed",  controller, nameOfTheCMD, 2);
             if (!ret)
-                ret = bob(ctrl, t + ".X.pressed", controller, nameOfTheCMD, 3);
+                ret = assignHIDButtonPressed(ctrl, t + ".X.pressed", controller, nameOfTheCMD, 3);
             if (!ret)
-                ret = bob(ctrl, t + ".Y.pressed", controller, nameOfTheCMD, 4);
+                ret = assignHIDButtonPressed(ctrl, t + ".Y.pressed", controller, nameOfTheCMD, 4);
             if (!ret)
-                ret = bob(ctrl, t + ".LeftBumper.pressed", controller, nameOfTheCMD, 5);
+                ret = assignHIDButtonPressed(ctrl, t + ".LeftBumper.pressed", controller, nameOfTheCMD, 5);
             if (!ret)
-                ret = bob(ctrl, t + ".RightBumper.pressed", controller, nameOfTheCMD, 6);
+                ret = assignHIDButtonPressed(ctrl, t + ".RightBumper.pressed", controller, nameOfTheCMD, 6);
             if (!ret)
-                ret = bob(ctrl, t + ".Back.pressed", controller, nameOfTheCMD, 7);
+                ret = assignHIDButtonPressed(ctrl, t + ".Back.pressed", controller, nameOfTheCMD, 7);
             if (!ret)
-                ret = bob(ctrl, t + ".Start.pressed", controller, nameOfTheCMD, 8);
+                ret = assignHIDButtonPressed(ctrl, t + ".Start.pressed", controller, nameOfTheCMD, 8);
         }
         else
         {
             // Unsuccessful determination of the controller
-            Logger.log("Unsuccessful determination of the controller: Control = " + ctrl);
+            Logger.log(sig+": Unsuccessful determination of the controller: Control = " + ctrl);
         }
      
         if (!ret)
@@ -370,25 +373,25 @@ public class OI {
             // the copies on the scheduler.
             if (ctrl.endsWith(".pov.up"))
             {
-                Logger.log("    Found OI pov up command: ["+nameOfTheCMD+"]");
+                Logger.log(sig+": Found OI pov up command: ["+nameOfTheCMD+"]");
                 theMap.put(0, createCommand(nameOfTheCMD));
                 ret = true;
             }
             else if (ctrl.endsWith(".pov.right"))
             {
-                Logger.log("    Found OI pov right command: ["+nameOfTheCMD+"]");
+                Logger.log(sig+": Found OI pov right command: ["+nameOfTheCMD+"]");
                 theMap.put(90, createCommand(nameOfTheCMD));
                 ret = true;
             }
             else if (ctrl.endsWith(".pov.down"))
             {
-                Logger.log("    Found OI pov down command: ["+nameOfTheCMD+"]");
+                Logger.log(sig+": Found OI pov down command: ["+nameOfTheCMD+"]");
                 theMap.put(180, createCommand(nameOfTheCMD));
                 ret = true;
             }
             else if (ctrl.endsWith(".pov.left"))
             {
-                Logger.log("    Found OI pov left command: ["+nameOfTheCMD+"]");
+                Logger.log(sig+": Found OI pov left command: ["+nameOfTheCMD+"]");
                 theMap.put(270, createCommand(nameOfTheCMD));
                 ret = true;
             }
@@ -425,15 +428,16 @@ public class OI {
     }
     
     /** 
-     * Map a "binary" control (i.e. button press) to a one-off command object.
-     * This does not map variable controls like XBox joystick or trigger.
+     * Map a "binary" control (i.e. button pressed) to a one-off command object.
+     * This does not map variable controls like XBox joystick or trigger or DPad.
      * @param str - control string, as came from configuration file
      * @param ctrl - name of command class (minus package)
      * @param controller - The joystick to have Commands applied to
      * @param nameOfTheCMD - name of command class (minus package)
      * @param buttonNumber - HID number of the button 
      */
-    private boolean bob(String str, String ctrl, Joystick controller, String nameOfTheCMD, int buttonNumber)
+    private boolean assignHIDButtonPressed(String str, String ctrl, Joystick controller, 
+        String nameOfTheCMD, int buttonNumber)
     {
         boolean ret = false;
         JoystickButton button = null;
@@ -466,20 +470,17 @@ public class OI {
             {
                 joystick = scorerController;
             }
-            //if (joystick != null)
-            //{
-            
-                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
-                {
-                    // Left JS Y
-                    ret = joystick.getRawAxis(1);
-                }
-                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-                {
-                    // Left JS X
-                    ret = joystick.getRawAxis(0);
-                }
-           // }                    
+
+            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+            {
+                // Left JS Y
+                ret = joystick.getRawAxis(1);
+            }
+            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+            {
+                // Left JS X
+                ret = joystick.getRawAxis(0);
+            }           
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_JOYSTICK)
         {
@@ -489,45 +490,38 @@ public class OI {
                 joystick = scorerController;
             }
 
-            //if (joystick != null)
-            //{
-                if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
-                {
-                    // Right JS Y
-                    ret = joystick.getRawAxis(5);
-                }
-                else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
-                {
-                    // Right JS X
-                    ret = joystick.getRawAxis(4);
-                }               
-            //}     
+            if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_UP_DOWN)
+            {
+                // Right JS Y
+                ret = joystick.getRawAxis(5);
+            }
+            else if (axisSpec.axis == AxisSpecification.ControlAxis.AXIS_LEFT_RIGHT)
+            {
+                // Right JS X
+                ret = joystick.getRawAxis(4);
+            }               
+
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_LEFT_TRIGGER)
         {
             GenericHID joystick = driverController;
-            //if (joystick != null)
-            //{
-                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
-                {
-                    joystick = scorerController;
-                }
-                ret = joystick.getRawAxis(3);
-            //}
+
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            {
+                joystick = scorerController;
+            }
+            ret = joystick.getRawAxis(3);
         }
         else if (axisSpec.controlType == AxisSpecification.AnalogControlType.CONTROL_RIGHT_TRIGGER)
         {
             GenericHID joystick = driverController;
-            //if (joystick != null)
-            //{
-                if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
-                {
-                    joystick = scorerController;
-                }
-                ret = joystick.getRawAxis(2);
-            //}
+
+            if (axisSpec.userDesignation == AxisSpecification.UserDesignation.USER_SCORER)
+            {
+                joystick = scorerController;
+            }
+            ret = joystick.getRawAxis(2);
         }
-        // Etc...
 
         return ret;
     }
@@ -536,26 +530,29 @@ public class OI {
      */
     public void reloadConfig(ControlReader config)
     {
+        String sig = "reloadConfig()";
         dynamicControls = new ArrayList<AxisSpecification>();
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
-        //System.out.println("Driver A: [" + config.getMappedString("driver.A.pressed") + "]");
-
 
         if (driverEnabled)
         {
             driverController = new Joystick(0);
-            System.out.println("driver enabled");
+            Logger.log(sig+": driver enabled");
         }
         else
-            System.out.println("driver not enabled");
+        {
+            Logger.log(sig+": driver not enabled");
+        }
         if (scorerEnabled)
         {
             scorerController = new Joystick(1);
-            System.out.println("scorer enabled");
+            Logger.log(sig+": scorer enabled");
         }
         else
-            System.out.println("scorer not enabled");
+        {
+            Logger.log(sig+": scorer not enabled");
+        }
         ArrayList<String> availableBinaryControls = new ArrayList<String>(Arrays.asList(
             "driver.A.pressed",
             "driver.B.pressed",
@@ -605,7 +602,7 @@ public class OI {
         //
         // Loop through the possible controls
         //
-        System.out.println("Looping through the possible binary controls");
+        Logger.log(sig+": Looping through the possible binary controls");
         for(int i = 0; i < availableBinaryControls.size(); i++)
         {
             String ctrl = availableBinaryControls.get(i);
@@ -622,22 +619,25 @@ public class OI {
                     if(val.length() > 0)
                     {
                         loadCommandOntoJoystick(ctrl, val);
-                    
-                        
                     }
                 }
             }
         }
         
-        System.out.println("Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
+        Logger.log(sig+": Looping through the possible analog controls ["+availableAnalogControls.size()+"]");
         for(int i = 0; i < availableAnalogControls.size(); i++)
         {
             String ctrl = availableAnalogControls.get(i);
-            System.out.println("dynamic control mapping: ["+i+"] ["+ctrl+"]");
             String cfgValue = config.getMappedString(ctrl);
             if (cfgValue != null)
             {
-                System.out.println("            =["+cfgValue+"]");
+                Logger.log(sig+": dynamic control mapping: ["+i+"] ["+ctrl+"] = ["+cfgValue+"]");
+
+                //
+                // Fill out an AxisSpecification for the configured setting, then later
+                // if all the settings are assigned then we add it to the list of
+                // all the configured control-command specifications.
+                //
                 AxisSpecification axisSpec = AxisSpecification.buildAxisSpecification(ctrl, cfgValue);
 
                 if (driverEnabled && ctrl.startsWith("driver"))
@@ -655,6 +655,12 @@ public class OI {
                 }
             }
         }
+
+        //
+        // Now that we've gone through all the configuration settings, assign
+        // instance attributes for each variable value for OI like robot speed,
+        // rotation rate, etc.
+        //
         // Make sure we have a speed spec
         for (int i = 0; i<dynamicControls.size(); i++)
         {
@@ -662,7 +668,7 @@ public class OI {
             if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
                 (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_SPEED))
             {
-                Logger.log("OI: found robot speed spec");
+                Logger.log(sig+": found robot speed spec");
                 speedSpec = t;
                 break;
             }
@@ -670,7 +676,7 @@ public class OI {
         if (speedSpec == null)
         {
              System.err.println("Unable to find robot speed spec"); 
-             Logger.log("Unable to find robot speed spec");
+             Logger.log(sig+": Unable to find robot speed spec");
         }        
 
         // Make sure we have a rotation speed spec
@@ -681,97 +687,78 @@ public class OI {
             if ((t.userDesignation == AxisSpecification.UserDesignation.USER_DRIVER) &&
                 (t.valueType == AxisSpecification.UserControlValueType.UCVT_ROBOT_ROTATION_RATE))
             {
-                Logger.log("OI: found rotation speed spec");
+                Logger.log(sig+": found rotation speed spec");
                 robotRotationSpec = t;
                 break;
             }
         }
         if (robotRotationSpec == null)
         {
-             System.err.println("Unable to find rotation speed spec"); 
-             Logger.log("Unable to find rotation speed spec");
+             System.err.println(sig+": Unable to find rotation speed spec"); 
+             Logger.log(sig+": Unable to find rotation speed spec");
         }  
     }
-    public Configurable asConfigurable()
+
+    /**
+     * Returns a Configurable for this OI that provides metadata about the
+     * possible settings in Configuration that the OI cares about.
+     */
+    public static Configurable asConfigurable()
     {
         ConfigurableImpl ret = new ConfigurableImpl();
         addBinaryOIControls("driver", ret);
+        addAnalogOIControls("driver", ret);
         addBinaryOIControls("scorer", ret);
-        
-        final ArrayList<String> analogCommands = new ArrayList<String>(Arrays.asList(
-            "OI.robot.speed", "OI.robot.rotation_rate", "OI.elevator.speed", "OI.mech.deploy_rate"));
-
-        ret.addElement(new Element("OI.LeftJS.X", "This is an analog control and therefore this maps " + 
-            "to OI analog functionalities. ", analogCommands));
-        ret.addElement(new Element("OI.LeftJS.Y", "(OI Analog Control)", null));
-
-        
-        // etc.
+        addAnalogOIControls("scorer", ret);
         return ret;
     }   
-    private void addBinaryOIControls(String user, ConfigurableImpl ret)
+
+    private static void addBinaryOIControls(String user, ConfigurableImpl ret)
     {
         final ArrayList<String> binaryCommands = new ArrayList<String>(Arrays.asList(
-            "tazOpenCommand", "tazStowCommand"));
+            "DriveTrainCommands:",
+            "    DriveStraightDistancePIDCommand, DriveStraightPIDCommand,",
+            "    TurnAngleCommand, TurnAnglePIDCommand",
+            "Climbing Commands:",
+            "    LowerClimbingMech, RaiseClimbingMech",
+            "Automation Commands:",
+            "    AlignToTarget, DepositCargo, DepositHatch",
+            "    DriveTowardTarget",
+            "Taz Only Scoring Commands:", 
+            "    TazCaptureCommand, TazCloseCommand, TazDeployCommand",
+            "    TazEjectCommand, TazLeftExtendCommand, TazOpenCommand",
+            "    TazStowCommand, ToggleGrabberOpen",
+            "Elevator Commands:",
+            "    MoveElevatorTo",
+            "General Commands:",
+            "    CaptureCargo, GrapperCaptureCommand, GrabberDeployCommand",
+            "    GrabberEjectCommand, GrabberStopCommand, GrabberStowCommand"));
         
         ret.addElement(new Element(user + ".A.pressed", "This is a binary control (like b, x, y, leftBumper, rightBumper, " + 
              "All the possible binary commands are listed below. ", binaryCommands));
         ret.addElement(new Element(user + ".B.pressed", "B Button (binary command)", null));
         ret.addElement(new Element(user + ".X.pressed", "X Button (binary command)", null));
         ret.addElement(new Element(user + ".Y.pressed", "Y Button (binary command)", null));
-        ret.addElement(new Element(user + ".LB.pressed", "Left Bumper (binary command)", null));
-        ret.addElement(new Element(user + ".RB.pressed", "Right Bumper (binary command)", null));
-        
+        ret.addElement(new Element(user + ".LeftBumper.pressed", "Left Bumper (binary command)", null));
+        ret.addElement(new Element(user + ".RightBumper.pressed", "Right Bumper (binary command)", null));
+
         ret.addElement(new Element(user + ".pov.up", "Pressing DPad UP", null));
         ret.addElement(new Element(user + ".pov.right", "Pressing DPad RIGHT", null));
         ret.addElement(new Element(user + ".pov.down", "Pressing DPad DOWN", null));
         ret.addElement(new Element(user + ".pov.left", "Pressing DPad LEFT", null));
-/**    
-#B Button
-driver.B.pressed = 
-#X Button
-driver.X.pressed = 
-#Y Button
-driver.Y.pressed = 
-#Left Bumper
-driver.LeftBumper.pressed = 
-#Right Bumper
-driver.RightBumper.pressed = 
-#Back Button
-driver.Back.pressed = 
-#Start Button
-driver.Start.pressed = 
-#Left Stick 
-driver.LeftJS.Y = OI.robot.speed
-driver.LeftJS.X = OI.robot.rotation_rate
-#Right Stick 
-driver.RightJS.Y = OI.elevator.speed
-driver.RightJS.X = #OI.robot.rotation_rate 
-#Left Trigger
-driver.LeftTrigger = 
-#Right Trigger
-driver.RightTrigger = 
-#D-Pad Up
-driver.DPadUp = 
-#D-Pad Down
-driver.DPadDown = 
-#D-Pad Left
-driver.DPadLeft =
-#D-Pad Right
-driver.DPadRight =
-#Left Stick (Movement)
-driver.LeftAxis =
-#Right Stick (Movement)
-driver.RightAxis =
+    }
 
-#Other Variables
-#Left Stick Deadzones
-driver.LeftDeadzoneX =
-driver.LeftDeadzoneY =
+    private static void addAnalogOIControls(String user, ConfigurableImpl ret)
+    {
+        final ArrayList<String> analogCommands = new ArrayList<String>(Arrays.asList(
+            "OI.robot.speed", "OI.robot.rotation_rate", "OI.elevator.speed", "OI.mech.deploy_rate"));
 
-        #Right Stick Deadzones
-        driver.RightDeadzoneX =     
-        driver.RightDeadzoneY = 
-        */
+        ret.addElement(new Element(user+".LeftJS.X", "This is an analog control and therefore this maps " + 
+            "to OI analog functionalities. ", analogCommands));
+        ret.addElement(new Element(user+".LeftJS.Y", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".RightJS.X", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".RightJS.Y", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".LeftTrigger", "(OI Analog Control)", null));
+        ret.addElement(new Element(user+".RightTrigger", "(OI Analog Control)", null));
     }
 }
