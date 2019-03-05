@@ -10,17 +10,14 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import org.usfirst.frc620.Warbots2019.utility.Angle;
+
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-
-import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 /**
  *
@@ -30,10 +27,8 @@ public class SparkMaxDriveTrain extends DriveTrain {
     // These are all the hardware bits we added to this subsystem in robotbuilder
     private CANSparkMax leftFrontMotor;
     private CANSparkMax leftRearMotor;
-    private SpeedControllerGroup leftMotors;
     private CANSparkMax rightFrontMotor;
     private CANSparkMax rightRearMotor;
-    private SpeedControllerGroup rightMotors;
     private DifferentialDrive differentialDrive;
     private Encoder leftEncoder;
     private Encoder rightEncoder;
@@ -49,8 +44,8 @@ public class SparkMaxDriveTrain extends DriveTrain {
     {
         setName("SparkMaxDriveTrain");
 
-        double ramp = 1;
-        var idleMode = IdleMode.kCoast;
+        double ramp = .5;
+        var idleMode = IdleMode.kBrake;
 
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);
         leftFrontMotor.setInverted(false);
@@ -58,27 +53,22 @@ public class SparkMaxDriveTrain extends DriveTrain {
         leftFrontMotor.setOpenLoopRampRate(ramp);
 
         leftRearMotor = new CANSparkMax(leftMotor2CanID, MotorType.kBrushless);
-        leftRearMotor.setInverted(false);
         leftRearMotor.setIdleMode(idleMode);
         leftRearMotor.setOpenLoopRampRate(ramp);
-
-        leftMotors = new SpeedControllerGroup(leftFrontMotor, leftRearMotor);
-        addChild("Left Motors", leftMotors);
+        leftRearMotor.follow(leftFrontMotor, false);
 
         rightFrontMotor = new CANSparkMax(rightMotor1CanID, MotorType.kBrushless);
-        rightFrontMotor.setInverted(false);
+        rightFrontMotor.setInverted(true);
         rightFrontMotor.setIdleMode(idleMode);
         rightFrontMotor.setOpenLoopRampRate(ramp);
 
         rightRearMotor = new CANSparkMax(rightMotor2CanID, MotorType.kBrushless);
-        rightRearMotor.setInverted(false);
         rightRearMotor.setIdleMode(idleMode);
         rightRearMotor.setOpenLoopRampRate(ramp);
+        rightRearMotor.follow(rightFrontMotor, false);
 
-        rightMotors = new SpeedControllerGroup(rightFrontMotor, rightRearMotor);
-        addChild("Right Motors", rightMotors);
-
-        differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
+        differentialDrive = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
+        differentialDrive.setRightSideInverted(false);
         addChild("Differential Drive", differentialDrive);
         differentialDrive.setSafetyEnabled(true);
         differentialDrive.setExpiration(0.1);

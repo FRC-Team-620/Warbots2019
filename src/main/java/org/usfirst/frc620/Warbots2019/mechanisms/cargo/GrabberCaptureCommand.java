@@ -61,7 +61,7 @@ public class GrabberCaptureCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = cargoMech.hasCargo();
+    boolean ret = true;
     if (ret)
     {
         Logger.log("Command: ["+this.getName()+"] done");

@@ -77,6 +77,8 @@ public class CargoMech extends ScoringMechanism {
     // setDefaultCommand(new MySpecialCommand());
     System.out.print("CargoMech is working");
 
+    setDefaultCommand(new ControlCargoMechWithJoystick());
+
     addChild(new GrabberDeployCommand());
     addChild(new GrabberStowCommand());
     addChild(new GrabberCaptureCommand());

@@ -16,6 +16,9 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 public class DriveWithJoystickCommand extends Command {
 
+    boolean useSlowSpeed = false;
+    boolean useSlowTurning = false;
+
     double centerDZ;
     double rotationDZ;
     double straightDZ;
@@ -44,17 +47,18 @@ public class DriveWithJoystickCommand extends Command {
         // System.out.println("  y: "+y_value+"           x: "+x_value);
         double angle = Math.atan2(y_value, x_value);
 
-        double speedCoeff = 1.0;
-        double turnCoeff = -1.0;
-
-        //------------------------------------------------------
         // This should be mapped to an OI value thing, like
         // speed and rotation rate are, so that there can be a button mapping
         // like there is for the y_value and x_value above.
-        if (Robot.oi.getDriverController().getRawButton(5))
-            speedCoeff *= .4;
+        if (Robot.oi.getDriverController().getRawButtonPressed(6))
+            useSlowSpeed = !useSlowSpeed;
+        if (Robot.oi.getDriverController().getRawButtonPressed(6))
+            useSlowTurning = !useSlowTurning;
 
-        if (Robot.oi.getDriverController().getRawButton(6))
+        double speedCoeff = useSlowSpeed? 0.4 : 1.0;
+        double turnCoeff = useSlowTurning? -0.4 : -1.0;
+
+        if (Robot.oi.getDriverController().getRawButton(5))
             turnCoeff *= .4;
         //------------------------------------------------------
 

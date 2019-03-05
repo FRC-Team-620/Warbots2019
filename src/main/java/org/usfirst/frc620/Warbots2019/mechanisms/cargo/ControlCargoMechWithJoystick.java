@@ -7,21 +7,17 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc620.Warbots2019.utility.Logger;
+public class ControlCargoMechWithJoystick extends Command 
+{
+  private CargoMech cargoMech = (CargoMech) Robot.scoringMechanism;
 
-public class GrabberEjectCommand extends Command {
-
-  private CargoMech cargoMech;
-
-  public GrabberEjectCommand() {
-    Logger.log("New Command: "+this.getName());
-    cargoMech = (CargoMech) Robot.scoringMechanism;
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+  public ControlCargoMechWithJoystick() 
+  {
     requires(cargoMech);
   }
 
@@ -32,21 +28,21 @@ public class GrabberEjectCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
-    System.out.println("Eject");
-    cargoMech.ejectCargo();
+  protected void execute() 
+  {
+    Joystick joystick = Robot.oi.scorerController;
+    if (joystick.getRawAxis(2) > 0.7)
+      cargoMech.captureCargo();
+    else if (joystick.getRawAxis(3) > 0.7)
+      cargoMech.ejectCargo();
+    else
+      cargoMech.stopCapture();
   }
-  //if(cargoMech)
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = true;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return false;
   }
 
   // Called once after isFinished returns true
