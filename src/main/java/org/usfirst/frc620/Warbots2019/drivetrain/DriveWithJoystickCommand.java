@@ -11,6 +11,7 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
@@ -42,24 +43,26 @@ public class DriveWithJoystickCommand extends Command {
     protected void execute() {
 
         // These speed/rotation -1.0 to 1.0
-        double y_value = Robot.oi.getRobotSpeed();
-        double x_value = -Robot.oi.getRobotRotationRate();
+        double y_value = Robot.oi.driverController.getRawAxis(1);
+        double x_value = -Robot.oi.driverController.getRawAxis(0);
         // System.out.println("  y: "+y_value+"           x: "+x_value);
         double angle = Math.atan2(y_value, x_value);
 
         // This should be mapped to an OI value thing, like
         // speed and rotation rate are, so that there can be a button mapping
         // like there is for the y_value and x_value above.
-        if (Robot.oi.getDriverController().getRawButtonPressed(6))
+        if (Robot.oi.getDriverController().getRawButtonPressed(5))
             useSlowSpeed = !useSlowSpeed;
         if (Robot.oi.getDriverController().getRawButtonPressed(6))
             useSlowTurning = !useSlowTurning;
 
         double speedCoeff = useSlowSpeed? 0.4 : 1.0;
-        double turnCoeff = useSlowTurning? -0.4 : -1.0;
+        double turnCoeff = useSlowTurning? -0.6 : -1;
 
-        if (Robot.oi.getDriverController().getRawButton(5))
-            turnCoeff *= .4;
+        if (Robot.oi.getDriverController().getRawButton(9))
+            turnCoeff = -1;
+
+
         //------------------------------------------------------
 
         // System.out.println("The x is " + x_value + " the y is " + y_value);
@@ -132,5 +135,11 @@ public class DriveWithJoystickCommand extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addBooleanProperty("Slow speed", () -> useSlowSpeed, null);
+        builder.addBooleanProperty("Slow turning", () -> useSlowTurning, null);
     }
 }
