@@ -20,11 +20,12 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
-public class TurnAnglePIDCommand extends Command {
+public class TurnAngle90Command extends Command {
 
   private PIDController pidController;
   private DummyPIDOutput pidOutput;
@@ -32,21 +33,16 @@ public class TurnAnglePIDCommand extends Command {
   private DriveTrain driveTrain;
 
   Angle finalAngle;
-  boolean rotationCW = true;
+
   static final double kPTurn = 0.1;
   static final double kITurn = 0.0;
   static final double kDTurn = 0.0;
   static final double kFTurn = 0.00;
-  static final double kToleranceDegrees = 5.0f;
+  static final double kToleranceDegrees = 1.0f;
 
-  public TurnAnglePIDCommand(Angle amountToTurn) {
+  public TurnAngle90Command(Angle amountToTurn) {
     Logger.log("New Command: "+this.getName());
-    if (amountToTurn.toDegrees() < 0.0)
-    {
-        rotationCW = false;
-    }
-    requires(Robot.driveTrain);
-    finalAngle = Angle.fromDegrees(amountToTurn.toDegrees()+Robot.driveTrain.getAngle().toDegrees());
+
     // Instantiates Configuration
 
     // PIDControllers expect a single sensor, so if the data comes from
@@ -67,90 +63,43 @@ public class TurnAnglePIDCommand extends Command {
     pidController = new PIDController(kPTurn, kITurn, kDTurn, pidSource, pidOutput);
 
     // Angle.toDegrees will report values between -180 degrees and 180 degrees
-    pidController.setInputRange(-360, 360);
+    pidController.setInputRange(-180, 180);
 
     // Use this for angles to specify that the input value is circular
     // (ie turning past 180 wraps backs around to -180)
     pidController.setContinuous();
 
     // The drive train drive method accepts values between -1 and 1
-    pidController.setOutputRange(-0.7, 0.7);
+    pidController.setOutputRange(-0.5, 0.5);
 
     // Force the robot to turn to within 3 degrees of the target before ending the
     // command
-    pidController.setAbsoluteTolerance(3);
+    pidController.setAbsoluteTolerance(1);
     //this.amountToTurn = amountToTurn;
 
     // SmartDashboard.putData("TurnAnglePID", pidController);
   }
 
-  public TurnAnglePIDCommand() {
-    this(Angle.fromDegrees(StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_TURNANGLE)));
+  public TurnAngle90Command() {
   }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    // calculate the final direction based on the current direction the robot is
-    // facingM
-    // set that final direction as the target
-    // System.out.println("The current angle is " + currentAngle.toDegrees() + "The
-    // final angle is " + finalAngle.toDegrees());
-    pidController.setSetpoint(finalAngle.toDegrees());
-    
-  }
-  
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     // Read the speed that the PID Controller is giving to our fake
     // motor, and tell our actual drive train to turn at that speed
-    pidController.enable();
-    //Robot.driveTrain.drive(0, pidOutput.getOutput());
-    //System.out.println(pidOutput.getOutput());
+    TurnAnglePIDCommand cmd = new TurnAnglePIDCommand(Angle.fromDegrees(-90));
+    Scheduler.getInstance().add(cmd);
     //System.out.println("Current Angle "+ Robot.driveTrain.getAngle().toDegrees() + " Turn SetPoint" + pidController.getSetpoint() + " Turn Output " + pidOutput.getOutput());
     // System.out.println(pidOutput.getOutput() + " " + Robot.driveTrain.getAngle().toDegrees());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() 
-  {
-    double cmdValue = 0.6;//pidOutput.getOutput();
-    if (rotationCW)
-    {
-      cmdValue *= -1.0;
-    }
-    Robot.driveTrain.drive(0, cmdValue);
-    
-    boolean ret = pidController.onTarget();
-    System.out.println("Delta = " + (finalAngle.toDegrees() - Robot.driveTrain.getAngle().toDegrees())+" cmdValue: "+cmdValue);
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-        pidController.disable();
-    }
-    return ret;
+  protected boolean isFinished() {
+    return true;
   }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() 
-  {
-    System.out.println("Working");
-    pidController.disable();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
-  }
-
-  public static ConfigurableImpl asConfigurable(){
-    ConfigurableImpl configurable;
-    configurable = new ConfigurableImpl();
-    return configurable;
-  }
+//}8
+//8
 }
