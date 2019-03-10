@@ -94,14 +94,11 @@ public class OI {
         robotRotationSpec = null;
         elevatorSpeedSpec = null;
         dynamicControls = new ArrayList<AxisSpecification>();
-        povDriverCommandActiveMap.put(0,0);
-        povDriverCommandActiveMap.put(90,0);
-        povDriverCommandActiveMap.put(180,0);
-        povDriverCommandActiveMap.put(270,0);
-        povScorerCommandActiveMap.put(0,0);
-        povScorerCommandActiveMap.put(90,0);
-        povScorerCommandActiveMap.put(180,0);
-        povScorerCommandActiveMap.put(270,0);
+        for(int i = 0; i < 360; i+=45)
+        {
+            povDriverCommandActiveMap.put(i,0);
+            povScorerCommandActiveMap.put(i,0);
+        }
         boolean driverEnabled = config.getMappedBoolean("driver.enabled");
         boolean scorerEnabled = config.getMappedBoolean("scorer.enabled");
 
@@ -127,39 +124,39 @@ public class OI {
         reloadConfig(config);
     }
 
+    int lastDriverPOVAngle = 0;
+    int lastScorerPOVAngle = 0;
     /**
      * Called by robotPeriodic - looks for mapped POV values and if found
      * puts the Command on the scheduler
      */
     public void periodic()
     {
-        final int povAngles[] = {0,90,180,270};
         if (driverController != null)
         {
             int driverAngle = driverController.getPOV();
-            if (driverAngle > -1)
+            if (driverAngle > 0) // ignoring UP for now
             {
 //LoggerLogger.log("IO.periodic driver angle: "+driverAngle);
                 if (povDriverCommandMap.containsKey(driverAngle))
                 {
 //Logger.log("  found angle: "+driverAngle);
                     // Make sure one isn't already running
-                    if (povDriverCommandActiveMap.get(driverAngle) == 0)
+                    if (driverAngle != lastDriverPOVAngle)
                     {
+                        lastDriverPOVAngle = driverAngle;
 //Logger.log("    has angle");
                         Command cmd = povDriverCommandMap.get(driverAngle);
                         if (cmd != null)
                         {
-//Logger.log("  found command: "+driverAngle+" "+cmd.toString());
+                            Logger.log("new scorer POV cmd");
+
                             // Create a clone
                             try
                             {
                                 Class<?> clw = Class.forName(cmd.getClass().getPackageName()+"."+cmd.getName());
                                 Command r = (Command) clw.getDeclaredConstructor().newInstance();
                                 Scheduler.getInstance().add(r);
-//Logger.log("    Driver POV command: "+cmd.toString());
-                                povDriverCommandActiveMap.put(driverAngle, 
-                                    povDriverCommandActiveMap.get(driverAngle)+1);
                             }
                             catch(Exception ex)
                             {
@@ -167,15 +164,11 @@ public class OI {
                             }
                         }
                     }
-                    // Unset the others
-                    for (int i=0; i<4; i++)
-                    {
-                        if (povAngles[i] != driverAngle)
-                        {
-                            povDriverCommandActiveMap.put(driverAngle, 0);
-                        }
-                    }
                 }
+            }
+            else
+            {
+                lastDriverPOVAngle = 0;
             }
         }
         if (scorerController != null)
@@ -191,6 +184,8 @@ public class OI {
                         Command cmd = povScorerCommandMap.get(scorerAngle);
                         if (cmd != null)
                         {
+System.out.println("new cmd");
+
                             // Create a clone
                             Scheduler.getInstance().add(createCommand(cmd.getName()));
                             //Logger.log("Scorer POV command: "+cmd.toString());
@@ -198,14 +193,7 @@ public class OI {
                                 povScorerCommandActiveMap.get(scorerAngle)+1);
                         }
                     }
-                    // Unset the others
-                    for (int i=0; i<4; i++)
-                    {
-                        if (povAngles[i] != scorerAngle)
-                        {
-                            povScorerCommandActiveMap.put(scorerAngle, 0);
-                        }
-                    }
+                   
                 }
             }
         }
@@ -379,10 +367,22 @@ public class OI {
                 theMap.put(0, createCommand(nameOfTheCMD));
                 ret = true;
             }
+            else if (ctrl.endsWith(".pov.upright"))
+            {
+                Logger.log(sig+": Found OI pov up command: ["+nameOfTheCMD+"]");
+                theMap.put(45, createCommand(nameOfTheCMD));
+                ret = true;
+            }
             else if (ctrl.endsWith(".pov.right"))
             {
                 Logger.log(sig+": Found OI pov right command: ["+nameOfTheCMD+"]");
                 theMap.put(90, createCommand(nameOfTheCMD));
+                ret = true;
+            }
+            else if (ctrl.endsWith(".pov.downright"))
+            {
+                Logger.log(sig+": Found OI pov up command: ["+nameOfTheCMD+"]");
+                theMap.put(135, createCommand(nameOfTheCMD));
                 ret = true;
             }
             else if (ctrl.endsWith(".pov.down"))
@@ -391,10 +391,22 @@ public class OI {
                 theMap.put(180, createCommand(nameOfTheCMD));
                 ret = true;
             }
+            else if (ctrl.endsWith(".pov.downleft"))
+            {
+                Logger.log(sig+": Found OI pov left command: ["+nameOfTheCMD+"]");
+                theMap.put(225, createCommand(nameOfTheCMD));
+                ret = true;
+            }
             else if (ctrl.endsWith(".pov.left"))
             {
                 Logger.log(sig+": Found OI pov left command: ["+nameOfTheCMD+"]");
                 theMap.put(270, createCommand(nameOfTheCMD));
+                ret = true;
+            }
+            else if (ctrl.endsWith(".pov.upleft"))
+            {
+                Logger.log(sig+": Found OI pov left command: ["+nameOfTheCMD+"]");
+                theMap.put(315, createCommand(nameOfTheCMD));
                 ret = true;
             }
         }
@@ -584,7 +596,7 @@ public class OI {
             "scorer.pov.up",
             "scorer.pov.right",
             "scorer.pov.down",
-            "scorer.pov.left"
+            "scorer.pov.left",
             "scorer.pov.upright",
             "scorer.pov.downright",
             "scorer.pov.downleft",
