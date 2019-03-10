@@ -125,7 +125,7 @@ public class SparkMaxDriveTrain extends DriveTrain {
     // here. Call these from Commands.
 
     public void drive(double speed, double turnRate) {
-        // System.out.println("Driving (" + speed + ", " + (-turnRate) + ")");
+System.out.println("Driving (" + speed + ", " + (-turnRate) + ")");
         differentialDrive.arcadeDrive(speed, -1 * turnRate);
     }
 

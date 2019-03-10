@@ -44,7 +44,7 @@ public class DriveWithJoystickCommand extends Command {
         // These speed/rotation -1.0 to 1.0
         double y_value = Robot.oi.getRobotSpeed();
         double x_value = -Robot.oi.getRobotRotationRate();
-//System.out.println("  y: "+y_value+"           x: "+x_value);
+System.out.println("  y: "+y_value+"           x: "+x_value);
         double angle = Math.atan2(y_value, x_value);
 
         // This should be mapped to an OI value thing, like
@@ -68,24 +68,20 @@ public class DriveWithJoystickCommand extends Command {
         
         //CenterDeadzone
         if (isInCenterDeadzone(x_value, y_value)){
-            // System.out.println("center dz");
             // Doesn't move, x and y value are zero
             // System.out.println("Is in CENTERDZ");
             Robot.driveTrain.stop();
         }
         else if(isInStraightDeadzone(angle)){
-            // System.out.println("str dz");
             //System.out.println("is in straightdz");
             Robot.driveTrain.drive(speedCoeff * y_value, 0);
         }
         else if(isInRotationDeadzone(angle)){
-            // System.out.println("rot dz");
             // System.out.println("is in rotationdz");
             // Uses x_value for the turning speed
             Robot.driveTrain.drive(0, turnCoeff * x_value);
         }
         else{
-            // System.out.println("   no dz "+speedCoeff);
             Robot.driveTrain.drive(speedCoeff * y_value, turnCoeff * x_value);
         }
     }
