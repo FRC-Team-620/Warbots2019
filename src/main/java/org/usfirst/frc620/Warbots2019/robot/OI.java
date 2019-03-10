@@ -568,7 +568,10 @@ public class OI {
             "driver.pov.right",
             "driver.pov.down",
             "driver.pov.left",
-
+            "driver.pov.upright",
+            "driver.pov.downright",
+            "driver.pov.downleft",
+            "driver.pov.upleft",
             //Scorer commands 
             "scorer.A.pressed",
             "scorer.B.pressed",
@@ -582,7 +585,10 @@ public class OI {
             "scorer.pov.right",
             "scorer.pov.down",
             "scorer.pov.left"
-
+            "scorer.pov.upright",
+            "scorer.pov.downright",
+            "scorer.pov.downleft",
+            "scorer.pov.upleft"
         ));
 
         ArrayList<String> availableAnalogControls = new ArrayList<String>(Arrays.asList(
@@ -748,6 +754,10 @@ public class OI {
         ret.addElement(new Element(user + ".pov.right", "Pressing DPad RIGHT", null));
         ret.addElement(new Element(user + ".pov.down", "Pressing DPad DOWN", null));
         ret.addElement(new Element(user + ".pov.left", "Pressing DPad LEFT", null));
+        ret.addElement(new Element(user + ".pov.upright", "Pressing DPad UPRIGHT", null));
+        ret.addElement(new Element(user + ".pov.downright", "Pressing DPad DOWNRIGHT", null));
+        ret.addElement(new Element(user + ".pov.downleft", "Pressing DPad DOWNLEFT", null));
+        ret.addElement(new Element(user + ".pov.upleft", "Pressing DPad UPLEFT", null));
     }
 
     private static void addAnalogOIControls(String user, ConfigurableImpl ret)
