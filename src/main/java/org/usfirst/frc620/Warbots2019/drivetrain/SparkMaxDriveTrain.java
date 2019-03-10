@@ -46,26 +46,29 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
         double ramp = .5;
         var idleMode = IdleMode.kBrake;
+        int currentLimit = 20;
 
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);
         leftFrontMotor.setInverted(false);
         leftFrontMotor.setIdleMode(idleMode);
-        leftFrontMotor.setRampRate(ramp);
+        leftFrontMotor.setOpenLoopRampRate(ramp);
+        leftFrontMotor.setSmartCurrentLimit(currentLimit);
 
         leftRearMotor = new CANSparkMax(leftMotor2CanID, MotorType.kBrushless);
         leftRearMotor.setIdleMode(idleMode);
-        leftRearMotor.setRampRate(ramp);
         leftRearMotor.follow(leftFrontMotor, false);
+        leftRearMotor.setSmartCurrentLimit(currentLimit); 
 
         rightFrontMotor = new CANSparkMax(rightMotor1CanID, MotorType.kBrushless);
         rightFrontMotor.setInverted(true);
         rightFrontMotor.setIdleMode(idleMode);
-        rightFrontMotor.setRampRate(ramp);
+        rightFrontMotor.setOpenLoopRampRate(ramp);
+        rightFrontMotor.setSmartCurrentLimit(currentLimit);
 
         rightRearMotor = new CANSparkMax(rightMotor2CanID, MotorType.kBrushless);
         rightRearMotor.setIdleMode(idleMode);
-        rightRearMotor.setRampRate(ramp);
         rightRearMotor.follow(rightFrontMotor, false);
+        rightFrontMotor.setSmartCurrentLimit(currentLimit);
 
         differentialDrive = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
         differentialDrive.setRightSideInverted(false);
@@ -86,8 +89,8 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
          // Initialize NavX
          // TODO initializing the NavX on the prototype is crashing
-        navX = new NavX(navXPort);
-        addChild(navX);
+        // navX = new NavX(navXPort);
+        // addChild(navX);
 
         // Create Shuffleboard Tab
         // ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
@@ -98,8 +101,9 @@ public class SparkMaxDriveTrain extends DriveTrain {
     @Override
     public void initDefaultCommand() {
      
-        setDefaultCommand(new DriveWithJoystickCommand());
-
+        var defaultCommand = new DriveWithJoystickCommand();
+        setDefaultCommand(defaultCommand);
+        addChild(defaultCommand);
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
