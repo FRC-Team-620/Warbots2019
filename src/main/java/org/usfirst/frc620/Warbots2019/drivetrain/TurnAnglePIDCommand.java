@@ -46,7 +46,7 @@ public class TurnAnglePIDCommand extends Command {
         rotationCW = false;
     }
     requires(Robot.driveTrain);
-    finalAngle = Angle.fromDegrees(amountToTurn.toDegrees()+Robot.driveTrain.getAngle().toDegrees());
+    finalAngle = Angle.fromDegrees(amountToTurn.toDegrees()+getNormalizedAngle());
     // Instantiates Configuration
 
     // PIDControllers expect a single sensor, so if the data comes from
@@ -56,7 +56,7 @@ public class TurnAnglePIDCommand extends Command {
         //() -> Robot.driveTrain.getAngle().toDegrees());
 
         PIDSource pidSource = new LambdaPIDSource(PIDSourceType.kDisplacement,
-        () -> Robot.driveTrain.getAngle().toDegrees());
+        () -> getNormalizedAngle());
 
     // PIDControllers expect a single motor, so for a full drive train,
     // we have to give it a pretend motor and then plug whatever speed
@@ -67,7 +67,7 @@ public class TurnAnglePIDCommand extends Command {
     pidController = new PIDController(kPTurn, kITurn, kDTurn, pidSource, pidOutput);
 
     // Angle.toDegrees will report values between -180 degrees and 180 degrees
-    pidController.setInputRange(-360, 360);
+    pidController.setInputRange(-180, 180);
 
     // Use this for angles to specify that the input value is circular
     // (ie turning past 180 wraps backs around to -180)
@@ -88,6 +88,10 @@ public class TurnAnglePIDCommand extends Command {
     this(Angle.fromDegrees(StateManager.getInstance().getDoubleValue(StateKey.COMMANDED_TURNANGLE)));
   }
 
+  public double getNormalizedAngle()
+  {
+    return Robot.driveTrain.getAngle().toDegrees();//(((int)Robot.driveTrain.getAngle().toDegrees())%360)-180.0;
+  }
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -124,7 +128,7 @@ public class TurnAnglePIDCommand extends Command {
     Robot.driveTrain.drive(0, cmdValue);
     
     boolean ret = pidController.onTarget();
-    System.out.println("Delta = " + (finalAngle.toDegrees() - Robot.driveTrain.getAngle().toDegrees())+" cmdValue: "+cmdValue);
+    System.out.println("gyro angle: ["+Robot.driveTrain.getAngle().toDegrees()+"] norm: ["+getNormalizedAngle()+"] final ["+finalAngle.toDegrees()+"] Delta = " + (finalAngle.toDegrees() - getNormalizedAngle())+" cmdValue: "+cmdValue);
     if (ret)
     {
         Logger.log("Command: ["+this.getName()+"] done");

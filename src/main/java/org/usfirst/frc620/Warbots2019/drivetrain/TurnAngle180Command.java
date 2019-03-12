@@ -22,10 +22,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
-public class TurnAngle135Command extends Command 
+public class TurnAngle180Command extends Command 
 {
 
-  public TurnAngle135Command() 
+  public TurnAngle180Command() 
   {
     Logger.log("New Command: "+this.getName());
   }
@@ -35,7 +35,7 @@ public class TurnAngle135Command extends Command
   @Override
   protected void execute() 
   {
-    TurnAnglePIDCommand cmd = new TurnAnglePIDCommand(Angle.fromDegrees(-135));
+    TurnAnglePIDCommand cmd = new TurnAnglePIDCommand(Angle.fromDegrees(-175));
     Scheduler.getInstance().add(cmd);
   }
 
