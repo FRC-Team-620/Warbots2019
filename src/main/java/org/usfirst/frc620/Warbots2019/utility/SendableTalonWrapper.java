@@ -70,5 +70,8 @@ public class SendableTalonWrapper extends SendableBase
             () -> talon.getMotorOutputVoltage() / talon.getOutputCurrent(), 
             null
         );
+
+        builder.addBooleanProperty("topLimitSwitch", talon.getSensorCollection()::isFwdLimitSwitchClosed, null);
+        builder.addBooleanProperty("bottomLimitSwitch", talon.getSensorCollection()::isRevLimitSwitchClosed, null);
     }
 }
