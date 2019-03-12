@@ -49,7 +49,7 @@ System.out.println("FollowLineCommand is running");
             System.out.println("invSlope: " + invSlope);
             double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
             System.out.println("curvature: " + curvature);
-            driveTrain.curvatureDrive(Speed, 0); 
+            driveTrain.curvatureDrive(Speed, curvature); 
         }
         catch (Exception e)
         {
