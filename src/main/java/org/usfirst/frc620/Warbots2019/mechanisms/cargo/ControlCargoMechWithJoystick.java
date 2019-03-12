@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,6 +19,7 @@ public class ControlCargoMechWithJoystick extends Command
 
   public ControlCargoMechWithJoystick() 
   {
+    Logger.log("New command: ControlCargoMechWithJoystick");
     requires(cargoMech);
   }
 
