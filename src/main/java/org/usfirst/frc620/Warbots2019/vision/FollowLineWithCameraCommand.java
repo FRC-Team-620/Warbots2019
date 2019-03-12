@@ -102,9 +102,9 @@ System.out.println("FollowLineCommand is running");
         });
     }
 
-    double InverseSlopeConstant = 0.5;
-    double Speed = 0.25;
-    double XInterceptConstant = 0.5;
+    double InverseSlopeConstant = 2;
+    double Speed = -0.25;
+    double XInterceptConstant = 1;
     LineProcessor Processor;
     DriveTrain driveTrain = Robot.driveTrain; 
 }
