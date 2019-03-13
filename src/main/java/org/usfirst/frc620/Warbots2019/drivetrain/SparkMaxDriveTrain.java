@@ -51,7 +51,11 @@ public class SparkMaxDriveTrain extends DriveTrain {
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);
         leftFrontMotor.setInverted(false);
         leftFrontMotor.setIdleMode(idleMode);
+<<<<<<< HEAD
         leftFrontMotor.setRampRate(ramp);
+=======
+        //leftFrontMotor.setOpenLoopRampRate(ramp);
+>>>>>>> 1258d79b62ee481d9ce931f89e498d4e8b847610
         leftFrontMotor.setSmartCurrentLimit(currentLimit);
 
         leftRearMotor = new CANSparkMax(leftMotor2CanID, MotorType.kBrushless);
@@ -62,7 +66,11 @@ public class SparkMaxDriveTrain extends DriveTrain {
         rightFrontMotor = new CANSparkMax(rightMotor1CanID, MotorType.kBrushless);
         rightFrontMotor.setInverted(true);
         rightFrontMotor.setIdleMode(idleMode);
+<<<<<<< HEAD
         rightFrontMotor.setRampRate(ramp);
+=======
+        //rightFrontMotor.setOpenLoopRampRate(ramp);
+>>>>>>> 1258d79b62ee481d9ce931f89e498d4e8b847610
         rightFrontMotor.setSmartCurrentLimit(currentLimit);
 
         rightRearMotor = new CANSparkMax(rightMotor2CanID, MotorType.kBrushless);

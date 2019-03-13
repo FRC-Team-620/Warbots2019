@@ -36,7 +36,7 @@ public class ControlScissorLiftWithJoystick extends Command
     {
         GenericHID joystick = Robot.oi.driverController;
 
-        double speed = joystick.getRawAxis(3) - joystick.getRawAxis(2);
+        double speed = joystick.getRawAxis(2) - joystick.getRawAxis(3);
         if (Math.abs(speed) < 0.2)
           speed = 0;
         // System.out.println("Drving sicor lift " + speed);
