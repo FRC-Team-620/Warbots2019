@@ -7,22 +7,12 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
-import org.usfirst.frc620.Warbots2019.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc620.Warbots2019.utility.Logger;
-
-public class GrabberStopCommand extends Command {
-
-  private CargoMech cargoMech;
-
-  public GrabberStopCommand() {
-    Logger.log("New Command: "+this.getName());
-    cargoMech = (CargoMech) Robot.scoringMechanism;
+public class testRandom extends Command {
+  public testRandom() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(cargoMech);
   }
 
   // Called just before this Command runs the first time
@@ -33,17 +23,14 @@ public class GrabberStopCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    cargoMech.stopCapture();
+  int n = (int)(Math.random() * 6 + 1);
+  System.out.println(n);
   }
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = true;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return false;
   }
 
   // Called once after isFinished returns true
