@@ -185,5 +185,6 @@ public class CargoMech extends ScoringMechanism {
     builder.addBooleanProperty("Wrist2", wristPiston2::get, null);
     builder.addBooleanProperty("Latch1", latch1::get, null);
     builder.addBooleanProperty("Latch2", latch2::get, null);
+    builder.addBooleanProperty("HasCargo", this::hasCargo, null);
   }
 }
