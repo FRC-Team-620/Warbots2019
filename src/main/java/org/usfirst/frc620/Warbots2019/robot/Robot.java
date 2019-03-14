@@ -31,6 +31,7 @@ import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+import org.usfirst.frc620.Warbots2019.vision.FollowLineWithCameraCommand;
 import org.usfirst.frc620.Warbots2019.vision.VisionSubsystem;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -229,7 +230,7 @@ public class Robot extends TimedRobot {
         // SmartDashboard.putData(new DriveStraightPIDCommand());
         // SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         // SmartDashboard.putData(new FollowLineWithCameraCommand());
-        // SmartDashboard.putData(new FollowLineWithCameraCommand());
+        SmartDashboard.putData(new FollowLineWithCameraCommand());
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);

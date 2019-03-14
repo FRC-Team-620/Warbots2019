@@ -49,7 +49,7 @@ System.out.println("FollowLineCommand is running");
             System.out.println("invSlope: " + invSlope);
             double curvature = (XInterceptConstant * xIntercept) + (InverseSlopeConstant * invSlope);
             System.out.println("curvature: " + curvature);
-            driveTrain.curvatureDrive(Speed, 0); 
+            driveTrain.curvatureDrive(Speed, curvature); 
         }
         catch (Exception e)
         {
@@ -102,9 +102,9 @@ System.out.println("FollowLineCommand is running");
         });
     }
 
-    double InverseSlopeConstant = 0.5;
-    double Speed = 0.25;
-    double XInterceptConstant = 0.5;
+    double InverseSlopeConstant = 2;
+    double Speed = -0.25;
+    double XInterceptConstant = 1;
     LineProcessor Processor;
     DriveTrain driveTrain = Robot.driveTrain; 
 }
