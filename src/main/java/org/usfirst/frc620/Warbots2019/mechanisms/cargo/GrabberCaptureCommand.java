@@ -49,34 +49,28 @@ public class GrabberCaptureCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    System.out.println("Capture");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("Capture");
     cargoMech.captureCargo();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = true;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return cargoMech.hasCargo() ||
+      timeSinceInitialized() > 5 ||
+      Robot.oi.scorerController.getRawAxis(2) > 0.7 ||
+      Robot.oi.scorerController.getRawAxis(3) > 0.7;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+    Logger.log("Command: ["+this.getName()+"] done");
+    cargoMech.stopCapture();
   }
 }

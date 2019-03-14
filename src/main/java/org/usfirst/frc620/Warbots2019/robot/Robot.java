@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -140,13 +141,13 @@ public class Robot extends TimedRobot {
 
             if (scoringMechanism != null) 
             {
-                // SmartDashboard.putData(scoringMechanism);
+                SmartDashboard.putData(scoringMechanism);
             } 
             else 
             {
                 System.err.println(sig + ": no valid scoring mechanism found");
             }
-        } 
+        }
         else 
         {
             System.out.println("no scoring mech specified");

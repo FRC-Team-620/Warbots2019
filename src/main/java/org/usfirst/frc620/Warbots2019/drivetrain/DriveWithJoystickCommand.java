@@ -45,7 +45,6 @@ public class DriveWithJoystickCommand extends Command {
         // These speed/rotation -1.0 to 1.0
         double y_value = Robot.oi.getRobotSpeed();
         double x_value = -Robot.oi.getRobotRotationRate();
-System.out.println("  y: "+y_value+"           x: "+x_value);
         double angle = Math.atan2(y_value, x_value);
 
         // This should be mapped to an OI value thing, like
