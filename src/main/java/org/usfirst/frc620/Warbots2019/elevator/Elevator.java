@@ -26,6 +26,7 @@ public abstract class Elevator extends Subsystem
     }
 
     public abstract void drive(double speed);
+    
 
     public abstract void driveTo(ElevatorLevel level);
 

@@ -69,6 +69,7 @@ public class TalonElevator extends Elevator
     @Override
     public void drive(double speed) 
     {
+System.out.println("Current elevator speed: " + talon.getSensorCollection().getQuadratureVelocity());
         // System.out.println("Driving elevator " + speed);
         if (Math.abs(speed) < 0.1)
             talon.stopMotor();
@@ -80,9 +81,10 @@ public class TalonElevator extends Elevator
     public void driveTo(ElevatorLevel level) 
     {
         double height = getHeight(level);
-        System.out.println("Driving elevator to " + height);
-        System.out.println("Error: " + talon.getClosedLoopError());
-        System.out.println("Output: " + talon.getMotorOutputPercent());
+System.out.println("Current height: " + talon.getSensorCollection().getQuadraturePosition());
+System.out.println("Driving elevator to: " + height);
+System.out.println("Error: " + talon.getClosedLoopError());
+System.out.println("Output: " + talon.getMotorOutputPercent());
         talon.set(ControlMode.MotionMagic, height);
     }
 

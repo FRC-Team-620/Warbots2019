@@ -10,138 +10,15 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "0,0": {
+          "4,0": {
             "size": [
-              2,
+              3,
               1
             ],
             "content": {
               "_type": "Command",
               "_source0": "network_table:///SmartDashboard/MoveElevatorTo",
               "_title": "SmartDashboard/MoveElevatorTo"
-            }
-          },
-          "4,0": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration",
-              "_title": "SmartDashboard/Elevator PID configuration"
-            }
-          },
-          "8,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/P",
-              "_title": "/SmartDashboard/Elevator PID configuration/P",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/I",
-              "_title": "/SmartDashboard/Elevator PID configuration/I",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 0.2,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/D",
-              "_title": "/SmartDashboard/Elevator PID configuration/D",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 100.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/F",
-              "_title": "SmartDashboard/Elevator PID configuration/F",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "2,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/Peak Output",
-              "_title": "/SmartDashboard/Elevator PID configuration/Peak Output",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "2,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/Ramp Rate",
-              "_title": "SmartDashboard/Elevator PID configuration/Ramp Rate",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 2.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "2,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/Max Acceptable Error",
-              "_title": "SmartDashboard/Elevator PID configuration/Max Acceptable Error",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1000.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "2,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Elevator PID configuration/Integral Zone",
-              "_title": "/SmartDashboard/Elevator PID configuration/Integral Zone",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 5000.0,
-              "Slider Settings/Block increment": 0.0625
             }
           }
         }
