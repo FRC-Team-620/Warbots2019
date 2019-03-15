@@ -19,8 +19,10 @@ import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
+import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
+import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
@@ -89,13 +91,13 @@ public class Robot extends TimedRobot {
             if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain")) 
             {
-                driveTrain = new SparkDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                driveTrain = new SparkDriveTrain(1, 2, 3, 4);
                 Logger.log(sig + ": Configured with SparkDriveTrain");
             } 
             else if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) 
             {
-                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SerialUSB);
+                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
                 Logger.log(sig + ": Configured with SparkMaxDriveTrain");
             } 
             else if (driverTrainClass
@@ -215,6 +217,8 @@ public class Robot extends TimedRobot {
         visionSystem = new VisionSubsystem(config);
 
         oi = new OI(config);
+
+SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.MIDDLE));
 
         // Enable Shuffleboard logging
         // Shuffleboard.startRecording();
