@@ -25,7 +25,10 @@ public class VisionSubsystem extends Subsystem
     int numberOfCameras = config.getMappedInt("NumberOfCameras");
     int[] cameraStuff;
     for (int i = 0; i < numberOfCameras; ++i)
-        CameraServer.getInstance().startAutomaticCapture(i);
+    {
+        var cam = CameraServer.getInstance().startAutomaticCapture(i);
+        System.out.println("Setting resolution: " + cam.setResolution(50, 30));
+    }
   
   }
 
