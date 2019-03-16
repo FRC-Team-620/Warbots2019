@@ -102,9 +102,9 @@ public class TurnAnglePIDCommand extends Command {
   protected void execute() {
     // Read the speed that the PID Controller is giving to our fake
     // motor, and tell our actual drive train to turn at that speed
-    System.out.println("Turning output: " + pidOutput.getOutput());
-    System.out.println("Current angle: " + driveTrain.getAngle());
-    System.out.println("Target angle: " + finalAngle);
+    // System.out.println("Turning output: " + pidOutput.getOutput());
+    // System.out.println("Current angle: " + driveTrain.getAngle());
+    // System.out.println("Target angle: " + finalAngle);
     Robot.driveTrain.drive(0, -pidOutput.getOutput());
     // System.out.println(pidOutput.getOutput());
     // System.out.println("Current Angle "+ Robot.driveTrain.getAngle().toDegrees()
