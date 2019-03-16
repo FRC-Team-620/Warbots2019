@@ -16,7 +16,6 @@ import org.usfirst.frc620.Warbots2019.utility.Angle;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -33,14 +32,9 @@ public class SparkMaxDriveTrain extends DriveTrain {
     private Encoder leftEncoder;
     private Encoder rightEncoder;
     private NavX navX;
-  
-    // This is an example of state
-    private double lastLeftEncoderSpeedRead = 0;
-    private double lastRightEncoderSpeedRead = 0;
-    private double acceleration = 0;
 
     public SparkMaxDriveTrain(int leftMotor1CanID, int leftMotor2CanID, 
-        int rightMotor1CanID, int rightMotor2CanID, NavX.Port navXPort) 
+        int rightMotor1CanID, int rightMotor2CanID) 
     {
         setName("SparkMaxDriveTrain");
 
@@ -51,7 +45,7 @@ public class SparkMaxDriveTrain extends DriveTrain {
         leftFrontMotor = new CANSparkMax(leftMotor1CanID, MotorType.kBrushless);
         leftFrontMotor.setInverted(false);
         leftFrontMotor.setIdleMode(idleMode);
-        //leftFrontMotor.setOpenLoopRampRate(ramp);
+        leftFrontMotor.setOpenLoopRampRate(ramp);
         leftFrontMotor.setSmartCurrentLimit(currentLimit);
 
         leftRearMotor = new CANSparkMax(leftMotor2CanID, MotorType.kBrushless);
@@ -62,7 +56,7 @@ public class SparkMaxDriveTrain extends DriveTrain {
         rightFrontMotor = new CANSparkMax(rightMotor1CanID, MotorType.kBrushless);
         rightFrontMotor.setInverted(true);
         rightFrontMotor.setIdleMode(idleMode);
-        //rightFrontMotor.setOpenLoopRampRate(ramp);
+        rightFrontMotor.setOpenLoopRampRate(ramp);
         rightFrontMotor.setSmartCurrentLimit(currentLimit);
 
         rightRearMotor = new CANSparkMax(rightMotor2CanID, MotorType.kBrushless);
@@ -73,9 +67,9 @@ public class SparkMaxDriveTrain extends DriveTrain {
         differentialDrive = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
         differentialDrive.setRightSideInverted(false);
         addChild("Differential Drive", differentialDrive);
-        differentialDrive.setSafetyEnabled(true);
-        differentialDrive.setExpiration(0.1);
-        differentialDrive.setMaxOutput(1.0);
+        // differentialDrive.setSafetyEnabled(true);
+        // differentialDrive.setExpiration(0.1);
+        // differentialDrive.setMaxOutput(1.0);
 
         leftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
         addChild("Left Encoder", leftEncoder);
@@ -89,8 +83,8 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
          // Initialize NavX
          // TODO initializing the NavX on the prototype is crashing
-        // navX = new NavX(navXPort);
-        // addChild(navX);
+        navX = new NavX();
+        addChild(navX);
 
         // Create Shuffleboard Tab
         // ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
@@ -108,28 +102,10 @@ public class SparkMaxDriveTrain extends DriveTrain {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    @Override
-    public void periodic() {
-        // Put code here to be run every loop
-
-        // Read speed data from the encoders
-        double leftEncoderSpeed = leftEncoder.getRate();
-        double rightEncoderSpeed = rightEncoder.getRate();
-
-        // Calculate acceleration rates
-        // By default, the main control loop runs every 20 milliseconds, or 50 times per
-        // second
-        double leftAcceleration = (leftEncoderSpeed - lastLeftEncoderSpeedRead) * 50;
-        double rightAcceleration = (rightEncoderSpeed - lastRightEncoderSpeedRead) * 50;
-
-        acceleration = Math.abs((leftAcceleration + rightAcceleration) / 2);
-    }
-
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
     public void drive(double speed, double turnRate) {
-System.out.println("Driving (" + speed + ", " + (-turnRate) + ")");
         differentialDrive.arcadeDrive(speed, -1 * turnRate);
     }
 
@@ -152,10 +128,6 @@ System.out.println("Driving (" + speed + ", " + (-turnRate) + ")");
     {
         leftEncoder.reset();
         rightEncoder.reset();
-    }
-
-    public double getAcceleration() {
-        return acceleration;
     }
 
     @Override

@@ -11,14 +11,16 @@ import java.util.function.Supplier;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -55,6 +57,25 @@ public class NavX extends SendableBase {
         }
     }
 
+    public NavX()
+    {
+        this(getConfigPort(Robot.config));
+    }
+
+    private static Port getConfigPort(ControlReader config)
+    {
+        String configuredPort = config.getMappedString("NavX.Port");
+        try
+        {
+            return Port.valueOf(configuredPort);
+        }
+        catch (IllegalArgumentException | NullPointerException e)
+        {
+            DriverStation.reportError("Failed to load NavX from port: " + configuredPort, false);
+            return Port.SerialUSB;
+        }
+    }
+
     public NavX(Port port)
     {
         setName("NavX");
@@ -73,8 +94,8 @@ public class NavX extends SendableBase {
     @Override
     public void initSendable(SendableBuilder builder) 
     {
-        // builder.addDoubleProperty("yaw", () -> getAngle().toDegrees(), null);
-        // builder.addDoubleProperty("pitch", () -> getPitch().toDegrees(), null);
+        builder.addDoubleProperty("yaw", () -> getAngle().toDegrees(), null);
+        builder.addDoubleProperty("pitch", () -> getPitch().toDegrees(), null);
     }
 
     public Angle getPitch() 

@@ -17,8 +17,6 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 public class HoldElevatorPosition extends Command 
 {
   private Elevator elevator = Robot.elevator;
-  
-  private ElevatorLevel height;
 
   public HoldElevatorPosition() 
   {
@@ -28,17 +26,19 @@ public class HoldElevatorPosition extends Command
   @Override
   protected void initialize() 
   {
-    elevator.driveTo(height);
+    System.out.println("Holding position");
+    elevator.holdCurrentHeight();
   }
 
   @Override
   protected boolean isFinished() 
   {
-    boolean ret = Math.abs(Robot.oi.getElevatorSpeed()) > 0.1;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return Math.abs(Robot.oi.getElevatorSpeed()) > 0.2;
+  }
+
+  @Override
+  protected void end() 
+  {
+    Logger.log("Command: ["+this.getName()+"] done");
   }
 }

@@ -15,12 +15,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 /**
  * Implementation of DriveTrain
@@ -52,7 +47,7 @@ public class SparkDriveTrain extends DriveTrain {
     private double acceleration = 0;
 
     public SparkDriveTrain(int leftMotor1Port, int leftMotor2Port, 
-        int rightMotor1Port, int rightMotor2Port, NavX.Port navXPort) 
+        int rightMotor1Port, int rightMotor2Port) 
     {
         setName("SparkDriveTrain");
 
@@ -98,7 +93,8 @@ public class SparkDriveTrain extends DriveTrain {
         rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 
         // Initialize NavX
-        navX = new NavX(navXPort);
+        navX = new NavX();
+        addChild(navX);
 
         // Create Shuffleboard Tab
         // ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
@@ -109,7 +105,7 @@ public class SparkDriveTrain extends DriveTrain {
     public SparkDriveTrain()
     {
         //TODO: Load these values from config
-        this(1, 2, 3, 4, NavX.Port.SPIMXP);
+        this(1, 2, 3, 4);
     }
 
     @Override

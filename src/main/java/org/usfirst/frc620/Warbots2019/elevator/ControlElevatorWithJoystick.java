@@ -13,6 +13,7 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ControlElevatorWithJoystick extends Command {
   double speedFactor;
@@ -41,7 +42,10 @@ public class ControlElevatorWithJoystick extends Command {
   {
     // double speed = Robot.oi.getElevatorSpeed();
     double speed = Robot.oi.scorerController.getY(Hand.kLeft);
-    Robot.elevator.drive(-speed);
+    // if (Math.abs(speed) < 0.2)
+      // Scheduler.getInstance().add(new HoldElevatorPosition());
+    // else
+      Robot.elevator.drive(-speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -58,6 +62,7 @@ public class ControlElevatorWithJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    assert false;
   }
 
   // Called when another command which requires one or more of the same

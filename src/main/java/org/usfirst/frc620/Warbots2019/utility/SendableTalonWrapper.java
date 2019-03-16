@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class SendableTalonWrapper extends SendableBase
 {
+    private final static boolean enabled = false;
+
     private final static Map<String, ParamEnum> talonPIDSettings = Map.ofEntries(
         Map.entry("kP", ParamEnum.eProfileParamSlot_P),
         Map.entry("kI", ParamEnum.eProfileParamSlot_I),
@@ -48,30 +50,33 @@ public class SendableTalonWrapper extends SendableBase
     @Override
     public void initSendable(SendableBuilder builder) 
     {
-        builder.addStringProperty("controlMode", () -> talon.getControlMode().toString(), null);
-        builder.addDoubleProperty("output", talon::get, talon::set);
+        if (enabled)
+        {
+            builder.addStringProperty("controlMode", () -> talon.getControlMode().toString(), null);
+            builder.addDoubleProperty("output", talon::get, talon::set);
 
-        builder.addDoubleProperty("sensorPosition", talon::getSelectedSensorPosition, null);
-        builder.addDoubleProperty("sensorVelocity", talon::getSelectedSensorVelocity, null);
-        
-        for (var entry : talonPIDSettings.entrySet())
+            builder.addDoubleProperty("sensorPosition", talon::getSelectedSensorPosition, null);
+            builder.addDoubleProperty("sensorVelocity", talon::getSelectedSensorVelocity, null);
+            
+            for (var entry : talonPIDSettings.entrySet())
+                builder.addDoubleProperty(
+                    entry.getKey(), 
+                    () -> talon.configGetParameter(entry.getValue(), 0), 
+                    (value) -> talon.configSetParameter(entry.getValue(), value, 0, 0)
+                );
+
+            builder.addDoubleProperty("temperature", talon::getTemperature, null);
+            builder.addDoubleProperty("busVoltage", talon::getBusVoltage, null);
+            builder.addDoubleProperty("outputVoltage", talon::getMotorOutputVoltage, null);
+            builder.addDoubleProperty("outputCurrent", talon::getOutputCurrent, null);
             builder.addDoubleProperty(
-                entry.getKey(), 
-                () -> talon.configGetParameter(entry.getValue(), 0), 
-                (value) -> talon.configSetParameter(entry.getValue(), value, 0, 0)
+                "outputResistance", 
+                () -> talon.getMotorOutputVoltage() / talon.getOutputCurrent(), 
+                null
             );
 
-        builder.addDoubleProperty("temperature", talon::getTemperature, null);
-        builder.addDoubleProperty("busVoltage", talon::getBusVoltage, null);
-        builder.addDoubleProperty("outputVoltage", talon::getMotorOutputVoltage, null);
-        builder.addDoubleProperty("outputCurrent", talon::getOutputCurrent, null);
-        builder.addDoubleProperty(
-            "outputResistance", 
-            () -> talon.getMotorOutputVoltage() / talon.getOutputCurrent(), 
-            null
-        );
-
-        builder.addBooleanProperty("topLimitSwitch", talon.getSensorCollection()::isFwdLimitSwitchClosed, null);
-        builder.addBooleanProperty("bottomLimitSwitch", talon.getSensorCollection()::isRevLimitSwitchClosed, null);
+            builder.addBooleanProperty("topLimitSwitch", talon.getSensorCollection()::isFwdLimitSwitchClosed, null);
+            builder.addBooleanProperty("bottomLimitSwitch", talon.getSensorCollection()::isRevLimitSwitchClosed, null);
+        }
     }
 }
