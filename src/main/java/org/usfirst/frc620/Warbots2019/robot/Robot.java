@@ -15,14 +15,11 @@ import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
-import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.elevator.TalonElevator;
 import org.usfirst.frc620.Warbots2019.elevator.TwoTalonElevator;
-import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech;
 import org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber;
@@ -99,7 +96,7 @@ public class Robot extends TimedRobot {
             {
                 driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
                 Logger.log(sig + ": Configured with SparkMaxDriveTrain");
-            } 
+            }
             else if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.sim.SimDriveTrain")) 
             {
@@ -218,8 +215,6 @@ public class Robot extends TimedRobot {
 
         oi = new OI(config);
 
-SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.MIDDLE));
-
         // Enable Shuffleboard logging
         // Shuffleboard.startRecording();
 
@@ -234,19 +229,23 @@ SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.MIDDLE));
         // SmartDashboard.putData(new DriveStraightPIDCommand());
         // SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         // SmartDashboard.putData(new FollowLineWithCameraCommand());
-        SmartDashboard.putData(new FollowLineWithCameraCommand());
+        if (driveTrain != null)
+            SmartDashboard.putData(new FollowLineWithCameraCommand());
+
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         // SmartDashboard.putData("Auto choices", m_chooser);
 
         // Show config data on SmartDashboard
-        // SmartDashboard.putString("Robot Name", config.robotName);
+        SmartDashboard.putString("Robot Name", config.robotName);
         ArrayList<String> loadedFiles = ControlReader.getLoadedFiles();
         for (int i = 0; i < loadedFiles.size(); i++) 
         {
-            // SmartDashboard.putString("Files", loadedFiles.get(i));
+            SmartDashboard.putString("Files", loadedFiles.get(i));
         }
+
+        SmartDashboard.putData(Scheduler.getInstance());
     }
 
     @Override
@@ -308,7 +307,12 @@ SmartDashboard.putData(new MoveElevatorTo(ElevatorLevel.MIDDLE));
     @Override
     public void teleopPeriodic() 
     {
+        long timeBefore = System.currentTimeMillis();
         Scheduler.getInstance().run();
+        long timeAfter = System.currentTimeMillis();
+        long dt = timeAfter - timeBefore;
+        if (dt > 10)
+            System.out.println("Running the scheduler took " + dt + " millis.");
     }
 
     public static Configurable asConfigurable() {

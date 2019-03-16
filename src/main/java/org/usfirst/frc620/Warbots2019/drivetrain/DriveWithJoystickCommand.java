@@ -8,17 +8,49 @@
 
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc620.Warbots2019.utility.Logger;
-
 public class DriveWithJoystickCommand extends Command {
+
+    private static enum SHUFFLEBOARD_OPTIONS
+    {
+        fastSpeedCoefficient(1.0),
+        slowSpeedCoefficient(0.5),
+        minSpeedCoefficient(0.1),
+        speedDeadzone(0.2),
+        speedDeadzoneWhileTurning(0.1),
+        speedCurve(0.9),
+
+        fastTurnCoefficient(.75),
+        slowTurnCoefficient(.38),
+        minTurnCoefficient(0.1),
+        turnDeadzone(0.2),
+        turnDeadzoneWhileMoving(0.1),
+        turnCurve(1.2);
+
+        private double defaultValue;
+
+        private SHUFFLEBOARD_OPTIONS(double defaultValue)
+        {
+            this.defaultValue = defaultValue;
+        }
+
+        public double getDefaultValue() 
+        {
+            return defaultValue;
+        }
+    }
+
+    private Map<SHUFFLEBOARD_OPTIONS, Double> shuffleboardValues;
 
     boolean useSlowSpeed = false;
     boolean useSlowTurning = false;
@@ -30,15 +62,14 @@ public class DriveWithJoystickCommand extends Command {
     double rotationDZ;
     double straightDZ;
 
-    public DriveWithJoystickCommand() {
-        SmartDashboard.putNumber("fastSpeedCoefficient", 1.0);
-        SmartDashboard.putNumber("fastTurnCoefficient", .75);
-        SmartDashboard.putNumber("slowSpeedCoefficient", 0.5);
-        SmartDashboard.putNumber("slowTurnCoefficient", .38);
-        SmartDashboard.putNumber("speedDeadZone", 0.2);
-        SmartDashboard.putNumber("turnDeadZone", 0.2);
-        SmartDashboard.putNumber("speedCurve", 1.2);
-        SmartDashboard.putNumber("turnCurve", 1.2);   
+    public DriveWithJoystickCommand() 
+    {
+        shuffleboardValues = new HashMap<>();
+        for(var value : SHUFFLEBOARD_OPTIONS.values())
+        {
+            SmartDashboard.putNumber(value.toString(), value.getDefaultValue());
+            shuffleboardValues.put(value, value.getDefaultValue());
+        }
 
         Logger.log("New Command: "+this.getName());
         ControlReader config = Robot.config;
@@ -59,37 +90,55 @@ public class DriveWithJoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        speedCoeff = useSlowSpeed? 
-            SmartDashboard.getNumber("slowSpeedCoefficient", 0.5) : 
-            SmartDashboard.getNumber("fastSpeedCoefficient", 1.0);
-        turnCoeff = useSlowTurning?
-            SmartDashboard.getNumber("slowTurnCoefficient", .38) : 
-            SmartDashboard.getNumber("fastTurnCoefficient", .75);
+        for(var value : SHUFFLEBOARD_OPTIONS.values())
+        {
+            shuffleboardValues.put(
+                value, 
+                SmartDashboard.getNumber(
+                    value.toString(), 
+                    value.getDefaultValue()
+                )
+            );
+        }
 
-        double speedDeadZoneShuffleboard = SmartDashboard.getNumber("speedDeadZone", 0.2);
-        double turnDeadZoneShuffleboard = SmartDashboard.getNumber("turnDeadZone", 0.2);
-        double speedCurveShuffleboard = SmartDashboard.getNumber("speedCurve", 1.2);
-        double turnCurveShuffleboard = SmartDashboard.getNumber("turnCurve", 1.2);   
-
-        // These speed/rotation -1.0 to 1.0
-        double y_value = Robot.oi.getRobotSpeed();
-        y_value = curve(y_value, speedDeadZoneShuffleboard, speedCurveShuffleboard);
-        double x_value = Robot.oi.getRobotRotationRate();
-        x_value = curve(x_value, turnDeadZoneShuffleboard, turnCurveShuffleboard);
-        // double angle = Math.atan2(y_value, x_value);
-
-        // This should be mapped to an OI value thing, like
-        // speed and rotation rate are, so that there can be a button mapping
-        // like there is for the y_value and x_value above.
         if (Robot.oi.getDriverController().getRawButtonPressed(5))
             useSlowSpeed = !useSlowSpeed;
         if (Robot.oi.getDriverController().getRawButtonPressed(6))
             useSlowTurning = !useSlowTurning;
 
-        if (Robot.oi.getDriverController().getRawButton(9))
-            turnCoeff = -1;
+        speedCoeff = useSlowSpeed? 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.slowSpeedCoefficient) : 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.fastSpeedCoefficient);
+        turnCoeff = useSlowTurning?
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.slowTurnCoefficient) : 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.fastTurnCoefficient);
 
-        Robot.driveTrain.drive(speedCoeff * y_value, turnCoeff * x_value);
+        double speed = Robot.oi.getRobotSpeed();
+        double turning = Robot.oi.getRobotRotationRate();
+        double staticSpeedDeadzone = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedDeadzone);
+        double staticTurningDeadzone = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnDeadzone);
+        if (Math.abs(speed) < staticSpeedDeadzone && Math.abs(turning) < staticTurningDeadzone)
+            speed = turning = 0;
+
+        // These speed/rotation -1.0 to 1.0
+        speed = curve(
+            speed, 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedDeadzoneWhileTurning), 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minSpeedCoefficient),
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedCurve)
+        );
+        turning = curve(
+            turning, 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnDeadzoneWhileMoving), 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minTurnCoefficient),
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnCurve)
+        );
+        // double angle = Math.atan2(y_value, x_value);
+
+        if (Robot.oi.getDriverController().getRawButton(9))
+            turnCoeff = 1;
+
+        Robot.driveTrain.drive(speedCoeff * speed, turnCoeff * turning);
 
         //------------------------------------------------------
 
@@ -117,13 +166,17 @@ public class DriveWithJoystickCommand extends Command {
         // }
     }
 
-    private double curve(double x, double deadzone, double curve) 
+    private double curve(double x, double deadzone, double min, double curve) 
     {
         double absVal = Math.abs(x);
         if (absVal < deadzone)
             absVal = 0;
         else
-            absVal = Math.pow((absVal - deadzone) / (1 - deadzone), curve);
+        {
+            absVal = (absVal - deadzone) / (1 - deadzone);
+            absVal = Math.pow(absVal, curve);
+            absVal = min + absVal * (1 - min);
+        }
 
         return Math.copySign(absVal, x);
     }

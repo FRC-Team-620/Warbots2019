@@ -287,7 +287,7 @@
       }
     },
     {
-      "title": "Driver View",
+      "title": "Driver Settings",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
@@ -296,10 +296,10 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "10,0": {
+          "4,0": {
             "size": [
-              2,
-              1
+              4,
+              2
             ],
             "content": {
               "_type": "Boolean Box",
@@ -311,8 +311,8 @@
           },
           "12,0": {
             "size": [
-              2,
-              1
+              4,
+              2
             ],
             "content": {
               "_type": "Boolean Box",
@@ -336,7 +336,7 @@
               "Slider Settings/Block increment": 0.0625
             }
           },
-          "4,0": {
+          "8,0": {
             "size": [
               4,
               2
@@ -364,7 +364,7 @@
               "Slider Settings/Block increment": 0.0625
             }
           },
-          "4,2": {
+          "8,2": {
             "size": [
               4,
               2
@@ -392,21 +392,7 @@
               "Slider Settings/Block increment": 0.0625
             }
           },
-          "0,6": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/speedDeadZone",
-              "_title": "SmartDashboard/speedDeadZone",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "4,4": {
+          "8,4": {
             "size": [
               4,
               2
@@ -420,15 +406,71 @@
               "Slider Settings/Block increment": 0.0625
             }
           },
-          "4,6": {
+          "4,2": {
             "size": [
               4,
               2
             ],
             "content": {
               "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/turnDeadZone",
-              "_title": "SmartDashboard/turnDeadZone",
+              "_source0": "network_table:///SmartDashboard/minSpeedCoefficient",
+              "_title": "SmartDashboard/minSpeedCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "12,2": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/minTurnCoefficient",
+              "_title": "SmartDashboard/minTurnCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "0,6": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/speedDeadzone",
+              "_title": "SmartDashboard/speedDeadzone",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "8,6": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/turnDeadzone",
+              "_title": "SmartDashboard/turnDeadzone",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "4,4": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/speedDeadzoneWhileTurning",
+              "_title": "SmartDashboard/speedDeadzoneWhileTurning",
               "Slider Settings/Min": 0.0,
               "Slider Settings/Max": 1.0,
               "Slider Settings/Block increment": 0.0625
@@ -436,29 +478,31 @@
           },
           "12,4": {
             "size": [
-              2,
+              4,
               2
             ],
             "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/CargoMech/HasCargo",
-              "_title": "SmartDashboard/CargoMech/HasCargo",
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "11,6": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/SparkMaxDriveTrain/NavX/yaw",
-              "_title": "LiveWindow/SparkMaxDriveTrain/NavX/yaw"
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/speedDeadzoneWhileTurning",
+              "_title": "SmartDashboard/speedDeadzoneWhileTurning",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
             }
           }
         }
+      }
+    },
+    {
+      "title": "Debug",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {}
       }
     }
   ],
