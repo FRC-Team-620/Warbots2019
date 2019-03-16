@@ -69,8 +69,7 @@ public class TalonElevator extends Elevator
     @Override
     public void drive(double speed) 
     {
-System.out.println("Current elevator speed: " + talon.getSensorCollection().getQuadratureVelocity());
-        // System.out.println("Driving elevator " + speed);
+        // System.out.println("Driving elevPdator " + speed);
         if (Math.abs(speed) < 0.1)
             talon.stopMotor();
         else
