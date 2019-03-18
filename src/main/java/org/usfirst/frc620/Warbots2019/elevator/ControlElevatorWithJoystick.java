@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ControlElevatorWithJoystick extends Command {
+  private double[] snapHeights = null;
+  private double maxSnapDist = 2000;
   double speedFactor;
   public ControlElevatorWithJoystick() {
     Logger.log("New Command: "+this.getName());
@@ -44,7 +46,7 @@ public class ControlElevatorWithJoystick extends Command {
     // double speed = Robot.oi.getElevatorSpeed();
     double speed = Robot.oi.scorerController.getY(Hand.kLeft);
     if (Math.abs(speed) < 0.2)
-      Scheduler.getInstance().add(new HoldElevatorPosition());
+      Scheduler.getInstance().add(new MoveElevatorTo(getSnapHeight()));
     else
       Robot.elevator.drive(-speed);
   }
@@ -60,5 +62,29 @@ public class ControlElevatorWithJoystick extends Command {
   protected void end() 
   {
     Logger.log("Command: ["+this.getName()+"] done");
+  }
+
+  private double getSnapHeight()
+  {
+    double height = Robot.elevator.getHeight();
+
+    if (snapHeights == null)
+      return height;
+
+    double minDist = Double.POSITIVE_INFINITY;
+    double closestHeight = height;
+    for (double snapHeight : snapHeights)
+    {
+      double diff = Math.abs(height - snapHeight);
+      if (diff < minDist)
+      {
+        minDist = diff;
+        closestHeight = snapHeight;
+      }
+    }
+    if (minDist < maxSnapDist)
+      return closestHeight;
+    else
+      return height;
   }
 }

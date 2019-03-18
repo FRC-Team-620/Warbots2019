@@ -26,7 +26,7 @@ public class ClimbHabCommandGroup extends CommandGroup {
    */
   public ClimbHabCommandGroup() 
   {
-    addSequential(new MoveElevatorTo(ElevatorLevel.MIDDLE));
+    addSequential(new MoveElevatorTo(10000));
     addSequential(new ScaleHabClosedLoopCommand());
     addSequential(new GrabberOpenLatchCommand());
     addSequential(new GrabberCaptureCommand());

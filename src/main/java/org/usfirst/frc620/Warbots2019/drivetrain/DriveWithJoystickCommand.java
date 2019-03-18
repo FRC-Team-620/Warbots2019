@@ -5,7 +5,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 package org.usfirst.frc620.Warbots2019.drivetrain;
 
 import java.util.HashMap;
@@ -21,31 +20,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithJoystickCommand extends Command {
 
-    private static enum SHUFFLEBOARD_OPTIONS
-    {
-        fastSpeedCoefficient(1.0),
-        slowSpeedCoefficient(0.5),
-        minSpeedCoefficient(0.1),
+    private static enum SHUFFLEBOARD_OPTIONS {
+        frontCurvatureArc(0.3),
+        backCurvatureArc(0.3),
+        frontCurvatureCoefficient(0.5),
+        backCurvatureCoefficient(0.5),
+
+        fastSpeedCoefficient(1.0), 
+        slowSpeedCoefficient(0.5), 
+        minSpeedCoefficient(0.1), 
         speedDeadzone(0.2),
-        speedDeadzoneWhileTurning(0.1),
+        speedDeadzoneWhileTurning(0.1), 
         speedCurve(0.9),
 
-        fastTurnCoefficient(.75),
-        slowTurnCoefficient(.38),
-        minTurnCoefficient(0.1),
+        fastTurnCoefficient(.75), 
+        slowTurnCoefficient(.38), 
+        minTurnCoefficient(0.1), 
         turnDeadzone(0.2),
-        turnDeadzoneWhileMoving(0.1),
+        turnDeadzoneWhileMoving(0.1), 
         turnCurve(1.2);
 
         private double defaultValue;
 
-        private SHUFFLEBOARD_OPTIONS(double defaultValue)
-        {
+        private SHUFFLEBOARD_OPTIONS(double defaultValue) {
             this.defaultValue = defaultValue;
         }
 
-        public double getDefaultValue() 
-        {
+        public double getDefaultValue() {
             return defaultValue;
         }
     }
@@ -62,16 +63,14 @@ public class DriveWithJoystickCommand extends Command {
     double rotationDZ;
     double straightDZ;
 
-    public DriveWithJoystickCommand() 
-    {
+    public DriveWithJoystickCommand() {
         shuffleboardValues = new HashMap<>();
-        for(var value : SHUFFLEBOARD_OPTIONS.values())
-        {
+        for (var value : SHUFFLEBOARD_OPTIONS.values()) {
             SmartDashboard.putNumber(value.toString(), value.getDefaultValue());
             shuffleboardValues.put(value, value.getDefaultValue());
         }
 
-        Logger.log("New Command: "+this.getName());
+        Logger.log("New Command: " + this.getName());
         ControlReader config = Robot.config;
         centerDZ = config.getMappedDouble("driver.center_deadzone");
         rotationDZ = config.getMappedDouble("driver.rotation_deadzone");
@@ -82,23 +81,16 @@ public class DriveWithJoystickCommand extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        //Shuffleboard.selectTab();
-        //SmartDashboard.putNumber("speedCoefficient", speedCoeff);
-        //SmartDashboard.putNumber("turnCoefficient", turnCoeff);
+        // Shuffleboard.selectTab();
+        // SmartDashboard.putNumber("speedCoefficient", speedCoeff);
+        // SmartDashboard.putNumber("turnCoefficient", turnCoeff);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        for(var value : SHUFFLEBOARD_OPTIONS.values())
-        {
-            shuffleboardValues.put(
-                value, 
-                SmartDashboard.getNumber(
-                    value.toString(), 
-                    value.getDefaultValue()
-                )
-            );
+        for (var value : SHUFFLEBOARD_OPTIONS.values()) {
+            shuffleboardValues.put(value, SmartDashboard.getNumber(value.toString(), value.getDefaultValue()));
         }
 
         if (Robot.oi.getDriverController().getRawButtonPressed(5))
@@ -106,79 +98,102 @@ public class DriveWithJoystickCommand extends Command {
         if (Robot.oi.getDriverController().getRawButtonPressed(6))
             useSlowTurning = !useSlowTurning;
 
-        speedCoeff = useSlowSpeed? 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.slowSpeedCoefficient) : 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.fastSpeedCoefficient);
-        turnCoeff = useSlowTurning?
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.slowTurnCoefficient) : 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.fastTurnCoefficient);
+        speedCoeff = useSlowSpeed ? shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.slowSpeedCoefficient)
+                : shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.fastSpeedCoefficient);
+        turnCoeff = useSlowTurning ? shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.slowTurnCoefficient)
+                : shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.fastTurnCoefficient);
+
+        if (Robot.oi.getDriverController().getRawButton(9))
+            turnCoeff = 1;
 
         double speed = Robot.oi.getRobotSpeed();
         double turning = Robot.oi.getRobotRotationRate();
         double staticSpeedDeadzone = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedDeadzone);
         double staticTurningDeadzone = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnDeadzone);
         if (Math.abs(speed) < staticSpeedDeadzone && Math.abs(turning) < staticTurningDeadzone)
-            speed = turning = 0;
+        {
+            Robot.driveTrain.drive(0, 0);
+        } else {
+            double angle = Math.atan2(turning, -speed);
+            double frontCurvatureArc = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.frontCurvatureArc);
+            double backCurvatureArc = 1 - shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.backCurvatureArc);
 
-        // These speed/rotation -1.0 to 1.0
-        speed = curve(
-            speed, 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedDeadzoneWhileTurning), 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minSpeedCoefficient),
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedCurve)
-        );
-        turning = curve(
-            turning, 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnDeadzoneWhileMoving), 
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minTurnCoefficient),
-            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnCurve)
-        );
-        // double angle = Math.atan2(y_value, x_value);
+            if (Math.abs(angle) < frontCurvatureArc * Math.PI) {
+                speed = Math.copySign(Math.sqrt(speed * speed + turning * turning), speed);
+                speed = curveSpeed(speed);
+                angle = curveTurning(angle);
+                double arcCoefficient = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.frontCurvatureCoefficient);
+                Robot.driveTrain.curvatureDrive(speed * speedCoeff, -arcCoefficient * turnCoeff * angle);
+            } else if (Math.abs(angle) > backCurvatureArc * Math.PI) {
+                speed = Math.copySign(Math.sqrt(speed * speed + turning * turning), speed);
+                angle = Math.copySign(Math.PI - Math.abs(angle), angle);
+                speed = curveSpeed(speed);
+                angle = curveTurning(angle);
+                double arcCoefficient = shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.backCurvatureCoefficient);
+                Robot.driveTrain.curvatureDrive(speed * speedCoeff, -arcCoefficient * turnCoeff * angle);
+            } else {
+                // These speed/rotation -1.0 to 1.0
+                speed = curveSpeed(speed);
+                turning = curveTurning(turning);
+                Robot.driveTrain.drive(speedCoeff * speed, turnCoeff * turning);
+            }
+        }
 
-        if (Robot.oi.getDriverController().getRawButton(9))
-            turnCoeff = 1;
-
-        Robot.driveTrain.drive(speedCoeff * speed, turnCoeff * turning);
-
-        //------------------------------------------------------
+        // ------------------------------------------------------
 
         // System.out.println("The x is " + x_value + " the y is " + y_value);
         // System.out.println("The angle is " + angle);
         // System.out.println("The straight is " + (-Math.PI/2 - straightDZ));
-        
-        //CenterDeadzone
+
+        // CenterDeadzone
         // if (isInCenterDeadzone(x_value, y_value)){
-        //     // Doesn't move, x and y value are zero
-        //     // System.out.println("Is in CENTERDZ");
-        //     Robot.driveTrain.stop();
+        // // Doesn't move, x and y value are zero
+        // // System.out.println("Is in CENTERDZ");
+        // Robot.driveTrain.stop();
         // }
         // else if(isInStraightDeadzone(angle)){
-        //     //System.out.println("is in straightdz");
-        //     Robot.driveTrain.drive(speedCoeff * y_value, 0);
+        // //System.out.println("is in straightdz");
+        // Robot.driveTrain.drive(speedCoeff * y_value, 0);
         // }
         // else if(isInRotationDeadzone(angle)){
-        //     // System.out.println("is in rotationdz");
-        //     // Uses x_value for the turning speed
-        //     Robot.driveTrain.drive(0, turnCoeff * x_value);
+        // // System.out.println("is in rotationdz");
+        // // Uses x_value for the turning speed
+        // Robot.driveTrain.drive(0, turnCoeff * x_value);
         // }
         // else{
-        //     Robot.driveTrain.drive(speedCoeff * y_value, turnCoeff * x_value);
+        // Robot.driveTrain.drive(speedCoeff * y_value, turnCoeff * x_value);
         // }
     }
 
-    private double curve(double x, double deadzone, double min, double curve) 
-    {
+    private double curve(double x, double deadzone, double min, double curve) {
         double absVal = Math.abs(x);
         if (absVal < deadzone)
             absVal = 0;
-        else
-        {
+        else {
             absVal = (absVal - deadzone) / (1 - deadzone);
             absVal = Math.pow(absVal, curve);
             absVal = min + absVal * (1 - min);
         }
 
         return Math.copySign(absVal, x);
+    }
+
+    private double curveSpeed(double speed) {
+        return curve(
+            speed, 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedDeadzoneWhileTurning),
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minSpeedCoefficient),
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.speedCurve)
+        );
+    }
+
+    private double curveTurning(double turning) {
+        return curve(
+            turning, 
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnDeadzoneWhileMoving),
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minTurnCoefficient),
+            shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnCurve)
+        );
     }
 
     private boolean isInCenterDeadzone(double x, double y) {
@@ -207,9 +222,8 @@ public class DriveWithJoystickCommand extends Command {
     @Override
     protected boolean isFinished() {
         boolean ret = false;
-        if (ret)
-        {
-            Logger.log("Command: ["+this.getName()+"] done");
+        if (ret) {
+            Logger.log("Command: [" + this.getName() + "] done");
         }
         return ret;
     }

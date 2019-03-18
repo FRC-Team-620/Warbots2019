@@ -30,12 +30,6 @@ import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
  */
 public class TalonElevator extends Elevator
 {
-    private final static Map<ElevatorLevel, Integer> HEIGHTS = Map.ofEntries(
-        Map.entry(ElevatorLevel.FLOOR, 0),
-        Map.entry(ElevatorLevel.MIDDLE, 6000),
-        Map.entry(ElevatorLevel.TOP, 12000)
-    );
-
     private WPI_TalonSRX talon;
     private double speedFactor;
 
@@ -56,6 +50,7 @@ public class TalonElevator extends Elevator
 
         var talonConfig = new SendableTalonWrapper(talon);
         talonConfig.loadSettingsFromConfig(Robot.config, "Elevator.MotionMagic");
+        talonConfig.setName("Elevator Talon");
         addChild(talonConfig);
     }
 
@@ -75,9 +70,8 @@ public class TalonElevator extends Elevator
     }
 
     @Override
-    public void driveTo(ElevatorLevel level) 
+    public void driveTo(double height) 
     {
-        double height = getHeight(level);
         talon.set(ControlMode.MotionMagic, height);
     }
 
@@ -86,11 +80,6 @@ public class TalonElevator extends Elevator
     {
         double height = getHeight();
         talon.set(ControlMode.MotionMagic, height);
-    }
-
-    double getHeight(ElevatorLevel level)
-    {
-        return HEIGHTS.get(level);
     }
 
     @Override

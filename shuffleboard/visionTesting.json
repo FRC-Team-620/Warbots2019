@@ -66,37 +66,48 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "0,0": {
+          "14,0": {
             "size": [
               4,
-              8
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///LiveWindow/TwoTalonElevator/TalonSRX Speed Controller",
-              "_title": "LiveWindow/TwoTalonElevator/TalonSRX Speed Controller"
-            }
-          },
-          "4,0": {
-            "size": [
-              4,
-              8
+              9
             ],
             "content": {
               "_type": "Network Table Tree",
               "_source0": "network_table:///LiveWindow/ScissorLift/TalonSRX Speed Controller",
-              "_title": "LiveWindow/ScissorLift/TalonSRX Speed Controller"
+              "_title": "/LiveWindow/ScissorLift/TalonSRX Speed Controller"
             }
           },
-          "8,0": {
+          "10,0": {
             "size": [
               4,
-              8
+              9
             ],
             "content": {
               "_type": "Network Table Tree",
               "_source0": "network_table:///LiveWindow/CargoMech/TalonSRX Speed Controller",
-              "_title": "LiveWindow/CargoMech/TalonSRX Speed Controller"
+              "_title": "/LiveWindow/CargoMech/TalonSRX Speed Controller"
+            }
+          },
+          "2,0": {
+            "size": [
+              4,
+              9
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/TwoTalonElevator/Elevator Slave Talon",
+              "_title": "/LiveWindow/TwoTalonElevator/Elevator Slave Talon"
+            }
+          },
+          "6,0": {
+            "size": [
+              4,
+              9
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/TwoTalonElevator/Elevator Talon",
+              "_title": "/LiveWindow/TwoTalonElevator/Elevator Talon"
             }
           }
         }
@@ -291,14 +302,362 @@
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
+        "gridSize": 96.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "7,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/SparkMaxDriveTrain/DriveWithJoystickCommand/Slow speed",
+              "_title": "/LiveWindow/SparkMaxDriveTrain/DriveWithJoystickCommand/Slow speed",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "9,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/SparkMaxDriveTrain/DriveWithJoystickCommand/Slow turning",
+              "_title": "/LiveWindow/SparkMaxDriveTrain/DriveWithJoystickCommand/Slow turning",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/fastSpeedCoefficient",
+              "_title": "SmartDashboard/fastSpeedCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/fastTurnCoefficient",
+              "_title": "SmartDashboard/fastTurnCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "0,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/slowSpeedCoefficient",
+              "_title": "SmartDashboard/slowSpeedCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "2,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/slowTurnCoefficient",
+              "_title": "SmartDashboard/slowTurnCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "0,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/speedCurve",
+              "_title": "SmartDashboard/speedCurve",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 4.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "2,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/turnCurve",
+              "_title": "SmartDashboard/turnCurve",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 4.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "0,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/minSpeedCoefficient",
+              "_title": "/SmartDashboard/minSpeedCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "2,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/minTurnCoefficient",
+              "_title": "/SmartDashboard/minTurnCoefficient",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/speedDeadzone",
+              "_title": "/SmartDashboard/speedDeadzone",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "2,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/turnDeadzone",
+              "_title": "/SmartDashboard/turnDeadzone",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "0,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/speedDeadzoneWhileTurning",
+              "_title": "/SmartDashboard/speedDeadzoneWhileTurning",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "2,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/turnDeadzoneWhileMoving",
+              "_title": "/SmartDashboard/turnDeadzoneWhileMoving",
+              "Slider Settings/Min": -1.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/frontCurvatureArc",
+              "_title": "/SmartDashboard/frontCurvatureArc",
+              "Slider Settings/Min": -1.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "4,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/frontCurvatureCoefficient",
+              "_title": "/SmartDashboard/frontCurvatureCoefficient",
+              "Slider Settings/Min": -1.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "4,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/backCurvatureArc",
+              "_title": "/SmartDashboard/backCurvatureArc",
+              "Slider Settings/Min": -1.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          },
+          "4,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/backCurvatureCoefficient",
+              "_title": "/SmartDashboard/backCurvatureCoefficient",
+              "Slider Settings/Min": -1.0,
+              "Slider Settings/Max": 1.0,
+              "Slider Settings/Block increment": 0.0625
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Debug",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
         "gridSize": 64.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "4,0": {
+          "0,0": {
             "size": [
-              4,
+              5,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Files",
+              "_title": "/SmartDashboard/Files"
+            }
+          },
+          "0,2": {
+            "size": [
+              5,
+              3
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SmartDashboard/Scheduler",
+              "_title": "/SmartDashboard/Scheduler"
+            }
+          },
+          "9,1": {
+            "size": [
+              6,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/SparkMaxDriveTrain/NavX/yaw",
+              "_title": "/LiveWindow/SparkMaxDriveTrain/NavX/yaw"
+            }
+          },
+          "8,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[6]/Value",
+              "_title": "/LiveWindow/Ungrouped/DigitalInput[6]/Value",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "10,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/Ungrouped/DigitalOutput[4]/Value",
+              "_title": "/LiveWindow/Ungrouped/DigitalOutput[4]/Value",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "12,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/Ungrouped/DigitalOutput[5]/Value",
+              "_title": "/LiveWindow/Ungrouped/DigitalOutput[5]/Value",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Driver View",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "13,1": {
+            "size": [
+              2,
               2
             ],
             "content": {
@@ -309,9 +668,9 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "12,0": {
+          "15,1": {
             "size": [
-              4,
+              2,
               2
             ],
             "content": {
@@ -324,177 +683,28 @@
           },
           "0,0": {
             "size": [
-              4,
-              2
+              13,
+              8
             ],
             "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/fastSpeedCoefficient",
-              "_title": "SmartDashboard/fastSpeedCoefficient",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,0": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/fastTurnCoefficient",
-              "_title": "SmartDashboard/fastTurnCoefficient",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "0,2": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/slowSpeedCoefficient",
-              "_title": "SmartDashboard/slowSpeedCoefficient",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,2": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/slowTurnCoefficient",
-              "_title": "SmartDashboard/slowTurnCoefficient",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "0,4": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/speedCurve",
-              "_title": "SmartDashboard/speedCurve",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 4.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,4": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/turnCurve",
-              "_title": "SmartDashboard/turnCurve",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 4.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "4,2": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/minSpeedCoefficient",
-              "_title": "SmartDashboard/minSpeedCoefficient",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "12,2": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/minTurnCoefficient",
-              "_title": "SmartDashboard/minTurnCoefficient",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "0,6": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/speedDeadzone",
-              "_title": "SmartDashboard/speedDeadzone",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "8,6": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/turnDeadzone",
-              "_title": "SmartDashboard/turnDeadzone",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "4,4": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/speedDeadzoneWhileTurning",
-              "_title": "SmartDashboard/speedDeadzoneWhileTurning",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
-            }
-          },
-          "12,4": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/speedDeadzoneWhileTurning",
-              "_title": "SmartDashboard/speedDeadzoneWhileTurning",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625
+              "_type": "Camera Stream",
+              "_source0": "camera_server://rPi Camera 0",
+              "_title": "rPi Camera 0",
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": 83.0,
+              "fps": 30,
+              "imageWidth": 0,
+              "imageHeight": 0
             }
           }
         }
       }
     },
     {
-      "title": "Debug",
+      "title": "Hab Dance",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {

@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.usfirst.frc620.Warbots2019.automation.ScaleHabClosedLoopCommand;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
@@ -108,7 +109,7 @@ public class Robot extends TimedRobot {
                 Logger.log(sig + ": Configured with no drive train ");
             }
         }
-        // SmartDashboard.putData(driveTrain);
+        SmartDashboard.putData(driveTrain);
 
         boolean compressorEnabled = config.getMappedBoolean("Compressor");
         if (compressorEnabled) 
@@ -170,7 +171,7 @@ public class Robot extends TimedRobot {
 
             if (elevator != null) 
             {
-                // SmartDashboard.putData(elevator);
+                SmartDashboard.putData(elevator);
             } 
             else 
             {
@@ -199,7 +200,7 @@ public class Robot extends TimedRobot {
 
             if (climbingMechanism != null) 
             {
-                // SmartDashboard.putData(climbingMechanism);
+                SmartDashboard.putData(climbingMechanism);
             } 
             else 
             {
@@ -246,6 +247,7 @@ public class Robot extends TimedRobot {
         }
 
         SmartDashboard.putData(Scheduler.getInstance());
+// SmartDashboard.putData(new ScaleHabClosedLoopCommand());
     }
 
     @Override
