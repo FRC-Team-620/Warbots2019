@@ -121,27 +121,9 @@ public class TurnAnglePIDCommand extends Command {
   @Override
   protected boolean isFinished() 
   {
-<<<<<<< HEAD
-    double cmdValue = pidOutput.getOutput();
-    if (rotationCW)
-    {
-      cmdValue *= -1.0;
-    }
-    Robot.driveTrain.drive(0, cmdValue);
-    
-    boolean ret = pidController.onTarget();
-    System.out.println("gyro angle: ["+Robot.driveTrain.getAngle().toDegrees()+"] norm: ["+getNormalizedAngle()+"] final ["+finalAngle.toDegrees()+"] Delta = " + (finalAngle.toDegrees() - getNormalizedAngle())+" cmdValue: "+cmdValue);
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-        pidController.disable();
-    }
-    return ret;
-=======
     return pidController.onTarget() || 
       Robot.oi.getRobotSpeed() > 0.2 || 
       Robot.oi.getRobotRotationRate() > 0.2;
->>>>>>> 602af89437b51697a1cd93ee74964040aeca9f79
   }
 
   // Called once after isFinished returns true
