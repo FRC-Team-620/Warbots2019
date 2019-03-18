@@ -9,6 +9,7 @@ package org.usfirst.frc620.Warbots2019.vision;
 
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,14 +23,14 @@ public class VisionSubsystem extends Subsystem
 {
   public VisionSubsystem(ControlReader config)
   {
+    
     int numberOfCameras = config.getMappedInt("NumberOfCameras");
-    int[] cameraStuff;
-    for (int i = 0; i < numberOfCameras; ++i)
+    UsbCamera[] usbCameras = new UsbCamera[numberOfCameras];
+    for (int i = 0; i < numberOfCameras; i++)
     {
-        var cam = CameraServer.getInstance().startAutomaticCapture(i);
-        System.out.println("Setting resolution: " + cam.setResolution(50, 30));
+        usbCameras[i] = CameraServer.getInstance().startAutomaticCapture(i);
+        System.out.println("Setting resolution: " + usbCameras[i].setResolution(50, 30));
     }
-  
   }
 
   @Override
