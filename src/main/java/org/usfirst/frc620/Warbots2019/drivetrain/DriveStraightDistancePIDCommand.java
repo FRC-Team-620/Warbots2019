@@ -82,10 +82,10 @@ public class DriveStraightDistancePIDCommand extends Command {
   @Override
   protected void initialize() {
     Robot.driveTrain.resetTotalDistanceTravelled();
-    m_distance = 10;
+    m_distance = 5;
     m_angle = Robot.driveTrain.getAngle();
     turnController.setSetpoint(m_angle.toDegrees());
-    driveController.setSetpoint(m_distance);
+    driveController.setSetpoint(-m_distance);
     turnController.enable();
     driveController.enable();
   }
@@ -93,19 +93,19 @@ public class DriveStraightDistancePIDCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.err.println("Distance Run: " + Robot.driveTrain.getTotalDistanceTravelled() + " Distance Output: "
-        + pidDriveOutput.getOutput() + " Distance Target: " + driveController.getSetpoint());
-    Robot.driveTrain.drive(-pidDriveOutput.getOutput(), pidTurnOutput.getOutput());
+    System.err.println("Distance Run: " + Robot.driveTrain.getTotalDistanceTravelled() + " Distance Target: " + driveController.getSetpoint());
+    Robot.driveTrain.drive(-pidDriveOutput.getOutput(), 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     
-    boolean ret = turnController.onTarget() && driveController.onTarget();
+    boolean ret = driveController.onTarget();
     if (ret)
     {
         Logger.log("Command: ["+this.getName()+"] done");
+        driveController.disable();
     }
     return ret;
   }
