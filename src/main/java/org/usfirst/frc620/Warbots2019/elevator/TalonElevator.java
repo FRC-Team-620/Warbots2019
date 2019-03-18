@@ -18,26 +18,18 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.utility.ControlReader;
-import org.usfirst.frc620.Warbots2019.utility.Logger;
-import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc620.Warbots2019.utility.ControlReader;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
+import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 
 /**
  *
  */
 public class TalonElevator extends Elevator
 {
-    private final static Map<ElevatorLevel, Integer> HEIGHTS = Map.ofEntries(
-        Map.entry(ElevatorLevel.FLOOR, 0),
-        Map.entry(ElevatorLevel.MIDDLE, 6000),
-        Map.entry(ElevatorLevel.TOP, 12000)
-    );
-
     private WPI_TalonSRX talon;
     private double speedFactor;
 
@@ -58,6 +50,7 @@ public class TalonElevator extends Elevator
 
         var talonConfig = new SendableTalonWrapper(talon);
         talonConfig.loadSettingsFromConfig(Robot.config, "Elevator.MotionMagic");
+        talonConfig.setName("Elevator Talon");
         addChild(talonConfig);
     }
 
@@ -77,13 +70,8 @@ public class TalonElevator extends Elevator
     }
 
     @Override
-    public void driveTo(ElevatorLevel level) 
+    public void driveTo(double height) 
     {
-        double height = getHeight(level);
-System.out.println("Current height: " + talon.getSensorCollection().getQuadraturePosition());
-System.out.println("Driving elevator to: " + height);
-System.out.println("Error: " + talon.getClosedLoopError());
-System.out.println("Output: " + talon.getMotorOutputPercent());
         talon.set(ControlMode.MotionMagic, height);
     }
 
@@ -91,15 +79,7 @@ System.out.println("Output: " + talon.getMotorOutputPercent());
     public void holdCurrentHeight()
     {
         double height = getHeight();
-        System.out.println("Holding Elevator at " + height);
-        System.out.println("Error: " + talon.getClosedLoopError());
-        System.out.println("Output: " + talon.getMotorOutputPercent());
         talon.set(ControlMode.MotionMagic, height);
-    }
-
-    double getHeight(ElevatorLevel level)
-    {
-        return HEIGHTS.get(level);
     }
 
     @Override

@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ControlElevatorWithJoystick extends Command {
+  private double[] snapHeights = null;
+  private double maxSnapDist = 2000;
   double speedFactor;
   public ControlElevatorWithJoystick() {
     Logger.log("New Command: "+this.getName());
@@ -34,6 +36,7 @@ public class ControlElevatorWithJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.elevator.drive(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,32 +45,46 @@ public class ControlElevatorWithJoystick extends Command {
   {
     // double speed = Robot.oi.getElevatorSpeed();
     double speed = Robot.oi.scorerController.getY(Hand.kLeft);
-    // if (Math.abs(speed) < 0.2)
-      // Scheduler.getInstance().add(new HoldElevatorPosition());
-    // else
+    if (Math.abs(speed) < 0.2)
+      Scheduler.getInstance().add(new MoveElevatorTo(getSnapHeight()));
+    else
       Robot.elevator.drive(-speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = false;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
-    assert false;
+  protected void end() 
+  {
+    Logger.log("Command: ["+this.getName()+"] done");
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+  private double getSnapHeight()
+  {
+    double height = Robot.elevator.getHeight();
+
+    if (snapHeights == null)
+      return height;
+
+    double minDist = Double.POSITIVE_INFINITY;
+    double closestHeight = height;
+    for (double snapHeight : snapHeights)
+    {
+      double diff = Math.abs(height - snapHeight);
+      if (diff < minDist)
+      {
+        minDist = diff;
+        closestHeight = snapHeight;
+      }
+    }
+    if (minDist < maxSnapDist)
+      return closestHeight;
+    else
+      return height;
   }
 }

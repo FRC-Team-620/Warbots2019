@@ -7,20 +7,19 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveElevatorTo extends Command 
 {
   private Elevator elevator = Robot.elevator;
   
-  private ElevatorLevel height;
+  private double height;
 
-  public MoveElevatorTo(ElevatorLevel height) 
+  public MoveElevatorTo(double height) 
   {
     Logger.log("New Command: "+this.getName());
     this.height = height;
@@ -36,11 +35,12 @@ public class MoveElevatorTo extends Command
   @Override
   protected boolean isFinished() 
   {
-    boolean ret = Math.abs(Robot.oi.getElevatorSpeed()) > 0.1;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return Math.abs(Robot.oi.scorerController.getY(Hand.kLeft)) > 0.2;
+  }
+
+  @Override
+  protected void end() 
+  {
+    Logger.log("Command: ["+this.getName()+"] done");
   }
 }

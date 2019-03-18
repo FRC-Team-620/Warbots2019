@@ -10,6 +10,7 @@ package org.usfirst.frc620.Warbots2019.elevator;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
@@ -20,6 +21,7 @@ public class HoldElevatorPosition extends Command
 
   public HoldElevatorPosition() 
   {
+    System.out.println("Creating hold elevator position command");
     requires(elevator);
   }
 
@@ -33,7 +35,7 @@ public class HoldElevatorPosition extends Command
   @Override
   protected boolean isFinished() 
   {
-    return Math.abs(Robot.oi.getElevatorSpeed()) > 0.2;
+    return Math.abs(Robot.oi.scorerController.getY(Hand.kLeft)) > 0.2;
   }
 
   @Override

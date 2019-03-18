@@ -18,7 +18,7 @@ public class GrabberLatchArmCommandGroup extends CommandGroup {
    * Add your docs here.
    */
   public GrabberLatchArmCommandGroup() {
-    addSequential(new MoveElevatorTo(ElevatorLevel.FLOOR));
+    addSequential(new MoveElevatorTo(1000));
     addSequential(new GrabberOpenLatchCommand());
     addSequential(new GrabberDeployCommand());
     addSequential(new DelayCommand(1));

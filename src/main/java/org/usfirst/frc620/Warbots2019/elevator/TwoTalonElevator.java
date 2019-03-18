@@ -8,26 +8,19 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import java.util.Map;
-
 //import com.ctre.phoenix.ParamEnum;
 //import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 
 /**
  *
  */
 public class TwoTalonElevator extends TalonElevator 
 {
-    private final static Map<ElevatorLevel, Integer> HEIGHTS = Map.ofEntries(
-        Map.entry(ElevatorLevel.FLOOR, 0),
-        Map.entry(ElevatorLevel.MIDDLE, 10000),
-        Map.entry(ElevatorLevel.TOP, 20000)
-    );
-
     private WPI_TalonSRX talon;
 
     public TwoTalonElevator(int masterCanID, int slaveCanID) 
@@ -41,11 +34,9 @@ public class TwoTalonElevator extends TalonElevator
         talon.getAllConfigs(masterConfiguration);
         slave.configAllSettings(masterConfiguration);
         slave.follow(talon);
-    }
 
-    @Override
-    public double getHeight(ElevatorLevel level) 
-    {
-        return HEIGHTS.get(level);
+        var slaveConfig = new SendableTalonWrapper(slave);
+        slaveConfig.setName("Elevator Slave Talon");
+        addChild(slaveConfig);
     }
 }
