@@ -91,14 +91,15 @@ public class CargoMech extends ScoringMechanism {
   double cmspeed = config.getMappedDouble("CargoMech.MotorSpeed");
 
   public static Configurable asConfigurable()
-    {
-        // We now have a Configurable object with all methods implemented
-        // so programs can carry it around like a suitcase
-        ConfigurableImpl configurable = (ConfigurableImpl)ScoringMechanism.asConfigurable();
-        configurable.addElement(new Element("CargoMech.MotorSpeed", 
-            "CargoMech Setting: Max speed of cargo mech wheels 0-1.0", null));
-        return configurable;
-    }
+  {
+      // We now have a Configurable object with all methods implemented
+      // so programs can carry it around like a suitcase
+      ConfigurableImpl configurable = (ConfigurableImpl)ScoringMechanism.asConfigurable();
+      configurable.addElement(new Element("CargoMech.MotorSpeed", 
+          "CargoMech Setting: Max speed of cargo mech wheels 0-1.0", null));
+      return configurable;
+  }
+
   public void idle()
   {
     stow();
@@ -112,9 +113,9 @@ public class CargoMech extends ScoringMechanism {
   public void captureCargo() 
   {
     intakeWheels.set(-cmspeed);
-    double intakeVoltage = intakeWheels.getMotorOutputVoltage();
-    double intakeCurrent = intakeWheels.getOutputCurrent();
-    double intakeResistance = intakeVoltage / intakeCurrent;
+    // double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    // double intakeCurrent = intakeWheels.getOutputCurrent();
+    // double intakeResistance = intakeVoltage / intakeCurrent;
     // System.out.println("IntakeResistance is" + intakeResistance);
     // System.out.println("IntakeCurrent is" +intakeCurrent);
     // System.out.println("IntakeVoltage is" + intakeVoltage);
@@ -122,9 +123,9 @@ public class CargoMech extends ScoringMechanism {
 
   public void stopCapture() {
     intakeWheels.set(0);
-    double intakeVoltage = intakeWheels.getMotorOutputVoltage();
-    double intakeCurrent = intakeWheels.getOutputCurrent();
-    double intakeResistance = intakeVoltage / intakeCurrent;
+    // double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    // double intakeCurrent = intakeWheels.getOutputCurrent();
+    // double intakeResistance = intakeVoltage / intakeCurrent;
     // System.out.println("IntakeResistance is" + intakeResistance);
     // System.out.println("IntakeCurrent is" +intakeCurrent);
     // System.out.println("IntakeVoltage is" + intakeVoltage);
@@ -132,9 +133,9 @@ public class CargoMech extends ScoringMechanism {
 
   public void ejectCargo() {
     intakeWheels.set(cmspeed);
-    double intakeVoltage = intakeWheels.getMotorOutputVoltage();
-    double intakeCurrent = intakeWheels.getOutputCurrent();
-    double intakeResistance = intakeVoltage / intakeCurrent;
+    // double intakeVoltage = intakeWheels.getMotorOutputVoltage();
+    // double intakeCurrent = intakeWheels.getOutputCurrent();
+    // double intakeResistance = intakeVoltage / intakeCurrent;
     // System.out.println("IntakeResistance is" + intakeResistance);
     // System.out.println("IntakeCurrent is" +intakeCurrent);
     // System.out.println("IntakeVoltage is" + intakeVoltage);
@@ -179,12 +180,12 @@ public class CargoMech extends ScoringMechanism {
   @Override
   public void initSendable(SendableBuilder builder) 
   {
-    builder.addBooleanProperty("Deployed", this::isDeployed, null);
-    builder.addBooleanProperty("Stowed", this::isStowed, null);
-    builder.addBooleanProperty("Wrist1", wristPiston1::get, null);
-    builder.addBooleanProperty("Wrist2", wristPiston2::get, null);
-    builder.addBooleanProperty("Latch1", latch1::get, null);
-    builder.addBooleanProperty("Latch2", latch2::get, null);
-    builder.addBooleanProperty("HasCargo", this::hasCargo, null);
+    // builder.addBooleanProperty("Deployed", this::isDeployed, null);
+    // builder.addBooleanProperty("Stowed", this::isStowed, null);
+    // builder.addBooleanProperty("Wrist1", wristPiston1::get, null);
+    // builder.addBooleanProperty("Wrist2", wristPiston2::get, null);
+    // builder.addBooleanProperty("Latch1", latch1::get, null);
+    // builder.addBooleanProperty("Latch2", latch2::get, null);
+    // builder.addBooleanProperty("HasCargo", this::hasCargo, null);
   }
 }

@@ -11,11 +11,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.usfirst.frc620.Warbots2019.automation.ScaleHabClosedLoopCommand;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
-import org.usfirst.frc620.Warbots2019.drivetrain.NavX;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain;
 import org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain;
 import org.usfirst.frc620.Warbots2019.elevator.Elevator;
@@ -89,15 +89,15 @@ public class Robot extends TimedRobot {
             if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkDriveTrain")) 
             {
-                driveTrain = new SparkDriveTrain(1, 2, 3, 4, NavX.Port.SPIMXP);
+                driveTrain = new SparkDriveTrain(1, 2, 3, 4);
                 Logger.log(sig + ": Configured with SparkDriveTrain");
             } 
             else if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.drivetrain.SparkMaxDriveTrain")) 
             {
-                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4, NavX.Port.SerialUSB);
+                driveTrain = new SparkMaxDriveTrain(1, 2, 3, 4);
                 Logger.log(sig + ": Configured with SparkMaxDriveTrain");
-            } 
+            }
             else if (driverTrainClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.sim.SimDriveTrain")) 
             {
@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
                 Logger.log(sig + ": Configured with no drive train ");
             }
         }
-        // SmartDashboard.putData(driveTrain);
+        SmartDashboard.putData(driveTrain);
 
         boolean compressorEnabled = config.getMappedBoolean("Compressor");
         if (compressorEnabled) 
@@ -171,7 +171,7 @@ public class Robot extends TimedRobot {
 
             if (elevator != null) 
             {
-                // SmartDashboard.putData(elevator);
+                SmartDashboard.putData(elevator);
             } 
             else 
             {
@@ -200,7 +200,7 @@ public class Robot extends TimedRobot {
 
             if (climbingMechanism != null) 
             {
-                // SmartDashboard.putData(climbingMechanism);
+                SmartDashboard.putData(climbingMechanism);
             } 
             else 
             {
@@ -230,19 +230,24 @@ public class Robot extends TimedRobot {
         // SmartDashboard.putData(new DriveStraightPIDCommand());
         // SmartDashboard.putData(new DriveStraightDistancePIDCommand());
         // SmartDashboard.putData(new FollowLineWithCameraCommand());
-        SmartDashboard.putData(new FollowLineWithCameraCommand());
+        if (driveTrain != null)
+            SmartDashboard.putData(new FollowLineWithCameraCommand());
+
         // Specify Autonomous Choices
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         // SmartDashboard.putData("Auto choices", m_chooser);
 
         // Show config data on SmartDashboard
-        // SmartDashboard.putString("Robot Name", config.robotName);
+        SmartDashboard.putString("Robot Name", config.robotName);
         ArrayList<String> loadedFiles = ControlReader.getLoadedFiles();
         for (int i = 0; i < loadedFiles.size(); i++) 
         {
-            // SmartDashboard.putString("Files", loadedFiles.get(i));
+            SmartDashboard.putString("Files", loadedFiles.get(i));
         }
+
+        SmartDashboard.putData(Scheduler.getInstance());
+// SmartDashboard.putData(new ScaleHabClosedLoopCommand());
     }
 
     @Override
@@ -304,7 +309,12 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() 
     {
+        long timeBefore = System.currentTimeMillis();
         Scheduler.getInstance().run();
+        long timeAfter = System.currentTimeMillis();
+        long dt = timeAfter - timeBefore;
+        if (dt > 10)
+            System.out.println("Running the scheduler took " + dt + " millis.");
     }
 
     public static Configurable asConfigurable() {

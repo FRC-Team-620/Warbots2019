@@ -98,9 +98,11 @@ public class Angle implements Comparable<Angle>
 		// This code takes care of all of the weird modulo stuff to wrap the angle between -1/2 and 1/2 turns.
         // If you don't question how it works, it can never hurt you
         val += .5;
-        val -= (int) val;
+		val -= (int) val;
+		if (val < 0)
+			val += 1;
         val -= .5;
-		
+
 		return new Angle(val);
 	}
 

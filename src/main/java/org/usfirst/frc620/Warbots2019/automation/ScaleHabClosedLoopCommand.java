@@ -18,9 +18,9 @@ public class ScaleHabClosedLoopCommand extends Command
 {
   //TODO: load these from somewhere else
   private static final double elevatorBaseSpeed = 0.3;
-  private static final double scissorLiftBaseSpeed = 1;
-  private static final double elevatorKP = 0.4;
-  private static final double scissorLiftKP = 0.1;
+  private static final double scissorLiftBaseSpeed = 0.4;
+  private static final double elevatorKP = 0.03;
+  private static final double scissorLiftKP = 0.04;
 
   private Elevator elevator = Robot.elevator;
   private ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;

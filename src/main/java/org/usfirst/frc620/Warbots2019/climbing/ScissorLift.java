@@ -33,10 +33,7 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
   @Override
   public void initDefaultCommand() 
   {
-    // We were getting NullPointerException since OI is created AFTER 
-    // subsystems.
     ControlScissorLiftWithJoystick cmd = new ControlScissorLiftWithJoystick();
-    
     setDefaultCommand(cmd);
   }
 

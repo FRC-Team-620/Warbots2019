@@ -34,7 +34,7 @@ public class SparkMaxDriveTrain extends DriveTrain {
     private NavX navX;
 
     public SparkMaxDriveTrain(int leftMotor1CanID, int leftMotor2CanID, 
-        int rightMotor1CanID, int rightMotor2CanID, NavX.Port navXPort) 
+        int rightMotor1CanID, int rightMotor2CanID) 
     {
         setName("SparkMaxDriveTrain");
 
@@ -83,8 +83,8 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
          // Initialize NavX
          // TODO initializing the NavX on the prototype is crashing
-        // navX = new NavX(navXPort);
-        // addChild(navX);
+        navX = new NavX();
+        addChild(navX);
 
         // Create Shuffleboard Tab
         // ShuffleboardTab tab = Shuffleboard.getTab("DriveTrain");
