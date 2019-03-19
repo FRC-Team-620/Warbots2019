@@ -44,16 +44,11 @@ public class ControlElevatorWithJoystick extends Command {
   protected void execute() 
   {
     // double speed = Robot.oi.getElevatorSpeed();
-<<<<<<< HEAD
-    //double speed = Robot.oi.driverController.getY(Hand.kRight);
-    //Robot.elevator.drive(-speed);
-=======
     double speed = Robot.oi.scorerController.getY(Hand.kLeft);
     if (Math.abs(speed) < 0.2)
       Scheduler.getInstance().add(new MoveElevatorTo(getSnapHeight()));
     else
       Robot.elevator.drive(-speed);
->>>>>>> 602af89437b51697a1cd93ee74964040aeca9f79
   }
 
   // Make this return true when this Command no longer needs to run execute()

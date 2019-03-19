@@ -94,10 +94,7 @@ public class TurnAnglePIDCommand extends Command {
     // final angle is " + finalAngle.toDegrees());
     finalAngle = amountToTurn.plus(driveTrain.getAngle());
     pidController.setSetpoint(finalAngle.toDegrees());
-<<<<<<< HEAD
-=======
     pidController.enable();
->>>>>>> 602af89437b51697a1cd93ee74964040aeca9f79
   }
 
   // Called repeatedly when this Command is scheduled to run
