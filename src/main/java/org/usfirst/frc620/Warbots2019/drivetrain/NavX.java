@@ -100,6 +100,6 @@ public class NavX extends SendableBase {
 
     public Angle getPitch() 
     {
-		return Angle.fromDegrees(navxBoard.getPitch());
+		return Angle.fromDegrees(navxBoard.getRoll());
 	}
 }

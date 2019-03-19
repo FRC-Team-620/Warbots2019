@@ -268,7 +268,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         // Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
-
+        scoringMechanism.stow();
         m_autoSelected = m_chooser.getSelected();
         System.out.println("Auto selected: " + m_autoSelected);
     }
@@ -301,6 +301,7 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         // if (autonomousCommand != null)
         // autonomousCommand.cancel();
+        scoringMechanism.stow();
     }
 
     /*
