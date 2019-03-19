@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc620.Warbots2019.automation;
 
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
@@ -17,17 +10,24 @@ import org.usfirst.frc620.Warbots2019.utility.LambdaPIDSource;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ScaleHabClosedLoopCommand extends Command 
 {
   //TODO: load these from somewhere else
-  private static final double elevatorBaseSpeed = 0.8;
-  private static final double scissorLiftBaseSpeed = 0.3;
-  private static final double elevatorKP = 0.3;
-  private static final double scissorLiftKP = 0.4;
-  private static final double pidKP = 1;
-  private static final double pidKI = 0.01;
-  private static final double pidKD = 0;
+
+  private final static String ELEVATOR_BASE_SPEED = "elevatorBaseSpeed";
+  private final static String SCISSOR_LIFT_BASE_SPEED = "scissorLiftBaseSpeed";
+  private final static String ELEVATOR_P = "elevatorKP";
+  private final static String SCISSOR_LIFT_P = "scissorLiftKP";
+  private final static String PID_P = "pidKP";
+  private final static String PID_I = "pidKI";
+  private final static String PID_D = "pidKD";
+
+  private double elevatorBaseSpeed;
+  private double scissorLiftBaseSpeed;
+  private double elevatorKP;
+  private double scissorLiftKP;
 
   private Elevator elevator = Robot.elevator;
   private ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
@@ -41,7 +41,7 @@ public class ScaleHabClosedLoopCommand extends Command
 
     var pidSource = new LambdaPIDSource(
       PIDSourceType.kDisplacement, 
-      () -> driveTrain.getAngle().toDegrees()
+      () -> driveTrain.getPitch().toDegrees()
     );
 
     // PIDControllers expect a single motor, so for a full drive train,
@@ -50,7 +50,7 @@ public class ScaleHabClosedLoopCommand extends Command
     var pidOutput = new DummyPIDOutput();
 
     // WPI class to manage PID control for us
-    controller = new PIDController(pidKP, pidKI, pidKD, pidSource, pidOutput);
+    controller = new PIDController(0, 0, 0, pidSource, pidOutput);
 
     // Angle.toDegrees will report values between -180 degrees and 180 degrees
     controller.setInputRange(-180, 180);
@@ -66,12 +66,26 @@ public class ScaleHabClosedLoopCommand extends Command
     // command
     controller.setAbsoluteTolerance(1);
 
-    //Uses drive train for navX, but does not prevent other commands form using the
-    //drive train. Should NOT call requires(driveTrain).
+    SmartDashboard.putNumber(ELEVATOR_BASE_SPEED, -0.5);
+    SmartDashboard.putNumber(SCISSOR_LIFT_BASE_SPEED, 0.5);
+    SmartDashboard.putNumber(ELEVATOR_P, 1);
+    SmartDashboard.putNumber(SCISSOR_LIFT_P, 1);
+    SmartDashboard.putNumber(PID_P, 0.05);
+    SmartDashboard.putNumber(PID_I, 0.001);
+    SmartDashboard.putNumber(PID_D, 0.1);
   }
 
   @Override
   protected void initialize() {
+    controller.setP(SmartDashboard.getNumber(PID_P, 0.05));
+    controller.setI(SmartDashboard.getNumber(PID_I, 0.001));
+    controller.setD(SmartDashboard.getNumber(PID_D, 0.1));
+
+    elevatorBaseSpeed = SmartDashboard.getNumber(ELEVATOR_BASE_SPEED, -0.5);
+    scissorLiftBaseSpeed = SmartDashboard.getNumber(SCISSOR_LIFT_BASE_SPEED, 0.5);
+    elevatorKP = SmartDashboard.getNumber(ELEVATOR_P, 1);
+    scissorLiftKP = SmartDashboard.getNumber(SCISSOR_LIFT_P, 1);
+
     controller.enable();
   }
 
@@ -83,15 +97,15 @@ public class ScaleHabClosedLoopCommand extends Command
     System.out.println("Pitch: " + driveTrain.getPitch() + " Output: " + output);
     System.out.println("driving elevator " + (elevatorBaseSpeed + elevatorKP * output));
     elevator.drive(elevatorBaseSpeed + elevatorKP * output);
-    System.out.println("driving scissor lift " + (scissorLiftBaseSpeed - scissorLiftKP * output));
-    scissorLift.drive(scissorLiftBaseSpeed - scissorLiftKP * output);
+    System.out.println("driving scissor lift " + (scissorLiftBaseSpeed + scissorLiftKP * output));
+    scissorLift.drive(scissorLiftBaseSpeed + scissorLiftKP * output);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() 
   {
-    return elevator.getHeight() == 0 || Robot.oi.driverController.getRawButton(2);
+    return false;
   }
 
   @Override

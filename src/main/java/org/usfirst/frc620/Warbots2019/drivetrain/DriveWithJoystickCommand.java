@@ -91,7 +91,7 @@ public class DriveWithJoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if (Robot.oi.getDriverController().getRawButtonPressed(2))
+        if (Robot.oi.getDriverController().getRawButtonPressed(1))
             Scheduler.getInstance().add(new ScaleHabClosedLoopCommand());
 
         for (var value : SHUFFLEBOARD_OPTIONS.values()) {
@@ -143,31 +143,6 @@ public class DriveWithJoystickCommand extends Command {
                 Robot.driveTrain.drive(speedCoeff * speed, turnCoeff * turning);
             }
         }
-
-        // ------------------------------------------------------
-
-        // System.out.println("The x is " + x_value + " the y is " + y_value);
-        // System.out.println("The angle is " + angle);
-        // System.out.println("The straight is " + (-Math.PI/2 - straightDZ));
-
-        // CenterDeadzone
-        // if (isInCenterDeadzone(x_value, y_value)){
-        // // Doesn't move, x and y value are zero
-        // // System.out.println("Is in CENTERDZ");
-        // Robot.driveTrain.stop();
-        // }
-        // else if(isInStraightDeadzone(angle)){
-        // //System.out.println("is in straightdz");
-        // Robot.driveTrain.drive(speedCoeff * y_value, 0);
-        // }
-        // else if(isInRotationDeadzone(angle)){
-        // // System.out.println("is in rotationdz");
-        // // Uses x_value for the turning speed
-        // Robot.driveTrain.drive(0, turnCoeff * x_value);
-        // }
-        // else{
-        // Robot.driveTrain.drive(speedCoeff * y_value, turnCoeff * x_value);
-        // }
     }
 
     private double curve(double x, double deadzone, double min, double curve) {
