@@ -10,11 +10,13 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.usfirst.frc620.Warbots2019.automation.ScaleHabClosedLoopCommand;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -89,6 +91,9 @@ public class DriveWithJoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        if (Robot.oi.getDriverController().getRawButtonPressed(2))
+            Scheduler.getInstance().add(new ScaleHabClosedLoopCommand());
+
         for (var value : SHUFFLEBOARD_OPTIONS.values()) {
             shuffleboardValues.put(value, SmartDashboard.getNumber(value.toString(), value.getDefaultValue()));
         }

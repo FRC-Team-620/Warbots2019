@@ -641,6 +641,17 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "15,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/SparkMaxDriveTrain/NavX/pitch",
+              "_title": "/LiveWindow/SparkMaxDriveTrain/NavX/pitch"
+            }
           }
         }
       }
@@ -655,10 +666,10 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "13,1": {
+          "13,0": {
             "size": [
               2,
-              2
+              1
             ],
             "content": {
               "_type": "Boolean Box",
@@ -668,10 +679,10 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "15,1": {
+          "15,0": {
             "size": [
               2,
-              2
+              1
             ],
             "content": {
               "_type": "Boolean Box",
@@ -681,9 +692,9 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "0,0": {
+          "0,1": {
             "size": [
-              13,
+              10,
               8
             ],
             "content": {
@@ -698,6 +709,25 @@
               "fps": 30,
               "imageWidth": 0,
               "imageHeight": 0
+            }
+          },
+          "10,1": {
+            "size": [
+              9,
+              8
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://Right Camera",
+              "_title": "Right Camera",
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": 82.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
             }
           }
         }

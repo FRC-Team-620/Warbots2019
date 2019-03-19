@@ -40,7 +40,7 @@ public abstract class Elevator extends Subsystem
     @Override
     public void initDefaultCommand() 
     {
-        setDefaultCommand(new ControlElevatorWithJoystick());
+        setDefaultCommand(new ControlElevatorWithJoystick(null, 0));
     }
 
     public static Configurable asConfigurable()

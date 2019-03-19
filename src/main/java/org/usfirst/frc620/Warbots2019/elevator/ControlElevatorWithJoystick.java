@@ -11,17 +11,18 @@ import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ControlElevatorWithJoystick extends Command {
-  private double[] snapHeights = null;
-  private double maxSnapDist = 2000;
+  private double[] snapHeights;
+  private double maxSnapDist;
   double speedFactor;
-  public ControlElevatorWithJoystick() {
+  public ControlElevatorWithJoystick(double[] snapHeights, double snapDist) {
     Logger.log("New Command: "+this.getName());
 
+    this.snapHeights = snapHeights;
+    maxSnapDist = snapDist;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     speedFactor = 1.0;
@@ -44,7 +45,8 @@ public class ControlElevatorWithJoystick extends Command {
   protected void execute() 
   {
     // double speed = Robot.oi.getElevatorSpeed();
-    double speed = Robot.oi.scorerController.getY(Hand.kLeft);
+    // double speed = Robot.oi.scorerController.getY(Hand.kLeft);
+    double speed = Robot.oi.scorerController.getRawAxis(1);
     if (Math.abs(speed) < 0.2)
       Scheduler.getInstance().add(new MoveElevatorTo(getSnapHeight()));
     else
