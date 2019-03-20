@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.climbing;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
@@ -27,6 +28,7 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
     System.out.println("loaded scissor lift id:" + talonCanID);
     talon = new WPI_TalonSRX(talonCanID);
     talon.configFactoryDefault();
+    talon.setNeutralMode(NeutralMode.Brake);
     addChild(new SendableTalonWrapper(talon));
   }
 

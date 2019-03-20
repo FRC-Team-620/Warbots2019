@@ -112,6 +112,7 @@ public class CargoMech extends ScoringMechanism {
 
   public void captureCargo() 
   {
+    System.out.println("Driving intake wheels " + (-cmspeed));
     intakeWheels.set(-cmspeed);
     // double intakeVoltage = intakeWheels.getMotorOutputVoltage();
     // double intakeCurrent = intakeWheels.getOutputCurrent();

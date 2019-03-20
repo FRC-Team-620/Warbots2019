@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
                 Logger.log(sig + ": Configured with no drive train ");
             }
         }
-        SmartDashboard.putData(driveTrain);
+        // SmartDashboard.putData(driveTrain);
 
         boolean compressorEnabled = config.getMappedBoolean("Compressor");
         if (compressorEnabled) 
@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
 
             if (scoringMechanism != null) 
             {
-                SmartDashboard.putData(scoringMechanism);
+                // SmartDashboard.putData(scoringMechanism);
             } 
             else 
             {
@@ -171,7 +171,7 @@ public class Robot extends TimedRobot {
 
             if (elevator != null) 
             {
-                SmartDashboard.putData(elevator);
+                // SmartDashboard.putData(elevator);
             } 
             else 
             {
@@ -200,7 +200,7 @@ public class Robot extends TimedRobot {
 
             if (climbingMechanism != null) 
             {
-                SmartDashboard.putData(climbingMechanism);
+                // SmartDashboard.putData(climbingMechanism);
             } 
             else 
             {

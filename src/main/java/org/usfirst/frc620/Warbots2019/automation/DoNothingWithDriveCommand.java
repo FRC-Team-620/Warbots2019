@@ -7,38 +7,28 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
-import org.usfirst.frc620.Warbots2019.elevator.Elevator;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ScaleHabOpenLoopCommand extends Command {
-  private static final double elevatorBaseSpeed = 0.3;
-  private static final double scissorLiftBaseSpeed = 1;
+public class DoNothingWithDriveCommand extends Command {
 
-  private Elevator elevator = Robot.elevator;
-  private ScissorLift scissorLift = (ScissorLift) Robot.climbingMechanism;
+  private DriveTrain driveTrain = Robot.driveTrain;
 
-  public ScaleHabOpenLoopCommand() 
-  {
-    requires(elevator);
-    requires(scissorLift);
+  public DoNothingWithDriveCommand() {
+    requires(driveTrain);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() 
-  {
-    elevator.drive(elevatorBaseSpeed);
-    scissorLift.drive(scissorLiftBaseSpeed);
+  protected void execute() {
+    driveTrain.drive(0, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() 
-  {
-    return elevator.getHeight() == 0 && scissorLift.isLowered();
+  protected boolean isFinished() {
+    return false;
   }
 }

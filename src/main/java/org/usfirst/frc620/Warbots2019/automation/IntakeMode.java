@@ -22,13 +22,5 @@ public interface IntakeMode {
 
     public boolean wasSuccessful();
 
-    /**
-     * Provides a list of scoring modes for the particular type of
-     * game object that was taken in. This method will be called
-     * after the intake command has been completed.
-     * 
-     * @return The relevant scoring modes for the game object that
-     * the robot controls after this intake mode
-     */
     public List<ScoringMode> getScoringModes();
 }

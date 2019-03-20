@@ -7,6 +7,10 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
@@ -15,10 +19,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ControlElevatorWithJoystick extends Command {
-  private double[] snapHeights;
+  private List<ScoringMode> snapHeights;
   private double maxSnapDist;
+  private Optional<ScoringMode> currentScoringMode;
+
   double speedFactor;
-  public ControlElevatorWithJoystick(double[] snapHeights, double snapDist) {
+  public ControlElevatorWithJoystick(List<ScoringMode> snapHeights, double snapDist) {
     Logger.log("New Command: "+this.getName());
 
     this.snapHeights = snapHeights;
@@ -38,6 +44,7 @@ public class ControlElevatorWithJoystick extends Command {
   @Override
   protected void initialize() {
     Robot.elevator.drive(0);
+    currentScoringMode = Optional.empty();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -48,7 +55,13 @@ public class ControlElevatorWithJoystick extends Command {
     // double speed = Robot.oi.scorerController.getY(Hand.kLeft);
     double speed = Robot.oi.scorerController.getRawAxis(1);
     if (Math.abs(speed) < 0.2)
-      Scheduler.getInstance().add(new MoveElevatorTo(getSnapHeight()));
+    {
+      currentScoringMode = getNearestTarget();
+      if (currentScoringMode.isPresent())
+        Scheduler.getInstance().add(new MoveElevatorTo(currentScoringMode.get().getHeight()));
+      else
+        Scheduler.getInstance().add(new HoldElevatorPosition());
+    }
     else
       Robot.elevator.drive(-speed);
   }
@@ -66,27 +79,25 @@ public class ControlElevatorWithJoystick extends Command {
     Logger.log("Command: ["+this.getName()+"] done");
   }
 
-  private double getSnapHeight()
+  private Optional<ScoringMode> getNearestTarget()
   {
     double height = Robot.elevator.getHeight();
 
     if (snapHeights == null)
-      return height;
+      return Optional.empty();
 
     double minDist = Double.POSITIVE_INFINITY;
-    double closestHeight = height;
-    for (double snapHeight : snapHeights)
+    Optional<ScoringMode> closestTarget = Optional.empty();
+    for (ScoringMode target : snapHeights)
     {
-      double diff = Math.abs(height - snapHeight);
-      if (diff < minDist)
+      double targetHeight = target.getHeight();
+      double diff = Math.abs(height - targetHeight);
+      if (diff < maxSnapDist && diff < minDist)
       {
         minDist = diff;
-        closestHeight = snapHeight;
+        closestTarget = Optional.of(target);
       }
     }
-    if (minDist < maxSnapDist)
-      return closestHeight;
-    else
-      return height;
+    return closestTarget;
   }
 }

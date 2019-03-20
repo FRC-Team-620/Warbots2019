@@ -10,12 +10,16 @@ package org.usfirst.frc620.Warbots2019.drivetrain;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.usfirst.frc620.Warbots2019.automation.MountHabCommand;
 import org.usfirst.frc620.Warbots2019.automation.ScaleHabClosedLoopCommand;
+import org.usfirst.frc620.Warbots2019.climbing.HoldScissorLiftPositionCommand;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
+import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -65,6 +69,8 @@ public class DriveWithJoystickCommand extends Command {
     double rotationDZ;
     double straightDZ;
 
+    private Command scaleHab;
+
     public DriveWithJoystickCommand() {
         shuffleboardValues = new HashMap<>();
         for (var value : SHUFFLEBOARD_OPTIONS.values()) {
@@ -78,6 +84,9 @@ public class DriveWithJoystickCommand extends Command {
         rotationDZ = config.getMappedDouble("driver.rotation_deadzone");
         straightDZ = config.getMappedDouble("driver.speed_deadzone");
         requires(Robot.driveTrain);
+
+        scaleHab = new MountHabCommand();
+        // holdHab = new HoldScissorLiftPositionCommand();
     }
 
     // Called just before this Command runs the first time
@@ -92,7 +101,9 @@ public class DriveWithJoystickCommand extends Command {
     @Override
     protected void execute() {
         if (Robot.oi.getDriverController().getRawButtonPressed(1))
-            Scheduler.getInstance().add(new ScaleHabClosedLoopCommand());
+            Scheduler.getInstance().add(scaleHab);
+        // if (Robot.oi.getDriverController().getRawButtonPressed(3))
+        //     Scheduler.getInstance().add(holdHab);
 
         for (var value : SHUFFLEBOARD_OPTIONS.values()) {
             shuffleboardValues.put(value, SmartDashboard.getNumber(value.toString(), value.getDefaultValue()));

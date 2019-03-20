@@ -6,45 +6,39 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc620.Warbots2019.automation;
-import org.usfirst.frc620.Warbots2019.utility.Logger;
+
+import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DepositHatch extends Command {
-  public DepositHatch() {
-    Logger.log("New Command: "+this.getName());
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class PullForwardWithDriveTrainCommand extends Command {
+
+  DriveTrain driveTrain = Robot.driveTrain;
+
+  public PullForwardWithDriveTrainCommand() {
+    requires(driveTrain);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    System.out.println("Starting pull forward with drive train");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    driveTrain.drive(-0.4, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean ret = false;
-    if (ret)
-    {
-        Logger.log("Command: ["+this.getName()+"] done");
-    }
-    return ret;
+    return Robot.oi.getDriverController().getRawButtonPressed(3);
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+    driveTrain.drive(0, 0);
   }
 }

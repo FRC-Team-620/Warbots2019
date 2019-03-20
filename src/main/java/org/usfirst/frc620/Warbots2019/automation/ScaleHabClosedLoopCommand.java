@@ -14,15 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ScaleHabClosedLoopCommand extends Command 
 {
-  //TODO: load these from somewhere else
-
-  private final static String ELEVATOR_BASE_SPEED = "elevatorBaseSpeed";
-  private final static String SCISSOR_LIFT_BASE_SPEED = "scissorLiftBaseSpeed";
-  private final static String ELEVATOR_P = "elevatorKP";
-  private final static String SCISSOR_LIFT_P = "scissorLiftKP";
-  private final static String PID_P = "pidKP";
-  private final static String PID_I = "pidKI";
-  private final static String PID_D = "pidKD";
+  private final static String ELEVATOR_BASE_SPEED = "hab/elevatorBaseSpeed";
+  private final static String SCISSOR_LIFT_BASE_SPEED = "hab/scissorLiftBaseSpeed";
+  private final static String ELEVATOR_P = "hab/elevatorKP";
+  private final static String SCISSOR_LIFT_P = "hab/scissorLiftKP";
+  private final static String PID_P = "hab/pidKP";
+  private final static String PID_I = "hab/pidKI";
+  private final static String PID_D = "hab/pidKD";
 
   private double elevatorBaseSpeed;
   private double scissorLiftBaseSpeed;
@@ -66,10 +64,10 @@ public class ScaleHabClosedLoopCommand extends Command
     // command
     controller.setAbsoluteTolerance(1);
 
-    SmartDashboard.putNumber(ELEVATOR_BASE_SPEED, -0.5);
+    SmartDashboard.putNumber(ELEVATOR_BASE_SPEED, 0);
     SmartDashboard.putNumber(SCISSOR_LIFT_BASE_SPEED, 0.5);
     SmartDashboard.putNumber(ELEVATOR_P, 1);
-    SmartDashboard.putNumber(SCISSOR_LIFT_P, 1);
+    SmartDashboard.putNumber(SCISSOR_LIFT_P, 0);
     SmartDashboard.putNumber(PID_P, 0.05);
     SmartDashboard.putNumber(PID_I, 0.001);
     SmartDashboard.putNumber(PID_D, 0.1);
@@ -105,11 +103,13 @@ public class ScaleHabClosedLoopCommand extends Command
   @Override
   protected boolean isFinished() 
   {
-    return false;
+    return Robot.oi.driverController.getRawButton(2)
+      || (elevator.getHeight() < 20 && driveTrain.getPitch().toDegrees() >= 0);
   }
 
   @Override
   protected void end() {
     controller.disable();
+    System.out.println("Ending command scale hab closed loop command");
   }
 }
