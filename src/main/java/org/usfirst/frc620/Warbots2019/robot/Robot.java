@@ -11,8 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.usfirst.frc620.Warbots2019.automation.CargoGroundIntakeMode;
-import org.usfirst.frc620.Warbots2019.automation.ScaleHabClosedLoopCommand;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
 import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
@@ -248,7 +246,6 @@ public class Robot extends TimedRobot {
         }
 
         SmartDashboard.putData(Scheduler.getInstance());
-// SmartDashboard.putData(new ScaleHabClosedLoopCommand());
     }
 
     @Override

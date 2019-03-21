@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
-import org.usfirst.frc620.Warbots2019.utility.Logger;
-
 /**
  * Add your docs here.
  */

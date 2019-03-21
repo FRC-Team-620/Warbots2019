@@ -7,12 +7,6 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode.CargoScoringLevel;
-import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorToAndStop;
-import org.usfirst.frc620.Warbots2019.mechanisms.StowScoringMechanismCommand;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberCaptureCommand;
 
 /**

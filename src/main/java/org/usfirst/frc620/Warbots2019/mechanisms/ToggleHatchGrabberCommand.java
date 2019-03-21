@@ -8,15 +8,11 @@
 package org.usfirst.frc620.Warbots2019.mechanisms;
 
 import org.usfirst.frc620.Warbots2019.drivetrain.DriveTrain;
-
 import org.usfirst.frc620.Warbots2019.robot.Robot;
-import org.usfirst.frc620.Warbots2019.robot.StateManager;
-import org.usfirst.frc620.Warbots2019.utility.Angle;
 import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
+import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 public class ToggleHatchGrabberCommand extends Command 
 {

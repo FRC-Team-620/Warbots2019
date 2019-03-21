@@ -10,7 +10,6 @@ package org.usfirst.frc620.Warbots2019.elevator;
 import java.util.List;
 import java.util.Optional;
 
-import org.usfirst.frc620.Warbots2019.automation.HoverScoringModeCommand;
 import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;

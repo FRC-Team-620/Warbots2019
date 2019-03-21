@@ -7,7 +7,6 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
-import org.usfirst.frc620.Warbots2019.elevator.Elevator.ElevatorLevel;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorTo;
 import org.usfirst.frc620.Warbots2019.utility.DelayCommand;
 

@@ -13,11 +13,11 @@ import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.DummyPIDOutput;
 import org.usfirst.frc620.Warbots2019.utility.LambdaPIDSource;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraightDistancePIDCommand extends Command {
   private double m_distance;

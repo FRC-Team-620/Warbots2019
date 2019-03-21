@@ -7,12 +7,10 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
-import org.usfirst.frc620.Warbots2019.utility.Logger;
+import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */

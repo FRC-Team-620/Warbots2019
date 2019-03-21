@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.usfirst.frc620.Warbots2019.automation.MountHabCommand;
+import org.usfirst.frc620.Warbots2019.climbing.ScissorLift;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
@@ -65,7 +66,7 @@ public class DriveWithJoystickCommand extends Command {
     double rotationDZ;
     double straightDZ;
 
-    // private Command scaleHab;
+    private Command scaleHab;
 
     public DriveWithJoystickCommand() {
         shuffleboardValues = new HashMap<>();
@@ -81,8 +82,8 @@ public class DriveWithJoystickCommand extends Command {
         straightDZ = config.getMappedDouble("driver.speed_deadzone");
         requires(Robot.driveTrain);
 
-        // scaleHab = new MountHabCommand();
-        // holdHab = new HoldScissorLiftPositionCommand();
+        if (Robot.climbingMechanism instanceof ScissorLift)
+            scaleHab = new MountHabCommand();
     }
 
     // Called just before this Command runs the first time
@@ -96,10 +97,9 @@ public class DriveWithJoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        // if (Robot.oi.getDriverController().getRawButtonPressed(1))
-        //     Scheduler.getInstance().add(scaleHab);
-        // if (Robot.oi.getDriverController().getRawButtonPressed(3))
-        //     Scheduler.getInstance().add(holdHab);
+        if (Robot.climbingMechanism instanceof ScissorLift)
+            if (Robot.oi.getDriverController().getRawButtonPressed(1))
+                Scheduler.getInstance().add(scaleHab);
 
         for (var value : SHUFFLEBOARD_OPTIONS.values()) {
             shuffleboardValues.put(value, SmartDashboard.getNumber(value.toString(), value.getDefaultValue()));
@@ -181,28 +181,6 @@ public class DriveWithJoystickCommand extends Command {
             shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.minTurnCoefficient),
             shuffleboardValues.get(SHUFFLEBOARD_OPTIONS.turnCurve)
         );
-    }
-
-    private boolean isInCenterDeadzone(double x, double y) {
-        return (x <= centerDZ && x >= -centerDZ && y <= centerDZ && y >= -centerDZ);
-    }
-
-    private boolean isInStraightDeadzone(double a) {
-        boolean isInDZ = false;
-        if ((a > Math.PI / 2 - straightDZ && a < Math.PI / 2 + straightDZ)
-                || (a > -Math.PI / 2 - straightDZ && a < -Math.PI / 2 + straightDZ)) {
-            isInDZ = true;
-        }
-        return isInDZ;
-    }
-
-    private boolean isInRotationDeadzone(double a) {
-        boolean isInDZ = false;
-        if ((a > -Math.PI && a < (-Math.PI + rotationDZ)) || (a > -rotationDZ && a < rotationDZ)
-                || (a > (Math.PI - rotationDZ) && a < Math.PI)) {
-            isInDZ = true;
-        }
-        return isInDZ;
     }
 
     // Make this return true when this Command no longer needs to run execute()
