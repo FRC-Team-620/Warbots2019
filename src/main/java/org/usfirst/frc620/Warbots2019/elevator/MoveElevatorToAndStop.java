@@ -5,16 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
+package org.usfirst.frc620.Warbots2019.elevator;
 
-import java.util.List;
+public class MoveElevatorToAndStop extends MoveElevatorTo 
+{
+  public MoveElevatorToAndStop(double height) 
+  {
+    super(height);
+    System.out.println("Creating move elvator to " + height + " and stop");
+  }
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
-/**
- * Add your docs here.
- */
-public abstract class IntakeMode extends CommandGroup 
-{}
+  @Override
+  protected boolean isFinished() 
+  {
+    return super.isFinished() || super.onTarget();
+  }
+}

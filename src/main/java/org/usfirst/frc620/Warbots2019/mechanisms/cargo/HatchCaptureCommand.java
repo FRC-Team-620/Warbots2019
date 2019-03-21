@@ -43,7 +43,7 @@ public class HatchCaptureCommand extends Command {
   protected boolean isFinished() {
     return 
       cargoMech.hasCargo() ||
-      timeSinceInitialized() > 5 ||
+      timeSinceInitialized() > 10 ||
       Robot.oi.scorerController.getRawAxis(2) > 0.7 ||
       Robot.oi.scorerController.getRawAxis(3) > 0.7;
   }

@@ -7,14 +7,22 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import java.util.List;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc620.Warbots2019.robot.Robot;
+public class WaitForButtonPressCommand extends Command 
+{
+  private GenericHID joystick;
+  private int button;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+  public WaitForButtonPressCommand(GenericHID joystick, int button) 
+  {
+    this.joystick = joystick;
+    this.button = button;
+  }
 
-/**
- * Add your docs here.
- */
-public abstract class IntakeMode extends CommandGroup 
-{}
+  @Override
+  protected boolean isFinished() {
+    return joystick.getRawButton(button);
+  }
+}

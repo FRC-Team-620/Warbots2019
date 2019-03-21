@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.usfirst.frc620.Warbots2019.automation.CargoGroundIntakeMode;
 import org.usfirst.frc620.Warbots2019.automation.ScaleHabClosedLoopCommand;
 import org.usfirst.frc620.Warbots2019.climbing.ClimbingMechanism;
 import org.usfirst.frc620.Warbots2019.climbing.PistonLift;
@@ -268,7 +269,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         // Shuffleboard.addEventMarker("Match start", EventImportance.kNormal);
-        scoringMechanism.stow();
+        if (scoringMechanism != null)
+            scoringMechanism.stow();
         m_autoSelected = m_chooser.getSelected();
         System.out.println("Auto selected: " + m_autoSelected);
     }
@@ -301,7 +303,8 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         // if (autonomousCommand != null)
         // autonomousCommand.cancel();
-        scoringMechanism.stow();
+        if (scoringMechanism != null)
+            scoringMechanism.stow();
     }
 
     /*

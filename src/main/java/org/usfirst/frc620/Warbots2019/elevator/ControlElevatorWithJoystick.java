@@ -10,6 +10,7 @@ package org.usfirst.frc620.Warbots2019.elevator;
 import java.util.List;
 import java.util.Optional;
 
+import org.usfirst.frc620.Warbots2019.automation.HoverScoringModeCommand;
 import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.ControlReader;
@@ -18,17 +19,14 @@ import org.usfirst.frc620.Warbots2019.utility.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-public class ControlElevatorWithJoystick extends Command {
-  private List<ScoringMode> snapHeights;
-  private double maxSnapDist;
-  private Optional<ScoringMode> currentScoringMode;
+public class ControlElevatorWithJoystick extends Command 
+{
+  private boolean finished;
 
   double speedFactor;
-  public ControlElevatorWithJoystick(List<ScoringMode> snapHeights, double snapDist) {
+  public ControlElevatorWithJoystick() {
+    finished = false;
     Logger.log("New Command: "+this.getName());
-
-    this.snapHeights = snapHeights;
-    maxSnapDist = snapDist;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     speedFactor = 1.0;
@@ -44,7 +42,6 @@ public class ControlElevatorWithJoystick extends Command {
   @Override
   protected void initialize() {
     Robot.elevator.drive(0);
-    currentScoringMode = Optional.empty();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,15 +50,12 @@ public class ControlElevatorWithJoystick extends Command {
   {
     // double speed = Robot.oi.getElevatorSpeed();
     // double speed = Robot.oi.scorerController.getY(Hand.kLeft);
+    if (Robot.oi.scorerController.getRawButtonPressed(9))
+      Robot.elevator.setSnapParameters(null);
+
     double speed = Robot.oi.scorerController.getRawAxis(1);
     if (Math.abs(speed) < 0.2)
-    {
-      currentScoringMode = getNearestTarget();
-      if (currentScoringMode.isPresent())
-        Scheduler.getInstance().add(new MoveElevatorTo(currentScoringMode.get().getHeight()));
-      else
-        Scheduler.getInstance().add(new HoldElevatorPosition());
-    }
+      Scheduler.getInstance().add(new HoldElevatorPosition());
     else
       Robot.elevator.drive(-speed);
   }
@@ -69,7 +63,7 @@ public class ControlElevatorWithJoystick extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return finished;
   }
 
   // Called once after isFinished returns true
@@ -81,6 +75,9 @@ public class ControlElevatorWithJoystick extends Command {
 
   private Optional<ScoringMode> getNearestTarget()
   {
+    List<ScoringMode> snapHeights = Robot.elevator.getScoringModes();
+    double maxSnapDist = 3000;
+    
     double height = Robot.elevator.getHeight();
 
     if (snapHeights == null)

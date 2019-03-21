@@ -7,25 +7,26 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode.CargoScoringLevel;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorToAndStop;
 import org.usfirst.frc620.Warbots2019.mechanisms.DeployScoringMechanismCommand;
 import org.usfirst.frc620.Warbots2019.mechanisms.StowScoringMechanismCommand;
-import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberCaptureCommand;
+import org.usfirst.frc620.Warbots2019.mechanisms.cargo.HatchCaptureCommand;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Add your docs here.
+ * Not yet useable
  */
-public class CargoGroundIntakeMode extends IntakeMode 
+public class HatchFloorIntakeMode extends IntakeMode 
 {
-    public CargoGroundIntakeMode() 
-    {
-        // addSequential(new MoveElevatorToAndStop(5400));
-        // addSequential(new DeployScoringMechanismCommand());
-        addSequential(new GrabberCaptureCommand());
-        // addSequential(new StowScoringMechanismCommand());
+    public HatchFloorIntakeMode() {
+        addSequential(new DeployScoringMechanismCommand());
+        addSequential(new MoveElevatorToAndStop(300));
+        addSequential(new HatchCaptureCommand());
+        addSequential(new MoveElevatorToAndStop(1000));
+        addSequential(new StowScoringMechanismCommand());
     }
 }

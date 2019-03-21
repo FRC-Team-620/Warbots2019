@@ -7,14 +7,14 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode;
-import org.usfirst.frc620.Warbots2019.utility.Configurable;
-import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
-import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
+import org.usfirst.frc620.Warbots2019.utility.Configurable;
+import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
+import org.usfirst.frc620.Warbots2019.utility.ConfigurableImpl;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
@@ -39,10 +39,14 @@ public abstract class Elevator extends Subsystem
 
     public abstract boolean isAtBottom();
 
+    public abstract void setSnapParameters(List<ScoringMode> scoringModes);
+
+    abstract List<ScoringMode> getScoringModes();
+
     @Override
     public void initDefaultCommand() 
     {
-        setDefaultCommand(new ControlElevatorWithJoystick(null, 0));
+        setDefaultCommand(new ControlElevatorWithJoystick());
     }
 
 

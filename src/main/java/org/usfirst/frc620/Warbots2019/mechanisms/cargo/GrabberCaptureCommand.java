@@ -7,12 +7,23 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+import java.util.List;
+
+import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode;
+import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode.CargoScoringLevel;
+import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GrabberCaptureCommand extends Command {
+
+  private final static List<ScoringMode> cargoScoringModes = List.of(
+    new CargoScoringMode(CargoScoringLevel.TOP),
+    new CargoScoringMode(CargoScoringLevel.MIDDLE),
+    new CargoScoringMode(CargoScoringLevel.BOTTOM)
+  );
 
   private CargoMech cargoMech;
 
@@ -60,9 +71,15 @@ public class GrabberCaptureCommand extends Command {
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-    return cargoMech.hasCargo() ||
-      timeSinceInitialized() > 5 ||
+  protected boolean isFinished() 
+  {
+    if (cargoMech.hasCargo())
+    {
+      Robot.elevator.setSnapParameters(cargoScoringModes);
+      return true;
+    }
+
+    return timeSinceInitialized() > 10 ||
       Robot.oi.scorerController.getRawAxis(2) > 0.7 ||
       Robot.oi.scorerController.getRawAxis(3) > 0.7;
   }

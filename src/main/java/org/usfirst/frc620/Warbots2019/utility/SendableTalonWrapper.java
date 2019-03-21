@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class SendableTalonWrapper extends SendableBase implements AutoCloseable
 {
-    private final TalonReadThread updateThread;
+    private TalonReadThread updateThread;
     private final Map<String, ParamEnum> talonPIDSettings;
     private final List<TableProperty> properties;
 
@@ -71,6 +71,8 @@ public class SendableTalonWrapper extends SendableBase implements AutoCloseable
 
         properties.add(new TableProperty(PropertyType.Boolean, "topLimitSwitch", talon.getSensorCollection()::isFwdLimitSwitchClosed, null));
         properties.add(new TableProperty(PropertyType.Boolean, "bottomLimitSwitch", talon.getSensorCollection()::isRevLimitSwitchClosed, null));
+
+        updateThread = null;
 
         if (updateThread != null)
             for (var property : properties)

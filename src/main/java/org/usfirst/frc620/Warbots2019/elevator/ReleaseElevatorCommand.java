@@ -5,16 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc620.Warbots2019.automation;
-
-import java.util.List;
+package org.usfirst.frc620.Warbots2019.elevator;
 
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-/**
- * Add your docs here.
- */
-public abstract class IntakeMode extends CommandGroup 
-{}
+public class ReleaseElevatorCommand extends InstantCommand {
+  public ReleaseElevatorCommand() {
+    requires(Robot.elevator);
+  }
+
+  @Override
+  protected void execute() {
+    Robot.elevator.drive(0);
+  }
+}

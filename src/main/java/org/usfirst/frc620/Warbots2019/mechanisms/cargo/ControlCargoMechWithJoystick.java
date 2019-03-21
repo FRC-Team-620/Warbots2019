@@ -7,20 +7,26 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+import org.usfirst.frc620.Warbots2019.automation.CargoGroundIntakeMode;
+import org.usfirst.frc620.Warbots2019.automation.CargoStationIntakeMode;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class ControlCargoMechWithJoystick extends Command 
 {
+  private boolean alienMouthExtended;
   private CargoMech cargoMech = (CargoMech) Robot.scoringMechanism;
 
   public ControlCargoMechWithJoystick() 
   {
     Logger.log("New command: ControlCargoMechWithJoystick");
     requires(cargoMech);
+    alienMouthExtended = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -28,12 +34,25 @@ public class ControlCargoMechWithJoystick extends Command
   protected void execute() 
   {
     Joystick joystick = Robot.oi.scorerController;
-    if (joystick.getRawAxis(2) > 0.7)
+
+    if (joystick.getRawButtonPressed(1))
+      Scheduler.getInstance().add(new CargoGroundIntakeMode());
+    if (joystick.getRawButtonPressed(2))
+      Scheduler.getInstance().add(new CargoStationIntakeMode());
+    if (joystick.getRawButtonPressed(3))
+      Scheduler.getInstance().add(new GrabberEjectCommand());
+
+    if (joystick.getRawAxis(2) > 0.7 ||
+        (joystick.getRawAxis(5) < -0.7))
       cargoMech.captureCargo();
-    else if (joystick.getRawAxis(3) > 0.7)
+    else if (joystick.getRawAxis(3) > 0.7 ||
+        (joystick.getRawAxis(5) > 0.7 && !cargoMech.hasCargo()))
       cargoMech.ejectCargo();
     else
       cargoMech.stopCapture();
+
+    if (joystick.getRawButtonPressed(10))
+      alienMouthExtended = !alienMouthExtended;
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -42,14 +61,10 @@ public class ControlCargoMechWithJoystick extends Command
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+  public void initSendable(SendableBuilder builder) 
+  {
+    super.initSendable(builder);
+    builder.addBooleanProperty("alienMouthExtended", () -> alienMouthExtended, null);
   }
 }

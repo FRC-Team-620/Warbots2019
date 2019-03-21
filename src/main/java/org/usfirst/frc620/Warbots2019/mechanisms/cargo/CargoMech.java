@@ -7,8 +7,13 @@
 
 package org.usfirst.frc620.Warbots2019.mechanisms.cargo;
 
+import java.util.List;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode;
+import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode.CargoScoringLevel;
+import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 import org.usfirst.frc620.Warbots2019.mechanisms.ScoringMechanism;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
@@ -26,8 +31,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 /**
  * Add your docs here.
  */
-public class CargoMech extends ScoringMechanism {
-
+public class CargoMech extends ScoringMechanism 
+{
   public boolean configurable = true;
   private WPI_TalonSRX intakeWheels;
   private DigitalInput limitSwitch;

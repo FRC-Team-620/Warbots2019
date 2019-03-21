@@ -38,6 +38,12 @@ public class MoveElevatorTo extends Command
     return Math.abs(Robot.oi.scorerController.getY(Hand.kLeft)) > 0.2;
   }
 
+  public boolean onTarget()
+  {
+    return false;
+    // return Math.abs(elevator.getHeight() - height) < 500;
+  }
+
   @Override
   protected void end() 
   {

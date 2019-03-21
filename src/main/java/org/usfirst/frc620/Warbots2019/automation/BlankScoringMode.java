@@ -7,14 +7,23 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import java.util.List;
-
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 
 /**
  * Add your docs here.
  */
-public abstract class IntakeMode extends CommandGroup 
-{}
+public class BlankScoringMode extends ScoringMode
+{
+    private double height;
+
+    public BlankScoringMode(double height)
+    {
+        this.height = height;
+    }
+
+    @Override
+    public double getHeight() 
+    {
+        return height;
+    }
+}

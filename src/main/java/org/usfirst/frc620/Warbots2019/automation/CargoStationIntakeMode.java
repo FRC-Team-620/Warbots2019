@@ -12,19 +12,18 @@ import java.util.List;
 
 import org.usfirst.frc620.Warbots2019.automation.CargoScoringMode.CargoScoringLevel;
 import org.usfirst.frc620.Warbots2019.elevator.MoveElevatorToAndStop;
-import org.usfirst.frc620.Warbots2019.mechanisms.DeployScoringMechanismCommand;
 import org.usfirst.frc620.Warbots2019.mechanisms.StowScoringMechanismCommand;
 import org.usfirst.frc620.Warbots2019.mechanisms.cargo.GrabberCaptureCommand;
 
 /**
  * Add your docs here.
  */
-public class CargoGroundIntakeMode extends IntakeMode 
+public class CargoStationIntakeMode extends IntakeMode 
 {
-    public CargoGroundIntakeMode() 
+    public CargoStationIntakeMode()
     {
-        // addSequential(new MoveElevatorToAndStop(5400));
-        // addSequential(new DeployScoringMechanismCommand());
+        // addSequential(new MoveElevatorToAndStop(4000));
+        // addSequential(new StowScoringMechanismCommand());
         addSequential(new GrabberCaptureCommand());
         // addSequential(new StowScoringMechanismCommand());
     }

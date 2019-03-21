@@ -7,16 +7,14 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc620.Warbots2019.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Add your docs here.
  */
-public interface ScoringMode {
-
-    public double getHeight();
-
-    public Command getPrepareEjectCommand();
-
-    public Command getCompleteEjectCommand();
+public abstract class ScoringMode extends CommandGroup
+{
+    public abstract double getHeight();
 }

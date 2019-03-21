@@ -10,13 +10,14 @@
 
 package org.usfirst.frc620.Warbots2019.elevator;
 
-import java.util.Map;
+import java.util.List;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import org.usfirst.frc620.Warbots2019.automation.ScoringMode;
 import org.usfirst.frc620.Warbots2019.robot.Robot;
 import org.usfirst.frc620.Warbots2019.utility.Configurable;
 import org.usfirst.frc620.Warbots2019.utility.Configurable.Element;
@@ -30,8 +31,11 @@ import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
  */
 public class TalonElevator extends Elevator
 {
+    private List<ScoringMode> scoringModes;
+
     private WPI_TalonSRX talon;
     private double speedFactor;
+    private double height;
 
     public TalonElevator(int canID) 
     {
@@ -52,6 +56,8 @@ public class TalonElevator extends Elevator
         talonConfig.loadSettingsFromConfig(Robot.config, "Elevator.MotionMagic");
         talonConfig.setName("Elevator Talon");
         addChild(talonConfig);
+
+        height = talon.getSelectedSensorPosition();
     }
 
     public WPI_TalonSRX getTalon()
@@ -89,6 +95,12 @@ public class TalonElevator extends Elevator
     }
 
     @Override
+    public void periodic() 
+    {
+        // height = talon.getSelectedSensorPosition();
+    }
+
+    @Override
     public boolean isAtTop() {
         return talon.getSensorCollection().isFwdLimitSwitchClosed();
     }
@@ -120,5 +132,16 @@ public class TalonElevator extends Elevator
         configurable.addElement(new Element("Elevator.MotionMagic.motionMagicCruiseVelocity", 
             "Talon Elevator Setting: Elevator velocity encoder cnts/sec?", null));
         return configurable;
+    }
+
+    @Override
+    public void setSnapParameters(List<ScoringMode> scoringModes) 
+    {
+        this.scoringModes = scoringModes;
+    }
+
+    @Override
+    List<ScoringMode> getScoringModes() {
+        return scoringModes;
     }
 }

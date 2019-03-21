@@ -100,7 +100,7 @@ public class TazGrabber extends ScoringMechanism {
    */
   public void startIntake()
   {
-    intakeWheels.set(-1);
+    // intakeWheels.set(-1);
   }
 
   /**
@@ -108,7 +108,7 @@ public class TazGrabber extends ScoringMechanism {
    */
   public void startEjection()
   {
-    intakeWheels.set(1);
+    // intakeWheels.set(1);
   }
 
   /**
@@ -116,7 +116,7 @@ public class TazGrabber extends ScoringMechanism {
    */
   public void stop()
   {
-    intakeWheels.set(0);
+    // intakeWheels.set(0);
   }
 
   /**
@@ -125,8 +125,8 @@ public class TazGrabber extends ScoringMechanism {
   public void open()
   {
     //We only need to retract two of the pistons to open the grabber
-    leftFrontPiston.set(true);
-    rightFrontPiston.set(true);
+    // leftFrontPiston.set(true);
+    // rightFrontPiston.set(true);
   }
 
   /**
@@ -138,10 +138,10 @@ public class TazGrabber extends ScoringMechanism {
     //We extend every piston here instead of just the ones we use in 
     //open() to make our lives a little easier if we ever want to change
     //which pistons we use.
-    leftFrontPiston.set(false);
-    rightFrontPiston.set(false);
-    leftBackPiston.set(false);
-    rightBackPiston.set(false);
+    // leftFrontPiston.set(false);
+    // rightFrontPiston.set(false);
+    // leftBackPiston.set(false);
+    // rightBackPiston.set(false);
   }
 
   /**

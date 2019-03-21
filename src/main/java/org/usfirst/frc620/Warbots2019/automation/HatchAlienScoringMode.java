@@ -7,14 +7,8 @@
 
 package org.usfirst.frc620.Warbots2019.automation;
 
-import java.util.List;
-
-import org.usfirst.frc620.Warbots2019.robot.Robot;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
 /**
  * Add your docs here.
  */
-public abstract class IntakeMode extends CommandGroup 
-{}
+public class HatchAlienScoringMode {
+}
