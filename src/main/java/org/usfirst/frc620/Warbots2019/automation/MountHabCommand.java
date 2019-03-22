@@ -8,6 +8,7 @@
 package org.usfirst.frc620.Warbots2019.automation;
 
 import org.usfirst.frc620.Warbots2019.climbing.HoldScissorLiftPositionCommand;
+import org.usfirst.frc620.Warbots2019.climbing.RaiseClimbingMech;
 import org.usfirst.frc620.Warbots2019.utility.Angle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -19,9 +20,10 @@ public class MountHabCommand extends CommandGroup {
   public MountHabCommand() {
     addParallel(new DoNothingWithDriveCommand());
     addSequential(new ScaleHabClosedLoopCommand());
-    addParallel(new HoldScissorLiftPositionCommand(Angle.fromDegrees(5)));
+    addParallel(new HoldScissorLiftPositionCommand(Angle.fromDegrees(10)));
     addSequential(new PullForwardWithCargoMechCommand());
     addParallel(new HoldScissorLiftPositionCommand(Angle.fromDegrees(-1)));
     addSequential(new PullForwardWithDriveTrainCommand());
+    addSequential(new RaiseClimbingMech());
   }
 }

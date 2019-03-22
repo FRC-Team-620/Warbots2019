@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class ControlCargoMechWithJoystick extends Command 
 {
   private boolean alienMouthExtended;
+  private boolean hatchScraperWristExtended;
   private CargoMech cargoMech = (CargoMech) Robot.scoringMechanism;
 
   public ControlCargoMechWithJoystick() 
@@ -27,6 +28,7 @@ public class ControlCargoMechWithJoystick extends Command
     Logger.log("New command: ControlCargoMechWithJoystick");
     requires(cargoMech);
     alienMouthExtended = false;
+    hatchScraperWristExtended = true;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,6 +55,14 @@ public class ControlCargoMechWithJoystick extends Command
 
     if (joystick.getRawButtonPressed(10))
       alienMouthExtended = !alienMouthExtended;
+
+    if (joystick.getPOV() == 0)
+      hatchScraperWristExtended = false;
+    else if (joystick.getPOV() == 4)
+      hatchScraperWristExtended = true;
+
+    cargoMech.setAlienMouth(alienMouthExtended);
+    cargoMech.setHatchScraperWrist(hatchScraperWristExtended);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -66,5 +76,6 @@ public class ControlCargoMechWithJoystick extends Command
   {
     super.initSendable(builder);
     builder.addBooleanProperty("alienMouthExtended", () -> alienMouthExtended, null);
+    builder.addBooleanProperty("hatchScraperWristExtended", () -> hatchScraperWristExtended, null);
   }
 }

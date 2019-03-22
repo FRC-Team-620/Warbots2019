@@ -41,12 +41,12 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
 
   @Override
   public void raise() {
-    talon.set(ControlMode.PercentOutput, 1);
+    talon.set(ControlMode.PercentOutput, 0.5);
   }
 
   @Override
   public void lower() {
-    talon.set(ControlMode.PercentOutput, -1);
+    talon.set(ControlMode.PercentOutput, -0.5);
   }
 
   @Override
@@ -56,16 +56,16 @@ public class ScissorLift extends Subsystem implements ClimbingMechanism {
 
   @Override
   public boolean isRaised() {
-    return talon.getSensorCollection().isFwdLimitSwitchClosed();
+    return talon.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   @Override
   public boolean isLowered() {
-    return talon.getSensorCollection().isRevLimitSwitchClosed();
+    return talon.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   public void drive(double value) 
   {
-    talon.set(ControlMode.PercentOutput, value);
+    talon.set(ControlMode.PercentOutput, -value);
   }
 }

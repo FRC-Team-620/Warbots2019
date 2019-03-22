@@ -56,7 +56,7 @@ public class ControlElevatorWithJoystick extends Command
     if (Math.abs(speed) < 0.2)
       Scheduler.getInstance().add(new HoldElevatorPosition());
     else
-      Robot.elevator.drive(-speed);
+      Robot.elevator.drive(.5 * speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

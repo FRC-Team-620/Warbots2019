@@ -21,6 +21,7 @@ import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
@@ -33,8 +34,8 @@ public class CargoMech extends ScoringMechanism
   private DigitalInput limitSwitch;
   private Solenoid wristPiston1;
   private Solenoid wristPiston2;
-  private DigitalOutput latch1;
-  private DigitalOutput latch2;
+  private DigitalOutput alienMouth;
+  private DigitalOutput hatchScraperWrist;
 
   public CargoMech()
   {
@@ -47,8 +48,8 @@ public class CargoMech extends ScoringMechanism
       int limitSwitchPort, 
       int wristPistonChannel1, 
       int wristPistonChannel2,
-      int latchPort1,
-      int latchPort2) 
+      int alientMouthPort,
+      int hatchScraperWristPort) 
   {
     this();
     intakeWheels = new WPI_TalonSRX(intakeWheelsCanID);
@@ -63,9 +64,8 @@ public class CargoMech extends ScoringMechanism
     wristPiston1 = new Solenoid(PCMCanID, wristPistonChannel1);
     wristPiston2 = new Solenoid(PCMCanID, wristPistonChannel2);
 
-    System.out.println("Creating latches on ports: " + latchPort1 + " and " + latchPort2);
-    latch1 = new DigitalOutput(latchPort1);
-    latch2 = new DigitalOutput(latchPort2);
+    alienMouth = new DigitalOutput(alientMouthPort);
+    hatchScraperWrist = new DigitalOutput(hatchScraperWristPort);
 
     limitSwitch = new DigitalInput(limitSwitchPort);
   }
@@ -77,14 +77,14 @@ public class CargoMech extends ScoringMechanism
     // setDefaultCommand(new MySpecialCommand());
     System.out.print("CargoMech is working");
 
-    setDefaultCommand(new ControlCargoMechWithJoystick());
+    Command defaultCommand = new ControlCargoMechWithJoystick();
+    setDefaultCommand(defaultCommand);
 
+    addChild(defaultCommand);
     addChild(new GrabberDeployCommand());
     addChild(new GrabberStowCommand());
     addChild(new GrabberCaptureCommand());
     addChild(new GrabberEjectCommand());
-    addChild(new GrabberOpenLatchCommand());
-    addChild(new GrabberCloseLatchCommand());
   }
 
   ControlReader config = Robot.config;
@@ -142,6 +142,11 @@ public class CargoMech extends ScoringMechanism
     // System.out.println("IntakeVoltage is" + intakeVoltage);
   }
 
+  public void pullForward()
+  {
+    intakeWheels.set(-.5);
+  }
+
   public void deploy() {
     wristPiston1.set(true);
     wristPiston2.set(true);
@@ -166,16 +171,14 @@ public class CargoMech extends ScoringMechanism
     return !isDeployed();
   }
 
-  public void openLatch()
+  public void setHatchScraperWrist(boolean extended) 
   {
-    latch1.set(true);
-    latch2.set(true);
+    hatchScraperWrist.set(extended);
   }
 
-  public void closeLatch()
+  public void setAlienMouth(boolean extended)
   {
-    latch1.set(false);
-    latch2.set(false);
+    alienMouth.set(extended);
   }
 
   @Override

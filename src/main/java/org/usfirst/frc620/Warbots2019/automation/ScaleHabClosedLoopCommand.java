@@ -66,7 +66,7 @@ public class ScaleHabClosedLoopCommand extends Command
 
     SmartDashboard.putNumber(ELEVATOR_BASE_SPEED, 0);
     SmartDashboard.putNumber(SCISSOR_LIFT_BASE_SPEED, 0.5);
-    SmartDashboard.putNumber(ELEVATOR_P, 1);
+    SmartDashboard.putNumber(ELEVATOR_P, -1);
     SmartDashboard.putNumber(SCISSOR_LIFT_P, 0);
     SmartDashboard.putNumber(PID_P, 0.05);
     SmartDashboard.putNumber(PID_I, 0.001);
@@ -81,7 +81,7 @@ public class ScaleHabClosedLoopCommand extends Command
 
     elevatorBaseSpeed = SmartDashboard.getNumber(ELEVATOR_BASE_SPEED, -0.5);
     scissorLiftBaseSpeed = SmartDashboard.getNumber(SCISSOR_LIFT_BASE_SPEED, 0.5);
-    elevatorKP = SmartDashboard.getNumber(ELEVATOR_P, 1);
+    elevatorKP = SmartDashboard.getNumber(ELEVATOR_P, -1);
     scissorLiftKP = SmartDashboard.getNumber(SCISSOR_LIFT_P, 1);
 
     controller.enable();
