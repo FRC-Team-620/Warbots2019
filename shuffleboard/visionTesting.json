@@ -666,7 +666,7 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "13,0": {
+          "0,0": {
             "size": [
               2,
               1
@@ -679,7 +679,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "15,0": {
+          "2,0": {
             "size": [
               2,
               1
@@ -704,7 +704,7 @@
               "Crosshair/Show crosshair": true,
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
-              "Controls/Rotation": "HALF",
+              "Controls/Rotation": "NONE",
               "compression": 82.0,
               "fps": -1,
               "imageWidth": -1,
@@ -728,6 +728,32 @@
               "fps": -1,
               "imageWidth": 0,
               "imageHeight": 0
+            }
+          },
+          "14,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/CargoMech/ControlCargoMechWithJoystick/alienMouthExtended",
+              "_title": "/LiveWindow/CargoMech/ControlCargoMechWithJoystick/alienMouthExtended",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "16,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///LiveWindow/CargoMech/ControlCargoMechWithJoystick/hatchScraperWristExtended",
+              "_title": "/LiveWindow/CargoMech/ControlCargoMechWithJoystick/hatchScraperWristExtended",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           }
         }
@@ -808,8 +834,8 @@
               "_type": "Number Slider",
               "_source0": "network_table:///SmartDashboard/hab/pidKI",
               "_title": "/SmartDashboard/hab/pidKI",
-              "Slider Settings/Min": -1.0,
-              "Slider Settings/Max": 1.0,
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 0.1,
               "Slider Settings/Block increment": 0.0625
             }
           },
@@ -822,8 +848,8 @@
               "_type": "Number Slider",
               "_source0": "network_table:///SmartDashboard/hab/pidKP",
               "_title": "/SmartDashboard/hab/pidKP",
-              "Slider Settings/Min": -1.0,
-              "Slider Settings/Max": 1.0,
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 0.1,
               "Slider Settings/Block increment": 0.0625
             }
           },

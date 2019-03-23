@@ -58,7 +58,7 @@ public class ControlCargoMechWithJoystick extends Command
 
     if (joystick.getPOV() == 0)
       hatchScraperWristExtended = false;
-    else if (joystick.getPOV() == 4)
+    else if (joystick.getPOV() == 180)
       hatchScraperWristExtended = true;
 
     cargoMech.setAlienMouth(alienMouthExtended);

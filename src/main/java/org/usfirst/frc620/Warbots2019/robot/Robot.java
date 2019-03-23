@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
             else if (scoringMechanismClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.cargo.CargoMech"))
             {
-                scoringMechanism = new CargoMech(9, 6, 6, 4, 6, 7, 8);
+                scoringMechanism = new CargoMech(9, 6, 6, 4, 6, 1, 3);
             }
             else if (scoringMechanismClass
                     .equalsIgnoreCase("org.usfirst.frc620.Warbots2019.mechanisms.pinchPointGearGrabber.PinchPointGearGrabber"))

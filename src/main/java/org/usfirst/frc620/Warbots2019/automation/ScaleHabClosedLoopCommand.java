@@ -104,7 +104,7 @@ public class ScaleHabClosedLoopCommand extends Command
   protected boolean isFinished() 
   {
     return Robot.oi.driverController.getRawButton(2)
-      || (elevator.getHeight() < 20 && driveTrain.getPitch().toDegrees() >= 0);
+      || (elevator.isAtBottom() && driveTrain.getPitch().toDegrees() >= 0);
   }
 
   @Override

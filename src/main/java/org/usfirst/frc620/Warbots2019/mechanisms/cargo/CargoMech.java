@@ -20,6 +20,7 @@ import org.usfirst.frc620.Warbots2019.utility.SendableTalonWrapper;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -34,8 +35,8 @@ public class CargoMech extends ScoringMechanism
   private DigitalInput limitSwitch;
   private Solenoid wristPiston1;
   private Solenoid wristPiston2;
-  private DigitalOutput alienMouth;
-  private DigitalOutput hatchScraperWrist;
+  private Servo alienMouth;
+  private Servo hatchScraperWrist;
 
   public CargoMech()
   {
@@ -64,8 +65,8 @@ public class CargoMech extends ScoringMechanism
     wristPiston1 = new Solenoid(PCMCanID, wristPistonChannel1);
     wristPiston2 = new Solenoid(PCMCanID, wristPistonChannel2);
 
-    alienMouth = new DigitalOutput(alientMouthPort);
-    hatchScraperWrist = new DigitalOutput(hatchScraperWristPort);
+    alienMouth = new Servo(alientMouthPort);
+    hatchScraperWrist = new Servo(hatchScraperWristPort);
 
     limitSwitch = new DigitalInput(limitSwitchPort);
   }
@@ -112,7 +113,6 @@ public class CargoMech extends ScoringMechanism
 
   public void captureCargo() 
   {
-    System.out.println("Driving intake wheels " + (-cmspeed));
     intakeWheels.set(-cmspeed);
     // double intakeVoltage = intakeWheels.getMotorOutputVoltage();
     // double intakeCurrent = intakeWheels.getOutputCurrent();
@@ -144,7 +144,8 @@ public class CargoMech extends ScoringMechanism
 
   public void pullForward()
   {
-    intakeWheels.set(-.5);
+    System.out.println("Pulling forward");
+    intakeWheels.set(.5);
   }
 
   public void deploy() {
@@ -173,12 +174,12 @@ public class CargoMech extends ScoringMechanism
 
   public void setHatchScraperWrist(boolean extended) 
   {
-    hatchScraperWrist.set(extended);
+    hatchScraperWrist.set(extended? 1 : 0);
   }
 
   public void setAlienMouth(boolean extended)
   {
-    alienMouth.set(extended);
+    alienMouth.set(extended? 1 : 0);
   }
 
   @Override

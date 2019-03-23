@@ -38,7 +38,7 @@ public class ControlScissorLiftWithJoystick extends Command
 
         double speed = joystick.getRawAxis(2) - joystick.getRawAxis(3);
         if (Math.abs(speed) < 0.2)
-          speed = 0;
+          speed = -0.5;
         // System.out.println("Drving sicor lift " + speed);
         scissorLift.drive(speed);
     }
