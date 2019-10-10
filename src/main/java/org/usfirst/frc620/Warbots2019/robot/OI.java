@@ -28,8 +28,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * interface to the commands and command groups the allow control of the robot.
  */
 public class OI {
-    //// CREATING BUTTONS
-    // One type of button is a joystick button which is any button on a joystick.
+    //// CREATING BUTTONS 
+    // One sort of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
     // number it is.
     // Joystick stick = new Joystick(port);
